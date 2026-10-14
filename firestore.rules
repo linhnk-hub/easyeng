@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 64 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidLearner(data, learnerId) {
+      return data.keys().hasAll(['id', 'name', 'grade', 'avatar', 'totalStars', 'level', 'xp', 'completedUnits', 'unlockedBadges']) &&
+        data.id is string && data.id == learnerId &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 64 &&
+        data.grade is number && data.grade >= 1 && data.grade <= 12 &&
+        data.avatar is string && data.avatar.size() <= 350000 &&
+        data.totalStars is number && data.totalStars >= 0 &&
+        data.level is number && data.level >= 1 &&
+        data.xp is number && data.xp >= 0 &&
+        data.completedUnits is map &&
+        data.unlockedBadges is list && data.unlockedBadges.size() <= 50 &&
+        (!('pin' in data) || (data.pin is string && data.pin.size() == 4 && data.pin.matches('^[0-9]{4}$')));
+    }
+
+    // Collection for learner profiles & cross-device progress sync
+    match /learners/{learnerId} {
+      allow get: if isValidId(learnerId);
+      allow list: if true;
+      allow create, update: if isValidId(learnerId) && isValidLearner(request.resource.data, learnerId);
+      allow delete: if isValidId(learnerId);
+    }
+
+    // Custom uploaded avatars collection synced across devices
+    match /custom_avatars/{avatarId} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Curriculum units per grade (imported from JSON) synced across all devices
+    match /curriculum/{grade} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Custom classes list synced across all devices
+    match /classes/{classId} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
+    // App settings & branding (logo image, header logo size, welcome logo size) synced across all devices
+    match /app_settings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Test connection document
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

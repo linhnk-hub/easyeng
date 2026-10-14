@@ -1,0 +1,2137 @@
+import React, { useState, useRef } from 'react';
+import {
+  X,
+  Lock,
+  Unlock,
+  Settings,
+  Users,
+  GraduationCap,
+  Code2,
+  Plus,
+  Trash2,
+  Edit2,
+  Save,
+  RotateCcw,
+  Upload,
+  Copy,
+  Check,
+  AlertCircle,
+  Eye,
+  EyeOff,
+  Image as ImageIcon,
+  Sparkles,
+  SlidersHorizontal,
+  Monitor,
+  Maximize2,
+  CloudUpload,
+  Cloud
+} from 'lucide-react';
+import { UserProfile, UnitData } from '../types';
+import { AVATARS } from '../data/unitsData';
+import { soundEffects } from '../services/soundEffects';
+import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
+import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES } from '../utils/gradeUtils';
+import { clearAppCache } from '../utils/cacheUtils';
+import { EasyEngLogo } from './EasyEngLogo';
+
+interface AdminClassInfo {
+  grade: number;
+  name: string;
+  description: string;
+  emoji: string;
+}
+
+interface AdminManagerModalProps {
+  learners: UserProfile[];
+  classes: AdminClassInfo[];
+  customAvatars: CustomAvatarItem[];
+  gradeUnitsMap: Record<number, UnitData[]>;
+  onUpdateLearner: (learner: UserProfile) => void;
+  onAddLearner: (learner: UserProfile) => void;
+  onDeleteLearner: (learnerId: string) => void;
+  onAddCustomAvatar: (newAvatar: CustomAvatarItem) => void;
+  onDeleteCustomAvatar: (avatarId: string) => void;
+  onAddClass: (newClass: AdminClassInfo, initialUnits: UnitData[]) => void;
+  onDeleteClass: (grade: number) => void;
+  onSaveCurriculum: (grade: number, units: UnitData[]) => void;
+  onResetCurriculum: (grade: number) => void;
+  onClose: () => void;
+  customLogo?: string | null;
+  onUpdateLogo?: (newLogo: string | null) => void;
+  headerLogoSize?: number;
+  welcomeLogoSize?: number;
+  onSaveLogoSizes?: (headerSize: number, welcomeSize: number) => void;
+  onSaveBranding?: (logo: string | null, headerSize: number, welcomeSize: number) => Promise<boolean> | void;
+}
+
+// Secure SHA-256 hash of password with cryptographic salt
+// View-source proof: Cannot be reversed to plain text
+const SECURE_AUTH_HASH = '2e6487f566d2d552ad781da83e1a8185185bdd7bfc8f882faedfab58a27ba5d6';
+const SECURE_SALT = 'easyeng_secret_salt_2026_linhnk';
+
+async function verifySecurityKey(input: string): Promise<boolean> {
+  try {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(`${input}:${SECURE_SALT}`);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex === SECURE_AUTH_HASH;
+  } catch {
+    return false;
+  }
+}
+
+export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
+  learners,
+  classes,
+  customAvatars,
+  gradeUnitsMap,
+  onUpdateLearner,
+  onAddLearner,
+  onDeleteLearner,
+  onAddCustomAvatar,
+  onDeleteCustomAvatar,
+  onAddClass,
+  onDeleteClass,
+  onSaveCurriculum,
+  onResetCurriculum,
+  onClose,
+  customLogo,
+  onUpdateLogo,
+  headerLogoSize = 200,
+  welcomeLogoSize = 300,
+  onSaveLogoSizes,
+  onSaveBranding
+}) => {
+  // Auth state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [authError, setAuthError] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [isClearingCache, setIsClearingCache] = useState(false);
+  const [clearCacheNotice, setClearCacheNotice] = useState<string | null>(null);
+
+  const handleClearCacheFromLogin = async () => {
+    soundEffects.playClick();
+    if (!window.confirm('Bạn có chắc chắn muốn xóa bộ nhớ đệm (Cache) trên thiết bị này không? Sau khi xóa, trang web sẽ làm mới để đồng bộ lại dữ liệu mới nhất từ cơ sở dữ liệu.')) {
+      return;
+    }
+    setIsClearingCache(true);
+    try {
+      await clearAppCache({
+        clearBrowserCache: true,
+        clearSessionStorage: true,
+        clearActiveSession: true,
+        resetAllData: true
+      });
+      setClearCacheNotice('Đã dọn dẹp bộ nhớ đệm thành công! Đang tải lại...');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } catch {
+      setIsClearingCache(false);
+      window.location.reload();
+    }
+  };
+
+  // Active Admin Tab
+  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'branding'>('learners');
+
+  // Staged Branding & Sizing state (Draft changes that require clicking "Lưu" to take effect)
+  const [stagedLogo, setStagedLogo] = useState<string | null>(customLogo ?? null);
+  const [stagedHeaderLogoSize, setStagedHeaderLogoSize] = useState<number>(headerLogoSize);
+  const [stagedWelcomeLogoSize, setStagedWelcomeLogoSize] = useState<number>(welcomeLogoSize);
+  const [isSavingBranding, setIsSavingBranding] = useState<boolean>(false);
+  const [logoNotice, setLogoNotice] = useState<string | null>(null);
+  const [logoUrlInput, setLogoUrlInput] = useState('');
+  const logoFileInputRef = useRef<HTMLInputElement>(null);
+
+  const hasUnsavedBrandingChanges =
+    stagedLogo !== (customLogo ?? null) ||
+    stagedHeaderLogoSize !== (headerLogoSize ?? 200) ||
+    stagedWelcomeLogoSize !== (welcomeLogoSize ?? 300);
+
+  // Sync staged state when external props update if user hasn't made unsaved edits
+  React.useEffect(() => {
+    if (!hasUnsavedBrandingChanges) {
+      setStagedLogo(customLogo ?? null);
+      setStagedHeaderLogoSize(headerLogoSize);
+      setStagedWelcomeLogoSize(welcomeLogoSize);
+    }
+  }, [customLogo, headerLogoSize, welcomeLogoSize, hasUnsavedBrandingChanges]);
+
+  // Compress image file to max 400x400 canvas, auto-trimming transparent empty padding around logo
+  const compressLogoFile = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (file.type === 'image/svg+xml') {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target?.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          // First draw on raw canvas to detect and trim transparent margins
+          const rawCanvas = document.createElement('canvas');
+          rawCanvas.width = img.width;
+          rawCanvas.height = img.height;
+          const rawCtx = rawCanvas.getContext('2d');
+          let cropX = 0, cropY = 0, cropW = img.width, cropH = img.height;
+
+          if (rawCtx) {
+            rawCtx.drawImage(img, 0, 0);
+            try {
+              const imgData = rawCtx.getImageData(0, 0, img.width, img.height);
+              const data = imgData.data;
+              let minX = img.width, minY = img.height, maxX = -1, maxY = -1;
+              for (let y = 0; y < img.height; y++) {
+                for (let x = 0; x < img.width; x++) {
+                  const alpha = data[(y * img.width + x) * 4 + 3];
+                  if (alpha > 15) { // non-transparent pixel
+                    if (x < minX) minX = x;
+                    if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    if (y > maxY) maxY = y;
+                  }
+                }
+              }
+              // If non-transparent pixels found, crop tightly with small 2px buffer
+              if (maxX >= minX && maxY >= minY) {
+                cropX = Math.max(0, minX - 2);
+                cropY = Math.max(0, minY - 2);
+                cropW = Math.min(img.width - cropX, (maxX - minX + 1) + 4);
+                cropH = Math.min(img.height - cropY, (maxY - minY + 1) + 4);
+              }
+            } catch {
+              // Ignore canvas read error (CORS/tainted)
+            }
+          }
+
+          const MAX_DIM = 400; // 400px ensures crisp resolution for 300px display
+          let targetWidth = cropW;
+          let targetHeight = cropH;
+          if (targetWidth > MAX_DIM || targetHeight > MAX_DIM) {
+            if (targetWidth > targetHeight) {
+              targetHeight = Math.round((targetHeight * MAX_DIM) / targetWidth);
+              targetWidth = MAX_DIM;
+            } else {
+              targetWidth = Math.round((targetWidth * MAX_DIM) / targetHeight);
+              targetHeight = MAX_DIM;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            resolve(e.target?.result as string);
+            return;
+          }
+          ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, targetWidth, targetHeight);
+          let dataUrl = canvas.toDataURL('image/png');
+          // If PNG exceeds 500KB, use WebP or JPEG compression to ensure Firestore document size limit is never exceeded
+          if (dataUrl.length > 500000) {
+            try {
+              const webp = canvas.toDataURL('image/webp', 0.88);
+              if (webp.startsWith('data:image/webp') && webp.length < dataUrl.length) {
+                dataUrl = webp;
+              } else {
+                dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+              }
+            } catch {
+              // fallback to png
+            }
+          }
+          resolve(dataUrl);
+        };
+        img.onerror = () => resolve(e.target?.result as string);
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleSaveAllBranding = async () => {
+    setIsSavingBranding(true);
+    soundEffects.playClick();
+    try {
+      let syncOk = true;
+      if (onSaveBranding) {
+        const res = await onSaveBranding(stagedLogo, stagedHeaderLogoSize, stagedWelcomeLogoSize);
+        if (res === false) {
+          syncOk = false;
+        }
+      } else {
+        onUpdateLogo?.(stagedLogo);
+        onSaveLogoSizes?.(stagedHeaderLogoSize, stagedWelcomeLogoSize);
+      }
+      if (syncOk) {
+        soundEffects.playSuccess();
+        setLogoNotice('Đã lưu thành công logo và kích thước lên CSDL Cloud Firestore! Tất cả thiết bị sẽ được cập nhật đồng bộ.');
+        setTimeout(() => setLogoNotice(null), 4500);
+      } else {
+        soundEffects.playError();
+        setLogoNotice('Đã lưu cấu hình logo trên thiết bị này, nhưng chưa đồng bộ được lên CSDL đám mây (hãy kiểm tra kết nối mạng).');
+        setTimeout(() => setLogoNotice(null), 5000);
+      }
+    } catch {
+      setLogoNotice('Đã lưu cấu hình logo trên thiết bị này.');
+      setTimeout(() => setLogoNotice(null), 3500);
+    } finally {
+      setIsSavingBranding(false);
+    }
+  };
+
+  const handleRevertStagedBranding = () => {
+    soundEffects.playClick();
+    setStagedLogo(customLogo ?? null);
+    setStagedHeaderLogoSize(headerLogoSize ?? 200);
+    setStagedWelcomeLogoSize(welcomeLogoSize ?? 300);
+    setLogoUrlInput('');
+    setLogoNotice('Đã hoàn tác các thay đổi chưa lưu.');
+    setTimeout(() => setLogoNotice(null), 2500);
+  };
+
+  const handleResetSizesToDefault = () => {
+    soundEffects.playClick();
+    setStagedHeaderLogoSize(200);
+    setStagedWelcomeLogoSize(300);
+  };
+
+  // Learners Tab editing state
+  const [editingLearnerId, setEditingLearnerId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editGrade, setEditGrade] = useState<number>(4);
+  const [editAvatar, setEditAvatar] = useState('');
+  const [editPin, setEditPin] = useState('0000');
+  const [editPinConfirm, setEditPinConfirm] = useState('0000');
+  const [editPinError, setEditPinError] = useState<string | null>(null);
+
+  // Add Learner state
+  const [isAddingLearner, setIsAddingLearner] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [newGrade, setNewGrade] = useState<number>(4);
+  const [newAvatar, setNewAvatar] = useState('fox');
+  const [newPin, setNewPin] = useState('0000');
+  const [newPinConfirm, setNewPinConfirm] = useState('0000');
+  const [newPinError, setNewPinError] = useState<string | null>(null);
+
+  // Avatar upload state
+  const avatarFileInputRef = useRef<HTMLInputElement>(null);
+  const [avatarUploadError, setAvatarUploadError] = useState<string | null>(null);
+  const [avatarUploadSuccess, setAvatarUploadSuccess] = useState<string | null>(null);
+
+  // Add Class state
+  const [isAddingClass, setIsAddingClass] = useState(false);
+  const [newClassGrade, setNewClassGrade] = useState<number>(1);
+
+  // Curriculum JSON Tab state
+  const [selectedJsonGrade, setSelectedJsonGrade] = useState<number>(classes[0]?.grade || 4);
+  const [jsonContent, setJsonContent] = useState<string>(() => {
+    const initialUnits = gradeUnitsMap[classes[0]?.grade || 4] || [];
+    return JSON.stringify(initialUnits, null, 2);
+  });
+  const [jsonError, setJsonError] = useState<string | null>(null);
+  const [jsonSuccess, setJsonSuccess] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Combine standard avatars + custom uploaded avatars
+  const allAvailableAvatars = [
+    ...AVATARS.map(a => ({ id: a.id, name: a.name, icon: a.icon, isCustom: false })),
+    ...customAvatars
+  ];
+
+  // Handle Password Submit
+  const handleAuthSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsVerifying(true);
+    setAuthError(false);
+
+    const isValid = await verifySecurityKey(passwordInput.trim());
+    setIsVerifying(false);
+
+    if (isValid) {
+      soundEffects.playSuccess();
+      setIsAuthenticated(true);
+    } else {
+      soundEffects.playError();
+      setAuthError(true);
+      setPasswordInput('');
+    }
+  };
+
+  // Start editing learner
+  const handleStartEditLearner = (l: UserProfile) => {
+    soundEffects.playClick();
+    setEditingLearnerId(l.learnerId);
+    setEditName(l.name);
+    setEditGrade(l.grade);
+    setEditAvatar(l.avatar);
+    setEditPin(l.pin && /^\d{4}$/.test(l.pin) ? l.pin : '0000');
+    setEditPinConfirm(l.pin && /^\d{4}$/.test(l.pin) ? l.pin : '0000');
+    setEditPinError(null);
+  };
+
+  // Save edited learner
+  const handleSaveEditLearner = (original: UserProfile) => {
+    if (!editName.trim()) return;
+    setEditPinError(null);
+
+    // Validate 4-digit numeric PIN
+    if (!/^\d{4}$/.test(editPin)) {
+      soundEffects.playError();
+      setEditPinError('Mật khẩu PIN phải gồm đúng 4 ký tự số (0-9), không chứa chữ hoặc ký tự đặc biệt!');
+      return;
+    }
+
+    if (editPin !== editPinConfirm) {
+      soundEffects.playError();
+      setEditPinError('Xác nhận mật khẩu PIN mới không trùng khớp!');
+      return;
+    }
+
+    soundEffects.playSuccess();
+    onUpdateLearner({
+      ...original,
+      name: editName.trim(),
+      grade: Number(editGrade) || original.grade || 4,
+      avatar: editAvatar || original.avatar,
+      pin: editPin
+    });
+    setEditingLearnerId(null);
+  };
+
+  // Reset all achievements and stars of a learner to 0
+  const handleResetLearnerStats = (learner: UserProfile) => {
+    soundEffects.playClick();
+    const confirmed = window.confirm(
+      `Bạn có chắc chắn muốn đưa toàn bộ thành tích của tài khoản "${learner.name}" về 0?\n\n` +
+      `Thao tác này sẽ đặt lại:\n` +
+      `- Tổng số sao: 0 ⭐\n` +
+      `- Cấp độ: Lv. 1 (0 XP)\n` +
+      `- Chuỗi ngày học: 0 ngày\n` +
+      `- Huy hiệu đã mở: 0\n` +
+      `- Tiến độ tất cả các Unit: 0`
+    );
+    if (!confirmed) return;
+
+    const resetUser: UserProfile = {
+      ...learner,
+      totalStars: 0,
+      xp: 0,
+      level: 1,
+      currentStreak: 0,
+      completedUnits: {},
+      unlockedBadges: [],
+      lastActiveDate: new Date().toDateString()
+    };
+
+    onUpdateLearner(resetUser);
+    soundEffects.playSuccess();
+    alert(`Đã đưa toàn bộ thành tích của tài khoản "${learner.name}" về 0 thành công!`);
+  };
+
+  // Create new learner
+  const handleCreateLearner = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newName.trim()) return;
+    setNewPinError(null);
+
+    // Validate 4-digit numeric PIN
+    if (!/^\d{4}$/.test(newPin)) {
+      soundEffects.playError();
+      setNewPinError('Mật khẩu PIN phải gồm đúng 4 ký tự số (0-9), không chứa chữ hoặc ký tự đặc biệt!');
+      return;
+    }
+
+    if (newPin !== newPinConfirm) {
+      soundEffects.playError();
+      setNewPinError('Xác nhận mật khẩu PIN không trùng khớp!');
+      return;
+    }
+
+    soundEffects.playSuccess();
+    const newLearnerId = `learner_${Date.now()}`;
+    const newProfile: UserProfile = {
+      learnerId: newLearnerId,
+      grade: Number(newGrade) || 4,
+      name: newName.trim(),
+      avatar: newAvatar,
+      pin: newPin,
+      level: 1,
+      xp: 0,
+      totalStars: 0,
+      unlockedBadges: [],
+      completedUnits: {},
+      currentStreak: 1,
+      lastActiveDate: new Date().toDateString()
+    };
+    onAddLearner(newProfile);
+    setNewName('');
+    setNewPin('0000');
+    setNewPinConfirm('0000');
+    setIsAddingLearner(false);
+  };
+
+  // Upload Avatar Image:
+  // 1. Dung lượng tối đa 3 MB
+  // 2. Kích thước tối đa 1024 x 1024 px
+  // 3. Tự động căn giữa và tối ưu kích thước avatar chuẩn 256x256 px qua canvas
+  const handleAvatarFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setAvatarUploadError(null);
+    setAvatarUploadSuccess(null);
+
+    // Rule 1: Max 3MB
+    const maxBytes = 3 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      soundEffects.playError();
+      setAvatarUploadError(`Dung lượng ảnh vượt quá 3 MB (Dung lượng tệp: ${(file.size / (1024 * 1024)).toFixed(2)} MB). Vui lòng chọn ảnh nhỏ hơn 3 MB!`);
+      if (avatarFileInputRef.current) avatarFileInputRef.current.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result as string;
+      if (!dataUrl) return;
+
+      const img = new Image();
+      img.onload = () => {
+        // Rule 2: Kích thước tối đa 1024 x 1024 px
+        if (img.width > 1024 || img.height > 1024) {
+          soundEffects.playError();
+          setAvatarUploadError(`Kích thước ảnh vượt quá tối đa 1024 x 1024 px! Ảnh bạn chọn có kích thước ${img.width} x ${img.height} px. Vui lòng chọn ảnh có kích thước tối đa 1024 x 1024 px.`);
+          if (avatarFileInputRef.current) avatarFileInputRef.current.value = '';
+          return;
+        }
+
+        // Rule 3: Auto-resize to standard avatar size (160x160 px) with center crop and compact JPEG compression
+        const canvas = document.createElement('canvas');
+        canvas.width = 160;
+        canvas.height = 160;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          const minDim = Math.min(img.width, img.height);
+          const sx = (img.width - minDim) / 2;
+          const sy = (img.height - minDim) / 2;
+          ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, 160, 160);
+          // Use compact JPEG at 0.85 quality (~15-25 KB, well within Firestore doc limits)
+          const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+          const avatarName = file.name.replace(/\.[^/.]+$/, '').slice(0, 16) || 'Avatar';
+          const newAvatarItem: CustomAvatarItem = {
+            id: `custom_av_${Date.now()}`,
+            name: avatarName,
+            icon: resizedDataUrl,
+            isCustom: true
+          };
+
+          soundEffects.playSuccess();
+          onAddCustomAvatar(newAvatarItem);
+          // Auto-select this newly uploaded avatar for creating/editing
+          setNewAvatar(resizedDataUrl);
+          setEditAvatar(resizedDataUrl);
+          setAvatarUploadSuccess(`Tải ảnh lên và lưu vào thư viện avatar thành công!`);
+          if (avatarFileInputRef.current) avatarFileInputRef.current.value = '';
+        }
+      };
+      img.src = dataUrl;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Create new class (auto assigns curated emoji and level description)
+  const handleCreateClass = (e: React.FormEvent) => {
+    e.preventDefault();
+    const gradeNum = Number(newClassGrade);
+    if (!gradeNum || gradeNum < 1 || gradeNum > 12) return;
+
+    if (classes.some(c => c.grade === gradeNum)) {
+      soundEffects.playError();
+      alert(`Lớp ${gradeNum} đã có trong danh sách!`);
+      return;
+    }
+
+    soundEffects.playSuccess();
+    const newClass: AdminClassInfo = {
+      grade: gradeNum,
+      name: `Lớp ${gradeNum}`,
+      description: getDefaultGradeDescription(gradeNum),
+      emoji: getDefaultGradeEmoji(gradeNum)
+    };
+    onAddClass(newClass, []);
+    setIsAddingClass(false);
+  };
+
+  // Change grade in Curriculum Tab
+  const handleSelectJsonGrade = (grade: number) => {
+    setSelectedJsonGrade(grade);
+    const units = gradeUnitsMap[grade] || [];
+    setJsonContent(JSON.stringify(units, null, 2));
+    setJsonError(null);
+    setJsonSuccess(null);
+  };
+
+  // Copy JSON
+  const handleCopyJson = () => {
+    soundEffects.playClick();
+    navigator.clipboard.writeText(jsonContent);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Paste JSON from clipboard
+  const handlePasteJson = async () => {
+    soundEffects.playClick();
+    try {
+      const text = await navigator.clipboard.readText();
+      if (text) {
+        setJsonContent(text);
+        setJsonSuccess('Đã dán mã từ bộ nhớ tạm!');
+      }
+    } catch {
+      setJsonError('Không thể truy cập bộ nhớ tạm. Bạn hãy dùng phím tắt Ctrl+V vào ô bên dưới nhé.');
+    }
+  };
+
+  // Import JSON from file (.json)
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    soundEffects.playClick();
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      if (result) {
+        setJsonContent(result);
+        setJsonSuccess(`Đã nhập mã thành công từ tệp ${file.name}!`);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  // Save JSON
+  const handleSaveJson = () => {
+    setJsonError(null);
+    setJsonSuccess(null);
+    try {
+      const parsed = JSON.parse(jsonContent);
+      if (!Array.isArray(parsed)) {
+        throw new Error('Dữ liệu JSON phải là một mảng danh sách [ ... ] chứa các Unit.');
+      }
+      for (let i = 0; i < parsed.length; i++) {
+        const item = parsed[i];
+        if (!item.unit || !item.title || !Array.isArray(item.vocabulary)) {
+          throw new Error(`Unit thứ ${i + 1} thiếu trường bắt buộc ('unit', 'title', hoặc 'vocabulary').`);
+        }
+      }
+      soundEffects.playSuccess();
+      onSaveCurriculum(selectedJsonGrade, parsed);
+      setJsonSuccess(`Đã lưu thành công ${parsed.length} Unit cho Lớp ${selectedJsonGrade}!`);
+    } catch (err: unknown) {
+      soundEffects.playError();
+      const msg = err instanceof Error ? err.message : 'Mã JSON không đúng cú pháp!';
+      setJsonError(msg);
+    }
+  };
+
+  // Reset JSON
+  const handleCancelOrResetJson = () => {
+    soundEffects.playClick();
+    const units = gradeUnitsMap[selectedJsonGrade] || [];
+    setJsonContent(JSON.stringify(units, null, 2));
+    setJsonError(null);
+    setJsonSuccess('Đã hủy thay đổi chưa lưu.');
+  };
+
+  // -------------------------------------------------------------
+  // PASSWORD GATE VIEW (If not authenticated)
+  // -------------------------------------------------------------
+  if (!isAuthenticated) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl space-y-5 animate-float border border-slate-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
+                <Settings className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <h2 className="font-display font-bold text-xl text-slate-800">
+                  Quản lý hệ thống
+                </h2>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                soundEffects.playClick();
+                onClose();
+              }}
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <form onSubmit={handleAuthSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Mật khẩu quản trị:
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={passwordInput}
+                  onChange={(e) => {
+                    setPasswordInput(e.target.value);
+                    if (authError) setAuthError(false);
+                  }}
+                  placeholder="Nhập mật khẩu..."
+                  autoFocus
+                  className={`w-full pl-4 pr-10 py-2.5 bg-slate-50 border rounded-2xl font-bold text-slate-800 text-sm focus:outline-none focus:ring-2 focus:bg-white transition ${
+                    authError
+                      ? 'border-rose-400 ring-2 ring-rose-200'
+                      : 'border-slate-200 focus:ring-amber-400'
+                  }`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {authError && (
+                <p className="text-xs text-rose-600 font-bold flex items-center gap-1 mt-1">
+                  <AlertCircle className="w-3.5 h-3.5" /> Mật khẩu không chính xác!
+                </p>
+              )}
+            </div>
+
+            <div className="pt-2 flex gap-2.5">
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playClick();
+                  onClose();
+                }}
+                className="flex-1 py-2.5 rounded-2xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 cursor-pointer"
+              >
+                Hủy bỏ
+              </button>
+              <button
+                type="submit"
+                disabled={isVerifying || !passwordInput}
+                className="flex-1 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 disabled:opacity-50 transition cursor-pointer"
+              >
+                {isVerifying ? 'Đang xác thực...' : 'Mở Khóa 🔓'}
+              </button>
+            </div>
+
+            {/* Clear Cache Button for any device issues */}
+            <div className="pt-2 border-t border-slate-100 space-y-1">
+              <button
+                type="button"
+                onClick={handleClearCacheFromLogin}
+                disabled={isClearingCache}
+                className="w-full py-2 px-3 rounded-2xl bg-slate-50 hover:bg-rose-50 text-slate-600 hover:text-rose-700 border border-slate-200 hover:border-rose-300 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer active:scale-95 disabled:opacity-50"
+                title="Xóa toàn bộ dữ liệu tạm trên thiết bị và tải mới từ cơ sở dữ liệu"
+              >
+                <RotateCcw className={`w-3.5 h-3.5 text-slate-500 group-hover:text-rose-600 ${isClearingCache ? 'animate-spin' : ''}`} />
+                <span>{isClearingCache ? 'Đang dọn dẹp bộ nhớ đệm...' : 'Xóa bộ nhớ đệm (Clear Cache)'}</span>
+              </button>
+              {clearCacheNotice && (
+                <p className="text-[11px] text-emerald-600 font-bold text-center">
+                  {clearCacheNotice}
+                </p>
+              )}
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // FULL MANAGEMENT DASHBOARD VIEW
+  // -------------------------------------------------------------
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
+      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
+        
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20">
+              <Settings className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="font-display font-bold text-xl text-slate-800">
+                Bảng quản lý EasyEng
+              </h2>
+
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              onClose();
+            }}
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 cursor-pointer"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="flex px-6 pt-3 border-b border-slate-200 bg-white gap-2">
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('learners');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'learners'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Users className="w-4 h-4" /> Tài khoản & Avatar ({learners.length})
+          </button>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('classes');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'classes'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <GraduationCap className="w-4 h-4" /> Lớp học ({classes.length})
+          </button>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('curriculum');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'curriculum'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Code2 className="w-4 h-4" /> Quản lý JSON
+          </button>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('branding');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'branding'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Sparkles className="w-4 h-4" /> Cài đặt Logo
+          </button>
+        </div>
+
+        {/* Tab Body */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+
+          {/* ========================================================= */}
+          {/* TAB 1: LEARNERS & AVATAR LIBRARY MANAGEMENT */}
+          {/* ========================================================= */}
+          {activeTab === 'learners' && (
+            <div className="space-y-6">
+              
+              {/* SUBSECTION: AVATAR MANAGEMENT (THÊM, XÓA, UPLOAD ẢNH) */}
+              <div className="bg-amber-50/70 border border-amber-200 rounded-3xl p-4 sm:p-5 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div>
+                    <h4 className="font-display font-bold text-base text-amber-900 flex items-center gap-2">
+                      <ImageIcon className="w-5 h-5 text-amber-600" /> Danh sách Avatar
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-0.5">
+                      Upload ảnh kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
+                    </p>
+                  </div>
+
+                  <div>
+                    <input
+                      type="file"
+                      ref={avatarFileInputRef}
+                      accept="image/*"
+                      onChange={handleAvatarFileChange}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => avatarFileInputRef.current?.click()}
+                      className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-bold text-xs rounded-xl shadow-sm flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+                    >
+                      <Upload className="w-4 h-4" /> Tải ảnh Avatar mới
+                    </button>
+                  </div>
+                </div>
+
+                {/* Upload Feedback */}
+                {avatarUploadError && (
+                  <div className="p-3 rounded-xl bg-rose-100 border border-rose-300 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {avatarUploadError}
+                  </div>
+                )}
+                {avatarUploadSuccess && (
+                  <div className="p-3 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                    <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {avatarUploadSuccess}
+                  </div>
+                )}
+
+                {/* Avatar Gallery grid */}
+                <div className="space-y-2">
+                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+                    Thư viện Avatar hiện có ({allAvailableAvatars.length}):
+                  </span>
+                  <div className="flex flex-wrap gap-2.5">
+                    {allAvailableAvatars.map((av) => (
+                      <div
+                        key={av.id}
+                        className="relative group p-1.5 bg-white rounded-2xl border border-amber-200 shadow-xs flex items-center justify-center w-14 h-14 text-center aspect-square"
+                      >
+                        <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-xl">
+                          {renderAvatarContent(av.icon)}
+                        </div>
+
+                        {/* Delete button only for custom uploaded avatars */}
+                        {av.isCustom && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playClick();
+                              if (window.confirm(`Xóa avatar "${av.name}" khỏi thư viện?`)) {
+                                onDeleteCustomAvatar(av.id);
+                              }
+                            }}
+                            className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow-xs cursor-pointer hover:bg-rose-600"
+                            title="Xóa avatar này"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* SUBSECTION: LEARNERS LIST */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-display font-bold text-lg text-slate-800">
+                      Danh sách tài khoản
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Sửa tên, gán lớp học hoặc chọn ảnh đại diện từ thư viện
+                    </p>
+                  </div>
+
+                  {!isAddingLearner && (
+                    <button
+                      onClick={() => {
+                        soundEffects.playClick();
+                        setIsAddingLearner(true);
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer"
+                    >
+                      <Plus className="w-4 h-4" /> Thêm người học mới
+                    </button>
+                  )}
+                </div>
+
+                {/* Add Learner Form */}
+                {isAddingLearner && (
+                  <form onSubmit={handleCreateLearner} className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-display font-bold text-sm text-slate-800">
+                        Tạo hồ sơ người học mới
+                      </h4>
+                      <button
+                        type="button"
+                        onClick={() => setIsAddingLearner(false)}
+                        className="text-slate-400 hover:text-slate-600 cursor-pointer"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-600 mb-1">Tên người học:</label>
+                        <input
+                          type="text"
+                          value={newName}
+                          onChange={(e) => setNewName(e.target.value)}
+                          required
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-600 mb-1">Gán vào Lớp học:</label>
+                        <select
+                          value={newGrade}
+                          onChange={(e) => setNewGrade(Number(e.target.value))}
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        >
+                          {ALL_12_GRADES.map(g => {
+                            const customClass = classes.find(c => c.grade === g);
+                            const emoji = customClass?.emoji || getDefaultGradeEmoji(g);
+                            const name = customClass?.name || `Lớp ${g}`;
+                            const level = getGradeLevelName(g);
+                            return (
+                              <option key={g} value={g}>
+                                {emoji} {name} ({level})
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-600 mb-1">Ảnh đại diện/Avatar:</label>
+                        <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 bg-white border border-slate-200 rounded-xl">
+                          {allAvailableAvatars.map(av => {
+                            const isSelected = newAvatar === av.icon || newAvatar === av.id;
+                            return (
+                              <button
+                                key={av.id}
+                                type="button"
+                                onClick={() => setNewAvatar(av.icon)}
+                                className={`w-9 h-9 rounded-xl flex items-center justify-center text-xl overflow-hidden cursor-pointer border-2 transition ${
+                                  isSelected ? 'border-amber-500 bg-amber-50 scale-105 shadow-xs' : 'border-transparent hover:bg-slate-50'
+                                }`}
+                              >
+                                {renderAvatarContent(av.icon)}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mã PIN đăng nhập cho học sinh mới (khống chế 4 chữ số) */}
+                    <div className="pt-2 border-t border-slate-200">
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Lock className="w-4 h-4 text-slate-600" />
+                        <span className="text-xs font-bold text-slate-700">
+                          Mật khẩu đăng nhập (Mã PIN 4 số):
+                        </span>
+                        <span className="text-[11px] text-slate-500 font-normal">
+                          (Chỉ gồm 4 chữ số 0-9, mặc định: 0000)
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu PIN (4 số):</label>
+                          <input
+                            type="password"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            maxLength={4}
+                            value={newPin}
+                            onChange={(e) => {
+                              setNewPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                              setNewPinError(null);
+                            }}
+                            placeholder="Mặc định: 0000"
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-bold text-slate-600 mb-1">Xác nhận PIN (4 số):</label>
+                          <input
+                            type="password"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            maxLength={4}
+                            value={newPinConfirm}
+                            onChange={(e) => {
+                              setNewPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4));
+                              setNewPinError(null);
+                            }}
+                            placeholder="Nhập lại 4 số..."
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                          />
+                        </div>
+                      </div>
+                      {newPinError && (
+                        <p className="text-xs text-rose-600 font-bold flex items-center gap-1 mt-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {newPinError}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex justify-end gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setIsAddingLearner(false)}
+                        className="px-4 py-1.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-100 cursor-pointer"
+                      >
+                        Hủy
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-xs cursor-pointer"
+                      >
+                        Tạo ngay ✨
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                {/* Learners List */}
+                <div className="grid grid-cols-1 gap-3">
+                  {learners.map((learner) => {
+                    const isEditing = editingLearnerId === learner.learnerId;
+
+                    if (isEditing) {
+                      return (
+                        <div key={learner.learnerId} className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold text-amber-800">
+                              Đang chỉnh sửa hồ sơ: {learner.name}
+                            </span>
+                            <button
+                              onClick={() => setEditingLearnerId(null)}
+                              className="text-slate-400 hover:text-slate-600 cursor-pointer"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">Tên hiển thị:</label>
+                              <input
+                                type="text"
+                                value={editName}
+                                onChange={(e) => setEditName(e.target.value)}
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">Gán Lớp học:</label>
+                              <select
+                                value={editGrade}
+                                onChange={(e) => setEditGrade(Number(e.target.value))}
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                              >
+                                {ALL_12_GRADES.map(g => {
+                                  const customClass = classes.find(c => c.grade === g);
+                                  const emoji = customClass?.emoji || getDefaultGradeEmoji(g);
+                                  const name = customClass?.name || `Lớp ${g}`;
+                                  const level = getGradeLevelName(g);
+                                  return (
+                                    <option key={g} value={g}>
+                                      {emoji} {name} ({level})
+                                    </option>
+                                  );
+                                })}
+                              </select>
+                            </div>
+
+                            <div>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">Ảnh đại diện/Avatar:</label>
+                              <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 bg-white border border-slate-200 rounded-xl">
+                                {allAvailableAvatars.map(av => {
+                                  const isSelected = (editAvatar || learner.avatar) === av.icon || (editAvatar || learner.avatar) === av.id;
+                                  return (
+                                    <button
+                                      key={av.id}
+                                      type="button"
+                                      onClick={() => setEditAvatar(av.icon)}
+                                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-xl overflow-hidden cursor-pointer border-2 transition ${
+                                        isSelected ? 'border-amber-500 bg-amber-50 scale-105 shadow-xs' : 'border-transparent hover:bg-slate-50'
+                                      }`}
+                                    >
+                                      {renderAvatarContent(av.icon)}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Avatar preview */}
+                          <div className="flex items-center gap-3 pt-1">
+                            <span className="text-xs font-bold text-slate-500">Avatar đang chọn:</span>
+                            <div className="w-10 h-10 rounded-xl bg-white border border-amber-300 flex items-center justify-center text-2xl overflow-hidden">
+                              {renderAvatarContent(editAvatar || learner.avatar)}
+                            </div>
+                          </div>
+
+                          {/* Đổi mật khẩu PIN cho học sinh (Quản trị viên: nhập MK mới & xác nhận MK mới, không cần MK cũ) */}
+                          <div className="pt-2 border-t border-amber-200/80">
+                            <div className="flex items-center gap-1.5 mb-2">
+                              <Lock className="w-4 h-4 text-amber-800" />
+                              <span className="text-xs font-bold text-amber-900">
+                                Đổi mật khẩu đăng nhập (Mã PIN 4 số):
+                              </span>
+                              <span className="text-[11px] text-slate-500 font-normal">
+                                (Chỉ gồm 4 chữ số 0-9, không nhập chữ hay ký tự đặc biệt)
+                              </span>
+                            </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <div>
+                                <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu PIN mới (4 số):</label>
+                                <input
+                                  type="password"
+                                  inputMode="numeric"
+                                  pattern="[0-9]*"
+                                  maxLength={4}
+                                  value={editPin}
+                                  onChange={(e) => {
+                                    setEditPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                                    setEditPinError(null);
+                                  }}
+                                  placeholder="Nhập 4 số mới..."
+                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-xs font-bold text-slate-600 mb-1">Xác nhận PIN mới (4 số):</label>
+                                <input
+                                  type="password"
+                                  inputMode="numeric"
+                                  pattern="[0-9]*"
+                                  maxLength={4}
+                                  value={editPinConfirm}
+                                  onChange={(e) => {
+                                    setEditPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4));
+                                    setEditPinError(null);
+                                  }}
+                                  placeholder="Nhập lại 4 số mới..."
+                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                />
+                              </div>
+                            </div>
+                            {editPinError && (
+                              <p className="text-xs text-rose-600 font-bold flex items-center gap-1 mt-1.5">
+                                <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {editPinError}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex justify-end gap-2 pt-2">
+                            <button
+                              onClick={() => setEditingLearnerId(null)}
+                              className="px-4 py-1.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-100 cursor-pointer"
+                            >
+                              Hủy
+                            </button>
+                            <button
+                              onClick={() => handleSaveEditLearner(learner)}
+                              className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs shadow-xs cursor-pointer flex items-center gap-1"
+                            >
+                              <Save className="w-3.5 h-3.5" /> Lưu cập nhật
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    }
+
+                    const completedUnitsCount = Object.keys(learner.completedUnits || {}).length;
+
+                    return (
+                      <div
+                        key={learner.learnerId}
+                        className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-300 transition flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs"
+                      >
+                        <div className="flex items-start sm:items-center gap-3">
+                          <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-2xl shrink-0 overflow-hidden shadow-2xs">
+                            {renderAvatarContent(learner.avatar)}
+                          </div>
+                          <div className="space-y-1.5">
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-display font-bold text-base text-slate-800">
+                                {learner.name}
+                              </h4>
+                              <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-300">
+                                Lớp {learner.grade}
+                              </span>
+                            </div>
+
+                            {/* Thành tích học tập chi tiết của tài khoản */}
+                            <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                              <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200/80">
+                                ⭐ {learner.totalStars || 0} sao
+                              </span>
+                              <span className="inline-flex items-center gap-1 font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200/80">
+                                🏆 Lv. {learner.level || 1} ({learner.xp || 0} XP)
+                              </span>
+                              <span className="inline-flex items-center gap-1 font-bold text-orange-700 bg-orange-50 px-2 py-0.5 rounded-lg border border-orange-200/80">
+                                🔥 {learner.currentStreak || 0} ngày
+                              </span>
+                              <span className="inline-flex items-center gap-1 font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200/80">
+                                🏅 {learner.unlockedBadges?.length || 0} huy hiệu
+                              </span>
+                              <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200/80">
+                                📚 {completedUnitsCount} bài đã học
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Các nút hành động: Reset tài khoản, Sửa, Xóa */}
+                        <div className="flex items-center gap-1.5 self-end md:self-center shrink-0">
+                          {/* Nút Reset tài khoản */}
+                          <button
+                            type="button"
+                            onClick={() => handleResetLearnerStats(learner)}
+                            className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
+                            title="Đặt lại toàn bộ thành tích của tài khoản này về 0"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5 text-rose-600" /> Reset
+                          </button>
+
+                          {/* Nút Sửa tài khoản */}
+                          <button
+                            type="button"
+                            onClick={() => handleStartEditLearner(learner)}
+                            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
+                            title="Sửa tên, avatar, gán lớp"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" /> Sửa
+                          </button>
+
+                          {/* Nút Xóa tài khoản */}
+                          {learners.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                soundEffects.playClick();
+                                if (window.confirm(`Bạn có chắc muốn xóa người học "${learner.name}"?`)) {
+                                  onDeleteLearner(learner.learnerId);
+                                }
+                              }}
+                              className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer active:scale-95"
+                              title="Xóa người học"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB 2: CLASSES & GRADES MANAGEMENT */}
+          {/* ========================================================= */}
+          {activeTab === 'classes' && (
+            <div className="space-y-5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-display font-bold text-lg text-slate-800">
+                    Danh sách lớp học
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Tạo lớp học mới hoặc quản lý các lớp hiện có trong hệ thống
+                  </p>
+                </div>
+
+                {!isAddingClass && (
+                  <button
+                    onClick={() => {
+                      soundEffects.playClick();
+                      const unusedGrade = ALL_12_GRADES.find(g => !classes.some(c => c.grade === g)) || 1;
+                      setNewClassGrade(unusedGrade);
+                      setIsAddingClass(true);
+                    }}
+                    className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" /> Tạo lớp học mới
+                  </button>
+                )}
+              </div>
+
+              {/* Add Class Form */}
+              {isAddingClass && (
+                <form onSubmit={handleCreateClass} className="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-4 sm:p-5 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-display font-bold text-sm text-indigo-900 flex items-center gap-2">
+                      <GraduationCap className="w-4 h-4 text-indigo-600" /> Tạo lớp học mới
+                    </h4>
+                    <button
+                      type="button"
+                      onClick={() => setIsAddingClass(false)}
+                      className="text-slate-400 hover:text-slate-600 cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
+                        Lớp:
+                      </label>
+                      <select
+                        value={newClassGrade}
+                        onChange={(e) => setNewClassGrade(Number(e.target.value))}
+                        className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer"
+                      >
+                        {ALL_12_GRADES.map((g) => {
+                          const isCreated = classes.some(c => c.grade === g);
+                          return (
+                            <option key={g} value={g}>
+                              Lớp {g} - {getGradeLevelName(g)} ({getDefaultGradeEmoji(g)}) {isCreated ? '• [Đã có]' : ''}
+                            </option>
+                          );
+                        })}
+                      </select>
+                      <p className="text-[11px] text-slate-500 mt-1">
+                        Chọn từ Lớp 1 đến Lớp 12. Biểu tượng và cấp học tương ứng sẽ được tự động gán!
+                      </p>
+                    </div>
+
+                    {/* Auto-assigned preview card */}
+                    <div className="bg-white border border-indigo-100 rounded-xl p-3.5 flex items-center gap-3.5 shadow-xs">
+                      <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-2xl shrink-0">
+                        {getDefaultGradeEmoji(newClassGrade)}
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="font-display font-bold text-base text-slate-800">
+                            Lớp {newClassGrade}
+                          </span>
+                          <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
+                            getGradeLevelName(newClassGrade) === 'Tiểu học'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              : getGradeLevelName(newClassGrade) === 'Trung học cơ sở'
+                              ? 'bg-blue-50 text-blue-700 border-blue-200'
+                              : 'bg-purple-50 text-purple-700 border-purple-200'
+                          }`}>
+                            {getGradeLevelName(newClassGrade)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500">
+                          Biểu tượng tự động: <strong className="text-slate-700">{getDefaultGradeEmoji(newClassGrade)}</strong> (Chuẩn cấp độ)
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-2 pt-1 border-t border-indigo-100">
+                    <button
+                      type="button"
+                      onClick={() => setIsAddingClass(false)}
+                      className="px-4 py-1.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-100 cursor-pointer"
+                    >
+                      Hủy
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={classes.some(c => c.grade === newClassGrade)}
+                      className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-display font-bold text-xs shadow-xs disabled:opacity-50 transition cursor-pointer"
+                    >
+                      Tạo Lớp {newClassGrade} ({getDefaultGradeEmoji(newClassGrade)}) 🚀
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {/* Classes List */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {classes.map((cls) => {
+                  const learnersInClass = learners.filter(l => l.grade === cls.grade);
+                  const unitsCount = (gradeUnitsMap[cls.grade] || []).length;
+                  const levelName = getGradeLevelName(cls.grade);
+                  const levelBadgeStyle =
+                    levelName === 'Tiểu học'
+                      ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                      : levelName === 'Trung học cơ sở'
+                      ? 'bg-blue-50 text-blue-700 border-blue-200'
+                      : 'bg-purple-50 text-purple-700 border-purple-200';
+                  const emoji = cls.emoji || getDefaultGradeEmoji(cls.grade);
+
+                  return (
+                    <div
+                      key={cls.grade}
+                      className="p-5 rounded-2xl bg-white border border-slate-200 hover:border-amber-300 transition flex flex-col justify-between space-y-3 shadow-xs group"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-3">
+                          <span className="text-3xl p-2.5 bg-slate-50 border border-slate-200 rounded-2xl shrink-0">
+                            {emoji}
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-display font-bold text-lg text-slate-800">
+                                {cls.name}
+                              </h4>
+                              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${levelBadgeStyle}`}>
+                                {levelName}
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-0.5 font-medium">
+                              {unitsCount} bài học (Units)
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* NÚT XÓA Ở TẤT CẢ CÁC LỚP CÓ SẴN HOẶC MỚI TẠO */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playClick();
+                            const confirmMsg = learnersInClass.length > 0
+                              ? `Lớp "${cls.name}" (${levelName}) hiện đang có ${learnersInClass.length} học sinh (${learnersInClass.map(l => l.name).join(', ')}).\nBạn có chắc chắn muốn xóa lớp này khỏi hệ thống?`
+                              : `Bạn có chắc chắn muốn xóa lớp "${cls.name}" (${levelName})?`;
+                            if (window.confirm(confirmMsg)) {
+                              onDeleteClass(cls.grade);
+                            }
+                          }}
+                          className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                          title={`Xóa ${cls.name}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-semibold">
+                        <span className="truncate max-w-[200px]">
+                          Học sinh: {learnersInClass.map(l => l.name).join(', ') || 'Chưa có'}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playClick();
+                            handleSelectJsonGrade(cls.grade);
+                            setActiveTab('curriculum');
+                          }}
+                          className="text-amber-600 hover:text-amber-700 hover:underline cursor-pointer font-bold shrink-0 ml-2"
+                        >
+                          Sửa JSON ➔
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB 3: CURRICULUM JSON CODE IMPORT / EXPORT / EDIT */}
+          {/* ========================================================= */}
+          {activeTab === 'curriculum' && (
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="font-display font-bold text-lg text-slate-800">
+                    Quản lý dữ liệu giáo trình JSON
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Xem, dán code trích xuất từ NotebookLM, sao chép hoặc nhập tệp tin JSON
+                  </p>
+                </div>
+
+                {/* Grade picker */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-slate-600">Đang chọn:</span>
+                  <select
+                    value={selectedJsonGrade}
+                    onChange={(e) => handleSelectJsonGrade(Number(e.target.value))}
+                    className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl font-display font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  >
+                    {classes.map(c => (
+                      <option key={c.grade} value={c.grade}>
+                        {c.emoji} {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Action Toolbar */}
+              <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 text-xs">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    onClick={handleCopyJson}
+                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied ? 'Đã sao chép' : 'Sao chép code'}
+                  </button>
+
+                  <button
+                    onClick={handlePasteJson}
+                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
+                    title="Dán từ Clipboard"
+                  >
+                    Dán code
+                  </button>
+
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    accept=".json"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
+                  >
+                    <Upload className="w-3.5 h-3.5" /> Nhập tệp .json
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => {
+                      if (window.confirm(`Khôi phục về dữ liệu mặc định Lớp ${selectedJsonGrade}?`)) {
+                        onResetCurriculum(selectedJsonGrade);
+                        handleCancelOrResetJson();
+                      }
+                    }}
+                    className="px-3 py-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-xl font-bold transition cursor-pointer flex items-center gap-1"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" /> Khôi phục gốc
+                  </button>
+                </div>
+              </div>
+
+              {/* JSON Editor Textarea */}
+              <div className="relative min-h-[300px]">
+                <textarea
+                  value={jsonContent}
+                  onChange={(e) => setJsonContent(e.target.value)}
+                  className="w-full h-80 sm:h-96 p-4 bg-slate-900 text-amber-300 font-mono text-xs rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none selection:bg-amber-600 selection:text-white"
+                  placeholder="Dán mã JSON mảng [ ... ] tại đây..."
+                  spellCheck={false}
+                />
+              </div>
+
+              {/* Feedback banners */}
+              {jsonError && (
+                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {jsonError}
+                </div>
+              )}
+              {jsonSuccess && (
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                  <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {jsonSuccess}
+                </div>
+              )}
+
+              {/* Save & Cancel Footer */}
+              <div className="flex items-center justify-end gap-2.5 pt-2">
+                <button
+                  onClick={handleCancelOrResetJson}
+                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition cursor-pointer"
+                >
+                  Hủy thay đổi
+                </button>
+                <button
+                  onClick={handleSaveJson}
+                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-display font-bold text-xs shadow-md shadow-emerald-500/20 transition active:scale-95 cursor-pointer flex items-center gap-1.5"
+                >
+                  <Save className="w-4 h-4" /> Lưu dữ liệu Lớp {selectedJsonGrade} 🚀
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB 4: APP LOGO & BRANDING SETTINGS */}
+          {/* ========================================================= */}
+          {activeTab === 'branding' && (
+            <div className="space-y-6 max-w-2xl mx-auto">
+              {/* Header Box */}
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start gap-3 shadow-2xs">
+                <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="font-bold text-sm text-amber-950">Tùy chỉnh Logo & Kích thước hiển thị (Đồng bộ CSDL)</p>
+                  <p className="text-amber-800 text-xs leading-relaxed">
+                    Chọn ảnh logo từ máy tính, dán liên kết URL và kéo thanh trượt điều chỉnh kích thước tùy thích trên bản xem trước trực tiếp. Sau khi chỉnh xong, hãy bấm <strong>"Lưu thay đổi lên CSDL"</strong> để cập nhật chính thức và đồng bộ tự động sang mọi thiết bị khác.
+                  </p>
+                </div>
+              </div>
+
+              {/* Status Notice if changes are unsaved */}
+              {hasUnsavedBrandingChanges && (
+                <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs sm:text-sm font-bold flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 animate-fadeIn shadow-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping shrink-0" />
+                    <span>⚠️ Bạn có thay đổi logo hoặc kích thước chưa lưu lên CSDL!</span>
+                  </div>
+                  <button
+                    onClick={handleSaveAllBranding}
+                    disabled={isSavingBranding}
+                    className="self-end sm:self-auto px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs cursor-pointer transition active:scale-95 disabled:opacity-50"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    <span>{isSavingBranding ? 'Đang lưu...' : 'Bấm lưu ngay'}</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Success / Info notice */}
+              {logoNotice && (
+                <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold flex items-center gap-2 animate-fadeIn shadow-xs">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{logoNotice}</span>
+                </div>
+              )}
+
+              {/* ========================================================= */}
+              {/* SECTION 1: CHOOSE LOGO IMAGE (UPLOAD / URL / RESET) */}
+              {/* ========================================================= */}
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-5">
+                <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-100">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
+                      <ImageIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-base text-slate-800">
+                        1. Chọn hình ảnh Logo
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Tải ảnh mới từ thiết bị hoặc dán link ảnh trực tuyến
+                      </p>
+                    </div>
+                  </div>
+
+                  {stagedLogo !== (customLogo ?? null) && (
+                    <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                      Ảnh mới (chưa lưu)
+                    </span>
+                  )}
+                </div>
+
+                {/* Current / Staged Emblem Showcase */}
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-2xl bg-white border border-slate-200 shadow-inner flex items-center justify-center shrink-0">
+                      <EasyEngLogo className="w-16 h-16 sm:w-18 sm:h-18" src={stagedLogo || undefined} />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+                        Logo đang chọn hiển thị
+                      </span>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                          stagedLogo
+                            ? 'bg-purple-100 text-purple-800 border border-purple-200'
+                            : 'bg-amber-100 text-amber-800 border border-amber-200'
+                        }`}>
+                          {stagedLogo ? '⭐ Logo tùy chỉnh' : '✨ Logo EasyEng gốc'}
+                        </span>
+                        {stagedLogo !== (customLogo ?? null) && (
+                          <span className="text-[10px] font-bold text-amber-700 bg-amber-100/90 border border-amber-300 px-2 py-0.5 rounded-full">
+                            Bản nháp
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {stagedLogo && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        soundEffects.playClick();
+                        setStagedLogo(null);
+                        setLogoNotice('Đã chuyển bản xem trước về logo gốc. Hãy bấm nút Lưu bên dưới để cập nhật lên CSDL!');
+                      }}
+                      className="px-3.5 py-2 rounded-xl text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 border border-rose-200 transition cursor-pointer flex items-center gap-1.5 shrink-0"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" /> Chuyển về logo gốc
+                    </button>
+                  )}
+                </div>
+
+                {/* Upload & URL Controls */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Option A: Upload from Computer */}
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Upload className="w-4 h-4 text-amber-600" />
+                      <h4 className="font-display font-bold text-xs sm:text-sm text-slate-800">Tải ảnh từ thiết bị</h4>
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Chọn tệp hình ảnh logo từ máy tính hoặc điện thoại (PNG, JPG, SVG, WebP).
+                    </p>
+                    <input
+                      type="file"
+                      ref={logoFileInputRef}
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        if (!file.type.startsWith('image/')) {
+                          alert('Vui lòng chọn file hình ảnh (PNG, JPG, SVG, WebP)!');
+                          return;
+                        }
+                        try {
+                          const compressed = await compressLogoFile(file);
+                          setStagedLogo(compressed);
+                          soundEffects.playSuccess();
+                          setLogoNotice('Đã nạp ảnh logo mới vào bản xem trước. Hãy nhấn nút "Lưu thay đổi lên CSDL" bên dưới để áp dụng!');
+                        } catch (err) {
+                          console.warn('Compress logo error:', err);
+                        }
+                      }}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        soundEffects.playClick();
+                        logoFileInputRef.current?.click();
+                      }}
+                      className="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center justify-center gap-2 cursor-pointer shadow-xs transition active:scale-95"
+                    >
+                      <Upload className="w-4 h-4" /> Chọn ảnh logo mới
+                    </button>
+                  </div>
+
+                  {/* Option B: Enter Image URL */}
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-3">
+                    <div className="flex items-center gap-2">
+                      <ImageIcon className="w-4 h-4 text-sky-600" />
+                      <h4 className="font-display font-bold text-xs sm:text-sm text-slate-800">Dán link ảnh logo (URL)</h4>
+                    </div>
+                    <p className="text-xs text-slate-500 leading-relaxed">
+                      Nhập liên kết ảnh trực tuyến (https://.../logo.png).
+                    </p>
+                    <div className="flex gap-1.5">
+                      <input
+                        type="url"
+                        value={logoUrlInput}
+                        onChange={(e) => setLogoUrlInput(e.target.value)}
+                        placeholder="https://..."
+                        className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!logoUrlInput.trim()) return;
+                          soundEffects.playSuccess();
+                          setStagedLogo(logoUrlInput.trim());
+                          setLogoUrlInput('');
+                          setLogoNotice('Đã nạp link ảnh logo vào bản xem trước. Hãy nhấn nút "Lưu thay đổi lên CSDL" bên dưới để áp dụng!');
+                        }}
+                        className="px-3 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs cursor-pointer transition active:scale-95 shrink-0"
+                      >
+                        Áp dụng
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ========================================================= */}
+              {/* SECTION 2: LOGO DISPLAY SIZE SLIDERS & PREVIEWS */}
+              {/* ========================================================= */}
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-amber-200 shadow-xs space-y-6">
+                <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                      <SlidersHorizontal className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-base text-slate-800">
+                        2. Chỉnh kích thước hiển thị Logo
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Kéo thanh trượt để tinh chỉnh và xem trước trực tiếp theo thời gian thực
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SLIDER 1: WELCOME SCREEN LOGO SIZE */}
+                <div className="space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Monitor className="w-4 h-4 text-amber-600 shrink-0" />
+                      <label className="font-display font-bold text-xs sm:text-sm text-slate-800">
+                        Kích thước trên Màn hình chào mừng (Chọn người học)
+                      </label>
+                    </div>
+                    <span className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 border border-amber-200">
+                      {stagedWelcomeLogoSize}px
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-500">
+                    Logo xuất hiện ở đầu trang chào mừng khi mở ứng dụng để các bạn học sinh chọn tài khoản.
+                  </p>
+
+                  <div className="space-y-1.5 pt-1">
+                    <input
+                      type="range"
+                      min="30"
+                      max="360"
+                      step="5"
+                      value={stagedWelcomeLogoSize}
+                      onChange={(e) => setStagedWelcomeLogoSize(Number(e.target.value))}
+                      className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                    />
+                    <div className="flex justify-between text-[10px] text-slate-400 font-bold">
+                      <span>30px (Nhỏ)</span>
+                      <span>100px (Vừa)</span>
+                      <span>200px (Lớn)</span>
+                      <span className="text-amber-600">300px (Chuẩn)</span>
+                      <span>360px (Cực đại)</span>
+                    </div>
+                  </div>
+
+                  {/* Preset Buttons for Welcome Screen */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    <span className="text-[11px] font-bold text-slate-400 mr-1">Gợi ý nhanh:</span>
+                    {[
+                      { label: 'Gọn (48px)', val: 48 },
+                      { label: 'Vừa vặn (100px)', val: 100 },
+                      { label: 'Lớn (180px)', val: 180 },
+                      { label: 'Rất lớn (240px)', val: 240 },
+                      { label: 'Chuẩn 300px ⭐', val: 300 }
+                    ].map((preset) => (
+                      <button
+                        key={preset.val}
+                        type="button"
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setStagedWelcomeLogoSize(preset.val);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                          stagedWelcomeLogoSize === preset.val
+                            ? 'bg-amber-500 text-white shadow-xs'
+                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Live Simulation of Welcome Banner */}
+                  <div className="mt-3 pt-3 border-t border-slate-200/60">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      Xem trước trực tiếp trên Màn hình chào mừng:
+                    </span>
+                    <div className="p-4 bg-gradient-to-b from-amber-50/70 via-orange-50/30 to-amber-100/40 rounded-2xl border border-amber-200/90 text-center flex flex-col items-center justify-center overflow-hidden shadow-2xs">
+                      <div className="flex items-center justify-center">
+                        <EasyEngLogo size={stagedWelcomeLogoSize} src={stagedLogo || undefined} />
+                      </div>
+                      <div className="mt-1 inline-flex items-center gap-1 bg-amber-100/90 border border-amber-300 text-amber-900 px-3 py-0.5 rounded-full text-[11px] font-bold shadow-2xs">
+                        <span>✨ Xin chào bạn, chọn tên để bắt đầu nhé! ✨</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SLIDER 2: HEADER LOGO SIZE */}
+                <div className="space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <SlidersHorizontal className="w-4 h-4 text-orange-600 shrink-0" />
+                      <label className="font-display font-bold text-xs sm:text-sm text-slate-800">
+                        Kích thước trên Thanh Header (Thanh điều hướng)
+                      </label>
+                    </div>
+                    <span className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg bg-orange-100 text-orange-900 border border-orange-200">
+                      {stagedHeaderLogoSize}px
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-500">
+                    Logo nằm ở góc trái thanh điều hướng trên cùng, hiển thị xuyên suốt quá trình học và làm bài.
+                  </p>
+
+                  <div className="space-y-1.5 pt-1">
+                    <input
+                      type="range"
+                      min="24"
+                      max="250"
+                      step="2"
+                      value={stagedHeaderLogoSize}
+                      onChange={(e) => setStagedHeaderLogoSize(Number(e.target.value))}
+                      className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                    />
+                    <div className="flex justify-between text-[10px] text-slate-400 font-bold">
+                      <span>24px (Gọn)</span>
+                      <span>64px (Vừa)</span>
+                      <span>120px (Lớn)</span>
+                      <span className="text-orange-600">200px (Chuẩn)</span>
+                      <span>250px (Cực đại)</span>
+                    </div>
+                  </div>
+
+                  {/* Preset Buttons for Header */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    <span className="text-[11px] font-bold text-slate-400 mr-1">Gợi ý nhanh:</span>
+                    {[
+                      { label: 'Gọn nhẹ (44px)', val: 44 },
+                      { label: 'Rõ nét (64px)', val: 64 },
+                      { label: 'Lớn (100px)', val: 100 },
+                      { label: 'Rất lớn (150px)', val: 150 },
+                      { label: 'Chuẩn 200px ⭐', val: 200 }
+                    ].map((preset) => (
+                      <button
+                        key={preset.val}
+                        type="button"
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setStagedHeaderLogoSize(preset.val);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                          stagedHeaderLogoSize === preset.val
+                            ? 'bg-orange-500 text-white shadow-xs'
+                            : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
+                        }`}
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Live Simulation of Header */}
+                  <div className="mt-3 pt-3 border-t border-slate-200/60">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      Xem trước trực tiếp trên Thanh Header:
+                    </span>
+                    <div className="p-3 bg-white border border-amber-200 rounded-2xl flex items-center justify-between shadow-2xs overflow-hidden">
+                      <div className="flex items-center gap-2.5">
+                        <EasyEngLogo 
+                          size={stagedHeaderLogoSize} 
+                          src={stagedLogo || undefined} 
+                          style={{ maxHeight: '72px' }}
+                        />
+                      </div>
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-1 rounded-xl">Demo Header</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ========================================================= */}
+              {/* SECTION 3: UNIFIED ACTION BAR & CLOUD SAVE BUTTON */}
+              {/* ========================================================= */}
+              <div className="p-5 rounded-3xl bg-white border border-amber-300 shadow-md space-y-3">
+                <div className="flex flex-col sm:flex-row items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handleSaveAllBranding}
+                    disabled={isSavingBranding}
+                    className={`w-full sm:flex-1 py-3.5 px-6 rounded-2xl text-white font-display font-bold text-sm shadow-md flex items-center justify-center gap-2 transition active:scale-95 cursor-pointer disabled:opacity-50 ${
+                      hasUnsavedBrandingChanges
+                        ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 shadow-orange-500/25 ring-2 ring-amber-300'
+                        : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-emerald-500/20'
+                    }`}
+                  >
+                    {isSavingBranding ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <span>Đang lưu lên CSDL Firestore...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CloudUpload className="w-4 h-4" />
+                        <span>Lưu thay đổi Logo & Kích thước lên CSDL {hasUnsavedBrandingChanges ? '(Nhấn để lưu 🚀)' : '✓'}</span>
+                      </>
+                    )}
+                  </button>
+
+                  {hasUnsavedBrandingChanges && (
+                    <button
+                      type="button"
+                      onClick={handleRevertStagedBranding}
+                      disabled={isSavingBranding}
+                      className="w-full sm:w-auto py-3.5 px-4 rounded-2xl border border-rose-200 text-rose-600 hover:bg-rose-50 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer disabled:opacity-50"
+                      title="Hủy bỏ các chỉnh sửa chưa lưu và quay lại logo hiện tại"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Hủy thay đổi</span>
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleResetSizesToDefault}
+                    disabled={isSavingBranding}
+                    className="w-full sm:w-auto py-3.5 px-4 rounded-2xl border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer disabled:opacity-50"
+                    title="Đặt lại kích thước chuẩn: Header 200px, Màn hình chào mừng 300px"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Kích thước chuẩn (200px / 300px)</span>
+                  </button>
+                </div>
+
+                <p className="text-[11px] text-slate-400 text-center font-medium">
+                  ☁️ Dữ liệu được lưu trữ trực tiếp trên Cloud Firestore và đồng bộ tự động đến tất cả các máy tính, điện thoại khác khi truy cập.
+                </p>
+              </div>
+
+              {/* Developer / Source code instructions */}
+              <div className="bg-slate-900 rounded-2xl p-4 sm:p-5 text-slate-300 space-y-2 text-xs font-mono">
+                <span className="text-amber-400 font-bold block uppercase tracking-wider font-sans">
+                  📖 Hướng dẫn cấu hình trong mã nguồn (Source Code):
+                </span>
+                <p className="text-slate-400 leading-relaxed font-sans text-xs">
+                  Nếu bạn muốn thay đổi kích thước hoặc logo trực tiếp trong mã nguồn dự án:
+                </p>
+                <ul className="list-disc pl-5 space-y-1 font-sans text-xs text-slate-300">
+                  <li>
+                    <strong>Kích thước mặc định:</strong> Có thể điều chỉnh hằng số <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">DEFAULT_HEADER_LOGO_SIZE</code> (200px) và <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">DEFAULT_WELCOME_LOGO_SIZE</code> (300px) trong <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">src/App.tsx</code>.
+                  </li>
+                  <li>
+                    <strong>Mã SVG / Vector Logo:</strong> Mở tệp <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">src/components/EasyEngLogo.tsx</code> để chỉnh các vector hình ảnh hoặc màu sắc gradient.
+                  </li>
+                  <li>
+                    <strong>Biểu tượng favicon trình duyệt:</strong> Thay đổi tệp icon hiển thị trên tab trình duyệt tại <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">public/favicon.svg</code> hoặc <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">public/favicon.ico</code>.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+
+        </div>
+
+      </div>
+    </div>
+  );
+};

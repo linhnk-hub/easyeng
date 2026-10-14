@@ -1,0 +1,542 @@
+import { initializeApp, getApps } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  deleteDoc,
+  getDoc,
+  getDocs,
+  collection,
+  onSnapshot,
+  getDocFromServer
+} from 'firebase/firestore';
+import firebaseConfig from '../../firebase-applet-config.json';
+import { UserProfile, UnitData } from '../types';
+
+export enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+export interface FirestoreErrorInfo {
+  error: string;
+  operationType: OperationType;
+  path: string | null;
+  authInfo: {
+    userId?: string | null;
+    email?: string | null;
+    emailVerified?: boolean | null;
+    isAnonymous?: boolean | null;
+    tenantId?: string | null;
+    providerInfo?: {
+      providerId?: string | null;
+      email?: string | null;
+    }[];
+  };
+}
+
+export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errInfo: FirestoreErrorInfo = {
+    error: error instanceof Error ? error.message : String(error),
+    authInfo: {
+      userId: auth?.currentUser?.uid,
+      email: auth?.currentUser?.email,
+      emailVerified: auth?.currentUser?.emailVerified,
+      isAnonymous: auth?.currentUser?.isAnonymous,
+      tenantId: auth?.currentUser?.tenantId,
+      providerInfo: auth?.currentUser?.providerData?.map(provider => ({
+        providerId: provider.providerId,
+        email: provider.email,
+      })) || []
+    },
+    operationType,
+    path
+  };
+  console.warn('Firestore Operation Notice: ', JSON.stringify(errInfo));
+  return errInfo;
+}
+
+// Initialize Firebase App
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+// CRITICAL: Initialize Firestore with specific database ID from config
+export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+export const auth = getAuth(app);
+
+// Test connection on boot
+export async function testConnection() {
+  try {
+    await getDocFromServer(doc(db, 'test', 'connection'));
+    console.log('Connected to Cloud Firestore database successfully.');
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('the client is offline')) {
+      console.warn('Firebase client is currently offline or unreachable.');
+    }
+  }
+}
+
+// Helper to convert UserProfile to clean Firestore document
+function formatLearnerForFirestore(learner: UserProfile) {
+  // Convert completedUnits keys to strings for Firestore map
+  const cleanCompletedUnits: Record<string, any> = {};
+  if (learner.completedUnits) {
+    Object.entries(learner.completedUnits).forEach(([k, v]) => {
+      cleanCompletedUnits[String(k)] = {
+        flashcardsDone: Boolean(v.flashcardsDone),
+        flashcardStars: v.flashcardStars !== undefined ? Math.round(Number(v.flashcardStars)) : 0,
+        memoryStars: Math.round(Number(v.memoryStars || 0)),
+        wordScrambleStars: Math.round(Number(v.wordScrambleStars || 0)),
+        sentenceStars: Math.round(Number(v.sentenceStars || 0)),
+        quizStars: Math.round(Number(v.quizStars || 0)),
+      };
+    });
+  }
+
+  return {
+    id: String(learner.learnerId),
+    name: String(learner.name || 'Học sinh').slice(0, 64),
+    grade: Math.max(1, Math.min(12, Math.round(Number(learner.grade) || 4))),
+    avatar: String(learner.avatar || '🦊').slice(0, 350000),
+    totalStars: Math.max(0, Math.round(Number(learner.totalStars || 0))),
+    level: Math.max(1, Math.round(Number(learner.level || 1))),
+    xp: Math.max(0, Math.round(Number(learner.xp || 0))),
+    currentStreak: Math.max(0, Math.round(Number(learner.currentStreak || 1))),
+    highestStreak: Math.max(0, Math.round(Number(learner.highestStreak || 1))),
+    completedUnits: cleanCompletedUnits,
+    unlockedBadges: Array.isArray(learner.unlockedBadges) ? learner.unlockedBadges.slice(0, 50) : [],
+    pin: learner.pin && /^\d{4}$/.test(learner.pin) ? learner.pin : '0000',
+    lastActiveDate: learner.lastActiveDate || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+// Helper to convert Firestore document back to UserProfile
+function formatFirestoreToLearner(data: any): UserProfile {
+  const completedUnits: Record<number, any> = {};
+  if (data.completedUnits && typeof data.completedUnits === 'object') {
+    Object.entries(data.completedUnits).forEach(([k, v]: [string, any]) => {
+      completedUnits[Number(k)] = {
+        flashcardsDone: Boolean(v?.flashcardsDone),
+        flashcardStars: v?.flashcardStars !== undefined ? Number(v.flashcardStars) : (v?.flashcardsDone ? 1 : 0),
+        memoryStars: Number(v?.memoryStars || 0),
+        wordScrambleStars: Number(v?.wordScrambleStars || 0),
+        sentenceStars: Number(v?.sentenceStars || 0),
+        quizStars: Number(v?.quizStars || 0),
+      };
+    });
+  }
+
+  return {
+    learnerId: data.id || 'ty',
+    name: data.name || 'Học sinh',
+    grade: Math.max(1, Math.min(12, Math.round(Number(data.grade) || 4))),
+    avatar: data.avatar || '🦊',
+    totalStars: Number(data.totalStars || 0),
+    level: Number(data.level || 1),
+    xp: Number(data.xp || 0),
+    currentStreak: Number(data.currentStreak || 1),
+    highestStreak: Number(data.highestStreak || 1),
+    completedUnits,
+    unlockedBadges: Array.isArray(data.unlockedBadges) ? data.unlockedBadges : [],
+    pin: data.pin && /^\d{4}$/.test(String(data.pin)) ? String(data.pin) : '0000',
+    lastActiveDate: data.lastActiveDate || new Date().toISOString(),
+  };
+}
+
+/**
+ * Save / sync a learner profile to Cloud Firestore
+ */
+export async function syncLearnerToCloud(learner: UserProfile): Promise<boolean> {
+  const path = `learners/${learner.learnerId}`;
+  try {
+    const payload = formatLearnerForFirestore(learner);
+    await setDoc(doc(db, 'learners', learner.learnerId), payload);
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+/**
+ * Delete a learner profile from Cloud Firestore
+ */
+export async function deleteLearnerFromCloud(learnerId: string): Promise<boolean> {
+  const path = `learners/${learnerId}`;
+  try {
+    await deleteDoc(doc(db, 'learners', learnerId));
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+    return false;
+  }
+}
+
+/**
+ * Fetch all learners from Cloud Firestore
+ */
+export async function fetchLearnersFromCloud(): Promise<UserProfile[]> {
+  const path = 'learners';
+  try {
+    const querySnapshot = await getDocs(collection(db, 'learners'));
+    const list: UserProfile[] = [];
+    querySnapshot.forEach(docSnap => {
+      list.push(formatFirestoreToLearner(docSnap.data()));
+    });
+    return list;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return [];
+  }
+}
+
+/**
+ * Subscribe to real-time changes across devices
+ */
+export function subscribeToLearners(callback: (learners: UserProfile[]) => void): () => void {
+  const path = 'learners';
+  try {
+    return onSnapshot(
+      collection(db, 'learners'),
+      (snapshot) => {
+        const list: UserProfile[] = [];
+        snapshot.forEach(docSnap => {
+          list.push(formatFirestoreToLearner(docSnap.data()));
+        });
+        if (list.length > 0) {
+          callback(list);
+        }
+      },
+      async (error) => {
+        handleFirestoreError(error, OperationType.GET, path);
+        try {
+          const fallbackList = await fetchLearnersFromCloud();
+          if (fallbackList.length > 0) {
+            callback(fallbackList);
+          }
+        } catch {
+          // ignore
+        }
+      }
+    );
+  } catch (err) {
+    handleFirestoreError(err, OperationType.GET, path);
+    fetchLearnersFromCloud().then(list => {
+      if (list.length > 0) callback(list);
+    }).catch(() => {});
+    return () => {};
+  }
+}
+
+/**
+ * Custom Avatar Cloud Sync helpers
+ */
+export interface CloudCustomAvatar {
+  id: string;
+  name: string;
+  icon: string;
+  isCustom?: boolean;
+}
+
+export async function syncCustomAvatarToCloud(avatar: CloudCustomAvatar): Promise<boolean> {
+  const path = `custom_avatars/${avatar.id}`;
+  try {
+    await setDoc(doc(db, 'custom_avatars', avatar.id), {
+      id: avatar.id,
+      name: avatar.name.slice(0, 64),
+      icon: String(avatar.icon).slice(0, 350000),
+      isCustom: true,
+      updatedAt: new Date().toISOString()
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+export async function deleteCustomAvatarFromCloud(avatarId: string): Promise<boolean> {
+  const path = `custom_avatars/${avatarId}`;
+  try {
+    await deleteDoc(doc(db, 'custom_avatars', avatarId));
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+    return false;
+  }
+}
+
+export async function fetchCustomAvatarsFromCloud(): Promise<CloudCustomAvatar[]> {
+  const path = 'custom_avatars';
+  try {
+    const querySnapshot = await getDocs(collection(db, 'custom_avatars'));
+    const list: CloudCustomAvatar[] = [];
+    querySnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data && data.id && data.icon) {
+        list.push({
+          id: data.id,
+          name: data.name || 'Avatar',
+          icon: data.icon,
+          isCustom: true
+        });
+      }
+    });
+    return list;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return [];
+  }
+}
+
+/**
+ * Curriculum Cloud Sync: saves imported JSON units per grade to Cloud Firestore
+ */
+export async function syncCurriculumToCloud(grade: number, units: UnitData[]): Promise<boolean> {
+  const path = `curriculum/${grade}`;
+  try {
+    const cleanUnits = JSON.parse(JSON.stringify(units));
+    await setDoc(doc(db, 'curriculum', String(grade)), {
+      grade: Number(grade),
+      units: cleanUnits,
+      updatedAt: new Date().toISOString()
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+export async function fetchCurriculumFromCloud(): Promise<Record<number, UnitData[]>> {
+  const path = 'curriculum';
+  try {
+    const querySnapshot = await getDocs(collection(db, 'curriculum'));
+    const result: Record<number, UnitData[]> = {};
+    querySnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data && data.grade && Array.isArray(data.units)) {
+        result[Number(data.grade)] = data.units;
+      }
+    });
+    return result;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return {};
+  }
+}
+
+/**
+ * Subscribe to real-time curriculum changes across all devices
+ */
+export function subscribeToCurriculum(callback: (curriculumMap: Record<number, UnitData[]>) => void): () => void {
+  const path = 'curriculum';
+  try {
+    return onSnapshot(
+      collection(db, 'curriculum'),
+      (snapshot) => {
+        const result: Record<number, UnitData[]> = {};
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          if (data && data.grade && Array.isArray(data.units)) {
+            result[Number(data.grade)] = data.units;
+          }
+        });
+        if (Object.keys(result).length > 0) {
+          callback(result);
+        }
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.LIST, path);
+      }
+    );
+  } catch (err) {
+    handleFirestoreError(err, OperationType.LIST, path);
+    return () => {};
+  }
+}
+
+/**
+ * Custom Classes Cloud Sync
+ */
+export interface CloudClassItem {
+  grade: number;
+  name: string;
+  description: string;
+  emoji: string;
+}
+
+export async function syncClassToCloud(classItem: CloudClassItem): Promise<boolean> {
+  const path = `classes/${classItem.grade}`;
+  try {
+    await setDoc(doc(db, 'classes', String(classItem.grade)), {
+      grade: Number(classItem.grade),
+      name: classItem.name,
+      description: classItem.description,
+      emoji: classItem.emoji,
+      updatedAt: new Date().toISOString()
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+export async function syncAllClassesToCloud(classList: CloudClassItem[]): Promise<boolean> {
+  try {
+    const promises = classList.map(c => syncClassToCloud(c));
+    await Promise.all(promises);
+    return true;
+  } catch (err) {
+    console.warn('syncAllClassesToCloud error:', err);
+    return false;
+  }
+}
+
+export async function deleteClassFromCloud(grade: number): Promise<boolean> {
+  const path = `classes/${grade}`;
+  try {
+    await deleteDoc(doc(db, 'classes', String(grade)));
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+    return false;
+  }
+}
+
+export async function fetchClassesFromCloud(): Promise<CloudClassItem[]> {
+  const path = 'classes';
+  try {
+    const querySnapshot = await getDocs(collection(db, 'classes'));
+    const list: CloudClassItem[] = [];
+    querySnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data && data.grade && data.name) {
+        list.push({
+          grade: Number(data.grade),
+          name: String(data.name),
+          description: String(data.description || ''),
+          emoji: String(data.emoji || '📚')
+        });
+      }
+    });
+    return list;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return [];
+  }
+}
+
+/**
+ * Subscribe to real-time classes changes across all devices
+ */
+export function subscribeToClasses(callback: (classes: CloudClassItem[]) => void): () => void {
+  const path = 'classes';
+  try {
+    return onSnapshot(
+      collection(db, 'classes'),
+      (snapshot) => {
+        const list: CloudClassItem[] = [];
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          if (data && data.grade && data.name) {
+            list.push({
+              grade: Number(data.grade),
+              name: String(data.name),
+              description: String(data.description || ''),
+              emoji: String(data.emoji || '📚')
+            });
+          }
+        });
+        callback(list);
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.LIST, path);
+      }
+    );
+  } catch (err) {
+    handleFirestoreError(err, OperationType.LIST, path);
+    return () => {};
+  }
+}
+
+/**
+ * Application Branding & Logo Settings Cloud Sync
+ * Persists logo and display sizes across all devices in Cloud Firestore
+ */
+export interface CloudBrandingSettings {
+  customLogo?: string | null;
+  headerLogoSize?: number;
+  welcomeLogoSize?: number;
+  updatedAt?: string;
+}
+
+export async function syncBrandingToCloud(settings: CloudBrandingSettings): Promise<boolean> {
+  const path = 'app_settings/branding';
+  try {
+    const logoPayload = settings.customLogo !== undefined ? settings.customLogo : null;
+    await setDoc(doc(db, 'app_settings', 'branding'), {
+      customLogo: logoPayload,
+      headerLogoSize: Number(settings.headerLogoSize || 200),
+      welcomeLogoSize: Number(settings.welcomeLogoSize || 300),
+      updatedAt: new Date().toISOString()
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+export async function fetchBrandingFromCloud(): Promise<CloudBrandingSettings | null> {
+  const path = 'app_settings/branding';
+  try {
+    const docSnap = await getDoc(doc(db, 'app_settings', 'branding'));
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return {
+        customLogo: data.customLogo !== undefined ? data.customLogo : null,
+        headerLogoSize: data.headerLogoSize !== undefined ? Number(data.headerLogoSize) : 200,
+        welcomeLogoSize: data.welcomeLogoSize !== undefined ? Number(data.welcomeLogoSize) : 300,
+        updatedAt: data.updatedAt
+      };
+    }
+    return null;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.GET, path);
+    return null;
+  }
+}
+
+export function subscribeToBranding(callback: (settings: CloudBrandingSettings) => void): () => void {
+  const path = 'app_settings/branding';
+  try {
+    return onSnapshot(
+      doc(db, 'app_settings', 'branding'),
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          callback({
+            customLogo: data.customLogo !== undefined ? data.customLogo : null,
+            headerLogoSize: data.headerLogoSize !== undefined ? Number(data.headerLogoSize) : 200,
+            welcomeLogoSize: data.welcomeLogoSize !== undefined ? Number(data.welcomeLogoSize) : 300,
+            updatedAt: data.updatedAt
+          });
+        }
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.GET, path);
+      }
+    );
+  } catch (err) {
+    handleFirestoreError(err, OperationType.GET, path);
+    return () => {};
+  }
+}
+

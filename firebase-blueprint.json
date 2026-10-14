@@ -1,0 +1,101 @@
+{
+  "entities": {
+    "LearnerProfile": {
+      "title": "LearnerProfile",
+      "description": "User profile with avatar, progress, stars, streak, and badges for cross-device sync",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the learner (e.g., 'ty', 'na')",
+          "maxLength": 64
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the learner",
+          "maxLength": 64
+        },
+        "grade": {
+          "type": "integer",
+          "description": "Grade level (1 to 12)"
+        },
+        "avatar": {
+          "type": "string",
+          "description": "Selected avatar emoji, key, or image data URL",
+          "maxLength": 350000
+        },
+        "totalStars": {
+          "type": "integer",
+          "description": "Total stars accumulated"
+        },
+        "level": {
+          "type": "integer",
+          "description": "Current learning level"
+        },
+        "xp": {
+          "type": "integer",
+          "description": "Total experience points"
+        },
+        "currentStreak": {
+          "type": "integer",
+          "description": "Current active streak in days"
+        },
+        "highestStreak": {
+          "type": "integer",
+          "description": "Highest streak recorded in days"
+        },
+        "completedUnits": {
+          "type": "object",
+          "description": "Map of unit numbers to unit completion and stars status"
+        },
+        "unlockedBadges": {
+          "type": "array",
+          "description": "List of unlocked badge identifiers"
+        },
+        "pin": {
+          "type": "string",
+          "description": "4-digit numeric login PIN",
+          "maxLength": 4
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["id", "name", "grade", "avatar", "totalStars", "level", "xp", "completedUnits", "unlockedBadges"]
+    },
+    "AppBranding": {
+      "title": "AppBranding",
+      "description": "Application custom branding including logo image and display sizes",
+      "type": "object",
+      "properties": {
+        "customLogo": {
+          "type": "string",
+          "description": "Base64 data URL or external URL for application logo"
+        },
+        "headerLogoSize": {
+          "type": "integer",
+          "description": "Logo size in pixels on the top navigation bar"
+        },
+        "welcomeLogoSize": {
+          "type": "integer",
+          "description": "Logo size in pixels on the welcome learner select screen"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/learners/{learnerId}": {
+      "schema": "LearnerProfile",
+      "description": "Stores learner progress, stars, badges, and settings for real-time internet synchronization"
+    },
+    "/app_settings/{settingId}": {
+      "schema": "AppBranding",
+      "description": "Stores app-wide branding settings including logo image and display dimensions"
+    }
+  }
+}
