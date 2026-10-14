@@ -60,7 +60,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
     return vocabStars + (Number(data.memoryStars) || 0) + (Number(data.wordScrambleStars) || 0) + (Number(data.sentenceStars) || 0) + (Number(data.quizStars) || 0);
   };
 
-  const getUnitMaxStars = () => 15; // 3 stars x 5 sections (Học từ + Lật thẻ + Ghép chữ + Xếp câu + Trắc nghiệm)
+  const getUnitMaxStars = () => 15; // 3 stars x 5 sections (Học từ + Lật thẻ + Ghép từ + Xếp câu + Trắc nghiệm)
 
   const getGameStars = (unitNumber: number, gameType: 'flashcards' | 'memory' | 'wordScramble' | 'sentence' | 'quiz'): number => {
     const data = user.completedUnits?.[unitNumber] || (user.completedUnits as any)?.[String(unitNumber)];
@@ -160,7 +160,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
               Đấu trường thử thách
             </h3>
             <p className="text-xs text-white/90 mt-0.5 font-medium">
-              Chinh phục 4 chặng: Từ vựng siêu tốc, Ghép chữ, Xếp câu & Trắc nghiệm tổng hợp toàn bộ bài học!
+              Chinh phục 4 chặng: Học từ, Ghép từ, Xếp câu & Trắc nghiệm tổng hợp toàn bộ bài học!
             </p>
           </div>
         </div>
@@ -333,7 +333,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                       onClick={() => handleGameSelect(unit, 'wordScramble')}
                       className="px-2.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 rounded-xl text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
                     >
-                      🧩 Ghép chữ{getGameStars(unit.unit, 'wordScramble') > 0 && <span className="text-purple-700 font-extrabold ml-0.5">({getGameStars(unit.unit, 'wordScramble')}⭐)</span>}
+                      🧩 Ghép từ{getGameStars(unit.unit, 'wordScramble') > 0 && <span className="text-purple-700 font-extrabold ml-0.5">({getGameStars(unit.unit, 'wordScramble')}⭐)</span>}
                     </button>
 
                     {/* Sentence Builder */}
