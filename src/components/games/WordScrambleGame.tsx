@@ -360,7 +360,7 @@ export const WordScrambleGame: React.FC<WordScrambleGameProps> = ({
             Unit {unit.unit} • {unit.title}
           </span>
           <span className="font-display font-bold text-slate-800 text-base sm:text-lg">
-            🧩 Ghép từ (Dũng Sĩ Ghép Từ)
+            🧩 Ghép từ
           </span>
           <span className="text-xs font-bold text-purple-600 uppercase tracking-wider block">
             Từ số {currentIndex + 1} / {wordList.length}
@@ -620,7 +620,7 @@ export const WordScrambleGame: React.FC<WordScrambleGameProps> = ({
               🏹
             </div>
             <h3 className="font-display font-bold text-2xl text-slate-800">
-              Chiến binh ghép chữ hoàn hảo!
+              Chiến binh ghép từ hoàn hảo!
             </h3>
             <p className="text-slate-600 text-sm">
               Bạn đã đánh vần và ghép chính xác tất cả các từ trong <strong>Unit {unit.unit}</strong>!

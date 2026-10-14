@@ -76,7 +76,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   const GAME_NAMES: Record<string, string> = {
     flashcards: 'Học từ',
     memory: 'Lật thẻ',
-    wordScramble: 'Ghép chữ',
+    wordScramble: 'Ghép từ',
     sentence: 'Xếp câu',
     quiz: 'Trắc nghiệm'
   };

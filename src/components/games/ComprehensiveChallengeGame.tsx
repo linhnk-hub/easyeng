@@ -498,7 +498,7 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
             <div className="bg-white/90 rounded-2xl p-3 border border-white shadow-xs">
               <span className="text-xl">🧩</span>
               <p className="text-xs font-bold text-slate-800 mt-1">Chặng 2</p>
-              <p className="text-[11px] text-slate-500">Ghép chữ giải đố</p>
+              <p className="text-[11px] text-slate-500">Ghép từ giải đố</p>
             </div>
             <div className="bg-white/90 rounded-2xl p-3 border border-white shadow-xs">
               <span className="text-xl">✍️</span>
@@ -620,10 +620,10 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
         {/* Stage Pill */}
         <div className="flex items-center gap-2">
           <span className="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300">
-            {stage === 'vocab' && `Chặng 1: Từ Vựng (${currentVocabIdx + 1}/5)`}
-            {stage === 'scramble' && `Chặng 2: Ghép Chữ (${currentScrambleIdx + 1}/${scrambleItems.length})`}
-            {stage === 'sentence' && `Chặng 3: Xếp Câu (${currentSentenceIdx + 1}/${sentenceItems.length})`}
-            {stage === 'quiz' && `Chặng 4: Trắc Nghiệm (${currentQuizIdx + 1}/5)`}
+            {stage === 'vocab' && `Chặng 1: Học từ (${currentVocabIdx + 1}/5)`}
+            {stage === 'scramble' && `Chặng 2: Ghép từ (${currentScrambleIdx + 1}/${scrambleItems.length})`}
+            {stage === 'sentence' && `Chặng 3: Xếp câu (${currentSentenceIdx + 1}/${sentenceItems.length})`}
+            {stage === 'quiz' && `Chặng 4: Trắc nghiệm (${currentQuizIdx + 1}/5)`}
           </span>
         </div>
 
