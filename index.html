@@ -10,6 +10,25 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
+    <link rel="preload" as="image" href="/app-logo.png" />
+    <script>
+      (function() {
+        try {
+          var logo = localStorage.getItem('easyeng_custom_logo');
+          if (!logo) {
+            localStorage.setItem('easyeng_custom_logo', '/app-logo.png');
+          }
+          var hSize = localStorage.getItem('easyeng_header_logo_size');
+          if (!hSize) {
+            localStorage.setItem('easyeng_header_logo_size', '174');
+          }
+          var wSize = localStorage.getItem('easyeng_welcome_logo_size');
+          if (!wSize) {
+            localStorage.setItem('easyeng_welcome_logo_size', '270');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">

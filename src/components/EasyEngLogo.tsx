@@ -7,13 +7,17 @@ interface EasyEngLogoProps {
   style?: React.CSSProperties;
 }
 
+const DEFAULT_STATIC_LOGO = '/app-logo.png';
+
 export const EasyEngLogo: React.FC<EasyEngLogoProps> = ({ 
   className = "w-10 h-10 sm:w-11 sm:h-11",
   src,
   size,
   style
 }) => {
-  if (src) {
+  const effectiveSrc = src !== undefined && src !== null ? src : DEFAULT_STATIC_LOGO;
+
+  if (effectiveSrc) {
     const containerStyle: React.CSSProperties = size
       ? {
           maxWidth: `${size}px`,
@@ -44,10 +48,15 @@ export const EasyEngLogo: React.FC<EasyEngLogoProps> = ({
         className={`relative inline-flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300 ${size ? '' : className}`}
       >
         <img 
-          src={src} 
+          src={effectiveSrc} 
           alt="Logo" 
           style={imgStyle}
           className={`max-w-full h-auto object-contain rounded-xl drop-shadow-sm ${size ? '' : 'w-full h-full'}`} 
+          onError={(e) => {
+            if (e.currentTarget.src !== window.location.origin + DEFAULT_STATIC_LOGO) {
+              e.currentTarget.src = DEFAULT_STATIC_LOGO;
+            }
+          }}
         />
       </div>
     );

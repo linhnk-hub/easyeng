@@ -233,7 +233,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
             <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
               learningMode === 'exercises' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-700'
             }`}>
-              {exerciseClusters.length} Cụm
+              {exerciseClusters.length} Học phần
             </span>
           </button>
         </div>
@@ -252,19 +252,17 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
       </div>
 
       {learningMode === 'exercises' ? (
-        /* MỤC BÀI TẬP TIẾNG ANH (RENDER CÁC CỤM BÀI TẬP TỪ JSON) */
+        /* MỤC BÀI TẬP TIẾNG ANH (RENDER CÁC HỌC PHẦN BÀI TẬP TỪ JSON) */
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 flex items-center gap-2">
-                <span>📝 Danh sách Cụm Bài tập Tiếng Anh Lớp {user.grade}</span>
+                <span>📝 Danh sách Học phần của Sách bài tập Tiếng Anh Lớp {user.grade}</span>
               </h2>
-              <p className="text-xs text-slate-500">
-                Các cụm câu hỏi bài tập rèn luyện trích xuất từ tài liệu PDF bài tập
-              </p>
+
             </div>
             <span className="text-xs font-bold px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-full">
-              {filteredClusters.length} cụm khả dụng
+              {filteredClusters.length} học phần
             </span>
           </div>
 
@@ -277,7 +275,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                 Chưa có dữ liệu bài tập cho Lớp {user.grade}
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-                Quản trị viên có thể vào trang <strong>Quản lý hệ thống ➔ Quản lý JSON ➔ Quản lý dữ liệu bài tập JSON</strong> để cấu hình số lượng cụm và tải lên các tệp JSON bài tập trích xuất từ tài liệu PDF.
+                Quản trị viên có thể vào trang <strong>Quản lý hệ thống ➔ Quản lý JSON ➔ Quản lý dữ liệu bài tập JSON</strong> để cấu hình số lượng học phần và tải lên các tệp JSON bài tập trích xuất từ tài liệu PDF.
               </p>
             </div>
           ) : (
@@ -297,7 +295,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                           </div>
                           <div className="min-w-0">
                             <span className="text-[11px] font-extrabold text-purple-600 uppercase tracking-wider bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200 inline-block">
-                              Cụm {cluster.clusterNumber}
+                              Học phần {cluster.clusterNumber}
                             </span>
                             <h3 className="font-display font-bold text-base sm:text-lg text-slate-800 mt-1 leading-snug truncate">
                               {cluster.title}
@@ -317,22 +315,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                         {cluster.description || 'Bộ bài tập ôn luyện theo chương trình học.'}
                       </p>
 
-                      {/* Preview câu hỏi */}
-                      {cluster.questions && cluster.questions.length > 0 && (
-                        <div className="bg-slate-50/80 rounded-2xl p-3 border border-slate-200/80 space-y-1.5 text-xs text-slate-700">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
-                            Xem trước câu hỏi mẫu:
-                          </span>
-                          {cluster.questions.slice(0, 2).map((q, qIdx) => (
-                            <div key={qIdx} className="truncate text-slate-600 flex items-center gap-1.5 text-[11px]">
-                              <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 font-bold text-[9px] flex items-center justify-center shrink-0">
-                                {qIdx + 1}
-                              </span>
-                              <span className="truncate">{q.question}</span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
+                  
                     </div>
 
                     <div className="pt-2">

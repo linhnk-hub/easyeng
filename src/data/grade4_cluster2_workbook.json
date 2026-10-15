@@ -1,0 +1,1541 @@
+{
+  "book_title": "Tiếng Anh 4 - Sách bài tập (Global Success)",
+  "cluster_id": "cluster_2",
+  "cluster_name": "Units 6 - 10 & Self-check 2",
+  "units": [
+    {
+      "unit_id": "unit_06",
+      "unit_number": 6,
+      "unit_title": "Our school facilities",
+      "pages": [28, 29, 30, 31],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u6_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["s", "es"],
+              "questions": [
+                {
+                  "question_id": "u6_a_ex1_q1",
+                  "label": "a",
+                  "prompt_text": "mountain_",
+                  "options": ["s", "es"],
+                  "correct_answer": "s",
+                  "full_completed_text": "mountains",
+                  "explanation_vi": "Điền 's' để tạo danh từ số nhiều mountains (những ngọn núi)."
+                },
+                {
+                  "question_id": "u6_a_ex1_q2",
+                  "label": "b",
+                  "prompt_text": "villag__",
+                  "options": ["s", "es"],
+                  "correct_answer": "es",
+                  "full_completed_text": "villages",
+                  "explanation_vi": "Điền 'es' để hoàn thành danh từ số nhiều villages (những ngôi làng - phát âm /ɪz/)."
+                },
+                {
+                  "question_id": "u6_a_ex1_q3",
+                  "label": "c",
+                  "prompt_text": "town_",
+                  "options": ["s", "es"],
+                  "correct_answer": "s",
+                  "full_completed_text": "towns",
+                  "explanation_vi": "Điền 's' để tạo danh từ số nhiều towns (những thị trấn)."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u6_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u6_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "There are two ___ near my school.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 12",
+                    "full_transcript": "There are two villages near my school.",
+                    "tts_voice_data": [
+                      { "speaker": "Narrator", "voice_type": "female_child", "text": "There are two villages near my school." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "text": "towns" },
+                    { "id": "b", "text": "villages" },
+                    { "id": "c", "text": "mountains" }
+                  ],
+                  "correct_answer": "b",
+                  "explanation_vi": "Nghe phát âm 'There are two villages near my school' nên chọn b."
+                },
+                {
+                  "question_id": "u6_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "My school is in the ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 12",
+                    "full_transcript": "My school is in the mountains.",
+                    "tts_voice_data": [
+                      { "speaker": "Narrator", "voice_type": "male_child", "text": "My school is in the mountains." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "text": "mountains" },
+                    { "id": "b", "text": "towns" },
+                    { "id": "c", "text": "villages" }
+                  ],
+                  "correct_answer": "a",
+                  "explanation_vi": "Nghe phát âm 'My school is in the mountains' nên chọn a."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u6_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u6_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "Their school is in the ___.",
+                  "image_description": "Ngôi trường nằm ở một thị trấn nhỏ có các ngôi nhà xung quanh.",
+                  "image_url": "assets/images/u6_a3_q1.png",
+                  "correct_answer": "town",
+                  "explanation_vi": "Hình ảnh ngôi trường ở thị trấn -> in the town."
+                },
+                {
+                  "question_id": "u6_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "Her school is in the ___.",
+                  "image_description": "Ngôi trường nằm giữa các tòa nhà cao tầng ở thành phố.",
+                  "image_url": "assets/images/u6_a3_q2.png",
+                  "correct_answer": "city",
+                  "explanation_vi": "Hình ảnh các tòa nhà cao tầng ở thành phố -> in the city."
+                },
+                {
+                  "question_id": "u6_a_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "There are three ___ at my school.",
+                  "image_description": "Khuôn viên trường học có 3 tòa nhà xếp hình chữ U.",
+                  "image_url": "assets/images/u6_a3_q3.png",
+                  "correct_answer": "buildings",
+                  "explanation_vi": "Có 3 tòa nhà -> three buildings."
+                },
+                {
+                  "question_id": "u6_a_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "There is a ___ at our school.",
+                  "image_description": "Vườn hoa rộng lớn cạnh tòa nhà trường học.",
+                  "image_url": "assets/images/u6_a3_q4.png",
+                  "correct_answer": "garden",
+                  "explanation_vi": "Hình ảnh vườn trường -> a garden."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u6_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "two buildings at my school" },
+                { "id": "b", "text": "your school" },
+                { "id": "c", "text": "one playground at his school" },
+                { "id": "d", "text": "computer rooms are there at your school" }
+              ],
+              "questions": [
+                { "question_id": "u6_b_ex1_q1", "label": "1", "prompt_text": "Where is ___?", "correct_answer": "your school", "matched_option_id": "b" },
+                { "question_id": "u6_b_ex1_q2", "label": "2", "prompt_text": "How many ___?", "correct_answer": "computer rooms are there at your school", "matched_option_id": "d" },
+                { "question_id": "u6_b_ex1_q3", "label": "3", "prompt_text": "There is ___.", "correct_answer": "one playground at his school", "matched_option_id": "c" },
+                { "question_id": "u6_b_ex1_q4", "label": "4", "prompt_text": "There are ___.", "correct_answer": "two buildings at my school", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u6_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Where's your school?", "right_id": "c", "right_text": "It's in the town." },
+                { "left_id": "2", "left_text": "How many buildings are there at her school?", "right_id": "d", "right_text": "There are four buildings at her school." },
+                { "left_id": "3", "left_text": "How many computer rooms are there at your school?", "right_id": "a", "right_text": "There is one computer room at my school." },
+                { "left_id": "4", "left_text": "How many playgrounds are there at his school?", "right_id": "b", "right_text": "There are two playgrounds at his school." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u6_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and circle.",
+              "instruction_vi": "Nghe và khoanh tròn tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u6_c_ex1_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 13",
+                    "full_transcript": "1. A: Where's your school? B: It's in the village.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Where's your school?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's in the village." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Ngôi trường nhỏ ở làng quê có cây cối xung quanh." },
+                    { "id": "b", "image_description": "Ngôi trường 3 tầng ở thành phố có nhiều nhà cao tầng." }
+                  ],
+                  "correct_answer": "a",
+                  "explanation_vi": "Nghe 'It's in the village' ứng với ngôi trường ở làng quê (hình a)."
+                },
+                {
+                  "question_id": "u6_c_ex1_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 13",
+                    "full_transcript": "2. A: How many buildings are there at your school? B: There are three buildings.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "How many buildings are there at your school?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "There are three buildings." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Trường học có 3 tòa nhà xếp chữ U." },
+                    { "id": "b", "image_description": "Trường học có 2 tòa nhà và 1 vườn hoa ở giữa." }
+                  ],
+                  "correct_answer": "a",
+                  "explanation_vi": "Nghe 'There are three buildings' ứng với hình a."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u6_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u6_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Where's your school?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ về ngôi trường ở làng quê có cây đa lớn và con đường làng.",
+                  "correct_answer": "It's in the village",
+                  "explanation_vi": "Trường ở nông thôn/làng quê -> It's in the village."
+                },
+                {
+                  "question_id": "u6_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "How many playgrounds are there at your school?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ về sân chơi trường học có 1 sân chơi lớn.",
+                  "correct_answer": "There is one playground",
+                  "explanation_vi": "Có 1 sân chơi -> There is one playground (at my school)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u6_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: Where's your school?",
+                "B: It's in (1) ___.",
+                "A: How many (2) ___ are there at your school?",
+                "B: There are (3) ___.",
+                "A: And how many computer rooms are there at your school?",
+                "B: There is (4) ___."
+              ],
+              "questions": [
+                { "question_id": "u6_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "the town" }, { "id": "b", "text": "towns" }], "correct_answer": "a" },
+                { "question_id": "u6_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "building" }, { "id": "b", "text": "buildings" }], "correct_answer": "b" },
+                { "question_id": "u6_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "one" }, { "id": "b", "text": "two" }], "correct_answer": "b" },
+                { "question_id": "u6_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "one" }, { "id": "b", "text": "two" }], "correct_answer": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u6_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and tick.",
+              "instruction_vi": "Đọc đoạn văn và đánh dấu Tick (✓) vào bức tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "My school is in the village. It has many trees. There is one computer room with many computers in it. There is one garden at my school. And there are two playgrounds. We often play football and games there.",
+              "questions": [
+                {
+                  "question_id": "u6_e_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "Which picture matches the text?",
+                  "options": [
+                    { "id": "1", "image_description": "Trường học có 1 phòng máy tính, 1 vườn hoa và 1 sân bóng đá." },
+                    { "id": "2", "image_description": "Trường học có 1 phòng máy tính, 1 vườn hoa và 2 sân chơi (sân bóng rổ và sân bóng đá)." }
+                  ],
+                  "correct_answer": "2",
+                  "explanation_vi": "Trong bài đọc nói 'there are two playgrounds' (có 2 sân chơi) nên hình 2 đúng."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u6_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u6_f_ex1_q1", "label": "1", "shuffled_parts": ["is", "Where", "your school"], "punctuation": "?", "correct_answer": "Where is your school?" },
+                { "question_id": "u6_f_ex1_q2", "label": "2", "shuffled_parts": ["in", "is", "My school", "the mountains"], "punctuation": ".", "correct_answer": "My school is in the mountains." },
+                { "question_id": "u6_f_ex1_q3", "label": "3", "shuffled_parts": ["one", "There is", "at my school", "building"], "punctuation": ".", "correct_answer": "There is one building at my school." },
+                { "question_id": "u6_f_ex1_q4", "label": "4", "shuffled_parts": ["at your school", "are there", "computer rooms", "How many"], "punctuation": "?", "correct_answer": "How many computer rooms are there at your school?" }
+              ]
+            },
+            {
+              "exercise_id": "u6_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về cơ sở vật chất ở trường của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "My school is in the {1}. There is {2}. There is {3}. There are {4}. There are {5}. I love my school!",
+              "sample_answer": "My school is in the town. There is one garden. There is one playground. There are three buildings. There are two computer rooms. I love my school!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_07",
+      "unit_number": 7,
+      "unit_title": "Our timetables",
+      "pages": [32, 33, 34, 35],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u7_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["se", "ce"],
+              "questions": [
+                { "question_id": "u7_a_ex1_q1", "label": "a", "prompt_text": "scien__", "options": ["se", "ce"], "correct_answer": "ce", "full_completed_text": "science", "explanation_vi": "science (môn Khoa học)." },
+                { "question_id": "u7_a_ex1_q2", "label": "b", "prompt_text": "Vietname__", "options": ["se", "ce"], "correct_answer": "se", "full_completed_text": "Vietnamese", "explanation_vi": "Vietnamese (môn Tiếng Việt)." }
+              ]
+            },
+            {
+              "exercise_id": "u7_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u7_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "When do you have science?",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 14",
+                    "full_transcript": "When do you have science?",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "When do you have science?" }]
+                  }
+                },
+                {
+                  "question_id": "u7_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "We have Vietnamese today.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 14",
+                    "full_transcript": "We have Vietnamese today.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "We have Vietnamese today." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u7_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u7_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "I have English and ___ today.",
+                  "image_description": "Sách giáo khoa Tiếng Anh 4 và Tiếng Việt 4.",
+                  "correct_answer": "Vietnamese",
+                  "explanation_vi": "Sách Tiếng Việt 4 -> Vietnamese."
+                },
+                {
+                  "question_id": "u7_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "We have ___ and ___ today.",
+                  "image_description": "Sách giáo khoa Mĩ thuật 4 và Âm nhạc 4.",
+                  "correct_answer": "art and music",
+                  "explanation_vi": "Mĩ thuật và Âm nhạc -> art and music."
+                },
+                {
+                  "question_id": "u7_a_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "I have history and geography on ___ and ___.",
+                  "image_description": "Lịch ghi TUESDAY 17, THURSDAY 19 và quyển sách Lịch sử và Địa lí 4.",
+                  "correct_answer": "Tuesdays and Thursdays",
+                  "explanation_vi": "Lịch thứ Ba và thứ Năm -> Tuesdays and Thursdays."
+                },
+                {
+                  "question_id": "u7_a_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "We have science on ___ and ___.",
+                  "image_description": "Lịch ghi WEDNESDAY 18, FRIDAY 20 và quyển sách Khoa học 4.",
+                  "correct_answer": "Wednesdays and Fridays",
+                  "explanation_vi": "Lịch thứ Tư và thứ Sáu -> Wednesdays and Fridays."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u7_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "Thursdays" },
+                { "id": "b", "text": "have Vietnamese" },
+                { "id": "c", "text": "have today" },
+                { "id": "d", "text": "every day" }
+              ],
+              "questions": [
+                { "question_id": "u7_b_ex1_q1", "label": "1", "prompt_text": "What subjects do you ___?", "correct_answer": "have today", "matched_option_id": "c" },
+                { "question_id": "u7_b_ex1_q2", "label": "2", "prompt_text": "When do you ___?", "correct_answer": "have Vietnamese", "matched_option_id": "b" },
+                { "question_id": "u7_b_ex1_q3", "label": "3", "prompt_text": "I have maths ___.", "correct_answer": "every day", "matched_option_id": "d" },
+                { "question_id": "u7_b_ex1_q4", "label": "4", "prompt_text": "We have music on ___.", "correct_answer": "Thursdays", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What time do you have music class?", "right_id": "d", "right_text": "I have music class at eight o'clock." },
+                { "left_id": "2", "left_text": "When do you have history and geography?", "right_id": "c", "right_text": "I have it on Mondays and Fridays." },
+                { "left_id": "3", "left_text": "What subjects do you have today?", "right_id": "b", "right_text": "I have English, Vietnamese and music." },
+                { "left_id": "4", "left_text": "Where's your school?", "right_id": "a", "right_text": "It's in the town." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u7_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and match.",
+              "instruction_vi": "Nghe và nối nhân vật với môn học / ngày học tương ứng.",
+              "game_mechanic": "matching",
+              "questions": [
+                {
+                  "question_id": "u7_c_ex1_q1",
+                  "label": "1",
+                  "character_image": "Bạn nữ giơ ngón tay trỏ phát biểu.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 15",
+                    "full_transcript": "1. A: What subjects do you have today, Mai? B: I have maths.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What subjects do you have today, Mai?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I have maths." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Sách Mĩ thuật 4 (art)." },
+                    { "id": "b", "image_description": "Sách Toán 4 (maths)." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u7_c_ex1_q2",
+                  "label": "2",
+                  "character_image": "Bạn nam đeo kính tròn.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 15",
+                    "full_transcript": "2. A: When do you have science, Nam? B: I have it on Thursdays.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "When do you have science, Nam?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "I have it on Thursdays." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Tờ lịch WEDNESDAY 6." },
+                    { "id": "b", "image_description": "Tờ lịch THURSDAY 7." }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u7_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u7_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What subjects do you have today?",
+                  "speaker_b_prompt": "I have ___.",
+                  "image_description": "Bạn nữ nghĩ tới sách Tiếng Anh 4 và Tiếng Việt 4.",
+                  "correct_answer": "English and Vietnamese"
+                },
+                {
+                  "question_id": "u7_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "When do you have history and geography?",
+                  "speaker_b_prompt": "I have it on ___.",
+                  "image_description": "Bạn nữ nghĩ tới tờ lịch MONDAY 18 và THURSDAY 21.",
+                  "correct_answer": "Mondays and Thursdays"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u7_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["don't", "have", "science", "Thursdays", "When"],
+              "dialogue_lines": [
+                "A: What subjects do you have today?",
+                "B: I (1) ___ Vietnamese, maths and English.",
+                "A: Do you have (2) ___ today?",
+                "B: No, I (3) ___.",
+                "A: (4) ___ do you have it?",
+                "B: I have it on Mondays and (5) ___."
+              ],
+              "questions": [
+                { "question_id": "u7_e_ex1_q1", "blank_number": 1, "correct_answer": "have" },
+                { "question_id": "u7_e_ex1_q2", "blank_number": 2, "correct_answer": "science" },
+                { "question_id": "u7_e_ex1_q3", "blank_number": 3, "correct_answer": "don't" },
+                { "question_id": "u7_e_ex1_q4", "blank_number": 4, "correct_answer": "When" },
+                { "question_id": "u7_e_ex1_q5", "blank_number": 5, "correct_answer": "Thursdays" }
+              ]
+            },
+            {
+              "exercise_id": "u7_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and tick.",
+              "instruction_vi": "Đọc đoạn văn và đánh dấu các ngày học tương ứng của từng môn vào thời khóa biểu.",
+              "game_mechanic": "true_false",
+              "reading_passage": "Tony and Laura study at Sunny Primary School. They go to school from Mondays to Fridays. They have English every day. They have maths on Mondays, Tuesdays and Fridays. On Mondays and Thursdays, they have science. They have music on Wednesdays and art on Thursdays. They like music and art very much.",
+              "table_headers": ["Subjects", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+              "questions": [
+                { "question_id": "u7_e_ex2_r1", "subject": "English", "correct_days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] },
+                { "question_id": "u7_e_ex2_r2", "subject": "maths", "correct_days": ["Monday", "Tuesday", "Friday"] },
+                { "question_id": "u7_e_ex2_r3", "subject": "science", "correct_days": ["Monday", "Thursday"] },
+                { "question_id": "u7_e_ex2_r4", "subject": "music", "correct_days": ["Wednesday"] },
+                { "question_id": "u7_e_ex2_r5", "subject": "art", "correct_days": ["Thursday"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u7_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u7_f_ex1_q1", "label": "1", "shuffled_parts": ["I", "today", "science", "have"], "punctuation": ".", "correct_answer": "I have science today." },
+                { "question_id": "u7_f_ex1_q2", "label": "2", "shuffled_parts": ["do", "have music", "When", "you"], "punctuation": "?", "correct_answer": "When do you have music?" },
+                { "question_id": "u7_f_ex1_q3", "label": "3", "shuffled_parts": ["English", "I have", "Mondays", "and Thursdays", "on"], "punctuation": ".", "correct_answer": "I have English on Mondays and Thursdays." },
+                { "question_id": "u7_f_ex1_q4", "label": "4", "shuffled_parts": ["today", "do", "What subjects", "you have"], "punctuation": "?", "correct_answer": "What subjects do you have today?" }
+              ]
+            },
+            {
+              "exercise_id": "u7_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về thời khóa biểu của lớp em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "We go to school from Mondays to {1}. We have {2} every day. We have {3} on {4}. We have {5} on {6}. We love {7} very much.",
+              "sample_answer": "We go to school from Mondays to Fridays. We have Vietnamese and maths every day. We have science on Tuesdays and Thursdays. We have music on Fridays. We love English and music very much."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_08",
+      "unit_number": 8,
+      "unit_title": "My favourite subjects",
+      "pages": [36, 37, 38, 39],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u8_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["ke", "te"],
+              "questions": [
+                { "question_id": "u8_a_ex1_q1", "label": "a", "prompt_text": "wri__", "options": ["ke", "te"], "correct_answer": "te", "full_completed_text": "write" },
+                { "question_id": "u8_a_ex1_q2", "label": "b", "prompt_text": "li__", "options": ["ke", "te"], "correct_answer": "ke", "full_completed_text": "like" }
+              ]
+            },
+            {
+              "exercise_id": "u8_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u8_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "I write stories.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 16",
+                    "full_transcript": "I write stories.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "I write stories." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "I write stories." },
+                    { "id": "b", "text": "I like stories." },
+                    { "id": "c", "text": "I like maths." }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u8_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "I like Vietnamese.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 16",
+                    "full_transcript": "I like Vietnamese.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "I like Vietnamese." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "I write in Vietnamese." },
+                    { "id": "b", "text": "I like Vietnamese." },
+                    { "id": "c", "text": "I write a long story." }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u8_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u8_a_ex3_q1", "label": "1", "prompt_text": "We like ___.", "image_description": "Quyển sách Tiếng Anh 4.", "correct_answer": "English" },
+                { "question_id": "u8_a_ex3_q2", "label": "2", "prompt_text": "My favourite subject is ___.", "image_description": "Quyển sách Âm nhạc 4.", "correct_answer": "music" },
+                { "question_id": "u8_a_ex3_q3", "label": "3", "prompt_text": "I like art because I want to be a(n) ___.", "image_description": "Cậu bé đọc sách Mĩ thuật và ước mơ trở thành họa sĩ vẽ tranh.", "correct_answer": "painter" },
+                { "question_id": "u8_a_ex3_q4", "label": "4", "prompt_text": "I like maths because I want to be a(n) ___.", "image_description": "Bé gái đọc sách Toán và ước mơ trở thành giáo viên dạy Toán.", "correct_answer": "maths teacher" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u8_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "PE" },
+                { "id": "b", "text": "favourite subject" },
+                { "id": "c", "text": "singers" },
+                { "id": "d", "text": "like Vietnamese" }
+              ],
+              "questions": [
+                { "question_id": "u8_b_ex1_q1", "label": "1", "prompt_text": "What's your ___?", "correct_answer": "favourite subject", "matched_option_id": "b" },
+                { "question_id": "u8_b_ex1_q2", "label": "2", "prompt_text": "My favourite subject is ___.", "correct_answer": "PE", "matched_option_id": "a" },
+                { "question_id": "u8_b_ex1_q3", "label": "3", "prompt_text": "Why do you ___?", "correct_answer": "like Vietnamese", "matched_option_id": "d" },
+                { "question_id": "u8_b_ex1_q4", "label": "4", "prompt_text": "They like music because they want to be ___.", "correct_answer": "singers", "matched_option_id": "c" }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Do you like IT?", "right_id": "c", "right_text": "Yes, I do." },
+                { "left_id": "2", "left_text": "What's your favourite subject?", "right_id": "d", "right_text": "It's art." },
+                { "left_id": "3", "left_text": "Can you sing a song?", "right_id": "a", "right_text": "Yes, I can." },
+                { "left_id": "4", "left_text": "Why do you like English?", "right_id": "b", "right_text": "Because I want to be an English teacher." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u8_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and circle.",
+              "instruction_vi": "Nghe và khoanh tròn tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u8_c_ex1_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 17",
+                    "full_transcript": "1. A: What's your favourite subject? B: It's IT.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What's your favourite subject?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's IT." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Sách Giáo dục thể chất 4 (PE)." },
+                    { "id": "b", "image_description": "Sách Tin học 4 (IT)." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u8_c_ex1_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 17",
+                    "full_transcript": "2. A: Why do you like music? B: Because I want to be a singer.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Why do you like music?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "Because I want to be a singer." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Cậu bé cầm micro hát (singer)." },
+                    { "id": "b", "image_description": "Cậu bé đứng vẽ tranh trên giá vẽ (painter)." }
+                  ],
+                  "correct_answer": "a"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u8_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u8_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What's your favourite subject?",
+                  "speaker_b_prompt": "It's ___.",
+                  "image_description": "Bạn nữ nghĩ tới quyển sách Toán 4.",
+                  "correct_answer": "maths"
+                },
+                {
+                  "question_id": "u8_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Why do you like music?",
+                  "speaker_b_prompt": "Because I want to be ___.",
+                  "image_description": "Bạn nữ nghĩ tới hình ảnh mình cầm micro làm ca sĩ.",
+                  "correct_answer": "a singer"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u8_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: (1) ___ subjects do you have today?",
+                "B: I have maths, English and IT.",
+                "A: What's your (2) ___ subject?",
+                "B: It's English.",
+                "A: (3) ___ do you like it?",
+                "B: Because I (4) ___ to be an English teacher."
+              ],
+              "questions": [
+                { "question_id": "u8_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "When" }, { "id": "b", "text": "What" }], "correct_answer": "b" },
+                { "question_id": "u8_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "good" }, { "id": "b", "text": "favourite" }], "correct_answer": "b" },
+                { "question_id": "u8_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "Why" }, { "id": "b", "text": "Where" }], "correct_answer": "a" },
+                { "question_id": "u8_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "like" }, { "id": "b", "text": "want" }], "correct_answer": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u8_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and answer the questions.",
+              "instruction_vi": "Đọc đoạn văn và trả lời câu hỏi.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "My name is Nick. I go to school from Mondays to Fridays. It is Wednesday today. I have PE, IT, music and English. Music is my favourite subject. I like it because I want to be a dancer. What is your favourite subject?",
+              "questions": [
+                { "question_id": "u8_e_ex2_q1", "label": "1", "prompt_text": "What is his name?", "correct_answer": ["His name is Nick.", "Nick"] },
+                { "question_id": "u8_e_ex2_q2", "label": "2", "prompt_text": "What day is it today?", "correct_answer": ["It is Wednesday.", "It's Wednesday.", "Wednesday"] },
+                { "question_id": "u8_e_ex2_q3", "label": "3", "prompt_text": "What is his favourite subject?", "correct_answer": ["Music is his favourite subject.", "It's music.", "Music"] },
+                { "question_id": "u8_e_ex2_q4", "label": "4", "prompt_text": "Why does he like this subject?", "correct_answer": ["Because he wants to be a dancer."] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u8_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u8_f_ex1_q1", "label": "1", "shuffled_parts": ["is", "favourite subject", "What", "your"], "punctuation": "?", "correct_answer": "What is your favourite subject?" },
+                { "question_id": "u8_f_ex1_q2", "label": "2", "shuffled_parts": ["like English", "do", "Why", "you"], "punctuation": "?", "correct_answer": "Why do you like English?" },
+                { "question_id": "u8_f_ex1_q3", "label": "3", "shuffled_parts": ["is", "subject", "IT", "My favourite"], "punctuation": ".", "correct_answer": "My favourite subject is IT." },
+                { "question_id": "u8_f_ex1_q4", "label": "4", "shuffled_parts": ["want", "a painter", "to be", "I"], "punctuation": ".", "correct_answer": "I want to be a painter." }
+              ]
+            },
+            {
+              "exercise_id": "u8_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về môn học yêu thích và ước mơ của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "My name is {1}. Today is {2}. I have {3} and {4}. {5} is my favourite subject. I like it because I want to be {6}. What is your favourite subject?",
+              "sample_answer": "My name is Linh. Today is Thursday. I have maths, Vietnamese and art. Art is my favourite subject. I like it because I want to be a painter. What is your favourite subject?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_09",
+      "unit_number": 9,
+      "unit_title": "Our sports day",
+      "pages": [40, 41, 42, 43],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u9_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["y"],
+              "questions": [
+                { "question_id": "u9_a_ex1_q1", "label": "a", "prompt_text": "Januar_", "options": ["y"], "correct_answer": "y", "full_completed_text": "January", "explanation_vi": "January (âm cuối /i/)." },
+                { "question_id": "u9_a_ex1_q2", "label": "b", "prompt_text": "Februar_", "options": ["y"], "correct_answer": "y", "full_completed_text": "February", "explanation_vi": "February (âm cuối /i/)." },
+                { "question_id": "u9_a_ex1_q3", "label": "c", "prompt_text": "Jul_", "options": ["y"], "correct_answer": "y", "full_completed_text": "July", "explanation_vi": "July (âm cuối /aɪ/)." }
+              ]
+            },
+            {
+              "exercise_id": "u9_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u9_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "My birthday is in ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 18",
+                    "full_transcript": "My birthday is in February.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "My birthday is in February." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "February" },
+                    { "id": "b", "text": "July" }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u9_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "Is your sports day in ___?",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 18",
+                    "full_transcript": "Is your sports day in July?",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "Is your sports day in July?" }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "July" },
+                    { "id": "b", "text": "January" }
+                  ],
+                  "correct_answer": "a"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u9_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u9_a_ex3_q1", "label": "1", "prompt_text": "Our sports day is in ___.", "image_description": "Lịch SCHOOL SPORTS DAY ghi tháng OCTOBER.", "correct_answer": "October" },
+                { "question_id": "u9_a_ex3_q2", "label": "2", "prompt_text": "Their sports day is in ___.", "image_description": "Lịch SCHOOL SPORTS DAY ghi tháng NOVEMBER.", "correct_answer": "November" },
+                { "question_id": "u9_a_ex3_q3", "label": "3", "prompt_text": "His sports day is in ___.", "image_description": "Lịch SCHOOL SPORTS DAY ghi tháng DECEMBER.", "correct_answer": "December" },
+                { "question_id": "u9_a_ex3_q4", "label": "4", "prompt_text": "Her sports day is in ___.", "image_description": "Lịch SCHOOL SPORTS DAY ghi tháng SEPTEMBER.", "correct_answer": "September" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u9_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "play football on sports day" },
+                { "id": "b", "text": "your sports day" },
+                { "id": "c", "text": "July" },
+                { "id": "d", "text": "in the playground" }
+              ],
+              "questions": [
+                { "question_id": "u9_b_ex1_q1", "label": "1", "prompt_text": "Is your sports day in ___?", "correct_answer": "July", "matched_option_id": "c" },
+                { "question_id": "u9_b_ex1_q2", "label": "2", "prompt_text": "When's ___?", "correct_answer": "your sports day", "matched_option_id": "b" },
+                { "question_id": "u9_b_ex1_q3", "label": "3", "prompt_text": "We ___.", "correct_answer": "play football on sports day", "matched_option_id": "a" },
+                { "question_id": "u9_b_ex1_q4", "label": "4", "prompt_text": "They roller skate ___.", "correct_answer": "in the playground", "matched_option_id": "d" }
+              ]
+            },
+            {
+              "exercise_id": "u9_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Is your sports day in October?", "right_id": "b", "right_text": "Yes, it is." },
+                { "left_id": "2", "left_text": "When's your sports day?", "right_id": "d", "right_text": "It's in May." },
+                { "left_id": "3", "left_text": "Where's your sports day?", "right_id": "a", "right_text": "It's in the school playground." },
+                { "left_id": "4", "left_text": "What do you do on sports day?", "right_id": "c", "right_text": "We play sports and games." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u9_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự từ 1 đến 4.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 19",
+                "full_transcript": "1. Is your sports day in June? Yes, it is. 2. Is your sports day in September? Yes, it is. 3. When's your sports day? It's in November. 4. When's their sports day? It's in December.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Is your sports day in June?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Yes, it is." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Is your sports day in September?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Yes, it is." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "When's your sports day?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "It's in November." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "When's their sports day?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "It's in December." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Lịch SCHOOL SPORTS DAY tháng 9 (SEPTEMBER).", "correct_order_number": 2 },
+                { "picture_id": "b", "image_description": "Lịch SCHOOL SPORTS DAY tháng 12 (DECEMBER).", "correct_order_number": 4 },
+                { "picture_id": "c", "image_description": "Lịch SCHOOL SPORTS DAY tháng 6 (JUNE).", "correct_order_number": 1 },
+                { "picture_id": "d", "image_description": "Lịch SCHOOL SPORTS DAY tháng 11 (NOVEMBER).", "correct_order_number": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u9_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u9_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Is your sports day in June?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ tới tờ lịch SCHOOL SPORTS DAY tháng 6 (JUNE).",
+                  "correct_answer": "Yes, it is"
+                },
+                {
+                  "question_id": "u9_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Is your sports day in October?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nam nghĩ tới tờ lịch SCHOOL SPORTS DAY tháng 11 (NOVEMBER).",
+                  "correct_answer": "No, it isn't"
+                },
+                {
+                  "question_id": "u9_d_ex1_q3",
+                  "label": "3",
+                  "speaker_a": "When's your sports day?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nam nghĩ tới tờ lịch SCHOOL SPORTS DAY tháng 11 (NOVEMBER).",
+                  "correct_answer": "It's in November"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u9_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: Is your sports day in August?",
+                "B: (1) ___, it isn't.",
+                "A: (2) ___ your sports day?",
+                "B: It's in June.",
+                "A: (3) ___ do you do on sports day?",
+                "B: We (4) ___ football, basketball and volleyball."
+              ],
+              "questions": [
+                { "question_id": "u9_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "Yes" }, { "id": "b", "text": "No" }], "correct_answer": "b" },
+                { "question_id": "u9_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "Where's" }, { "id": "b", "text": "When's" }], "correct_answer": "b" },
+                { "question_id": "u9_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "What" }, { "id": "b", "text": "When" }], "correct_answer": "a" },
+                { "question_id": "u9_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "do" }, { "id": "b", "text": "play" }], "correct_answer": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u9_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc đoạn văn và nối tên các bạn với môn thể thao tương ứng.",
+              "game_mechanic": "matching",
+              "reading_passage": "My name is Tony. I study at Little Bear Primary School. This is a picture of our school sports day. It is in May. My friends and I play some sports and games. Katie and Tom roller skate. Ann and Bill play basketball. Andy and I play football. We love our sports day.",
+              "pairs": [
+                { "left_id": "1", "left_text": "Katie and Tom", "right_id": "c", "right_text": "Hình đôi giày trượt patin (roller skate)" },
+                { "left_id": "2", "left_text": "Andy and Tony", "right_id": "a", "right_text": "Hình quả bóng đá (football)" },
+                { "left_id": "3", "left_text": "Ann and Bill", "right_id": "b", "right_text": "Hình quả bóng rổ và rổ (basketball)" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u9_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u9_f_ex1_q1", "label": "1", "shuffled_parts": ["sports day", "When's", "their"], "punctuation": "?", "correct_answer": "When's their sports day?" },
+                { "question_id": "u9_f_ex1_q2", "label": "2", "shuffled_parts": ["Our", "is", "sports day", "in September"], "punctuation": ".", "correct_answer": "Our sports day is in September." },
+                { "question_id": "u9_f_ex1_q3", "label": "3", "shuffled_parts": ["basketball", "on sports day", "play", "They"], "punctuation": ".", "correct_answer": "They play basketball on sports day." },
+                { "question_id": "u9_f_ex1_q4", "label": "4", "shuffled_parts": ["your sports day", "Is", "in August"], "punctuation": "?", "correct_answer": "Is your sports day in August?" }
+              ]
+            },
+            {
+              "exercise_id": "u9_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Nhìn tranh gợi ý và hoàn thành đoạn văn về ngày hội thể thao.",
+              "game_mechanic": "guided_writing",
+              "template_text": "My name is Mai. This is a picture of our sports day. It is in {1}. Ben {2}. Linh {3}. Nam and Minh {4}. Lucy and I {5}.",
+              "sample_answer": "My name is Mai. This is a picture of our sports day. It is in November. Ben plays basketball. Linh roller skates. Nam and Minh play football. Lucy and I play badminton."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_10",
+      "unit_number": 10,
+      "unit_title": "Our summer holidays",
+      "pages": [44, 45, 46, 47],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u10_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["ere"],
+              "questions": [
+                { "question_id": "u10_a_ex1_q1", "label": "a", "prompt_text": "w___", "options": ["ere"], "correct_answer": "ere", "full_completed_text": "were" },
+                { "question_id": "u10_a_ex1_q2", "label": "b", "prompt_text": "wh___", "options": ["ere"], "correct_answer": "ere", "full_completed_text": "where" },
+                { "question_id": "u10_a_ex1_q3", "label": "c", "prompt_text": "th___", "options": ["ere"], "correct_answer": "ere", "full_completed_text": "there" }
+              ]
+            },
+            {
+              "exercise_id": "u10_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u10_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "Were you at the campsite yesterday?",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 20",
+                    "full_transcript": "Were you at the campsite yesterday?",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "Were you at the campsite yesterday?" }]
+                  }
+                },
+                {
+                  "question_id": "u10_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "Where were you last summer?",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 20",
+                    "full_transcript": "Where were you last summer?",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "Where were you last summer?" }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u10_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u10_a_ex3_q1", "label": "1", "prompt_text": "I was on ___ yesterday.", "image_description": "Bãi biển có cây dừa và ghế nằm.", "correct_answer": "the beach" },
+                { "question_id": "u10_a_ex3_q2", "label": "2", "prompt_text": "He was at ___ last Sunday.", "image_description": "Khu cắm trại có lều trại giữa rừng thông.", "correct_answer": "the campsite" },
+                { "question_id": "u10_a_ex3_q3", "label": "3", "prompt_text": "They were in ___ last summer.", "image_description": "Tháp đồng hồ Big Ben và cầu Tháp ở Luân Đôn (London).", "correct_answer": "London" },
+                { "question_id": "u10_a_ex3_q4", "label": "4", "prompt_text": "She was in ___ last weekend.", "image_description": "Cánh đồng quê yên bình có con sông nhỏ và ngôi nhà.", "correct_answer": "the countryside" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u10_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "in the countryside" },
+                { "id": "b", "text": "London last summer" },
+                { "id": "c", "text": "last weekend" },
+                { "id": "d", "text": "you yesterday" }
+              ],
+              "questions": [
+                { "question_id": "u10_b_ex1_q1", "label": "1", "prompt_text": "Where were ___?", "correct_answer": "you yesterday", "matched_option_id": "d" },
+                { "question_id": "u10_b_ex1_q2", "label": "2", "prompt_text": "I was ___ last Sunday.", "correct_answer": "in the countryside", "matched_option_id": "a" },
+                { "question_id": "u10_b_ex1_q3", "label": "3", "prompt_text": "Were you in ___?", "correct_answer": "London last summer", "matched_option_id": "b" },
+                { "question_id": "u10_b_ex1_q4", "label": "4", "prompt_text": "She was in the mountains ___.", "correct_answer": "last weekend", "matched_option_id": "c" }
+              ]
+            },
+            {
+              "exercise_id": "u10_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Are you on the beach now?", "right_id": "b", "right_text": "No, I'm not." },
+                { "left_id": "2", "left_text": "Where were you last summer?", "right_id": "d", "right_text": "I was in Sydney." },
+                { "left_id": "3", "left_text": "Were you on the beach?", "right_id": "a", "right_text": "Yes, I was. The beach was beautiful." },
+                { "left_id": "4", "left_text": "What was the food like?", "right_id": "c", "right_text": "It was very good." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u10_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự tranh từ 1 đến 4.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 21",
+                "full_transcript": "1. Were you at the campsite last weekend? Yes, I was. 2. Where were you yesterday? I was at the zoo. 3. Were you on the beach last Sunday? Yes, I was. 4. Where were you last summer? I was in Tokyo.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Were you at the campsite last weekend?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Yes, I was." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Where were you yesterday?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "I was at the zoo." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Were you on the beach last Sunday?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Yes, I was." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Where were you last summer?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "I was in Tokyo." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Tháp Tokyo và núi Phú Sĩ ở Nhật Bản (Tokyo).", "correct_order_number": 4 },
+                { "picture_id": "b", "image_description": "Cổng vườn thú có hươu cao cổ và voi (at the zoo).", "correct_order_number": 2 },
+                { "picture_id": "c", "image_description": "Trại hè có bảng SUMMER CAMP và lều trại (at the campsite).", "correct_order_number": 1 },
+                { "picture_id": "d", "image_description": "Bãi biển có sao biển và ghế tắm nắng (on the beach).", "correct_order_number": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u10_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u10_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Were you in Tokyo last summer?",
+                  "speaker_b_prompt": "No, ___. I was ___.",
+                  "image_description": "Cậu bé nghĩ về Nhà hát Opera Sydney (ở Sydney).",
+                  "correct_answer": "I wasn't / in Sydney"
+                },
+                {
+                  "question_id": "u10_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Where were you last weekend?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ về hình ảnh dựng lều ở khu cắm trại (at the campsite).",
+                  "correct_answer": "I was at the campsite"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u10_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["beach", "countryside", "London", "weekend", "Where"],
+              "dialogue_lines": [
+                "A: Where were you last (1) ___?",
+                "B: I was in the (2) ___. Were you in the countryside, too?",
+                "A: No, I wasn't. I was on the (3) ___. (4) ___ were you last summer?",
+                "B: I was in (5) ___ with my family."
+              ],
+              "questions": [
+                { "question_id": "u10_e_ex1_q1", "blank_number": 1, "correct_answer": "weekend" },
+                { "question_id": "u10_e_ex1_q2", "blank_number": 2, "correct_answer": "countryside" },
+                { "question_id": "u10_e_ex1_q3", "blank_number": 3, "correct_answer": "beach" },
+                { "question_id": "u10_e_ex1_q4", "blank_number": 4, "correct_answer": "Where" },
+                { "question_id": "u10_e_ex1_q5", "blank_number": 5, "correct_answer": "London" }
+              ]
+            },
+            {
+              "exercise_id": "u10_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and tick True or False.",
+              "instruction_vi": "Đọc đoạn văn và đánh dấu Đúng (True) hoặc Sai (False).",
+              "game_mechanic": "true_false",
+              "reading_passage": "I am John. Last weekend, my family was on holiday in Sa Pa. The town was busy. The houses were small. The people were friendly. And the food was good. My holiday was great. What about you? Where were you last weekend?",
+              "questions": [
+                { "question_id": "u10_e_ex2_q1", "label": "1", "prompt_text": "John was on holiday in Sa Pa last weekend.", "correct_answer": true },
+                { "question_id": "u10_e_ex2_q2", "label": "2", "prompt_text": "The town was busy.", "correct_answer": true },
+                { "question_id": "u10_e_ex2_q3", "label": "3", "prompt_text": "The houses were big.", "correct_answer": false, "explanation_vi": "Trong bài viết: 'The houses were small' (những ngôi nhà nhỏ), không phải big." },
+                { "question_id": "u10_e_ex2_q4", "label": "4", "prompt_text": "The people were friendly.", "correct_answer": true }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u10_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u10_f_ex1_q1", "label": "1", "shuffled_parts": ["yesterday", "on the beach", "Were", "you"], "punctuation": "?", "correct_answer": "Were you on the beach yesterday?" },
+                { "question_id": "u10_f_ex1_q2", "label": "2", "shuffled_parts": ["last Sunday", "at the campsite", "I was"], "punctuation": ".", "correct_answer": "I was at the campsite last Sunday." },
+                { "question_id": "u10_f_ex1_q3", "label": "3", "shuffled_parts": ["last weekend", "you", "were", "Where"], "punctuation": "?", "correct_answer": "Where were you last weekend?" },
+                { "question_id": "u10_f_ex1_q4", "label": "4", "shuffled_parts": ["in Bangkok", "last summer", "I was"], "punctuation": ".", "correct_answer": "I was in Bangkok last summer." }
+              ]
+            },
+            {
+              "exercise_id": "u10_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về kỳ nghỉ hè vừa qua của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "Last summer I was on holiday {1}. The {2} was/were {3}. The people {4}. The food {5}. My holiday was {6}.",
+              "sample_answer": "Last summer I was on holiday in Nha Trang. The beach was beautiful. The people were friendly. The food was delicious. My holiday was wonderful."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "self_check_02",
+      "unit_number": 0,
+      "unit_title": "Self-check 2",
+      "pages": [48, 49, 50, 51],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "sc2_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự các bức tranh từ 1 đến 5.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 22",
+                "full_transcript": "1. Where's your school? It's in the mountains. 2. What subjects do you have today? I have music. 3. Why do you like maths? Because I want to be a maths teacher. 4. When's your sports day? It's in October. 5. Where were you last summer? I was in London.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Where's your school?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "It's in the mountains." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "What subjects do you have today?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "I have music." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Why do you like maths?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Because I want to be a maths teacher." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "When's your sports day?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "It's in October." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Five." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Where were you last summer?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "I was in London." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Ngôi trường nằm trên vùng núi đồi (in the mountains).", "correct_order_number": 1 },
+                { "picture_id": "b", "image_description": "Lịch SCHOOL SPORTS DAY tháng 10 (OCTOBER).", "correct_order_number": 4 },
+                { "picture_id": "c", "image_description": "Quyển sách Âm nhạc 4 (music).", "correct_order_number": 2 },
+                { "picture_id": "d", "image_description": "Quyển sách Toán 4 (maths).", "correct_order_number": 3 },
+                { "picture_id": "e", "image_description": "Cầu Tháp và Tháp Big Ben ở London.", "correct_order_number": 5 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "READING AND WRITING",
+          "exercises": [
+            {
+              "exercise_id": "sc2_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Look and tick or cross.",
+              "instruction_vi": "Nhìn tranh và đánh dấu Tick (✓) nếu đúng hoặc Cross (✗) nếu sai.",
+              "game_mechanic": "true_false",
+              "questions": [
+                { "question_id": "sc2_b_ex1_q1", "label": "1", "prompt_text": "a school garden", "image_description": "Vườn trường có nhiều hoa.", "correct_answer": true },
+                { "question_id": "sc2_b_ex1_q2", "label": "2", "prompt_text": "science", "image_description": "Quyển sách Tiếng Việt 4.", "correct_answer": false, "explanation_vi": "Hình là sách Tiếng Việt (Vietnamese), không phải Khoa học (science) (✗)." },
+                { "question_id": "sc2_b_ex1_q3", "label": "3", "prompt_text": "on the beach", "image_description": "Khu cắm trại có lều trại giữa rừng.", "correct_answer": false, "explanation_vi": "Hình là khu cắm trại (at the campsite), không phải bãi biển (✗)." },
+                { "question_id": "sc2_b_ex1_q4", "label": "4", "prompt_text": "October", "image_description": "Tờ lịch SCHOOL SPORTS DAY ghi Tháng Mười.", "correct_answer": true },
+                { "question_id": "sc2_b_ex1_q5", "label": "5", "prompt_text": "a maths teacher", "image_description": "Cô giáo đang chỉ các phép tính cộng phân số trên bảng.", "correct_answer": true }
+              ]
+            },
+            {
+              "exercise_id": "sc2_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc2_b_ex2_q1", "label": "1", "prompt_text": "How many ___ are there at your school?", "image_description": "Sân chơi trường học có cầu trượt và bập bênh.", "correct_answer": "playgrounds" },
+                { "question_id": "sc2_b_ex2_q2", "label": "2", "prompt_text": "I have PE on ___.", "image_description": "Tờ lịch ghi TUESDAY 17.", "correct_answer": "Tuesdays" },
+                { "question_id": "sc2_b_ex2_q3", "label": "3", "prompt_text": "Why do you like ___?", "image_description": "Quyển sách Lịch sử và Địa lí 4.", "correct_answer": "history and geography" },
+                { "question_id": "sc2_b_ex2_q4", "label": "4", "prompt_text": "My sister was in the ___ last weekend.", "image_description": "Phong cảnh đồng quê có con sông và cánh đồng lúa.", "correct_answer": "countryside" },
+                { "question_id": "sc2_b_ex2_q5", "label": "5", "prompt_text": "Our sports day is in ___.", "image_description": "Tờ lịch ghi THÁNG MƯỜI MỘT.", "correct_answer": "November" }
+              ]
+            },
+            {
+              "exercise_id": "sc2_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc đoạn văn và khoanh tròn đáp án a, b hoặc c.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "We have a lot of fun at school. In our English lessons, we (1) ___ to English songs. We sing and chant. We (2) ___ board games to learn English. (3) ___ do projects together at the end of each unit. (4) ___ it was sunny. We (5) ___ in the school garden. There were many flowers and birds. We were happy.",
+              "questions": [
+                { "question_id": "sc2_b_ex3_q1", "label": "1", "options": [{ "id": "a", "text": "listen" }, { "id": "b", "text": "write" }, { "id": "c", "text": "speak" }], "correct_answer": "a" },
+                { "question_id": "sc2_b_ex3_q2", "label": "2", "options": [{ "id": "a", "text": "read" }, { "id": "b", "text": "play" }, { "id": "c", "text": "sing" }], "correct_answer": "b" },
+                { "question_id": "sc2_b_ex3_q3", "label": "3", "options": [{ "id": "a", "text": "They" }, { "id": "b", "text": "You" }, { "id": "c", "text": "We" }], "correct_answer": "c" },
+                { "question_id": "sc2_b_ex3_q4", "label": "4", "options": [{ "id": "a", "text": "Yesterday" }, { "id": "b", "text": "Now" }, { "id": "c", "text": "Weekend" }], "correct_answer": "a" },
+                { "question_id": "sc2_b_ex3_q5", "label": "5", "options": [{ "id": "a", "text": "are" }, { "id": "b", "text": "was" }, { "id": "c", "text": "were" }], "correct_answer": "c" }
+              ]
+            },
+            {
+              "exercise_id": "sc2_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "sc2_b_ex4_q1", "label": "1", "shuffled_parts": ["Our", "July", "sports day", "is", "in"], "punctuation": ".", "correct_answer": "Our sports day is in July." },
+                { "question_id": "sc2_b_ex4_q2", "label": "2", "shuffled_parts": ["have", "When", "science", "do you"], "punctuation": "?", "correct_answer": "When do you have science?" },
+                { "question_id": "sc2_b_ex4_q3", "label": "3", "shuffled_parts": ["last weekend", "Were", "you", "at", "the campsite"], "punctuation": "?", "correct_answer": "Were you at the campsite last weekend?" },
+                { "question_id": "sc2_b_ex4_q4", "label": "4", "shuffled_parts": ["are", "There", "at my school", "three", "music rooms"], "punctuation": ".", "correct_answer": "There are three music rooms at my school." },
+                { "question_id": "sc2_b_ex4_q5", "label": "5", "shuffled_parts": ["I like English", "I can", "because", "English songs", "sing"], "punctuation": ".", "correct_answer": "I like English because I can sing English songs." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "sc2_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời theo 5 tình huống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc2_c_ex1_q1", "label": "1", "speaker_a": "Where's your school?", "speaker_b_prompt": "___.", "image_description": "Ngôi trường ở thị trấn (in the town).", "correct_answer": "It's in the town" },
+                { "question_id": "sc2_c_ex1_q2", "label": "2", "speaker_a": "What subjects do you have today?", "speaker_b_prompt": "___.", "image_description": "Sách Tiếng Anh 4 và Mĩ thuật 4.", "correct_answer": "I have English and art" },
+                { "question_id": "sc2_c_ex1_q3", "label": "3", "speaker_a": "What's your favourite subject?", "speaker_b_prompt": "___.", "image_description": "Sách Tin học 4 (IT).", "correct_answer": "It's IT" },
+                { "question_id": "sc2_c_ex1_q4", "label": "4", "speaker_a": "Where were you last summer?", "speaker_b_prompt": "___.", "image_description": "Bãi biển có cây dừa (on the beach).", "correct_answer": "I was on the beach" },
+                { "question_id": "sc2_c_ex1_q5", "label": "5", "speaker_a": "When's your sports day?", "speaker_b_prompt": "___.", "image_description": "Tờ lịch ghi tháng DECEMBER.", "correct_answer": "It's in December" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

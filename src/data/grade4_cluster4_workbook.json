@@ -1,0 +1,1770 @@
+{
+  "book_title": "Tiếng Anh 4 - Sách bài tập (Global Success)",
+  "cluster_id": "cluster_4",
+  "cluster_name": "Units 16 - 20 & Self-check 4",
+  "units": [
+    {
+      "unit_id": "unit_16",
+      "unit_number": 16,
+      "unit_title": "Weather",
+      "pages": [76, 77, 78, 79],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "STRESS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u16_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Underline the stressed syllable and say.",
+              "instruction_vi": "Gạch chân âm tiết mang trọng âm và đọc to.",
+              "game_mechanic": "stress_select",
+              "questions": [
+                {
+                  "question_id": "u16_a_ex1_q1",
+                  "label": "a",
+                  "word": "sunny",
+                  "syllables": ["sun", "ny"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "sun",
+                  "phonetic_display": "'sunny",
+                  "explanation_vi": "Từ 'sunny' (nắng) có trọng âm rơi vào âm tiết thứ nhất: 'sun-ny."
+                },
+                {
+                  "question_id": "u16_a_ex1_q2",
+                  "label": "b",
+                  "word": "rainy",
+                  "syllables": ["rain", "y"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "rain",
+                  "phonetic_display": "'rainy",
+                  "explanation_vi": "Từ 'rainy' (mưa) có trọng âm rơi vào âm tiết thứ nhất: 'rain-y."
+                },
+                {
+                  "question_id": "u16_a_ex1_q3",
+                  "label": "c",
+                  "word": "windy",
+                  "syllables": ["wind", "y"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "wind",
+                  "phonetic_display": "'windy",
+                  "explanation_vi": "Từ 'windy' (có gió) có trọng âm rơi vào âm tiết thứ nhất: 'wind-y."
+                },
+                {
+                  "question_id": "u16_a_ex1_q4",
+                  "label": "d",
+                  "word": "cloudy",
+                  "syllables": ["cloud", "y"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "cloud",
+                  "phonetic_display": "'cloudy",
+                  "explanation_vi": "Từ 'cloudy' (nhiều mây) có trọng âm rơi vào âm tiết thứ nhất: 'cloud-y."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u16_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u16_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "I like ___ days.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 34",
+                    "full_transcript": "I like sunny days.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "I like sunny days." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "rainy" },
+                    { "id": "b", "text": "windy" },
+                    { "id": "c", "text": "sunny" }
+                  ],
+                  "correct_answer": "c"
+                },
+                {
+                  "question_id": "u16_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "It's ___ in Hue today.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 34",
+                    "full_transcript": "It's rainy in Hue today.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "It's rainy in Hue today." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "windy" },
+                    { "id": "b", "text": "rainy" },
+                    { "id": "c", "text": "cloudy" }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u16_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u16_a_ex3_q1", "label": "1", "prompt_text": "It was ___ in Da Nang yesterday.", "image_description": "Biểu tượng mặt trời tỏa nắng rực rỡ (sunny).", "correct_answer": "sunny" },
+                { "question_id": "u16_a_ex3_q2", "label": "2", "prompt_text": "It was ___ in Sa Pa yesterday.", "image_description": "Biểu tượng những đám mây dày đặc (cloudy).", "correct_answer": "cloudy" },
+                { "question_id": "u16_a_ex3_q3", "label": "3", "prompt_text": "We want to go to the ___.", "image_description": "Tiệm bánh ngọt có biển BAKERY.", "correct_answer": "bakery" },
+                { "question_id": "u16_a_ex3_q4", "label": "4", "prompt_text": "They want to go to the ___.", "image_description": "Công viên nước có các cầu trượt nước (water park).", "correct_answer": "water park" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u16_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "to go to the water park" },
+                { "id": "b", "text": "to the food stall" },
+                { "id": "c", "text": "Sa Pa today" },
+                { "id": "d", "text": "like last weekend" }
+              ],
+              "questions": [
+                { "question_id": "u16_b_ex1_q1", "label": "1", "prompt_text": "What was the weather ___?", "correct_answer": "like last weekend", "matched_option_id": "d" },
+                { "question_id": "u16_b_ex1_q2", "label": "2", "prompt_text": "It's sunny in ___.", "correct_answer": "Sa Pa today", "matched_option_id": "c" },
+                { "question_id": "u16_b_ex1_q3", "label": "3", "prompt_text": "Do you want ___?", "correct_answer": "to go to the water park", "matched_option_id": "a" },
+                { "question_id": "u16_b_ex1_q4", "label": "4", "prompt_text": "I want to go ___.", "correct_answer": "to the food stall", "matched_option_id": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u16_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What's the weather like today?", "right_id": "b", "right_text": "It's rainy." },
+                { "left_id": "2", "left_text": "Do you want to go to the bookshop?", "right_id": "c", "right_text": "Great! Let's go." },
+                { "left_id": "3", "left_text": "Do you like cloudy weather?", "right_id": "d", "right_text": "No, I don't. I like sunny weather." },
+                { "left_id": "4", "left_text": "What was the weather like yesterday?", "right_id": "a", "right_text": "It was windy." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u16_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and circle.",
+              "instruction_vi": "Nghe và khoanh tròn tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u16_c_ex1_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 35",
+                    "full_transcript": "1. A: What was the weather like yesterday? B: It was rainy.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What was the weather like yesterday?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It was rainy." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Biểu tượng mặt trời và đám mây (sunny / cloudy)." },
+                    { "id": "b", "image_description": "Biểu tượng đám mây đang mưa (rainy)." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u16_c_ex1_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 35",
+                    "full_transcript": "2. A: It's sunny today. Do you want to go to the supermarket? B: Great! Let's go.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Do you want to go to the supermarket?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "Great! Let's go." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Siêu thị (SUPERMARKET)." },
+                    { "id": "b", "image_description": "Hiệu sách (BOOKSHOP)." }
+                  ],
+                  "correct_answer": "a"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u16_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u16_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Hi, Linh. What was the weather like yesterday?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Linh nghĩ tới đám mây đang mưa (rainy).",
+                  "correct_answer": "It was rainy"
+                },
+                {
+                  "question_id": "u16_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Hi, Bill. What's the weather like today?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bill nghĩ tới ông mặt trời tỏa nắng (sunny).",
+                  "correct_answer": "It's sunny"
+                },
+                {
+                  "question_id": "u16_d_ex1_q3",
+                  "label": "3",
+                  "speaker_a_prompt": "Do you want to go to the ___ with me?",
+                  "speaker_b_prompt": "Great! ___.",
+                  "image_description": "Tiệm bánh mì (Bakery).",
+                  "correct_answer": "bakery / Let's go"
+                },
+                {
+                  "question_id": "u16_d_ex1_q4",
+                  "label": "4",
+                  "speaker_a_prompt": "Do you want to go to the ___ with me?",
+                  "speaker_b_prompt": "Sorry, ___.",
+                  "image_description": "Công viên nước (water park).",
+                  "correct_answer": "water park / I can't"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u16_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: What's the weather like today, Minh?",
+                "B: It's sunny and (1) ___.",
+                "A: Do you (2) ___ to go to the swimming pool with me?",
+                "B: (3) ___, I can't. I can't swim.",
+                "A: How about the (4) ___? Do you want to go there?",
+                "B: (5) ___! I want some bread. Let's go."
+              ],
+              "questions": [
+                { "question_id": "u16_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "noisy" }, { "id": "b", "text": "windy" }], "correct_answer": "b" },
+                { "question_id": "u16_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "can" }, { "id": "b", "text": "want" }], "correct_answer": "b" },
+                { "question_id": "u16_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "Sorry" }, { "id": "b", "text": "Not" }], "correct_answer": "a" },
+                { "question_id": "u16_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "bakery" }, { "id": "b", "text": "cinema" }], "correct_answer": "a", "explanation_vi": "Câu sau nói 'I want some bread' (muốn mua bánh mì) nên chọn 'bakery'." },
+                { "question_id": "u16_e_ex1_q5", "label": "5", "options": [{ "id": "a", "text": "No" }, { "id": "b", "text": "Great" }], "correct_answer": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u16_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc đoạn văn và nối thành viên gia đình với đồ ăn họ muốn mua.",
+              "game_mechanic": "matching",
+              "reading_passage": "It is Saturday today. It is sunny and windy. My family is at the shopping centre. My father wants some cake and bread. He goes to the bakery. My mother wants some grapes and beans. She goes to the supermarket. I want some chips. I go to the food stall.",
+              "pairs": [
+                { "left_id": "1", "left_text": "Hình người bố (father)", "right_id": "b", "right_text": "Hình bánh kem và bánh mì (cake and bread)" },
+                { "left_id": "2", "left_text": "Hình người mẹ (mother)", "right_id": "c", "right_text": "Hình chùm nho và đậu (grapes and beans)" },
+                { "left_id": "3", "left_text": "Hình cậu bé (I)", "right_id": "a", "right_text": "Hình khoai tây chiên (chips)" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u16_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u16_f_ex1_q1", "label": "1", "shuffled_parts": ["the weather", "What was", "like", "weekend", "last"], "punctuation": "?", "correct_answer": "What was the weather like last weekend?" },
+                { "question_id": "u16_f_ex1_q2", "label": "2", "shuffled_parts": ["in Nha Trang", "cloudy", "It was", "yesterday"], "punctuation": ".", "correct_answer": "It was cloudy in Nha Trang yesterday." },
+                { "question_id": "u16_f_ex1_q3", "label": "3", "shuffled_parts": ["to go", "want", "to the water park", "Do you"], "punctuation": "?", "correct_answer": "Do you want to go to the water park?" },
+                { "question_id": "u16_f_ex1_q4", "label": "4", "shuffled_parts": ["to the bookshop", "want", "I", "to go"], "punctuation": ".", "correct_answer": "I want to go to the bookshop." }
+              ]
+            },
+            {
+              "exercise_id": "u16_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Trả lời các câu hỏi gợi ý để viết đoạn văn ngắn.",
+              "game_mechanic": "guided_writing",
+              "guiding_questions": [
+                "What is your name?",
+                "What day is it today?",
+                "What is the weather like?",
+                "Where do you want to go?",
+                "What do you want to do?",
+                "What do you want to eat / drink?"
+              ],
+              "sample_answer": "My name is Linh. It is Sunday today. It is sunny and windy. I want to go to the shopping centre. I want to buy some books at the bookshop. Then I want to eat some chips and drink some orange juice at the food stall."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_17",
+      "unit_number": 17,
+      "unit_title": "In the city",
+      "pages": [80, 81, 82, 83],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "STRESS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u17_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Underline the stressed syllable and say.",
+              "instruction_vi": "Gạch chân âm tiết mang trọng âm và đọc to.",
+              "game_mechanic": "stress_select",
+              "questions": [
+                {
+                  "question_id": "u17_a_ex1_q1",
+                  "label": "a",
+                  "word": "bookshop",
+                  "syllables": ["book", "shop"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "book",
+                  "phonetic_display": "'bookshop",
+                  "explanation_vi": "Danh từ ghép 'bookshop' có trọng âm rơi vào âm tiết đầu: 'book-shop."
+                },
+                {
+                  "question_id": "u17_a_ex1_q2",
+                  "label": "b",
+                  "word": "village",
+                  "syllables": ["vil", "lage"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "vil",
+                  "phonetic_display": "'village",
+                  "explanation_vi": "Danh từ 2 âm tiết 'village' có trọng âm rơi vào âm tiết đầu: 'vil-lage."
+                },
+                {
+                  "question_id": "u17_a_ex1_q3",
+                  "label": "c",
+                  "word": "campsite",
+                  "syllables": ["camp", "site"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "camp",
+                  "phonetic_display": "'campsite",
+                  "explanation_vi": "Danh từ ghép 'campsite' có trọng âm rơi vào âm tiết đầu: 'camp-site."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u17_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u17_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "The ___ is in Green Road.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 36",
+                    "full_transcript": "The bookshop is in Green Road.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "The bookshop is in Green Road." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "bookshop" },
+                    { "id": "b", "text": "campsite" },
+                    { "id": "c", "text": "office" }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u17_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "Turn left to get to the ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 36",
+                    "full_transcript": "Turn left to get to the campsite.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "Turn left to get to the campsite." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "bookshop" },
+                    { "id": "b", "text": "campsite" },
+                    { "id": "c", "text": "office" }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u17_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u17_a_ex3_q1", "label": "1", "prompt_text": "The road sign says 'turn ___'.", "image_description": "Biển báo mũi tên rẽ phải (turn right).", "correct_answer": "right" },
+                { "question_id": "u17_a_ex3_q2", "label": "2", "prompt_text": "It says 'go ___'.", "image_description": "Biển báo mũi tên đi thẳng (go straight).", "correct_answer": "straight" },
+                { "question_id": "u17_a_ex3_q3", "label": "3", "prompt_text": "Turn ___ over there.", "image_description": "Biển báo mũi tên quay đầu lại (turn round).", "correct_answer": "round" },
+                { "question_id": "u17_a_ex3_q4", "label": "4", "prompt_text": "Turn ___. The bookshop is in Hoa Binh Street.", "image_description": "Biển báo mũi tên rẽ trái dẫn tới Bookshop.", "correct_answer": "left" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u17_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "and turn left" },
+                { "id": "b", "text": "get there" },
+                { "id": "c", "text": "'stop'" },
+                { "id": "d", "text": "say" }
+              ],
+              "questions": [
+                { "question_id": "u17_b_ex1_q1", "label": "1", "prompt_text": "How can we ___?", "correct_answer": "get there", "matched_option_id": "b" },
+                { "question_id": "u17_b_ex1_q2", "label": "2", "prompt_text": "What does it ___?", "correct_answer": "say", "matched_option_id": "d" },
+                { "question_id": "u17_b_ex1_q3", "label": "3", "prompt_text": "It says ___.", "correct_answer": "'stop'", "matched_option_id": "c" },
+                { "question_id": "u17_b_ex1_q4", "label": "4", "prompt_text": "Go straight ___.", "correct_answer": "and turn left", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u17_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What does this road sign say?", "right_id": "d", "right_text": "It says 'stop'." },
+                { "left_id": "2", "left_text": "Is the supermarket over there?", "right_id": "c", "right_text": "Yes, it is." },
+                { "left_id": "3", "left_text": "How can we get to the bakery?", "right_id": "b", "right_text": "Go straight and turn right." },
+                { "left_id": "4", "left_text": "Where's the water park?", "right_id": "a", "right_text": "It's in Thang Long Street." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u17_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and match.",
+              "instruction_vi": "Nghe và nối địa điểm với biển chỉ dẫn đúng.",
+              "game_mechanic": "matching",
+              "simulated_audio": {
+                "original_track_ref": "Track 37",
+                "full_transcript": "1. How can I get to the bakery? Turn right. 2. How can I get to the library? Go straight. 3. How can I get to the supermarket? Turn left. 4. How can I get to the water park? Turn round.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "How can I get to the bakery?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Turn right." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "How can I get to the library?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Go straight." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "How can I get to the supermarket?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Turn left." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "How can I get to the water park?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Turn round." }
+                ]
+              },
+              "pairs": [
+                { "left_id": "1", "left_text": "Bakery (Tiệm bánh)", "right_id": "c", "right_text": "Biển báo rẽ phải (turn right)" },
+                { "left_id": "2", "left_text": "Library (Thư viện)", "right_id": "a", "right_text": "Biển báo đi thẳng (go straight)" },
+                { "left_id": "3", "left_text": "Supermarket (Siêu thị)", "right_id": "d", "right_text": "Biển báo rẽ trái (turn left)" },
+                { "left_id": "4", "left_text": "Water park (Công viên nước)", "right_id": "b", "right_text": "Biển báo quay đầu (turn round)" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u17_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u17_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Look at this road sign. What does it say?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Biển báo mũi tên rẽ trái.",
+                  "correct_answer": "It says 'turn left'"
+                },
+                {
+                  "question_id": "u17_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Now, look at this map. We are here. How can we get to the bookshop?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bản đồ chỉ đường đi thẳng rồi rẽ phải để tới Bookshop.",
+                  "correct_answer": "Go straight and turn right"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u17_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["it", "red", "say", "stop", "turn"],
+              "dialogue_lines": [
+                "A: What colour is this road sign?",
+                "B: It's (1) ___.",
+                "A: What does it (2) ___?",
+                "B: It says '(3) ___'.",
+                "A: And this one. What does (4) ___ say?",
+                "B: It tells us to (5) ___ left."
+              ],
+              "questions": [
+                { "question_id": "u17_e_ex1_q1", "blank_number": 1, "correct_answer": "red" },
+                { "question_id": "u17_e_ex1_q2", "blank_number": 2, "correct_answer": "say" },
+                { "question_id": "u17_e_ex1_q3", "blank_number": 3, "correct_answer": "stop" },
+                { "question_id": "u17_e_ex1_q4", "blank_number": 4, "correct_answer": "it" },
+                { "question_id": "u17_e_ex1_q5", "blank_number": 5, "correct_answer": "turn" }
+              ]
+            },
+            {
+              "exercise_id": "u17_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and answer the questions.",
+              "instruction_vi": "Đọc đoạn văn và trả lời các câu hỏi.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Tom wants to go to the library. It is in Ly Thuong Kiet Street. How can he get there? He can go straight and turn left. The library is on the left.\nLinh wants to go to the water park. It is in Lac Long Quan Street. How can she get there? She can go straight and turn right. The water park is on the right.",
+              "questions": [
+                { "question_id": "u17_e_ex2_q1", "label": "1", "prompt_text": "Where is the library?", "correct_answer": ["It is in Ly Thuong Kiet Street.", "In Ly Thuong Kiet Street"] },
+                { "question_id": "u17_e_ex2_q2", "label": "2", "prompt_text": "How can Tom get to the library?", "correct_answer": ["He can go straight and turn left.", "Go straight and turn left"] },
+                { "question_id": "u17_e_ex2_q3", "label": "3", "prompt_text": "Where is the water park?", "correct_answer": ["It is in Lac Long Quan Street.", "In Lac Long Quan Street"] },
+                { "question_id": "u17_e_ex2_q4", "label": "4", "prompt_text": "How can Linh get to the water park?", "correct_answer": ["She can go straight and turn right.", "Go straight and turn right"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u17_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u17_f_ex1_q1", "label": "1", "shuffled_parts": ["does", "this sign", "say", "What"], "punctuation": "?", "correct_answer": "What does this sign say?" },
+                { "question_id": "u17_f_ex1_q2", "label": "2", "shuffled_parts": ["I", "get to", "How can", "the library"], "punctuation": "?", "correct_answer": "How can I get to the library?" },
+                { "question_id": "u17_f_ex1_q3", "label": "3", "shuffled_parts": ["to get to", "Minh", "turns left", "the supermarket"], "punctuation": ".", "correct_answer": "Minh turns left to get to the supermarket." },
+                { "question_id": "u17_f_ex1_q4", "label": "4", "shuffled_parts": ["tells me", "to", "It", "stop"], "punctuation": ".", "correct_answer": "It tells me to stop." }
+              ]
+            },
+            {
+              "exercise_id": "u17_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết chỉ dẫn đường đi đến một địa điểm.",
+              "game_mechanic": "guided_writing",
+              "template_text": "We are doing a project. We want to buy some {1}. There is {2} in {3} Street. How can we get there? We {4} and {5}. It is {6}.",
+              "sample_answer": "We are doing a project. We want to buy some books and pens. There is a big bookshop in Quang Trung Street. How can we get there? We go straight and turn left. It is on the right."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_18",
+      "unit_number": 18,
+      "unit_title": "At the shopping centre",
+      "pages": [84, 85, 86, 87],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "STRESS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u18_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Underline the stressed syllable and say.",
+              "instruction_vi": "Gạch chân âm tiết mang trọng âm và đọc to.",
+              "game_mechanic": "stress_select",
+              "questions": [
+                {
+                  "question_id": "u18_a_ex1_q1",
+                  "label": "a",
+                  "word": "between",
+                  "syllables": ["be", "tween"],
+                  "correct_stressed_syllable_index": 1,
+                  "correct_answer": "tween",
+                  "phonetic_display": "be'tween",
+                  "explanation_vi": "Giới từ 'between' (ở giữa) có trọng âm rơi vào âm tiết thứ hai: be-'tween."
+                },
+                {
+                  "question_id": "u18_a_ex1_q2",
+                  "label": "b",
+                  "word": "bookshop",
+                  "syllables": ["book", "shop"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "book",
+                  "phonetic_display": "'bookshop",
+                  "explanation_vi": "Danh từ 'bookshop' có trọng âm rơi vào âm tiết thứ nhất: 'book-shop."
+                },
+                {
+                  "question_id": "u18_a_ex1_q3",
+                  "label": "c",
+                  "word": "behind",
+                  "syllables": ["be", "hind"],
+                  "correct_stressed_syllable_index": 1,
+                  "correct_answer": "hind",
+                  "phonetic_display": "be'hind",
+                  "explanation_vi": "Giới từ 'behind' (ở phía sau) có trọng âm rơi vào âm tiết thứ hai: be-'hind."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u18_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u18_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "The bakery is be'tween the bookshop and the gift shop.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 38",
+                    "full_transcript": "The bakery is between the bookshop and the gift shop.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "The bakery is between the bookshop and the gift shop." }]
+                  }
+                },
+                {
+                  "question_id": "u18_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "The sports shop is be'hind the gift shop.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 38",
+                    "full_transcript": "The sports shop is behind the gift shop.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "The sports shop is behind the gift shop." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u18_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u18_a_ex3_q1", "label": "1", "prompt_text": "The ___ is near the bookshop.", "image_description": "Cửa hàng quà tặng (GIFT SHOP) nằm cạnh hiệu sách (BOOKSHOP).", "correct_answer": "gift shop" },
+                { "question_id": "u18_a_ex3_q2", "label": "2", "prompt_text": "The bakery is ___ the shoe shop and the sports shop.", "image_description": "Tiệm bánh (BAKERY) nằm ở giữa cửa hàng giày (SHOE SHOP) và cửa hàng thể thao (SPORTS SHOP).", "correct_answer": "between" },
+                { "question_id": "u18_a_ex3_q3", "label": "3", "prompt_text": "The hat is twenty ___ dong.", "image_description": "Chiếc mũ có nhãn giá 20.000đ.", "correct_answer": "thousand" },
+                { "question_id": "u18_a_ex3_q4", "label": "4", "prompt_text": "The ___ is forty thousand dong.", "image_description": "Chân váy (skirt) có nhãn giá 40.000đ.", "correct_answer": "skirt" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u18_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "bookshop" },
+                { "id": "b", "text": "thirty thousand dong" },
+                { "id": "c", "text": "the shoe shop" },
+                { "id": "d", "text": "T-shirt" }
+              ],
+              "questions": [
+                { "question_id": "u18_b_ex1_q1", "label": "1", "prompt_text": "Where is ___?", "correct_answer": "the shoe shop", "matched_option_id": "c" },
+                { "question_id": "u18_b_ex1_q2", "label": "2", "prompt_text": "The bakery is behind the ___.", "correct_answer": "bookshop", "matched_option_id": "a" },
+                { "question_id": "u18_b_ex1_q3", "label": "3", "prompt_text": "How much is the ___?", "correct_answer": "T-shirt", "matched_option_id": "d" },
+                { "question_id": "u18_b_ex1_q4", "label": "4", "prompt_text": "The T-shirt is ___.", "correct_answer": "thirty thousand dong", "matched_option_id": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u18_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Where's the bakery?", "right_id": "c", "right_text": "It's behind the shoe shop." },
+                { "left_id": "2", "left_text": "How much is the hat?", "right_id": "d", "right_text": "The hat is twenty thousand dong." },
+                { "left_id": "3", "left_text": "How much is that T-shirt?", "right_id": "a", "right_text": "That T-shirt is forty thousand dong." },
+                { "left_id": "4", "left_text": "How much is this pen?", "right_id": "b", "right_text": "This pen is ten thousand dong." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u18_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick or cross.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) hoặc Cross (✗).",
+              "game_mechanic": "true_false",
+              "questions": [
+                {
+                  "question_id": "u18_c_ex1_q1",
+                  "label": "1",
+                  "image_description": "Hiệu sách (BOOKSHOP) nằm ở giữa cửa hàng quà tặng (GIFT SHOP) và tiệm bánh (BAKERY).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 39",
+                    "full_transcript": "1. A: Where's the bookshop? B: It's between the gift shop and the bakery.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Where's the bookshop?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's between the gift shop and the bakery." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "u18_c_ex1_q2",
+                  "label": "2",
+                  "image_description": "Cửa hàng thể thao (SPORTS SHOP) và cửa hàng giày (SHOE SHOP) nằm đối diện nhau.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 39",
+                    "full_transcript": "2. A: Where's the sports shop? B: It's opposite the shoe shop.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Where's the sports shop?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's opposite the shoe shop." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "u18_c_ex1_q3",
+                  "label": "3",
+                  "image_description": "Chiếc mũ có nhãn giá 50.000đ.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 39",
+                    "full_transcript": "3. A: How much is the hat? B: It's thirty thousand dong.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "How much is the hat?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's thirty thousand dong." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói 30.000đ (thirty thousand dong) nhưng nhãn giá trên mũ là 50.000đ (✗)."
+                },
+                {
+                  "question_id": "u18_c_ex1_q4",
+                  "label": "4",
+                  "image_description": "Chiếc áo phông (T-shirt) có nhãn giá 40.000đ.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 39",
+                    "full_transcript": "4. A: How much is this T-shirt? B: It's forty thousand dong.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "How much is this T-shirt?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's forty thousand dong." }
+                    ]
+                  },
+                  "correct_answer": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u18_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u18_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Where's the gift shop?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Cửa hàng quà tặng (GIFT SHOP) nằm giữa hiệu sách (BOOKSHOP) và tiệm bánh (BAKERY).",
+                  "correct_answer": "It's between the bookshop and the bakery"
+                },
+                {
+                  "question_id": "u18_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "How much is the skirt?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Chân váy có nhãn giá 40.000đ.",
+                  "correct_answer": "It's forty thousand dong"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u18_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["and", "between", "bookshop", "pen", "thousand"],
+              "dialogue_lines": [
+                "Ben is at the shopping centre.",
+                "Ben: Where's the (1) ___, please?",
+                "Shop assistant: It's over there. It's (2) ___ the gift shop (3) ___ the bakery.",
+                "Now, Ben is at the bookshop.",
+                "Ben: How much is this (4) ___?",
+                "Shop assistant: It's ten (5) ___ dong."
+              ],
+              "questions": [
+                { "question_id": "u18_e_ex1_q1", "blank_number": 1, "correct_answer": "bookshop" },
+                { "question_id": "u18_e_ex1_q2", "blank_number": 2, "correct_answer": "between" },
+                { "question_id": "u18_e_ex1_q3", "blank_number": 3, "correct_answer": "and" },
+                { "question_id": "u18_e_ex1_q4", "blank_number": 4, "correct_answer": "pen" },
+                { "question_id": "u18_e_ex1_q5", "blank_number": 5, "correct_answer": "thousand" }
+              ]
+            },
+            {
+              "exercise_id": "u18_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc đoạn văn và nối hình ảnh cửa hàng / đồ vật với vị trí hoặc giá tiền đúng.",
+              "game_mechanic": "matching",
+              "reading_passage": "Lucy is at a shopping centre. She is going to the bookshop. It is near the gift shop. She wants to buy a pen, a book and a school bag. The pen is five thousand dong. The book is twenty thousand dong. The school bag is ninety thousand dong.",
+              "pairs": [
+                { "left_id": "1", "left_text": "Hình cửa hàng GIFT SHOP", "right_id": "c", "right_text": "Hình hiệu sách BOOKSHOP (ở gần nhau)" },
+                { "left_id": "2", "left_text": "Hình chiếc bút mực (pen)", "right_id": "a", "right_text": "5.000đ" },
+                { "left_id": "3", "left_text": "Hình quyển sách (book)", "right_id": "d", "right_text": "20.000đ" },
+                { "left_id": "4", "left_text": "Hình cặp sách (school bag)", "right_id": "b", "right_text": "90.000đ" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u18_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u18_f_ex1_q1", "label": "1", "shuffled_parts": ["is", "bookshop", "Where", "the"], "punctuation": "?", "correct_answer": "Where is the bookshop?" },
+                { "question_id": "u18_f_ex1_q2", "label": "2", "shuffled_parts": ["T-shirt", "How much", "this", "is"], "punctuation": "?", "correct_answer": "How much is this T-shirt?" },
+                { "question_id": "u18_f_ex1_q3", "label": "3", "shuffled_parts": ["near", "The bookshop", "the gift shop", "is"], "punctuation": ".", "correct_answer": "The bookshop is near the gift shop." },
+                { "question_id": "u18_f_ex1_q4", "label": "4", "shuffled_parts": ["thirty", "The book", "is", "thousand dong"], "punctuation": ".", "correct_answer": "The book is thirty thousand dong." }
+              ]
+            },
+            {
+              "exercise_id": "u18_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Nhìn tranh gợi ý và điền từ/giá tiền vào chỗ trống.",
+              "game_mechanic": "fill_in_blank",
+              "template_text": "Nam and I are at the shopping centre. Nam wants a (1) ___ and a (2) ___. The hat is (3) ___ and the T-shirt is (4) ___. I want a (5) ___. It is twenty thousand dong.",
+              "questions": [
+                { "question_id": "u18_f_ex2_q1", "blank_number": 1, "image_description": "Hình chiếc mũ lưỡi trai.", "correct_answer": "hat" },
+                { "question_id": "u18_f_ex2_q2", "blank_number": 2, "image_description": "Hình chiếc áo phông.", "correct_answer": "T-shirt" },
+                { "question_id": "u18_f_ex2_q3", "blank_number": 3, "image_description": "Nhãn giá 30.000đ.", "correct_answer": "thirty thousand dong" },
+                { "question_id": "u18_f_ex2_q4", "blank_number": 4, "image_description": "Nhãn giá 80.000đ.", "correct_answer": "eighty thousand dong" },
+                { "question_id": "u18_f_ex2_q5", "blank_number": 5, "image_description": "Hình quyển sách.", "correct_answer": "book" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_19",
+      "unit_number": 19,
+      "unit_title": "The animal world",
+      "pages": [88, 89, 90, 91],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "STRESS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u19_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Underline the stressed syllable and say.",
+              "instruction_vi": "Gạch chân âm tiết mang trọng âm và đọc to.",
+              "game_mechanic": "stress_select",
+              "questions": [
+                {
+                  "question_id": "u19_a_ex1_q1",
+                  "label": "a",
+                  "word": "quickly",
+                  "syllables": ["quick", "ly"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "quick",
+                  "phonetic_display": "'quickly",
+                  "explanation_vi": "Trạng từ 'quickly' (nhanh chóng) có trọng âm rơi vào âm tiết đầu: 'quick-ly."
+                },
+                {
+                  "question_id": "u19_a_ex1_q2",
+                  "label": "b",
+                  "word": "slowly",
+                  "syllables": ["slow", "ly"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "slow",
+                  "phonetic_display": "'slowly",
+                  "explanation_vi": "Trạng từ 'slowly' (chậm chạp) có trọng âm rơi vào âm tiết đầu: 'slow-ly."
+                },
+                {
+                  "question_id": "u19_a_ex1_q3",
+                  "label": "c",
+                  "word": "loudly",
+                  "syllables": ["loud", "ly"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "loud",
+                  "phonetic_display": "'loudly",
+                  "explanation_vi": "Trạng từ 'loudly' (to, ầm ĩ) có trọng âm rơi vào âm tiết đầu: 'loud-ly."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u19_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u19_a_ex2_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 40",
+                    "full_transcript": "These animals roar loudly.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "These animals roar loudly." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "These animals roar loudly." },
+                    { "id": "b", "text": "These giraffes run quickly." }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u19_a_ex2_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 40",
+                    "full_transcript": "Those lions run slowly.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "Those lions run slowly." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "Those lions run slowly." },
+                    { "id": "b", "text": "Those animals run quickly." }
+                  ],
+                  "correct_answer": "a"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u19_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u19_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "A: What are these ___? B: They're ___.",
+                  "image_description": "Hai con sư tử (lions) trong sở thú.",
+                  "correct_answer": "animals / lions"
+                },
+                {
+                  "question_id": "u19_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "A: Why do you like ___? B: Because they have long legs and run ___.",
+                  "image_description": "Hai con hươu cao cổ (giraffes) đang chạy nhanh.",
+                  "correct_answer": "giraffes / quickly"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u19_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "hippos" },
+                { "id": "b", "text": "like peacocks" },
+                { "id": "c", "text": "they dance beautifully" },
+                { "id": "d", "text": "What are" }
+              ],
+              "questions": [
+                { "question_id": "u19_b_ex1_q1", "label": "1a", "prompt_text": "A: ___ these animals?", "correct_answer": "What are", "matched_option_id": "d" },
+                { "question_id": "u19_b_ex1_q2", "label": "1b", "prompt_text": "B: They're ___.", "correct_answer": "hippos", "matched_option_id": "a" },
+                { "question_id": "u19_b_ex1_q3", "label": "2a", "prompt_text": "A: Why do you ___?", "correct_answer": "like peacocks", "matched_option_id": "b" },
+                { "question_id": "u19_b_ex1_q4", "label": "2b", "prompt_text": "B: Because ___.", "correct_answer": "they dance beautifully", "matched_option_id": "c" }
+              ]
+            },
+            {
+              "exercise_id": "u19_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What is this animal?", "right_id": "c", "right_text": "It's a peacock." },
+                { "left_id": "2", "left_text": "What are these animals?", "right_id": "d", "right_text": "They're crocodiles." },
+                { "left_id": "3", "left_text": "Do you like giraffes?", "right_id": "a", "right_text": "Yes, I do." },
+                { "left_id": "4", "left_text": "Why do you like birds?", "right_id": "b", "right_text": "Because they sing merrily." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u19_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick or cross.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) hoặc Cross (✗).",
+              "game_mechanic": "true_false",
+              "questions": [
+                {
+                  "question_id": "u19_c_ex1_q1",
+                  "label": "1",
+                  "image_description": "Đàn cá sấu (crocodiles).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 41",
+                    "full_transcript": "1. A: What are these animals? B: They're crocodiles.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What are these animals?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "They're crocodiles." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "u19_c_ex1_q2",
+                  "label": "2",
+                  "image_description": "Hai con chim công đang xòe đuôi múa (peacocks).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 41",
+                    "full_transcript": "2. A: Why do you like peacocks? B: Because they dance beautifully.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Why do you like peacocks?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "Because they dance beautifully." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "u19_c_ex1_q3",
+                  "label": "3",
+                  "image_description": "Hai con hà mã (hippos).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 41",
+                    "full_transcript": "3. A: What are these animals? B: They're giraffes.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What are these animals?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "They're giraffes." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói hươu cao cổ (giraffes) nhưng trong hình là hà mã (hippos) (✗)."
+                },
+                {
+                  "question_id": "u19_c_ex1_q4",
+                  "label": "4",
+                  "image_description": "Hai con sư tử đang gầm vang (lions).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 41",
+                    "full_transcript": "4. A: Why do you like lions? B: Because they roar loudly.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Why do you like lions?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "Because they roar loudly." }
+                    ]
+                  },
+                  "correct_answer": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u19_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u19_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What are these animals?",
+                  "speaker_b_prompt": "They're ___.",
+                  "image_description": "Hai bạn nhỏ đứng xem những con hà mã (hippos) trong sở thú.",
+                  "correct_answer": "hippos"
+                },
+                {
+                  "question_id": "u19_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Why do you like peacocks?",
+                  "speaker_b_prompt": "Because they ___.",
+                  "image_description": "Những con chim công đang xòe đuôi múa đẹp mắt (dance beautifully).",
+                  "correct_answer": "dance beautifully"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u19_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["animals", "Because", "peacocks", "quickly", "Why"],
+              "dialogue_lines": [
+                "A: What are these (1) ___?",
+                "B: They're giraffes. I like them.",
+                "A: (2) ___ do you like them?",
+                "B: Because they run (3) ___.",
+                "A: I like (4) ___. Do you like them?",
+                "B: Yes, I do.",
+                "A: Why do you like them?",
+                "B: (5) ___ they dance beautifully."
+              ],
+              "questions": [
+                { "question_id": "u19_e_ex1_q1", "blank_number": 1, "correct_answer": "animals" },
+                { "question_id": "u19_e_ex1_q2", "blank_number": 2, "correct_answer": "Why" },
+                { "question_id": "u19_e_ex1_q3", "blank_number": 3, "correct_answer": "quickly" },
+                { "question_id": "u19_e_ex1_q4", "blank_number": 4, "correct_answer": "peacocks" },
+                { "question_id": "u19_e_ex1_q5", "blank_number": 5, "correct_answer": "Because" }
+              ]
+            },
+            {
+              "exercise_id": "u19_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc đoạn văn và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "It is Sunday today. Lucy and her friends are at the zoo. They like the animals very much. Minh likes giraffes because they run quickly. Mai likes birds because they sing merrily. Lucy likes peacocks because they dance beautifully. What are your favourite animals? Why do you like them?",
+              "questions": [
+                {
+                  "question_id": "u19_e_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "Where are Lucy and her friends?",
+                  "options": [
+                    { "id": "a", "text": "They are in the park." },
+                    { "id": "b", "text": "They are at the zoo." },
+                    { "id": "c", "text": "They are at school." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u19_e_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "What animals does Minh like?",
+                  "options": [
+                    { "id": "a", "text": "He likes hippos." },
+                    { "id": "b", "text": "He likes crocodiles." },
+                    { "id": "c", "text": "He likes giraffes." }
+                  ],
+                  "correct_answer": "c"
+                },
+                {
+                  "question_id": "u19_e_ex2_q3",
+                  "label": "3",
+                  "prompt_text": "Why does Mai like birds?",
+                  "options": [
+                    { "id": "a", "text": "Because they dance beautifully." },
+                    { "id": "b", "text": "Because they sing merrily." },
+                    { "id": "c", "text": "Because they run quickly." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u19_e_ex2_q4",
+                  "label": "4",
+                  "prompt_text": "Why does Lucy like peacocks?",
+                  "options": [
+                    { "id": "a", "text": "Because they run quickly." },
+                    { "id": "b", "text": "Because they run slowly." },
+                    { "id": "c", "text": "Because they dance beautifully." }
+                  ],
+                  "correct_answer": "c"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u19_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u19_f_ex1_q1", "label": "1", "shuffled_parts": ["are", "these animals", "What"], "punctuation": "?", "correct_answer": "What are these animals?" },
+                { "question_id": "u19_f_ex1_q2", "label": "2", "shuffled_parts": ["crocodiles", "are", "They"], "punctuation": ".", "correct_answer": "They are crocodiles." },
+                { "question_id": "u19_f_ex1_q3", "label": "3", "shuffled_parts": ["like birds", "do", "Why", "you"], "punctuation": "?", "correct_answer": "Why do you like birds?" },
+                { "question_id": "u19_f_ex1_q4", "label": "4", "shuffled_parts": ["dance beautifully", "they", "because", "I like peacocks"], "punctuation": ".", "correct_answer": "I like peacocks because they dance beautifully." }
+              ]
+            },
+            {
+              "exercise_id": "u19_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về những loài động vật yêu thích của em ở sở thú.",
+              "game_mechanic": "guided_writing",
+              "template_text": "My name is {1}. Today is {2}. I am at the zoo with {3}. My favourite animals are {4}. I like them because they {5}. Tell me about your favourite animals. Why do you like them?",
+              "sample_answer": "My name is Nam. Today is Sunday. I am at the zoo with my friends. My favourite animals are giraffes. I like them because they have long necks and run quickly. Tell me about your favourite animals. Why do you like them?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_20",
+      "unit_number": 20,
+      "unit_title": "At summer camp",
+      "pages": [92, 93, 94, 95],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "STRESS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u20_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Underline the stressed syllable and say.",
+              "instruction_vi": "Gạch chân âm tiết mang trọng âm và đọc to.",
+              "game_mechanic": "stress_select",
+              "questions": [
+                {
+                  "question_id": "u20_a_ex1_q1",
+                  "label": "a",
+                  "word": "visit",
+                  "syllables": ["vis", "it"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "vis",
+                  "phonetic_display": "'visit",
+                  "explanation_vi": "Động từ 'visit' (thăm) có trọng âm rơi vào âm tiết đầu: 'vis-it."
+                },
+                {
+                  "question_id": "u20_a_ex1_q2",
+                  "label": "b",
+                  "word": "email",
+                  "syllables": ["e", "mail"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "e",
+                  "phonetic_display": "'email",
+                  "explanation_vi": "Từ 'email' có trọng âm rơi vào âm tiết đầu: 'e-mail."
+                },
+                {
+                  "question_id": "u20_a_ex1_q3",
+                  "label": "c",
+                  "word": "welcome",
+                  "syllables": ["wel", "come"],
+                  "correct_stressed_syllable_index": 0,
+                  "correct_answer": "wel",
+                  "phonetic_display": "'welcome",
+                  "explanation_vi": "Từ 'welcome' (chào đón) có trọng âm rơi vào âm tiết đầu: 'wel-come."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u20_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u20_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "I ___ my friends at the weekend.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 42",
+                    "full_transcript": "I visit my friends at the weekend.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "I visit my friends at the weekend." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "visit" },
+                    { "id": "b", "text": "email" },
+                    { "id": "c", "text": "welcome" }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u20_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "They ___ their friends on Sundays.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 42",
+                    "full_transcript": "They email their friends on Sundays.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "They email their friends on Sundays." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "welcome" },
+                    { "id": "b", "text": "email" },
+                    { "id": "c", "text": "visit" }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u20_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u20_a_ex3_q1", "label": "1", "prompt_text": "He's putting up ___.", "image_description": "Cậu bé đang dựng một chiếc lều trại (a tent).", "correct_answer": "a tent" },
+                { "question_id": "u20_a_ex3_q2", "label": "2", "prompt_text": "She's taking ___.", "image_description": "Bé gái đang cầm máy ảnh chụp ảnh (a photo / photos).", "correct_answer": "a photo" },
+                { "question_id": "u20_a_ex3_q3", "label": "3", "prompt_text": "They are playing ___.", "image_description": "Hai đội học sinh đang chơi kéo co (tug of war).", "correct_answer": "tug of war" },
+                { "question_id": "u20_a_ex3_q4", "label": "4", "prompt_text": "Nam is building ___.", "image_description": "Nam đang xếp củi đốt lửa trại (a campfire).", "correct_answer": "a campfire" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u20_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "the campfire" },
+                { "id": "b", "text": "they doing" },
+                { "id": "c", "text": "a story" },
+                { "id": "d", "text": "doing" }
+              ],
+              "questions": [
+                { "question_id": "u20_b_ex1_q1", "label": "1", "prompt_text": "What's she ___?", "correct_answer": "doing", "matched_option_id": "d" },
+                { "question_id": "u20_b_ex1_q2", "label": "2", "prompt_text": "She's telling ___.", "correct_answer": "a story", "matched_option_id": "c" },
+                { "question_id": "u20_b_ex1_q3", "label": "3", "prompt_text": "What are ___?", "correct_answer": "they doing", "matched_option_id": "b" },
+                { "question_id": "u20_b_ex1_q4", "label": "4", "prompt_text": "They're dancing around ___.", "correct_answer": "the campfire", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u20_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Where is Ben?", "right_id": "c", "right_text": "He's in the park." },
+                { "left_id": "2", "left_text": "What's he doing?", "right_id": "a", "right_text": "He's taking a photo." },
+                { "left_id": "3", "left_text": "Where are Mai and Linh?", "right_id": "d", "right_text": "They're at the campsite." },
+                { "left_id": "4", "left_text": "What are they doing?", "right_id": "b", "right_text": "They're playing card games." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u20_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự tranh từ 1 đến 4.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 43",
+                "full_transcript": "1. What are they doing? They're singing and dancing around the campfire. 2. What's she doing? She's telling a story. 3. What are the boys doing? They're putting up a tent. 4. What are they doing? They're playing tug of war.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "What are they doing?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "They're singing and dancing around the campfire." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "What's she doing?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "She's telling a story." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "What are the boys doing?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "They're putting up a tent." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "What are they doing?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "They're playing tug of war." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Hai bạn nam đang dựng lều (putting up a tent).", "correct_order_number": 3 },
+                { "picture_id": "b", "image_description": "Các bạn nhỏ nắm tay nhau múa hát quanh lửa trại (dancing around the campfire).", "correct_order_number": 1 },
+                { "picture_id": "c", "image_description": "Các bạn đang chơi kéo co (playing tug of war).", "correct_order_number": 4 },
+                { "picture_id": "d", "image_description": "Một bạn nữ cầm sách kể chuyện cho các bạn nghe dưới gốc cây (telling a story).", "correct_order_number": 2 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u20_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u20_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What's Mai doing, Mary?",
+                  "speaker_b_prompt": "She's ___.",
+                  "image_description": "Mai đang cầm sách kể chuyện cho các bạn nghe.",
+                  "correct_answer": "telling a story"
+                },
+                {
+                  "question_id": "u20_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "What are the boys doing?",
+                  "speaker_b_prompt": "They're ___.",
+                  "image_description": "Các bạn nam đang cùng nhau dựng lều trại.",
+                  "correct_answer": "putting up a tent"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u20_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: Where is Bill?",
+                "B: He's at the (1) ___.",
+                "A: What's he (2) ___?",
+                "B: He's (3) ___ a campfire.",
+                "A: (4) ___ are Mary and Lucy doing?",
+                "B: They're playing (5) ___."
+              ],
+              "questions": [
+                { "question_id": "u20_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "countryside" }, { "id": "b", "text": "campsite" }], "correct_answer": "b" },
+                { "question_id": "u20_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "doing" }, { "id": "b", "text": "do" }], "correct_answer": "a" },
+                { "question_id": "u20_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "having" }, { "id": "b", "text": "building" }], "correct_answer": "b" },
+                { "question_id": "u20_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "What" }, { "id": "b", "text": "Where" }], "correct_answer": "a" },
+                { "question_id": "u20_e_ex1_q5", "label": "5", "options": [{ "id": "a", "text": "photos" }, { "id": "b", "text": "card games" }], "correct_answer": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u20_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc đoạn văn và điền hoạt động của các bạn vào bảng.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Today is Sunday. The weather is beautiful. Mary and her friends are at the campsite. Ben and Lucy are taking photos. Mai is painting a picture. Bill is playing chess. Nam and some boys are playing card games. Mary and some girls are dancing and singing around the campfire. They are having a lot of fun.",
+              "table_headers": ["Names", "Activities at the campsite"],
+              "questions": [
+                { "question_id": "u20_e_ex2_q1", "blank_number": 1, "prompt_text": "Mai", "correct_answer": "painting a picture" },
+                { "question_id": "u20_e_ex2_q2", "blank_number": 2, "prompt_text": "Bill", "correct_answer": "playing chess" },
+                { "question_id": "u20_e_ex2_q3", "blank_number": 3, "prompt_text": "Nam and some boys", "correct_answer": "playing card games" },
+                { "question_id": "u20_e_ex2_q4", "blank_number": 4, "prompt_text": "Mary and some girls", "correct_answer": "dancing and singing around the campfire" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u20_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u20_f_ex1_q1", "label": "1", "shuffled_parts": ["he", "What's", "doing"], "punctuation": "?", "correct_answer": "What's he doing?" },
+                { "question_id": "u20_f_ex1_q2", "label": "2", "shuffled_parts": ["building", "He's", "a campfire"], "punctuation": ".", "correct_answer": "He's building a campfire." },
+                { "question_id": "u20_f_ex1_q3", "label": "3", "shuffled_parts": ["are they", "What", "doing"], "punctuation": "?", "correct_answer": "What are they doing?" },
+                { "question_id": "u20_f_ex1_q4", "label": "4", "shuffled_parts": ["putting up", "a tent", "They're"], "punctuation": ".", "correct_answer": "They're putting up a tent." }
+              ]
+            },
+            {
+              "exercise_id": "u20_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Nhìn tranh gợi ý và hoàn thành đoạn văn về buổi cắm trại.",
+              "game_mechanic": "fill_in_blank",
+              "template_text": "It is Sunday today. We are at the campsite now. Bill is (1) ___. Linh is (2) ___. Some girls are (3) ___. Some boys are (4) ___. I am (5) ___. We are very happy at the campsite.",
+              "questions": [
+                { "question_id": "u20_f_ex2_q1", "blank_number": 1, "image_description": "Bill đang xếp củi đốt lửa trại.", "correct_answer": "building a campfire" },
+                { "question_id": "u20_f_ex2_q2", "blank_number": 2, "image_description": "Linh đang vẽ tranh trên giá vẽ.", "correct_answer": "painting a picture" },
+                { "question_id": "u20_f_ex2_q3", "blank_number": 3, "image_description": "Một số bạn nữ đang múa hát quanh lửa trại.", "correct_answer": "dancing around the campfire" },
+                { "question_id": "u20_f_ex2_q4", "blank_number": 4, "image_description": "Một số bạn nam đang chơi kéo co.", "correct_answer": "playing tug of war" },
+                { "question_id": "u20_f_ex2_q5", "blank_number": 5, "image_description": "Nhân vật 'I' đang cầm máy ảnh chụp hình.", "correct_answer": "taking photos" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "self_check_04",
+      "unit_number": 0,
+      "unit_title": "Self-check 4",
+      "pages": [96, 97, 98, 99],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "sc4_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự các bức tranh từ 1 đến 5.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 44",
+                "full_transcript": "1. What's the weather like today? It's sunny. Do you want to go to the bakery? Great! Let's go. 2. How can we get to the bookshop? Go straight and turn right. 3. How much is the skirt? It's fifty thousand dong. 4. Why do you like peacocks? Because they dance beautifully. 5. What are they doing? They're dancing around the campfire.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Do you want to go to the bakery?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Great! Let's go." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "How can we get to the bookshop?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Go straight and turn right." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "How much is the skirt?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "It's fifty thousand dong." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Why do you like peacocks?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Because they dance beautifully." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Five." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "What are they doing?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "They're dancing around the campfire." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Tiệm bánh (BAKERY).", "correct_order_number": 1 },
+                { "picture_id": "b", "image_description": "Bản đồ chỉ đường đi thẳng rồi rẽ phải tới BOOKSHOP.", "correct_order_number": 2 },
+                { "picture_id": "c", "image_description": "Chân váy hồng gắn nhãn giá 50.000đ.", "correct_order_number": 3 },
+                { "picture_id": "d", "image_description": "Con chim công đang xòe đuôi múa.", "correct_order_number": 4 },
+                { "picture_id": "e", "image_description": "Các bạn nhỏ đang múa hát quanh đống lửa trại.", "correct_order_number": 5 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "READING AND WRITING",
+          "exercises": [
+            {
+              "exercise_id": "sc4_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Look and tick or cross.",
+              "instruction_vi": "Nhìn tranh và đánh dấu Tick (✓) nếu đúng hoặc Cross (✗) nếu sai.",
+              "game_mechanic": "true_false",
+              "questions": [
+                { "question_id": "sc4_b_ex1_q1", "label": "1", "prompt_text": "bookshop", "image_description": "Quầy bán đồ ăn có biển FOOD STALL.", "correct_answer": false, "explanation_vi": "Hình là quầy đồ ăn (food stall), không phải hiệu sách (bookshop) (✗)." },
+                { "question_id": "sc4_b_ex1_q2", "label": "2", "prompt_text": "go straight", "image_description": "Biển báo mũi tên đi thẳng.", "correct_answer": true },
+                { "question_id": "sc4_b_ex1_q3", "label": "3", "prompt_text": "T-shirt", "image_description": "Chiếc mũ rộng vành (hat).", "correct_answer": false, "explanation_vi": "Hình là chiếc mũ (hat), không phải áo phông (T-shirt) (✗)." },
+                { "question_id": "sc4_b_ex1_q4", "label": "4", "prompt_text": "giraffe", "image_description": "Con hươu cao cổ (giraffe).", "correct_answer": true },
+                { "question_id": "sc4_b_ex1_q5", "label": "5", "prompt_text": "campfire", "image_description": "Đống lửa trại đang cháy (campfire).", "correct_answer": true }
+              ]
+            },
+            {
+              "exercise_id": "sc4_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc4_b_ex2_q1", "label": "1", "prompt_text": "I want to go to the ___.", "image_description": "Siêu thị có biển Supermarket.", "correct_answer": "supermarket" },
+                { "question_id": "sc4_b_ex2_q2", "label": "2", "prompt_text": "How can I get to the ___?", "image_description": "Công viên nước có biển Water park.", "correct_answer": "water park" },
+                { "question_id": "sc4_b_ex2_q3", "label": "3", "prompt_text": "The gift shop is ___ the bakery.", "image_description": "GIFT SHOP và BAKERY nằm đối diện nhau qua lối đi.", "correct_answer": "opposite" },
+                { "question_id": "sc4_b_ex2_q4", "label": "4", "prompt_text": "Why do you like ___?", "image_description": "Đàn chim đang đậu trên cành cây (birds).", "correct_answer": "birds" },
+                { "question_id": "sc4_b_ex2_q5", "label": "5", "prompt_text": "He's taking ___.", "image_description": "Cậu bé đang cầm máy ảnh chụp hình (photos / a photo).", "correct_answer": "photos" }
+              ]
+            },
+            {
+              "exercise_id": "sc4_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc đoạn văn và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Tony is at the campsite with his friends. His friends are doing a lot of activities. The boys are playing tug of war. The girls are taking photos.\nTony wants to buy a pencil case for his sister. He is going to the gift shop. It is opposite the food stall. The pencil case is thirty thousand dong.",
+              "questions": [
+                {
+                  "question_id": "sc4_b_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "Where is Tony?",
+                  "options": [
+                    { "id": "a", "text": "At the campsite." },
+                    { "id": "b", "text": "At the food stall." },
+                    { "id": "c", "text": "At the zoo." }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "sc4_b_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "What are the boys doing?",
+                  "options": [
+                    { "id": "a", "text": "Playing card games." },
+                    { "id": "b", "text": "Playing tug of war." },
+                    { "id": "c", "text": "Taking photos." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "sc4_b_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "Why does Tony go to the gift shop?",
+                  "options": [
+                    { "id": "a", "text": "To buy a pencil." },
+                    { "id": "b", "text": "To buy a pencil case." },
+                    { "id": "c", "text": "To buy a pen." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "sc4_b_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "Where is the gift shop?",
+                  "options": [
+                    { "id": "a", "text": "Behind the food stall." },
+                    { "id": "b", "text": "Opposite the food stall." },
+                    { "id": "c", "text": "Between the food stall and the bookshop." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "sc4_b_ex3_q5",
+                  "label": "5",
+                  "prompt_text": "How much is the pencil case?",
+                  "options": [
+                    { "id": "a", "text": "50,000 dong." },
+                    { "id": "b", "text": "40,000 dong." },
+                    { "id": "c", "text": "30,000 dong." }
+                  ],
+                  "correct_answer": "c"
+                }
+              ]
+            },
+            {
+              "exercise_id": "sc4_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "sc4_b_ex4_q1", "label": "1", "shuffled_parts": ["Do you", "the swimming pool", "want to", "go to"], "punctuation": "?", "correct_answer": "Do you want to go to the swimming pool?" },
+                { "question_id": "sc4_b_ex4_q2", "label": "2", "shuffled_parts": ["fifty thousand dong", "is", "The", "T-shirt"], "punctuation": ".", "correct_answer": "The T-shirt is fifty thousand dong." },
+                { "question_id": "sc4_b_ex4_q3", "label": "3", "shuffled_parts": ["How", "the library", "get to", "can I"], "punctuation": "?", "correct_answer": "How can I get to the library?" },
+                { "question_id": "sc4_b_ex4_q4", "label": "4", "shuffled_parts": ["roar loudly", "they", "I like lions", "because"], "punctuation": ".", "correct_answer": "I like lions because they roar loudly." },
+                { "question_id": "sc4_b_ex4_q5", "label": "5", "shuffled_parts": ["the giraffe", "is", "doing", "What"], "punctuation": "?", "correct_answer": "What is the giraffe doing?" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "sc4_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời theo 5 tình huống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc4_c_ex1_q1", "label": "1", "speaker_a": "What was the weather like yesterday?", "speaker_b_prompt": "___.", "image_description": "Biểu tượng đám mây đang mưa (rainy).", "correct_answer": "It was rainy" },
+                { "question_id": "sc4_c_ex1_q2", "label": "2", "speaker_a": "How can I get to the supermarket?", "speaker_b_prompt": "___.", "image_description": "Biển báo mũi tên rẽ phải.", "correct_answer": "Turn right" },
+                { "question_id": "sc4_c_ex1_q3", "label": "3", "speaker_a": "How much is this pencil case?", "speaker_b_prompt": "___.", "image_description": "Hộp bút có gắn nhãn giá 20.000đ.", "correct_answer": "It's twenty thousand dong" },
+                { "question_id": "sc4_c_ex1_q4", "label": "4", "speaker_a": "What are they doing?", "speaker_b_prompt": "___.", "image_description": "Bốn bạn học sinh đang ngồi đánh bài (playing card games).", "correct_answer": "They're playing card games" },
+                { "question_id": "sc4_c_ex1_q5", "label": "5", "speaker_a": "What are these animals?", "speaker_b_prompt": "___.", "image_description": "Hai con hà mã (hippos).", "correct_answer": "They're hippos" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

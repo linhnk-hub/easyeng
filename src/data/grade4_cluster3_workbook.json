@@ -1,0 +1,1558 @@
+{
+  "book_title": "Tiếng Anh 4 - Sách bài tập (Global Success)",
+  "cluster_id": "cluster_3",
+  "cluster_name": "Units 11 - 15 & Self-check 3",
+  "units": [
+    {
+      "unit_id": "unit_11",
+      "unit_number": 11,
+      "unit_title": "My home",
+      "pages": [52, 53, 54, 55],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "note": "Phục dựng chuẩn chương trình cho trang 52 bị khuyết trong bản scan PDF.",
+          "exercises": [
+            {
+              "exercise_id": "u11_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["i", "ig", "ix"],
+              "questions": [
+                { "question_id": "u11_a_ex1_q1", "label": "a", "prompt_text": "b__", "options": ["i", "ig", "ix"], "correct_answer": "ig", "full_completed_text": "big", "explanation_vi": "big (to, lớn)." },
+                { "question_id": "u11_a_ex1_q2", "label": "b", "prompt_text": "l_ve", "options": ["i", "ig", "ix"], "correct_answer": "i", "full_completed_text": "live", "explanation_vi": "live (sống)." },
+                { "question_id": "u11_a_ex1_q3", "label": "c", "prompt_text": "s__", "options": ["i", "ig", "ix"], "correct_answer": "ix", "full_completed_text": "six", "explanation_vi": "six (số 6)." }
+              ]
+            },
+            {
+              "exercise_id": "u11_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u11_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "They live in a ___ city.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 23",
+                    "full_transcript": "They live in a big city.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "They live in a big city." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "big" },
+                    { "id": "b", "text": "busy" },
+                    { "id": "c", "text": "quiet" }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u11_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "We live in ___ Street.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 23",
+                    "full_transcript": "We live in Green Street.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "We live in Green Street." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "Hoa Binh" },
+                    { "id": "b", "text": "Green" },
+                    { "id": "c", "text": "Quang Trung" }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u11_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u11_a_ex3_q1", "label": "1", "prompt_text": "I live in Tran Hung Dao ___.", "image_description": "Biển tên đường TRAN HUNG DAO STREET.", "correct_answer": "Street" },
+                { "question_id": "u11_a_ex3_q2", "label": "2", "prompt_text": "It's a ___ road.", "image_description": "Con đường có nhiều xe cộ qua lại đông đúc (busy).", "correct_answer": "busy" },
+                { "question_id": "u11_a_ex3_q3", "label": "3", "prompt_text": "It's a ___ village.", "image_description": "Ngôi làng yên tĩnh (quiet) có cây xanh.", "correct_answer": "quiet" },
+                { "question_id": "u11_a_ex3_q4", "label": "4", "prompt_text": "It's a ___ street.", "image_description": "Con phố ồn ào (noisy) nhiều tiếng còi xe.", "correct_answer": "noisy" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u11_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "a busy road" },
+                { "id": "b", "text": "live" },
+                { "id": "c", "text": "9 Quang Trung Street" },
+                { "id": "d", "text": "the street like" }
+              ],
+              "questions": [
+                { "question_id": "u11_b_ex1_q1", "label": "1", "prompt_text": "Where do you ___?", "correct_answer": "live", "matched_option_id": "b" },
+                { "question_id": "u11_b_ex1_q2", "label": "2", "prompt_text": "What's ___?", "correct_answer": "the street like", "matched_option_id": "d" },
+                { "question_id": "u11_b_ex1_q3", "label": "3", "prompt_text": "I live at ___.", "correct_answer": "9 Quang Trung Street", "matched_option_id": "c" },
+                { "question_id": "u11_b_ex1_q4", "label": "4", "prompt_text": "It's ___.", "correct_answer": "a busy road", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u11_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Where do you live?", "right_id": "d", "right_text": "I live at 81 Tran Hung Dao Street." },
+                { "left_id": "2", "left_text": "What's the city like?", "right_id": "c", "right_text": "It's a big city." },
+                { "left_id": "3", "left_text": "Where does she live?", "right_id": "a", "right_text": "She lives in Green Street." },
+                { "left_id": "4", "left_text": "What's the street like?", "right_id": "b", "right_text": "It's a noisy street." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u11_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự tranh từ 1 đến 4.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 24",
+                "full_transcript": "1. Where do you live? I live in Le Lai Street. 2. Where do you live? I live at 20 Thang Long Road. 3. Where does she live? She lives in Green Street. 4. Where does he live? He lives at 10 Hill Road.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Where do you live?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "I live in Le Lai Street." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Where do you live?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "I live at 20 Thang Long Road." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Where does she live?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "She lives in Green Street." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Where does he live?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "He lives at 10 Hill Road." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Biển tên đường GREEN STREET và dãy phố.", "correct_order_number": 3 },
+                { "picture_id": "b", "image_description": "Biển THANG LONG ROAD và ngôi nhà số 20.", "correct_order_number": 2 },
+                { "picture_id": "c", "image_description": "Biển tên đường LE LAI STREET và ngôi nhà mặt phố.", "correct_order_number": 1 },
+                { "picture_id": "d", "image_description": "Biển HILL ROAD và ngôi nhà số 10.", "correct_order_number": 4 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u11_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u11_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Where do you live?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ tới ngôi nhà số 15 trên đường HOA BINH STREET.",
+                  "correct_answer": "I live at 15 Hoa Binh Street"
+                },
+                {
+                  "question_id": "u11_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "What's the street like?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nam nghĩ tới con phố có rất nhiều ô tô và xe máy đông đúc.",
+                  "correct_answer": "It's a busy street"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u11_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["like", "live", "quiet", "town", "village"],
+              "dialogue_lines": [
+                "A: Where do you live?",
+                "B: I live in a (1) ___.",
+                "A: What's the town (2) ___?",
+                "B: It's a busy town. Do you live in a town, too?",
+                "A: No, I don't. I (3) ___ in a village.",
+                "B: What's the (4) ___ like?",
+                "A: It's a (5) ___ village with beautiful gardens."
+              ],
+              "questions": [
+                { "question_id": "u11_e_ex1_q1", "blank_number": 1, "correct_answer": "town" },
+                { "question_id": "u11_e_ex1_q2", "blank_number": 2, "correct_answer": "like" },
+                { "question_id": "u11_e_ex1_q3", "blank_number": 3, "correct_answer": "live" },
+                { "question_id": "u11_e_ex1_q4", "blank_number": 4, "correct_answer": "village" },
+                { "question_id": "u11_e_ex1_q5", "blank_number": 5, "correct_answer": "quiet" }
+              ]
+            },
+            {
+              "exercise_id": "u11_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and tick True or False.",
+              "instruction_vi": "Đọc đoạn văn và đánh dấu Đúng (True) hoặc Sai (False).",
+              "game_mechanic": "true_false",
+              "reading_passage": "Emma and her family live in a small flat. It is in a very quiet and beautiful street. There are many trees in the street.\nAt the weekend, Emma and her brother visit their grandparents. They live in a big house in a busy town. There are many shops in the town. Emma likes the town.",
+              "questions": [
+                { "question_id": "u11_e_ex2_q1", "label": "1", "prompt_text": "Emma and her family live in a big house.", "correct_answer": false, "explanation_vi": "Trong bài: 'Emma and her family live in a small flat' (căn hộ nhỏ), không phải big house." },
+                { "question_id": "u11_e_ex2_q2", "label": "2", "prompt_text": "Her house is in a noisy street.", "correct_answer": false, "explanation_vi": "Trong bài: 'It is in a very quiet and beautiful street' (con phố yên tĩnh), không phải noisy." },
+                { "question_id": "u11_e_ex2_q3", "label": "3", "prompt_text": "Her grandparents live in a big house.", "correct_answer": true },
+                { "question_id": "u11_e_ex2_q4", "label": "4", "prompt_text": "The town is busy.", "correct_answer": true }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u11_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u11_f_ex1_q1", "label": "1", "shuffled_parts": ["like", "city", "What is", "the"], "punctuation": "?", "correct_answer": "What is the city like?" },
+                { "question_id": "u11_f_ex1_q2", "label": "2", "shuffled_parts": ["live", "you", "do", "Where"], "punctuation": "?", "correct_answer": "Where do you live?" },
+                { "question_id": "u11_f_ex1_q3", "label": "3", "shuffled_parts": ["Hai Ba Trung Street", "live", "I", "15", "at"], "punctuation": ".", "correct_answer": "I live at 15 Hai Ba Trung Street." },
+                { "question_id": "u11_f_ex1_q4", "label": "4", "shuffled_parts": ["live", "Tran Hung Dao Street", "My friends", "in"], "punctuation": ".", "correct_answer": "My friends live in Tran Hung Dao Street." }
+              ]
+            },
+            {
+              "exercise_id": "u11_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về nơi ở của người thân mà em đến thăm vào cuối tuần.",
+              "game_mechanic": "guided_writing",
+              "template_text": "At the weekend, I visit my {1}. They live in a {2}. It is in / at {3}. There is {4} near the house. We can {5} there. It is fun.",
+              "sample_answer": "At the weekend, I visit my grandparents. They live in a big house. It is in a quiet village. There is a big garden near the house. We can play badminton there. It is fun."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_12",
+      "unit_number": 12,
+      "unit_title": "Jobs",
+      "pages": [56, 57, 58, 59],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u12_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["ar", "ur"],
+              "questions": [
+                { "question_id": "u12_a_ex1_q1", "label": "a", "prompt_text": "f__mer", "options": ["ar", "ur"], "correct_answer": "ar", "full_completed_text": "farmer", "explanation_vi": "farmer (nông dân)." },
+                { "question_id": "u12_a_ex1_q2", "label": "b", "prompt_text": "n__se", "options": ["ar", "ur"], "correct_answer": "ur", "full_completed_text": "nurse", "explanation_vi": "nurse (y tá)." }
+              ]
+            },
+            {
+              "exercise_id": "u12_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u12_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "My father is a farmer.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 25",
+                    "full_transcript": "My father is a farmer.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "My father is a farmer." }]
+                  }
+                },
+                {
+                  "question_id": "u12_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "My mother is a nurse.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 25",
+                    "full_transcript": "My mother is a nurse.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "My mother is a nurse." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u12_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn từ đúng trong ngoặc.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u12_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "There are four ___ in my family.",
+                  "options": [{ "id": "a", "text": "friends" }, { "id": "b", "text": "pupils" }, { "id": "c", "text": "people" }],
+                  "correct_answer": "c",
+                  "explanation_vi": "four people in my family (4 người trong gia đình tôi)."
+                },
+                {
+                  "question_id": "u12_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "What does your brother ___?",
+                  "options": [{ "id": "a", "text": "do" }, { "id": "b", "text": "work" }, { "id": "c", "text": "go" }],
+                  "correct_answer": "a",
+                  "explanation_vi": "Cấu trúc hỏi nghề nghiệp: What does your brother do?"
+                },
+                {
+                  "question_id": "u12_a_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "My sister is an ___.",
+                  "options": [{ "id": "a", "text": "policeman" }, { "id": "b", "text": "nurse" }, { "id": "c", "text": "office worker" }],
+                  "correct_answer": "c",
+                  "explanation_vi": "Sau mạo từ 'an' là danh từ bắt đầu bằng nguyên âm: an office worker."
+                },
+                {
+                  "question_id": "u12_a_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "Where does your ___ work?",
+                  "options": [{ "id": "a", "text": "parents" }, { "id": "b", "text": "grandparents" }, { "id": "c", "text": "father" }],
+                  "correct_answer": "c",
+                  "explanation_vi": "Trợ động từ 'does' đi với chủ ngữ số ít: father."
+                },
+                {
+                  "question_id": "u12_a_ex3_q5",
+                  "label": "5",
+                  "prompt_text": "My mother works on a ___.",
+                  "options": [{ "id": "a", "text": "nursing home" }, { "id": "b", "text": "farm" }, { "id": "c", "text": "factory" }],
+                  "correct_answer": "b",
+                  "explanation_vi": "Giới từ 'on' đi với 'a farm' (works on a farm)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u12_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "do" },
+                { "id": "b", "text": "teachers" },
+                { "id": "c", "text": "your sister work" },
+                { "id": "d", "text": "an actor" }
+              ],
+              "questions": [
+                { "question_id": "u12_b_ex1_q1", "label": "1", "prompt_text": "Where does ___?", "correct_answer": "your sister work", "matched_option_id": "c" },
+                { "question_id": "u12_b_ex1_q2", "label": "2", "prompt_text": "What does your brother ___?", "correct_answer": "do", "matched_option_id": "a" },
+                { "question_id": "u12_b_ex1_q3", "label": "3", "prompt_text": "My grandfather is ___.", "correct_answer": "an actor", "matched_option_id": "d" },
+                { "question_id": "u12_b_ex1_q4", "label": "4", "prompt_text": "My parents are ___.", "correct_answer": "teachers", "matched_option_id": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u12_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "How many people are there in your family?", "right_id": "c", "right_text": "There are five." },
+                { "left_id": "2", "left_text": "What does her mother do?", "right_id": "d", "right_text": "She's a nurse." },
+                { "left_id": "3", "left_text": "Where does her mother work?", "right_id": "e", "right_text": "She works at a nursing home." },
+                { "left_id": "4", "left_text": "What does his father do?", "right_id": "a", "right_text": "He's a factory worker." },
+                { "left_id": "5", "left_text": "Where does his father work?", "right_id": "b", "right_text": "He works at a factory." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u12_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and match.",
+              "instruction_vi": "Nghe và nối người với nơi làm việc tương ứng.",
+              "game_mechanic": "matching",
+              "questions": [
+                {
+                  "question_id": "u12_c_ex1_q1",
+                  "label": "1",
+                  "character_image": "Người đàn ông mặc áo blouse trắng, đeo ống nghe (doctor/nurse).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 26",
+                    "full_transcript": "1. A: What does your father do? B: He's a doctor. A: Where does he work? B: He works at a hospital.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Where does your father work?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "He works at a hospital." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Nông trại có cối xay gió và hàng rào (a farm)." },
+                    { "id": "b", "image_description": "Bệnh viện có biểu tượng chữ thập (a hospital)." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u12_c_ex1_q2",
+                  "label": "2",
+                  "character_image": "Người phụ nữ mặc trang phục công sở cầm cặp tài liệu (office worker).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 26",
+                    "full_transcript": "2. A: What does your mother do? B: She's an office worker. A: Where does she work? B: She works in an office.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Where does your mother work?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "She works in an office." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Văn phòng làm việc có bàn máy tính (an office)." },
+                    { "id": "b", "image_description": "Trường học (a school)." }
+                  ],
+                  "correct_answer": "a"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u12_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u12_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What does your father do?",
+                  "speaker_b_prompt": "He's ___.",
+                  "image_description": "Người bố đội mũ lá đang cầm cuốc làm nông dân.",
+                  "correct_answer": "a farmer"
+                },
+                {
+                  "question_id": "u12_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Where does your father work?",
+                  "speaker_b_prompt": "He works ___.",
+                  "image_description": "Nông trại xanh mát (a farm).",
+                  "correct_answer": "on a farm"
+                },
+                {
+                  "question_id": "u12_d_ex1_q3",
+                  "label": "3",
+                  "speaker_a": "What does your mother do?",
+                  "speaker_b_prompt": "She's ___.",
+                  "image_description": "Người mẹ mặc đồng phục y tá.",
+                  "correct_answer": "a nurse"
+                },
+                {
+                  "question_id": "u12_d_ex1_q4",
+                  "label": "4",
+                  "speaker_a": "Where does your mother work?",
+                  "speaker_b_prompt": "She works ___.",
+                  "image_description": "Bệnh viện (a hospital).",
+                  "correct_answer": "at a hospital"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u12_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: Who's that?",
+                "B: It's my (1) ___.",
+                "A: What does she (2) ___?",
+                "B: She's a (3) ___.",
+                "A: Where does she (4) ___?",
+                "B: She works (5) ___ a hospital."
+              ],
+              "questions": [
+                { "question_id": "u12_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "sister" }, { "id": "b", "text": "brother" }], "correct_answer": "a", "explanation_vi": "Câu dưới dùng đại từ 'she' nên chọn 'sister'." },
+                { "question_id": "u12_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "work" }, { "id": "b", "text": "do" }], "correct_answer": "b" },
+                { "question_id": "u12_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "nurse" }, { "id": "b", "text": "office worker" }], "correct_answer": "a", "explanation_vi": "Sau mạo từ 'a' và làm việc ở bệnh viện nên chọn 'nurse'." },
+                { "question_id": "u12_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "work" }, { "id": "b", "text": "study" }], "correct_answer": "a" },
+                { "question_id": "u12_e_ex1_q5", "label": "5", "options": [{ "id": "a", "text": "on" }, { "id": "b", "text": "at" }], "correct_answer": "b", "explanation_vi": "works at a hospital." }
+              ]
+            },
+            {
+              "exercise_id": "u12_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and answer the questions.",
+              "instruction_vi": "Đọc đoạn văn và trả lời các câu hỏi.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "My name is Lam. There are four people in my family: my parents, my sister and me. My mother is a teacher. She works at a school. My father is a farmer. He works on a farm. My sister is a nurse. She works at a hospital. And I am a pupil at a primary school.",
+              "questions": [
+                { "question_id": "u12_e_ex2_q1", "label": "1", "prompt_text": "How many people are there in Lam's family?", "correct_answer": ["There are four people.", "There are four.", "Four"] },
+                { "question_id": "u12_e_ex2_q2", "label": "2", "prompt_text": "What does his mother do?", "correct_answer": ["She is a teacher.", "She's a teacher.", "A teacher"] },
+                { "question_id": "u12_e_ex2_q3", "label": "3", "prompt_text": "Where does his mother work?", "correct_answer": ["She works at a school.", "At a school"] },
+                { "question_id": "u12_e_ex2_q4", "label": "4", "prompt_text": "What does his father do?", "correct_answer": ["He is a farmer.", "He's a farmer.", "A farmer"] },
+                { "question_id": "u12_e_ex2_q5", "label": "5", "prompt_text": "Where does his sister work?", "correct_answer": ["She works at a hospital.", "At a hospital"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u12_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u12_f_ex1_q1", "label": "1", "shuffled_parts": ["policeman", "My grandfather", "is", "a"], "punctuation": ".", "correct_answer": "My grandfather is a policeman." },
+                { "question_id": "u12_f_ex1_q2", "label": "2", "shuffled_parts": ["does", "do", "your father", "What"], "punctuation": "?", "correct_answer": "What does your father do?" },
+                { "question_id": "u12_f_ex1_q3", "label": "3", "shuffled_parts": ["grandmother", "on a farm", "works", "My"], "punctuation": ".", "correct_answer": "My grandmother works on a farm." },
+                { "question_id": "u12_f_ex1_q4", "label": "4", "shuffled_parts": ["your mother", "Where", "work", "does"], "punctuation": "?", "correct_answer": "Where does your mother work?" }
+              ]
+            },
+            {
+              "exercise_id": "u12_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về nghề nghiệp và nơi làm việc của các thành viên trong gia đình em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "There are {1} people in my family. My mother is {2}. She works {3}. My father is {4}. He works {5}. I am a pupil at a primary school.",
+              "sample_answer": "There are four people in my family. My mother is a teacher. She works at a primary school. My father is an office worker. He works in an office. I am a pupil at a primary school."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_13",
+      "unit_number": 13,
+      "unit_title": "Appearance",
+      "pages": [60, 61, 62, 63],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u13_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["l", "r"],
+              "questions": [
+                { "question_id": "u13_a_ex1_q1", "label": "a", "prompt_text": "_ound", "options": ["l", "r"], "correct_answer": "r", "full_completed_text": "round", "explanation_vi": "round (tròn)." },
+                { "question_id": "u13_a_ex1_q2", "label": "b", "prompt_text": "_ong", "options": ["l", "r"], "correct_answer": "l", "full_completed_text": "long", "explanation_vi": "long (dài)." },
+                { "question_id": "u13_a_ex1_q3", "label": "c", "prompt_text": "_ed flowers", "options": ["l", "r"], "correct_answer": "r", "full_completed_text": "red flowers", "explanation_vi": "red flowers (những bông hoa màu đỏ)." }
+              ]
+            },
+            {
+              "exercise_id": "u13_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u13_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "My father has a round face.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 27",
+                    "full_transcript": "My father has a round face.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "My father has a round face." }]
+                  }
+                },
+                {
+                  "question_id": "u13_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "My mother has long hair.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 27",
+                    "full_transcript": "My mother has long hair.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "My mother has long hair." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u13_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u13_a_ex3_q1", "label": "1", "prompt_text": "My brother is ___.", "image_description": "Chàng trai trẻ có vóc dáng cao lớn (tall / big) đứng cạnh em trai.", "correct_answer": "tall" },
+                { "question_id": "u13_a_ex3_q2", "label": "2", "prompt_text": "My sister is ___ and tall.", "image_description": "Cô gái có vóc dáng mảnh mai (slim) và cao ráo.", "correct_answer": "slim" },
+                { "question_id": "u13_a_ex3_q3", "label": "3", "prompt_text": "My friend has ___ hair.", "image_description": "Bé gái có mái tóc ngắn ngang cằm (short hair).", "correct_answer": "short" },
+                { "question_id": "u13_a_ex3_q4", "label": "4", "prompt_text": "The baby has ___ eyes.", "image_description": "Em bé có đôi mắt to tròn (big / round eyes).", "correct_answer": "big" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u13_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "tall and slim" },
+                { "id": "b", "text": "long hair" },
+                { "id": "c", "text": "look like" },
+                { "id": "d", "text": "round face" }
+              ],
+              "questions": [
+                { "question_id": "u13_b_ex1_q1", "label": "1", "prompt_text": "What does your sister ___?", "correct_answer": "look like", "matched_option_id": "c" },
+                { "question_id": "u13_b_ex1_q2", "label": "2", "prompt_text": "She is ___.", "correct_answer": "tall and slim", "matched_option_id": "a" },
+                { "question_id": "u13_b_ex1_q3", "label": "3", "prompt_text": "My brother has a ___.", "correct_answer": "round face", "matched_option_id": "d" },
+                { "question_id": "u13_b_ex1_q4", "label": "4", "prompt_text": "My mother has ___.", "correct_answer": "long hair", "matched_option_id": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u13_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What does he look like?", "right_id": "c", "right_text": "He's tall and big." },
+                { "left_id": "2", "left_text": "What does she look like?", "right_id": "a", "right_text": "She has long hair." },
+                { "left_id": "3", "left_text": "What do they look like?", "right_id": "b", "right_text": "They're very tall." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u13_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick or cross.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) hoặc Cross (✗).",
+              "game_mechanic": "true_false",
+              "questions": [
+                {
+                  "question_id": "u13_c_ex1_q1",
+                  "label": "1",
+                  "image_description": "Cô gái có vóc dáng cao và mảnh mai (tall and slim).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 28",
+                    "full_transcript": "1. A: What does your sister look like? B: She's tall and slim.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What does your sister look like?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "She's tall and slim." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "u13_c_ex1_q2",
+                  "label": "2",
+                  "image_description": "Người đàn ông to khỏe đang tập tạ ở phòng gym.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 28",
+                    "full_transcript": "2. A: What does your brother look like? B: He's short and slim.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What does your brother look like?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "He's short and slim." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói 'short and slim' (thấp và gầy) nhưng hình là người đàn ông cao lớn, vạm vỡ (big) (✗)."
+                },
+                {
+                  "question_id": "u13_c_ex1_q3",
+                  "label": "3",
+                  "image_description": "Bé gái có mái tóc dài (long hair).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 28",
+                    "full_transcript": "3. A: What does she look like? B: She has short hair.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What does she look like?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "She has short hair." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói tóc ngắn (short hair) nhưng trong hình là tóc dài (long hair) (✗)."
+                },
+                {
+                  "question_id": "u13_c_ex1_q4",
+                  "label": "4",
+                  "image_description": "Cậu bé có khuôn mặt tròn bầu bĩnh và đôi mắt to.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 28",
+                    "full_transcript": "4. A: What does he look like? B: He has a round face and big eyes.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What does he look like?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "He has a round face and big eyes." }
+                    ]
+                  },
+                  "correct_answer": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u13_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u13_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What does your brother look like?",
+                  "speaker_b_prompt": "He's ___.",
+                  "image_description": "Bạn nữ nghĩ tới anh trai mặc đồ bóng rổ rất cao và mảnh khảnh (tall and slim).",
+                  "correct_answer": "tall and slim"
+                },
+                {
+                  "question_id": "u13_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "What does your sister look like?",
+                  "speaker_b_prompt": "She has ___ hair.",
+                  "image_description": "Bạn nam nghĩ tới chị gái có mái tóc dài (long hair).",
+                  "correct_answer": "long"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u13_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["has", "look", "round", "short", "tall"],
+              "dialogue_lines": [
+                "A: There's a new girl in my class.",
+                "B: What does she (1) ___ like?",
+                "A: She's very (2) ___. She's 160 cm.",
+                "B: Does she have long hair?",
+                "A: No, she doesn't. She has (3) ___ hair. She (4) ___ big and (5) ___ eyes."
+              ],
+              "questions": [
+                { "question_id": "u13_e_ex1_q1", "blank_number": 1, "correct_answer": "look" },
+                { "question_id": "u13_e_ex1_q2", "blank_number": 2, "correct_answer": "tall" },
+                { "question_id": "u13_e_ex1_q3", "blank_number": 3, "correct_answer": "short" },
+                { "question_id": "u13_e_ex1_q4", "blank_number": 4, "correct_answer": "has" },
+                { "question_id": "u13_e_ex1_q5", "blank_number": 5, "correct_answer": "round" }
+              ]
+            },
+            {
+              "exercise_id": "u13_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc đoạn văn và nối tên các bạn với đặc điểm ngoại hình đúng.",
+              "game_mechanic": "matching",
+              "reading_passage": "I have some new friends: Jim, Daisy, Peter and Minh. Jim is very tall. He has short hair. Daisy is slim. She has a round face. Peter is short. He has big and blue eyes. Minh is tall. He has long hair.",
+              "pairs": [
+                { "left_id": "1", "left_text": "Jim", "right_id": "d", "right_text": "very tall" },
+                { "left_id": "2", "left_text": "Daisy", "right_id": "c", "right_text": "a round face" },
+                { "left_id": "3", "left_text": "Peter", "right_id": "b", "right_text": "short" },
+                { "left_id": "4", "left_text": "Minh", "right_id": "a", "right_text": "long hair" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u13_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u13_f_ex1_q1", "label": "1", "shuffled_parts": ["does", "What", "look like", "he"], "punctuation": "?", "correct_answer": "What does he look like?" },
+                { "question_id": "u13_f_ex1_q2", "label": "2", "shuffled_parts": ["is", "tall", "My teacher", "very"], "punctuation": ".", "correct_answer": "My teacher is very tall." },
+                { "question_id": "u13_f_ex1_q3", "label": "3", "shuffled_parts": ["a", "round face", "has", "My sister"], "punctuation": ".", "correct_answer": "My sister has a round face." },
+                { "question_id": "u13_f_ex1_q4", "label": "4", "shuffled_parts": ["My", "short hair", "has", "brother"], "punctuation": ".", "correct_answer": "My brother has short hair." }
+              ]
+            },
+            {
+              "exercise_id": "u13_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về ngoại hình của các thành viên trong gia đình em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "There are {1} people in my family. They are {2} and me. My father is {3}. He has {4}. My mother is {5}. She has {6}. My brother / sister {7}. I love my family very much.",
+              "sample_answer": "There are four people in my family. They are my parents, my sister and me. My father is tall and big. He has short hair. My mother is tall and slim. She has long hair. My sister is short and has a round face. I love my family very much."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_14",
+      "unit_number": 14,
+      "unit_title": "Daily activities",
+      "pages": [64, 65, 66, 67],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u14_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["tch", "sh"],
+              "questions": [
+                { "question_id": "u14_a_ex1_q1", "label": "a", "prompt_text": "I wa__ my clothes in the morning.", "options": ["tch", "sh"], "correct_answer": "sh", "full_completed_text": "I wash my clothes in the morning." },
+                { "question_id": "u14_a_ex1_q2", "label": "b", "prompt_text": "I wa___ TV in the evening.", "options": ["tch", "sh"], "correct_answer": "tch", "full_completed_text": "I watch TV in the evening." },
+                { "question_id": "u14_a_ex1_q3", "label": "c", "prompt_text": "I wa__ the dishes in the afternoon.", "options": ["tch", "sh"], "correct_answer": "sh", "full_completed_text": "I wash the dishes in the afternoon." }
+              ]
+            },
+            {
+              "exercise_id": "u14_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u14_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "When do you wash your clothes?",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 29",
+                    "full_transcript": "When do you wash your clothes?",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "When do you wash your clothes?" }]
+                  }
+                },
+                {
+                  "question_id": "u14_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "I watch TV in the evening.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 29",
+                    "full_transcript": "I watch TV in the evening.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "I watch TV in the evening." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u14_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u14_a_ex3_q1", "label": "1", "prompt_text": "When do you ___?", "image_description": "Cậu bé ngồi xem tivi trên sofa.", "correct_answer": "watch TV" },
+                { "question_id": "u14_a_ex3_q2", "label": "2", "prompt_text": "I ___ in the evening.", "image_description": "Cậu bé đang ngồi đọc sách trên giường.", "correct_answer": "read books" },
+                { "question_id": "u14_a_ex3_q3", "label": "3", "prompt_text": "What do you do in the ___?", "image_description": "Hai chị em đang lau nhà, đồng hồ chỉ 3:00 PM (buổi chiều).", "correct_answer": "afternoon" },
+                { "question_id": "u14_a_ex3_q4", "label": "4", "prompt_text": "I ___ after dinner.", "image_description": "Cậu bé đang rửa bát đĩa ở bồn rửa.", "correct_answer": "wash the dishes" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u14_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "noon" },
+                { "id": "b", "text": "in the afternoon" },
+                { "id": "c", "text": "the cooking" },
+                { "id": "d", "text": "wash your clothes" }
+              ],
+              "questions": [
+                { "question_id": "u14_b_ex1_q1", "label": "1", "prompt_text": "When do you ___?", "correct_answer": "wash your clothes", "matched_option_id": "d" },
+                { "question_id": "u14_b_ex1_q2", "label": "2", "prompt_text": "I help with ___.", "correct_answer": "the cooking", "matched_option_id": "c" },
+                { "question_id": "u14_b_ex1_q3", "label": "3", "prompt_text": "What do you do at ___?", "correct_answer": "noon", "matched_option_id": "a" },
+                { "question_id": "u14_b_ex1_q4", "label": "4", "prompt_text": "I clean the floor ___.", "correct_answer": "in the afternoon", "matched_option_id": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u14_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What do you do on Sundays?", "right_id": "d", "right_text": "I do the housework with my family." },
+                { "left_id": "2", "left_text": "What do you do after lunch?", "right_id": "c", "right_text": "I clean the floor after lunch." },
+                { "left_id": "3", "left_text": "When do you wash your clothes?", "right_id": "a", "right_text": "I wash them in the afternoon." },
+                { "left_id": "4", "left_text": "When do you read books?", "right_id": "b", "right_text": "I read them in the evening." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u14_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and circle.",
+              "instruction_vi": "Nghe và khoanh tròn tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u14_c_ex1_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 30",
+                    "full_transcript": "1. A: What do you do in the morning? B: I wash the dishes.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What do you do in the morning?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "I wash the dishes." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Cậu bé đang cho quần áo vào máy giặt (wash the clothes)." },
+                    { "id": "b", "image_description": "Cậu bé đang rửa bát đĩa (wash the dishes)." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u14_c_ex1_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 30",
+                    "full_transcript": "2. A: What do you do in the afternoon? B: I clean the floor.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What do you do in the afternoon?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I clean the floor." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Bé gái đang cầm cây lau nhà lau sàn (clean the floor)." },
+                    { "id": "b", "image_description": "Bé gái đang nằm trên giường đọc sách (read books)." }
+                  ],
+                  "correct_answer": "a"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u14_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u14_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What do you do in the morning?",
+                  "speaker_b_prompt": "I help ___.",
+                  "image_description": "Bạn nữ nghĩ tới cảnh phụ mẹ nấu ăn trong bếp.",
+                  "correct_answer": "with the cooking"
+                },
+                {
+                  "question_id": "u14_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "When do you read books?",
+                  "speaker_b_prompt": "I read ___.",
+                  "image_description": "Bạn nam nghĩ tới cảnh ngồi đọc sách dưới ánh đèn bàn vào buổi tối (8:00 PM).",
+                  "correct_answer": "books in the evening"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u14_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["cooking", "do", "watch", "When"],
+              "dialogue_lines": [
+                "A: What's your hobby?",
+                "B: I like reading books.",
+                "A: (1) ___ do you read books?",
+                "B: On Sundays.",
+                "A: What do you (2) ___ on Sunday afternoons?",
+                "B: I help with the (3) ___.",
+                "A: And in the evenings?",
+                "B: I (4) ___ TV."
+              ],
+              "questions": [
+                { "question_id": "u14_e_ex1_q1", "blank_number": 1, "correct_answer": "When" },
+                { "question_id": "u14_e_ex1_q2", "blank_number": 2, "correct_answer": "do" },
+                { "question_id": "u14_e_ex1_q3", "blank_number": 3, "correct_answer": "cooking" },
+                { "question_id": "u14_e_ex1_q4", "blank_number": 4, "correct_answer": "watch" }
+              ]
+            },
+            {
+              "exercise_id": "u14_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc đoạn văn và nối hoạt động của Mary với thời gian đúng.",
+              "game_mechanic": "matching",
+              "reading_passage": "My name is Mary. I get up at six o'clock. I go to school at seven thirty in the morning. I help my mum with the cooking at eleven thirty. Then I have lunch with my family. I watch TV at eight fifteen in the evening. What about you? Tell me about your daily activities.",
+              "pairs": [
+                { "left_id": "1", "left_text": "get up", "right_id": "d", "right_text": "6:00 a.m." },
+                { "left_id": "2", "left_text": "go to school", "right_id": "c", "right_text": "7:30 a.m." },
+                { "left_id": "3", "left_text": "help with the cooking", "right_id": "a", "right_text": "11:30 a.m." },
+                { "left_id": "4", "left_text": "watch TV", "right_id": "b", "right_text": "8:15 p.m." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u14_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u14_f_ex1_q1", "label": "1", "shuffled_parts": ["do you", "wash", "When", "the clothes"], "punctuation": "?", "correct_answer": "When do you wash the clothes?" },
+                { "question_id": "u14_f_ex1_q2", "label": "2", "shuffled_parts": ["clean", "at noon", "the floor", "I"], "punctuation": ".", "correct_answer": "I clean the floor at noon." },
+                { "question_id": "u14_f_ex1_q3", "label": "3", "shuffled_parts": ["books", "in the afternoon", "read", "I"], "punctuation": ".", "correct_answer": "I read books in the afternoon." },
+                { "question_id": "u14_f_ex1_q4", "label": "4", "shuffled_parts": ["do you", "in the evening", "do", "What"], "punctuation": "?", "correct_answer": "What do you do in the evening?" }
+              ]
+            },
+            {
+              "exercise_id": "u14_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về các hoạt động hằng ngày của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "My name is {1}. These are my daily activities. I {2} in the morning. I {3} at noon. I {4} in the afternoon. And I {5} in the evening.",
+              "sample_answer": "My name is Mai. These are my daily activities. I go to school in the morning. I help with the cooking at noon. I clean the floor in the afternoon. And I watch TV in the evening."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_15",
+      "unit_number": 15,
+      "unit_title": "My family's weekends",
+      "pages": [68, 69, 70, 71],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u15_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["g", "s"],
+              "questions": [
+                { "question_id": "u15_a_ex1_q1", "label": "a", "prompt_text": "_oes", "options": ["g", "s"], "correct_answer": "g", "full_completed_text": "goes" },
+                { "question_id": "u15_a_ex1_q2", "label": "b", "prompt_text": "televi_ion", "options": ["g", "s"], "correct_answer": "s", "full_completed_text": "television" },
+                { "question_id": "u15_a_ex1_q3", "label": "c", "prompt_text": "u_ually", "options": ["g", "s"], "correct_answer": "s", "full_completed_text": "usually" }
+              ]
+            },
+            {
+              "exercise_id": "u15_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u15_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "We watch television on Saturdays.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 31",
+                    "full_transcript": "We watch television on Saturdays.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "We watch television on Saturdays." }]
+                  }
+                },
+                {
+                  "question_id": "u15_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "He goes to the swimming pool on Sundays.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 31",
+                    "full_transcript": "He goes to the swimming pool on Sundays.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "He goes to the swimming pool on Sundays." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u15_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u15_a_ex3_q1", "label": "1", "prompt_text": "My mother goes to the ___ on Sundays.", "image_description": "Người mẹ đang tập thể hình ở phòng tập (gym).", "correct_answer": "gym" },
+                { "question_id": "u15_a_ex3_q2", "label": "2", "prompt_text": "She ___ with her friend on Sundays.", "image_description": "Hai cô gái đang đánh quần vợt (plays tennis).", "correct_answer": "plays tennis" },
+                { "question_id": "u15_a_ex3_q3", "label": "3", "prompt_text": "My brother stays ___ on Saturdays.", "image_description": "Cậu bé ngồi ở nhà trên ghế sofa.", "correct_answer": "at home" },
+                { "question_id": "u15_a_ex3_q4", "label": "4", "prompt_text": "He watches ___ on Saturdays.", "image_description": "Cậu bé đang xem tivi (television / TV).", "correct_answer": "television" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u15_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "the shopping centre" },
+                { "id": "b", "text": "at the sports centre" },
+                { "id": "c", "text": "go on Saturdays" },
+                { "id": "d", "text": "Sundays" }
+              ],
+              "questions": [
+                { "question_id": "u15_b_ex1_q1", "label": "1", "prompt_text": "Where does your mother ___?", "correct_answer": "go on Saturdays", "matched_option_id": "c" },
+                { "question_id": "u15_b_ex1_q2", "label": "2", "prompt_text": "She goes to ___.", "correct_answer": "the shopping centre", "matched_option_id": "a" },
+                { "question_id": "u15_b_ex1_q3", "label": "3", "prompt_text": "What does your father do on ___?", "correct_answer": "Sundays", "matched_option_id": "d" },
+                { "question_id": "u15_b_ex1_q4", "label": "4", "prompt_text": "He plays table tennis ___.", "correct_answer": "at the sports centre", "matched_option_id": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u15_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Where does your brother go on Sundays?", "right_id": "b", "right_text": "He goes to the cinema." },
+                { "left_id": "2", "left_text": "What does he do on Saturdays?", "right_id": "d", "right_text": "He reads books." },
+                { "left_id": "3", "left_text": "Where does your sister go on Saturdays?", "right_id": "a", "right_text": "She goes to the zoo." },
+                { "left_id": "4", "left_text": "What does she do on Sundays?", "right_id": "c", "right_text": "She helps her mum with the cooking." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u15_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự tranh từ 1 đến 4.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 32",
+                "full_transcript": "1. Where does your brother go on Saturdays? He goes to the swimming pool. 2. What does your mother do on Sundays? She does yoga. 3. Where does your father go on Sundays? He goes to the sports centre. 4. What does your family do at the weekend? We cook meals together.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Where does your brother go on Saturdays?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "He goes to the swimming pool." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "What does your mother do on Sundays?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "She does yoga." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Where does your father go on Sundays?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "He goes to the sports centre." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "What does your family do at the weekend?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "We cook meals together." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Cả gia đình đang cùng nhau nấu ăn trong bếp (cook meals).", "correct_order_number": 4 },
+                { "picture_id": "b", "image_description": "Cô gái đang ngồi tập yoga trên thảm (does yoga).", "correct_order_number": 2 },
+                { "picture_id": "c", "image_description": "Trung tâm thể thao (SPORTS CENTRE).", "correct_order_number": 3 },
+                { "picture_id": "d", "image_description": "Hồ bơi (SWIMMING POOL).", "correct_order_number": 1 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u15_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u15_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Where does your mother go on Saturdays?",
+                  "speaker_b_prompt": "She ___.",
+                  "image_description": "Trung tâm mua sắm (shopping centre).",
+                  "correct_answer": "goes to the shopping centre"
+                },
+                {
+                  "question_id": "u15_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Where does your father go on Saturdays?",
+                  "speaker_b_prompt": "He ___.",
+                  "image_description": "Trung tâm thể thao (SPORTS CENTRE).",
+                  "correct_answer": "goes to the sports centre"
+                },
+                {
+                  "question_id": "u15_d_ex1_q3",
+                  "label": "3",
+                  "speaker_a": "What does your brother do on Sundays?",
+                  "speaker_b_prompt": "He ___.",
+                  "image_description": "Cậu bé đang bơi ở hồ bơi.",
+                  "correct_answer": "swims"
+                },
+                {
+                  "question_id": "u15_d_ex1_q4",
+                  "label": "4",
+                  "speaker_a": "What does your sister do on Sundays?",
+                  "speaker_b_prompt": "She ___.",
+                  "image_description": "Chị gái đang nấu ăn trong bếp.",
+                  "correct_answer": "cooks meals"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u15_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["do", "sports centre", "Sundays", "swims", "table tennis"],
+              "dialogue_lines": [
+                "A: Where does your brother go on Sundays?",
+                "B: He goes to the (1) ___.",
+                "A: What does he (2) ___ there?",
+                "B: He plays (3) ___.",
+                "A: How about your sister? What does she do on (4) ___?",
+                "B: She (5) ___ at the swimming pool."
+              ],
+              "questions": [
+                { "question_id": "u15_e_ex1_q1", "blank_number": 1, "correct_answer": "sports centre" },
+                { "question_id": "u15_e_ex1_q2", "blank_number": 2, "correct_answer": "do" },
+                { "question_id": "u15_e_ex1_q3", "blank_number": 3, "correct_answer": "table tennis" },
+                { "question_id": "u15_e_ex1_q4", "blank_number": 4, "correct_answer": "Sundays" },
+                { "question_id": "u15_e_ex1_q5", "blank_number": 5, "correct_answer": "swims" }
+              ]
+            },
+            {
+              "exercise_id": "u15_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and answer the questions.",
+              "instruction_vi": "Đọc đoạn văn và trả lời câu hỏi.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "On Saturdays, Mary and her family do a lot of things. She and her mum go to the sports centre. They play table tennis. Her brother stays at home. He helps his dad with the cooking. In the evening, the family watch television or listen to music. They have a lot of fun.",
+              "questions": [
+                { "question_id": "u15_e_ex2_q1", "label": "1", "prompt_text": "Where do Mary and her mum go on Saturdays?", "correct_answer": ["They go to the sports centre.", "To the sports centre"] },
+                { "question_id": "u15_e_ex2_q2", "label": "2", "prompt_text": "What do they do there?", "correct_answer": ["They play table tennis.", "Play table tennis"] },
+                { "question_id": "u15_e_ex2_q3", "label": "3", "prompt_text": "What does her brother do?", "correct_answer": ["He stays at home and helps his dad with the cooking.", "He helps his dad with the cooking."] },
+                { "question_id": "u15_e_ex2_q4", "label": "4", "prompt_text": "What do the family do in the evening?", "correct_answer": ["They watch television or listen to music."] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u15_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u15_f_ex1_q1", "label": "1", "shuffled_parts": ["on Saturdays", "Where does", "she go"], "punctuation": "?", "correct_answer": "Where does she go on Saturdays?" },
+                { "question_id": "u15_f_ex1_q2", "label": "2", "shuffled_parts": ["swimming pool", "to", "the", "She goes"], "punctuation": ".", "correct_answer": "She goes to the swimming pool." },
+                { "question_id": "u15_f_ex1_q3", "label": "3", "shuffled_parts": ["on Sundays", "he", "do", "What does"], "punctuation": "?", "correct_answer": "What does he do on Sundays?" },
+                { "question_id": "u15_f_ex1_q4", "label": "4", "shuffled_parts": ["at home", "music", "He", "listens to"], "punctuation": ".", "correct_answer": "He listens to music at home." }
+              ]
+            },
+            {
+              "exercise_id": "u15_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về hoạt động ngày Chủ nhật của gia đình em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "On Sundays, my parents go to {1}. They {2}. My sister / brother goes to {3}. He / She {4}. I go {5}. We are very happy.",
+              "sample_answer": "On Sundays, my parents go to the sports centre. They play tennis. My brother goes to the swimming pool. He swims with his friends. I go to the bookshop. We are very happy."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "self_check_03",
+      "unit_number": 0,
+      "unit_title": "Self-check 3",
+      "pages": [72, 73, 74, 75],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "sc3_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick or cross.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) hoặc Cross (✗).",
+              "game_mechanic": "true_false",
+              "questions": [
+                {
+                  "question_id": "sc3_a_ex1_q1",
+                  "label": "1",
+                  "image_description": "Con phố yên tĩnh có biển QUIET STREET.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 33",
+                    "full_transcript": "1. A: What's the street like? B: It's a quiet street.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What's the street like?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's a quiet street." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "sc3_a_ex1_q2",
+                  "label": "2",
+                  "image_description": "Người đàn ông làm nghề nông dân đang cầm nông cụ trên cánh đồng.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 33",
+                    "full_transcript": "2. A: What does your father do? B: He's a policeman.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What does your father do?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "He's a policeman." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói cảnh sát (policeman) nhưng trong hình là nông dân (farmer) (✗)."
+                },
+                {
+                  "question_id": "sc3_a_ex1_q3",
+                  "label": "3",
+                  "image_description": "Cậu bé đứng bên thước đo chiều cao chỉ 130 cm (thấp - short).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 33",
+                    "full_transcript": "3. A: What does your brother look like? B: He's short.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What does your brother look like?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "He's short." }
+                    ]
+                  },
+                  "correct_answer": true
+                },
+                {
+                  "question_id": "sc3_a_ex1_q4",
+                  "label": "4",
+                  "image_description": "Bé gái đang rửa bát đĩa lúc 8:00 PM.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 33",
+                    "full_transcript": "4. A: What do you do in the evening? B: I watch TV.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What do you do in the evening?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I watch TV." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói xem TV nhưng trong hình là rửa bát (wash the dishes) (✗)."
+                },
+                {
+                  "question_id": "sc3_a_ex1_q5",
+                  "label": "5",
+                  "image_description": "Hai mẹ con đi mua sắm ở trung tâm thương mại.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 33",
+                    "full_transcript": "5. A: Where does your mother go on Sundays? B: She goes to the shopping centre.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Where does your mother go on Sundays?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "She goes to the shopping centre." }
+                    ]
+                  },
+                  "correct_answer": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "READING AND WRITING",
+          "exercises": [
+            {
+              "exercise_id": "sc3_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Look, write and read.",
+              "instruction_vi": "Nhìn tranh, sắp xếp các chữ cái thành từ đúng và đọc.",
+              "game_mechanic": "unscramble_word",
+              "questions": [
+                { "question_id": "sc3_b_ex1_q1", "label": "1", "scrambled_letters": "atll", "image_description": "Mũi tên chỉ vào người anh cao lớn đứng cạnh em nhỏ.", "correct_answer": "tall" },
+                { "question_id": "sc3_b_ex1_q2", "label": "2", "scrambled_letters": "ctiy", "image_description": "Thành phố với nhiều tòa nhà cao tầng.", "correct_answer": "city" },
+                { "question_id": "sc3_b_ex1_q3", "label": "3", "scrambled_letters": "aotcr", "image_description": "Nam diễn viên đứng trên sân khấu.", "correct_answer": "actor" },
+                { "question_id": "sc3_b_ex1_q4", "label": "4", "scrambled_letters": "cneaim", "image_description": "Rạp chiếu phim (CINEMA).", "correct_answer": "cinema" },
+                { "question_id": "sc3_b_ex1_q5", "label": "5", "scrambled_letters": "elnac", "image_description": "Cậu bé đang cầm chổi lau sàn nhà.", "correct_answer": "clean" }
+              ]
+            },
+            {
+              "exercise_id": "sc3_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc3_b_ex2_q1", "label": "1", "prompt_text": "She ___ on Saturdays.", "image_description": "Cô gái đang tập yoga trên thảm.", "correct_answer": "does yoga" },
+                { "question_id": "sc3_b_ex2_q2", "label": "2", "prompt_text": "He's ___.", "image_description": "Vận động viên bóng rổ có thân hình mảnh khảnh (slim).", "correct_answer": "slim" },
+                { "question_id": "sc3_b_ex2_q3", "label": "3", "prompt_text": "I live at ___.", "image_description": "Ngôi nhà số 12 trên đường GREEN ROAD.", "correct_answer": "12 Green Road" },
+                { "question_id": "sc3_b_ex2_q4", "label": "4", "prompt_text": "I ___ the clothes in the evening.", "image_description": "Bé gái đang giặt quần áo bên máy giặt.", "correct_answer": "wash" },
+                { "question_id": "sc3_b_ex2_q5", "label": "5", "prompt_text": "He's a ___.", "image_description": "Chú cảnh sát mặc quân phục.", "correct_answer": "policeman" }
+              ]
+            },
+            {
+              "exercise_id": "sc3_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read and tick True or False.",
+              "instruction_vi": "Đọc đoạn văn và đánh dấu Đúng (True) hoặc Sai (False).",
+              "game_mechanic": "true_false",
+              "reading_passage": "I have a brother. His name is Tom. He is tall. He has short hair and a round face. My brother is a worker. He works at a factory. On Sundays, he stays at home. He cleans the floor in the morning. In the afternoon, he cooks meals. In the evening, he washes the clothes.",
+              "questions": [
+                { "question_id": "sc3_b_ex3_q1", "label": "1", "prompt_text": "Tom is tall.", "correct_answer": true },
+                { "question_id": "sc3_b_ex3_q2", "label": "2", "prompt_text": "He has long hair and a round face.", "correct_answer": false, "explanation_vi": "Trong bài: 'He has short hair' (tóc ngắn), không phải long hair." },
+                { "question_id": "sc3_b_ex3_q3", "label": "3", "prompt_text": "He works at a nursing home.", "correct_answer": false, "explanation_vi": "Trong bài: 'He works at a factory' (nhà máy), không phải viện dưỡng lão." },
+                { "question_id": "sc3_b_ex3_q4", "label": "4", "prompt_text": "On Sundays, he cleans the floor.", "correct_answer": true },
+                { "question_id": "sc3_b_ex3_q5", "label": "5", "prompt_text": "On Sundays, he cooks meals.", "correct_answer": true }
+              ]
+            },
+            {
+              "exercise_id": "sc3_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "sc3_b_ex4_q1", "label": "1", "shuffled_parts": ["works", "on", "My mother", "a farm"], "punctuation": ".", "correct_answer": "My mother works on a farm." },
+                { "question_id": "sc3_b_ex4_q2", "label": "2", "shuffled_parts": ["round", "has", "a", "face", "He"], "punctuation": ".", "correct_answer": "He has a round face." },
+                { "question_id": "sc3_b_ex4_q3", "label": "3", "shuffled_parts": ["help", "with the cooking", "I", "my mum"], "punctuation": ".", "correct_answer": "I help my mum with the cooking." },
+                { "question_id": "sc3_b_ex4_q4", "label": "4", "shuffled_parts": ["at", "live", "12 Hoa Mai Street", "I"], "punctuation": ".", "correct_answer": "I live at 12 Hoa Mai Street." },
+                { "question_id": "sc3_b_ex4_q5", "label": "5", "shuffled_parts": ["he", "Where", "does", "go", "on Saturdays"], "punctuation": "?", "correct_answer": "Where does he go on Saturdays?" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "sc3_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời theo 5 tình huống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc3_c_ex1_q1", "label": "1", "speaker_a": "Where do you live?", "speaker_b_prompt": "___.", "image_description": "Ngôi nhà số 20 trên đường HOA MAI STREET.", "correct_answer": "I live at 20 Hoa Mai Street" },
+                { "question_id": "sc3_c_ex1_q2", "label": "2", "speaker_a": "What do you do in the morning?", "speaker_b_prompt": "___.", "image_description": "Cậu bé đang giặt quần áo (wash the clothes).", "correct_answer": "I wash the clothes" },
+                { "question_id": "sc3_c_ex1_q3", "label": "3", "speaker_a": "What does your mother do?", "speaker_b_prompt": "___.", "image_description": "Người mẹ mặc đồng phục y tá (a nurse).", "correct_answer": "She's a nurse" },
+                { "question_id": "sc3_c_ex1_q4", "label": "4", "speaker_a": "What does your father look like?", "speaker_b_prompt": "___.", "image_description": "Người bố cao lớn (tall).", "correct_answer": "He's tall" },
+                { "question_id": "sc3_c_ex1_q5", "label": "5", "speaker_a": "What does your mother do on Sundays?", "speaker_b_prompt": "___.", "image_description": "Người mẹ đang nấu ăn trong bếp (cooks meals).", "correct_answer": "She cooks meals" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

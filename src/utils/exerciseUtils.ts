@@ -1,5 +1,8 @@
 import { ExerciseCluster, ExerciseQuestion } from '../types';
 import grade4Cluster1Data from '../data/grade4_cluster1_workbook.json';
+import grade4Cluster2Data from '../data/grade4_cluster2_workbook.json';
+import grade4Cluster3Data from '../data/grade4_cluster3_workbook.json';
+import grade4Cluster4Data from '../data/grade4_cluster4_workbook.json';
 
 const COMMON_DISTRACTORS = [
   'Australia', 'Britain', 'America', 'Viet Nam', 'Malaysia', 'Singapore', 'Thailand', 'Japan',
@@ -25,8 +28,8 @@ export function parseWorkbookCluster(
   }
 
   const title = data.cluster_name
-    ? `Cụm ${clusterNumber}: ${data.cluster_name}`
-    : (data.title || `Cụm bài tập ${clusterNumber}`);
+    ? `Học phần ${clusterNumber}: ${data.cluster_name}`
+    : (data.title || `Học phần bài tập ${clusterNumber}`);
 
   const unitsCount = Array.isArray(data.units) ? data.units.length : 0;
   const description = `${data.book_title || 'Sách bài tập Tiếng Anh'} • Trọn bộ ${unitsCount} bài học`;
@@ -256,7 +259,7 @@ export function parseExerciseJson(
       return { cluster };
     }
 
-    let detectedTitle = `Cụm bài tập ${clusterNumber}`;
+    let detectedTitle = `Học phần bài tập ${clusterNumber}`;
     let detectedDescription = `Bộ câu hỏi bài tập trích xuất từ tài liệu PDF - Lớp ${grade}`;
     let rawItems: any[] = [];
 
@@ -384,7 +387,7 @@ export function createEmptyCluster(clusterNumber: number, grade: number, rawJson
   return {
     id: `cluster_grade${grade}_${clusterNumber}`,
     clusterNumber,
-    title: `Cụm bài tập ${clusterNumber}`,
+    title: `Học phần bài tập ${clusterNumber}`,
     description: `Bộ bài tập rèn luyện kỹ năng - Lớp ${grade}`,
     grade,
     questions: [],
@@ -395,23 +398,35 @@ export function createEmptyCluster(clusterNumber: number, grade: number, rawJson
 }
 
 /**
- * Creates default initial clusters for a given grade
- * For Grade 4, Cluster 1 is populated with the complete official workbook (208 questions)
+ * Creates default initial clusters (học phần) for a given grade.
+ * For Grade 4, all 4 clusters are populated with the official Global Success workbooks (833 questions total).
  */
 export function createDefaultClusters(grade: number, count: number = 4): ExerciseCluster[] {
   const clusters: ExerciseCluster[] = [];
 
   for (let i = 1; i <= count; i++) {
-    if (grade === 4 && i === 1) {
-      // Use official workbook for Grade 4 Cluster 1
-      const wbCluster = parseWorkbookCluster(grade4Cluster1Data, 1, 4);
-      clusters.push(wbCluster);
-      continue;
+    if (grade === 4) {
+      if (i === 1) {
+        clusters.push(parseWorkbookCluster(grade4Cluster1Data, 1, 4));
+        continue;
+      }
+      if (i === 2) {
+        clusters.push(parseWorkbookCluster(grade4Cluster2Data, 2, 4));
+        continue;
+      }
+      if (i === 3) {
+        clusters.push(parseWorkbookCluster(grade4Cluster3Data, 3, 4));
+        continue;
+      }
+      if (i === 4) {
+        clusters.push(parseWorkbookCluster(grade4Cluster4Data, 4, 4));
+        continue;
+      }
     }
 
     const sampleClusterConfigs = [
       {
-        title: `Cụm bài tập ${i}: Unit 1 - Unit 5`,
+        title: `Học phần ${i}: Unit 1 - Unit 5`,
         desc: `Rèn luyện ngữ pháp, từ vựng và kỹ năng trắc nghiệm các bài học đầu năm học - Lớp ${grade}.`,
         samples: [
           {
@@ -435,7 +450,7 @@ export function createDefaultClusters(grade: number, count: number = 4): Exercis
         ]
       },
       {
-        title: `Cụm bài tập ${i}: Unit 6 - Unit 10`,
+        title: `Học phần ${i}: Unit 6 - Unit 10`,
         desc: `Luyện tập các chủ đề hoạt động hằng ngày, thời gian và sở thích - Lớp ${grade}.`,
         samples: [
           {
@@ -453,7 +468,7 @@ export function createDefaultClusters(grade: number, count: number = 4): Exercis
         ]
       },
       {
-        title: `Cụm bài tập ${i}: Unit 11 - Unit 15`,
+        title: `Học phần ${i}: Unit 11 - Unit 15`,
         desc: `Nâng cao kỹ năng từ vựng về thức ăn, đồ uống, nghề nghiệp và địa điểm - Lớp ${grade}.`,
         samples: [
           {
@@ -471,7 +486,7 @@ export function createDefaultClusters(grade: number, count: number = 4): Exercis
         ]
       },
       {
-        title: `Cụm bài tập ${i}: Unit 16 - Unit 20`,
+        title: `Học phần ${i}: Unit 16 - Unit 20`,
         desc: `Tổng hợp ôn tập cuối kỳ, các chủ đề phương tiện, chuyến đi và thời tiết - Lớp ${grade}.`,
         samples: [
           {
@@ -498,7 +513,7 @@ export function createDefaultClusters(grade: number, count: number = 4): Exercis
       answerIndex: s.answerIndex,
       explanation: s.explanation,
       type: 'quiz',
-      category: `Cụm ${i}`
+      category: `Học phần ${i}`
     }));
 
     const cluster: ExerciseCluster = {

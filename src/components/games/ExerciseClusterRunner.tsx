@@ -94,11 +94,6 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
     setShowExplanation(true);
   };
 
-  const handleSpeakQuestion = () => {
-    if (!currentQuestion) return;
-    speechService.speak(currentQuestion.question);
-  };
-
   const handlePlayAudioTrack = () => {
     if (!currentQuestion?.audioTranscript) return;
     soundEffects.playClick();
@@ -224,7 +219,7 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
             onClick={handleRestart}
             className="w-full sm:w-auto px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-2xl transition cursor-pointer flex items-center justify-center gap-2"
           >
-            <RotateCcw className="w-4 h-4" /> Làm lại cụm này
+            <RotateCcw className="w-4 h-4" /> Làm lại học phần này
           </button>
           <button
             onClick={onBack}
@@ -366,11 +361,13 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
                 <Headphones className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <span className="text-[11px] font-bold text-purple-800 uppercase tracking-wider block">
-                  Băng nghe mô phỏng (Audio Track)
+                <span className="text-xs font-bold text-purple-900 uppercase tracking-wider block">
+                  Nghe và trả lời
                 </span>
-                <span className="text-xs text-purple-950 truncate block">
-                  {currentQuestion.audioTranscript}
+                <span className="text-[11px] text-purple-700 block">
+                  {isAnswered
+                    ? `Nội dung đoạn nghe: "${currentQuestion.audioTranscript}"`
+                    : 'Bấm nút "Nghe audio" bên cạnh để lắng nghe và chọn câu trả lời đúng'}
                 </span>
               </div>
             </div>
@@ -389,18 +386,9 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
 
         {/* Question Prompt */}
         <div className="space-y-2">
-          <div className="flex items-start justify-between gap-3">
-            <h3 className="font-display font-bold text-lg sm:text-xl text-slate-800 leading-snug whitespace-pre-line">
-              {currentQuestion.question}
-            </h3>
-            <button
-              onClick={handleSpeakQuestion}
-              className="p-2.5 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition cursor-pointer shrink-0"
-              title="Phát âm câu hỏi"
-            >
-              <Volume2 className="w-5 h-5" />
-            </button>
-          </div>
+          <h3 className="font-display font-bold text-lg sm:text-xl text-slate-800 leading-snug whitespace-pre-line">
+            {currentQuestion.question}
+          </h3>
 
           {currentQuestion.hint && (
             <p className="text-xs text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center gap-1.5">

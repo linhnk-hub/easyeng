@@ -306,9 +306,12 @@ export default function App() {
     return DEFAULT_CLASSES;
   });
 
-  // Custom App Logo (PNG/JPG/SVG/URL or null for default)
+  // Built-in static app logo (loads instantly at 0ms from public/app-logo.png)
+  const DEFAULT_APP_LOGO = '/app-logo.png';
+
+  // Custom App Logo (PNG/JPG/SVG/URL or fallback to built-in logo)
   const [customLogo, setCustomLogo] = useState<string | null>(() => {
-    return localStorage.getItem('easyeng_custom_logo') || null;
+    return localStorage.getItem('easyeng_custom_logo') || DEFAULT_APP_LOGO;
   });
 
   const handleUpdateLogo = (newLogo: string | null) => {
@@ -316,21 +319,21 @@ export default function App() {
       localStorage.setItem('easyeng_custom_logo', newLogo);
       setCustomLogo(newLogo);
     } else {
-      localStorage.removeItem('easyeng_custom_logo');
-      setCustomLogo(null);
+      localStorage.setItem('easyeng_custom_logo', DEFAULT_APP_LOGO);
+      setCustomLogo(DEFAULT_APP_LOGO);
     }
   };
 
-  // Logo sizes (Header navigation bar: 200px and Welcome / Learner selection screen: 300px)
-  const DEFAULT_HEADER_LOGO_SIZE = 200; // px
-  const DEFAULT_WELCOME_LOGO_SIZE = 300; // px
+  // Logo sizes (Header navigation bar: 174px and Welcome / Learner selection screen: 270px)
+  const DEFAULT_HEADER_LOGO_SIZE = 174; // px
+  const DEFAULT_WELCOME_LOGO_SIZE = 270; // px
 
   const [headerLogoSize, setHeaderLogoSize] = useState<number>(() => {
     const saved = localStorage.getItem('easyeng_header_logo_size');
     if (saved) {
       const num = Number(saved);
       if (!isNaN(num) && num >= 20 && num <= 300) {
-        if (num === 44) return DEFAULT_HEADER_LOGO_SIZE; // Upgrade legacy 44px
+        if (num === 44 || num === 200) return DEFAULT_HEADER_LOGO_SIZE; // Upgrade legacy defaults
         return num;
       }
     }
@@ -342,7 +345,7 @@ export default function App() {
     if (saved) {
       const num = Number(saved);
       if (!isNaN(num) && num >= 24 && num <= 400) {
-        if (num === 48) return DEFAULT_WELCOME_LOGO_SIZE; // Upgrade legacy 48px
+        if (num === 48 || num === 300) return DEFAULT_WELCOME_LOGO_SIZE; // Upgrade legacy defaults
         return num;
       }
     }
@@ -399,21 +402,52 @@ export default function App() {
     };
   });
 
-  // Exercise clusters map { [grade: number]: ExerciseCluster[] }
+  // Exercise clusters (học phần) map { [grade: number]: ExerciseCluster[] }
   const [gradeExercisesMap, setGradeExercisesMap] = useState<Record<number, ExerciseCluster[]>>(() => {
     const saved = localStorage.getItem(STORAGE_KEY_EXERCISES);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === 'object') return parsed;
+        if (parsed && typeof parsed === 'object') {
+          // Clean legacy "Cụm" naming to "Học phần"
+          Object.keys(parsed).forEach(gradeKey => {
+            const numKey = Number(gradeKey);
+            if (Array.isArray(parsed[numKey])) {
+              parsed[numKey] = parsed[numKey].map((c: ExerciseCluster) => ({
+                ...c,
+                title: c.title ? c.title.replace(/Cụm/g, 'Học phần') : c.title,
+                description: c.description ? c.description.replace(/Cụm/g, 'Học phần') : c.description
+              }));
+            }
+          });
+
+          // If Grade 4 in localStorage still has sample questions (< 10 questions) on cluster 2, 3 or 4,
+          // refresh Grade 4 with all 4 official workbook files!
+          if (
+            !parsed[4] ||
+            !parsed[4][1] ||
+            (parsed[4][1].questions && parsed[4][1].questions.length < 10)
+          ) {
+            parsed[4] = createDefaultClusters(4, 4);
+            localStorage.setItem(STORAGE_KEY_EXERCISES, JSON.stringify(parsed));
+          }
+
+          return parsed;
+        }
       } catch {
         // fallback
       }
     }
-    return {
+    const initial = {
       4: createDefaultClusters(4, 4),
       7: createDefaultClusters(7, 4)
     };
+    try {
+      localStorage.setItem(STORAGE_KEY_EXERCISES, JSON.stringify(initial));
+    } catch {
+      // ignore
+    }
+    return initial;
   });
 
   // Active exercise cluster when learner is practicing
