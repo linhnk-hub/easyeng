@@ -45,6 +45,12 @@ service cloud.firestore {
       allow create, update, delete: if true;
     }
 
+    // Exercises clusters per grade (imported from PDF/JSON) synced across all devices
+    match /exercises/{grade} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
     // Custom classes list synced across all devices
     match /classes/{classId} {
       allow get, list: if true;

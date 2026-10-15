@@ -12,7 +12,7 @@ import {
   getDocFromServer
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
-import { UserProfile, UnitData } from '../types';
+import { UserProfile, UnitData, ExerciseCluster } from '../types';
 
 export enum OperationType {
   CREATE = 'create',
@@ -360,6 +360,71 @@ export function subscribeToCurriculum(callback: (curriculumMap: Record<number, U
     return () => {};
   }
 }
+
+/**
+ * Exercise Clusters Cloud Sync: saves imported exercise clusters per grade to Cloud Firestore
+ */
+export async function syncExercisesToCloud(grade: number, clusters: ExerciseCluster[]): Promise<boolean> {
+  const path = `exercises/${grade}`;
+  try {
+    const cleanClusters = JSON.parse(JSON.stringify(clusters));
+    await setDoc(doc(db, 'exercises', String(grade)), {
+      grade: Number(grade),
+      clusters: cleanClusters,
+      updatedAt: new Date().toISOString()
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+export async function fetchExercisesFromCloud(): Promise<Record<number, ExerciseCluster[]>> {
+  const path = 'exercises';
+  try {
+    const querySnapshot = await getDocs(collection(db, 'exercises'));
+    const result: Record<number, ExerciseCluster[]> = {};
+    querySnapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      if (data && data.grade && Array.isArray(data.clusters)) {
+        result[Number(data.grade)] = data.clusters;
+      }
+    });
+    return result;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return {};
+  }
+}
+
+export function subscribeToExercises(callback: (exercisesMap: Record<number, ExerciseCluster[]>) => void): () => void {
+  const path = 'exercises';
+  try {
+    return onSnapshot(
+      collection(db, 'exercises'),
+      (snapshot) => {
+        const result: Record<number, ExerciseCluster[]> = {};
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          if (data && data.grade && Array.isArray(data.clusters)) {
+            result[Number(data.grade)] = data.clusters;
+          }
+        });
+        if (Object.keys(result).length > 0) {
+          callback(result);
+        }
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.LIST, path);
+      }
+    );
+  } catch (err) {
+    handleFirestoreError(err, OperationType.LIST, path);
+    return () => {};
+  }
+}
+
 
 /**
  * Custom Classes Cloud Sync

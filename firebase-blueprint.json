@@ -96,6 +96,9 @@
     "/app_settings/{settingId}": {
       "schema": "AppBranding",
       "description": "Stores app-wide branding settings including logo image and display dimensions"
+    },
+    "/exercises/{grade}": {
+      "description": "Stores exercise clusters imported from JSON per grade for cross-device synchronization"
     }
   }
 }

@@ -1,0 +1,1811 @@
+{
+  "book_title": "Tiếng Anh 4 - Sách bài tập (Global Success)",
+  "cluster_id": "cluster_1",
+  "cluster_name": "Units 1 - 5 & Self-check 1",
+  "units": [
+    {
+      "unit_id": "unit_01",
+      "unit_number": 1,
+      "unit_title": "My friends",
+      "pages": [4, 5, 6, 7],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u1_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["a", "ia"],
+              "questions": [
+                {
+                  "question_id": "u1_a_ex1_q1",
+                  "label": "a",
+                  "prompt_text": "Americ_",
+                  "options": ["a", "ia"],
+                  "correct_answer": "a",
+                  "full_completed_text": "America",
+                  "explanation_vi": "Điền 'a' để hoàn thành từ America (Nước Mỹ)."
+                },
+                {
+                  "question_id": "u1_a_ex1_q2",
+                  "label": "b",
+                  "prompt_text": "Austral__",
+                  "options": ["a", "ia"],
+                  "correct_answer": "ia",
+                  "full_completed_text": "Australia",
+                  "explanation_vi": "Điền 'ia' để hoàn thành từ Australia (Nước Úc)."
+                },
+                {
+                  "question_id": "u1_a_ex1_q3",
+                  "label": "c",
+                  "prompt_text": "Malays__",
+                  "options": ["a", "ia"],
+                  "correct_answer": "ia",
+                  "full_completed_text": "Malaysia",
+                  "explanation_vi": "Điền 'ia' để hoàn thành từ Malaysia (Nước Ma-lai-xi-a)."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u1_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u1_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "She's from ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 1",
+                    "full_transcript": "She's from Malaysia.",
+                    "tts_voice_data": [
+                      { "speaker": "Narrator", "voice_type": "female_child", "text": "She's from Malaysia." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "text": "Australia" },
+                    { "id": "b", "text": "Malaysia" },
+                    { "id": "c", "text": "America" }
+                  ],
+                  "correct_answer": "b",
+                  "explanation_vi": "Nghe phát âm 'She's from Malaysia' nên chọn b."
+                },
+                {
+                  "question_id": "u1_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "He's from ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 1",
+                    "full_transcript": "He's from Australia.",
+                    "tts_voice_data": [
+                      { "speaker": "Narrator", "voice_type": "male_child", "text": "He's from Australia." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "text": "Malaysia" },
+                    { "id": "b", "text": "America" },
+                    { "id": "c", "text": "Australia" }
+                  ],
+                  "correct_answer": "c",
+                  "explanation_vi": "Nghe phát âm 'He's from Australia' nên chọn c."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u1_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u1_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "I'm from ___.",
+                  "image_description": "Cậu bé cầm lá cờ nước Úc đứng trước Nhà hát Opera Sydney.",
+                  "image_url": "assets/images/u1_a3_q1.png",
+                  "correct_answer": "Australia",
+                  "explanation_vi": "Trong hình là cờ và Nhà hát Opera Sydney của nước Úc (Australia)."
+                },
+                {
+                  "question_id": "u1_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "Laura is from ___.",
+                  "image_description": "Bé gái cầm lá cờ Vương quốc Anh đứng trước tháp Big Ben.",
+                  "image_url": "assets/images/u1_a3_q2.png",
+                  "correct_answer": "Britain",
+                  "explanation_vi": "Trong hình là cờ Liên hiệp Anh và tháp Big Ben (Britain)."
+                },
+                {
+                  "question_id": "u1_a_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "My friend is from ___.",
+                  "image_description": "Bé gái cầm lá cờ Malaysia đứng trước tòa tháp đôi Petronas.",
+                  "image_url": "assets/images/u1_a3_q3.png",
+                  "correct_answer": "Malaysia",
+                  "explanation_vi": "Trong hình là cờ và tháp đôi Petronas của Malaysia."
+                },
+                {
+                  "question_id": "u1_a_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "They're from ___.",
+                  "image_description": "Hai bạn nhỏ cầm cờ đỏ sao vàng Việt Nam đứng trước Ngọ Môn Huế.",
+                  "image_url": "assets/images/u1_a3_q4.png",
+                  "correct_answer": "Viet Nam",
+                  "explanation_vi": "Trong hình là cờ đỏ sao vàng của Việt Nam (Viet Nam)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u1_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "he from" },
+                { "id": "b", "text": "from Britain" },
+                { "id": "c", "text": "from" },
+                { "id": "d", "text": "Australia" }
+              ],
+              "questions": [
+                {
+                  "question_id": "u1_b_ex1_q1",
+                  "label": "1",
+                  "prompt_text": "Where are you ___?",
+                  "correct_answer": "from",
+                  "matched_option_id": "c",
+                  "explanation_vi": "Cấu trúc: Where are you from?"
+                },
+                {
+                  "question_id": "u1_b_ex1_q2",
+                  "label": "2",
+                  "prompt_text": "Where's ___?",
+                  "correct_answer": "he from",
+                  "matched_option_id": "a",
+                  "explanation_vi": "Cấu trúc: Where's he from?"
+                },
+                {
+                  "question_id": "u1_b_ex1_q3",
+                  "label": "3",
+                  "prompt_text": "I'm from ___.",
+                  "correct_answer": "Australia",
+                  "matched_option_id": "d",
+                  "explanation_vi": "Cấu trúc: I'm from + Tên nước (Australia)."
+                },
+                {
+                  "question_id": "u1_b_ex1_q4",
+                  "label": "4",
+                  "prompt_text": "She's ___.",
+                  "correct_answer": "from Britain",
+                  "matched_option_id": "b",
+                  "explanation_vi": "Cấu trúc: She's + from Britain."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u1_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What's your name?", "right_id": "d", "right_text": "My name's Long." },
+                { "left_id": "2", "left_text": "Where are you from?", "right_id": "c", "right_text": "I'm from Viet Nam." },
+                { "left_id": "3", "left_text": "How old are you?", "right_id": "b", "right_text": "I'm eight years old." },
+                { "left_id": "4", "left_text": "Where's she from?", "right_id": "e", "right_text": "She's from Thailand." },
+                { "left_id": "5", "left_text": "Where's he from?", "right_id": "a", "right_text": "He's from Singapore." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u1_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and match.",
+              "instruction_vi": "Nghe và nối nhân vật với lá cờ đúng.",
+              "game_mechanic": "matching",
+              "questions": [
+                {
+                  "question_id": "u1_c_ex1_q1",
+                  "label": "1",
+                  "character_image": "Bé gái đeo kính, tóc ngắn ngang vai.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 2",
+                    "full_transcript": "1. A: Where's she from? B: She's from Singapore.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Where's she from?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "She's from Singapore." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Lá cờ Singapore." },
+                    { "id": "b", "image_description": "Lá cờ Nhật Bản (Japan)." }
+                  ],
+                  "correct_answer": "a",
+                  "explanation_vi": "Nghe được 'She's from Singapore' ứng với cờ Singapore (hình a)."
+                },
+                {
+                  "question_id": "u1_c_ex1_q2",
+                  "label": "2",
+                  "character_image": "Cậu bé tóc vàng đang mỉm cười.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 2",
+                    "full_transcript": "2. A: Where's he from? B: He's from Britain.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Where's he from?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "He's from Britain." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Lá cờ nước Úc (Australia)." },
+                    { "id": "b", "image_description": "Lá cờ Vương quốc Anh (Britain)." }
+                  ],
+                  "correct_answer": "b",
+                  "explanation_vi": "Nghe được 'He's from Britain' ứng với cờ nước Anh (hình b)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u1_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u1_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Where are you from?",
+                  "speaker_b_prompt": "I'm from ___.",
+                  "image_description": "Bạn nữ cầm cờ nước Anh (Britain).",
+                  "correct_answer": "Britain",
+                  "explanation_vi": "Cầm cờ Anh nên điền 'Britain'."
+                },
+                {
+                  "question_id": "u1_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Where's he from?",
+                  "speaker_b_prompt": "He's ___.",
+                  "image_description": "Bạn nam đứng ở công viên cầm cờ Việt Nam.",
+                  "correct_answer": "from Viet Nam",
+                  "explanation_vi": "Cầm cờ Việt Nam nên điền 'from Viet Nam'."
+                },
+                {
+                  "question_id": "u1_d_ex1_q3",
+                  "label": "3",
+                  "speaker_a": "Where's she from?",
+                  "speaker_b_prompt": "She's ___.",
+                  "image_description": "Bạn nữ cầm cờ Nhật Bản (Japan).",
+                  "correct_answer": "from Japan",
+                  "explanation_vi": "Cầm cờ Nhật Bản nên điền 'from Japan'."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u1_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["Australia", "friend", "from", "Her", "name"],
+              "dialogue_lines": [
+                "A: Who's that?",
+                "B: She's my new (1) ___.",
+                "A: What's her (2) ___?",
+                "B: (3) ___ name's Laura.",
+                "A: Where's she (4) ___?",
+                "B: She's from (5) ___."
+              ],
+              "questions": [
+                { "question_id": "u1_e_ex1_q1", "blank_number": 1, "correct_answer": "friend" },
+                { "question_id": "u1_e_ex1_q2", "blank_number": 2, "correct_answer": "name" },
+                { "question_id": "u1_e_ex1_q3", "blank_number": 3, "correct_answer": "Her" },
+                { "question_id": "u1_e_ex1_q4", "blank_number": 4, "correct_answer": "from" },
+                { "question_id": "u1_e_ex1_q5", "blank_number": 5, "correct_answer": "Australia" }
+              ]
+            },
+            {
+              "exercise_id": "u1_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc đoạn văn và điền thông tin vào bảng.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Hello. I am Lan. I am nine years old. I am from Viet Nam. This is my friend. Her name is Celia. She is nine years old and she is from Britain. David is my new friend. He is eight years old. He is from America.",
+              "table_headers": ["Name", "Age", "Country"],
+              "questions": [
+                { "question_id": "u1_e_ex2_r1", "name": "Lan", "correct_age": ["nine", "9"], "correct_country": "Viet Nam" },
+                { "question_id": "u1_e_ex2_r2", "name": "Celia", "correct_age": ["nine", "9"], "correct_country": "Britain" },
+                { "question_id": "u1_e_ex2_r3", "name": "David", "correct_age": ["eight", "8"], "correct_country": "America" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u1_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                {
+                  "question_id": "u1_f_ex1_q1",
+                  "label": "1",
+                  "shuffled_parts": ["America", "She is", "from"],
+                  "punctuation": ".",
+                  "correct_answer": "She is from America."
+                },
+                {
+                  "question_id": "u1_f_ex1_q2",
+                  "label": "2",
+                  "shuffled_parts": ["He", "from Thailand", "is"],
+                  "punctuation": ".",
+                  "correct_answer": "He is from Thailand."
+                },
+                {
+                  "question_id": "u1_f_ex1_q3",
+                  "label": "3",
+                  "shuffled_parts": ["from", "Where is", "she"],
+                  "punctuation": "?",
+                  "correct_answer": "Where is she from?"
+                },
+                {
+                  "question_id": "u1_f_ex1_q4",
+                  "label": "4",
+                  "shuffled_parts": ["are", "from", "Where", "you"],
+                  "punctuation": "?",
+                  "correct_answer": "Where are you from?"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u1_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết đoạn văn giới thiệu bản thân và bạn mới.",
+              "game_mechanic": "guided_writing",
+              "template_text": "Hi. My name is {1}. I am {2} years old. I am from {3}. I have a new friend. His / Her name is {4}. He / She is {5} years old. He / She is from {6}.",
+              "sample_answer": "Hi. My name is Lan. I am nine years old. I am from Viet Nam. I have a new friend. Her name is Mary. She is nine years old. She is from America."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_02",
+      "unit_number": 2,
+      "unit_title": "Time and daily routines",
+      "pages": [8, 9, 10, 11],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u2_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["t", "d"],
+              "questions": [
+                {
+                  "question_id": "u2_a_ex1_q1",
+                  "label": "a",
+                  "prompt_text": "go to be_",
+                  "options": ["t", "d"],
+                  "correct_answer": "d",
+                  "full_completed_text": "go to bed",
+                  "explanation_vi": "Điền 'd' để tạo thành cụm 'go to bed' (đi ngủ)."
+                },
+                {
+                  "question_id": "u2_a_ex1_q2",
+                  "label": "b",
+                  "prompt_text": "ge_ up",
+                  "options": ["t", "d"],
+                  "correct_answer": "t",
+                  "full_completed_text": "get up",
+                  "explanation_vi": "Điền 't' để tạo thành cụm 'get up' (thức dậy)."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u2_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u2_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "I go to bed at nine o'clock.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 3",
+                    "full_transcript": "I go to bed at nine o'clock.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "I go to bed at nine o'clock." }]
+                  }
+                },
+                {
+                  "question_id": "u2_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "I get up at six thirty.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 3",
+                    "full_transcript": "I get up at six thirty.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "I get up at six thirty." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u2_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u2_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "It's ___ o'clock.",
+                  "image_description": "Đồng hồ điện tử hiển thị 6:00 AM.",
+                  "correct_answer": "six",
+                  "explanation_vi": "Đồng hồ chỉ 6:00 -> It's six o'clock."
+                },
+                {
+                  "question_id": "u2_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "I get up at ___.",
+                  "image_description": "Em bé vươn vai thức dậy, đồng hồ chỉ 5:15 AM.",
+                  "correct_answer": "five fifteen",
+                  "explanation_vi": "Đồng hồ chỉ 5:15 -> five fifteen."
+                },
+                {
+                  "question_id": "u2_a_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "I ___ at seven o'clock.",
+                  "image_description": "Cậu bé đeo cặp đi bộ vào cổng trường lúc 7:00 AM.",
+                  "correct_answer": "go to school",
+                  "explanation_vi": "Hình ảnh đi học -> go to school."
+                },
+                {
+                  "question_id": "u2_a_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "What time do you ___?",
+                  "image_description": "Cả gia đình đang ăn tối cùng nhau lúc 7:30 PM.",
+                  "correct_answer": "have dinner",
+                  "explanation_vi": "Hình ảnh ăn tối lúc 7:30 PM -> have dinner."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u2_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "at nine fifteen" },
+                { "id": "b", "text": "go to school" },
+                { "id": "c", "text": "is it" },
+                { "id": "d", "text": "six forty-five" }
+              ],
+              "questions": [
+                { "question_id": "u2_b_ex1_q1", "label": "1", "prompt_text": "What time ___?", "correct_answer": "is it", "matched_option_id": "c" },
+                { "question_id": "u2_b_ex1_q2", "label": "2", "prompt_text": "It's ___.", "correct_answer": "six forty-five", "matched_option_id": "d" },
+                { "question_id": "u2_b_ex1_q3", "label": "3", "prompt_text": "What time do you ___?", "correct_answer": "go to school", "matched_option_id": "b" },
+                { "question_id": "u2_b_ex1_q4", "label": "4", "prompt_text": "I go to bed ___.", "correct_answer": "at nine fifteen", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u2_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What time is it?", "right_id": "d", "right_text": "It's five forty-five." },
+                { "left_id": "2", "left_text": "What time do you get up?", "right_id": "c", "right_text": "I get up at six o'clock." },
+                { "left_id": "3", "left_text": "What time do you go to school?", "right_id": "e", "right_text": "I go to school at seven o'clock." },
+                { "left_id": "4", "left_text": "What time do you have dinner?", "right_id": "a", "right_text": "I have dinner at seven thirty." },
+                { "left_id": "5", "left_text": "What time do you go to bed?", "right_id": "b", "right_text": "I go to bed at nine fifteen." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u2_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick or cross.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) hoặc Cross (✗).",
+              "game_mechanic": "true_false",
+              "questions": [
+                {
+                  "question_id": "u2_c_ex1_q1",
+                  "label": "1",
+                  "image_description": "Đồng hồ báo thức hiển thị 5:15 AM.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 4",
+                    "full_transcript": "1. A: What time is it? B: It's five fifteen.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What time is it?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's five fifteen." }
+                    ]
+                  },
+                  "correct_answer": true,
+                  "explanation_vi": "Đúng với đồng hồ 5:15 AM trong hình (✓)."
+                },
+                {
+                  "question_id": "u2_c_ex1_q2",
+                  "label": "2",
+                  "image_description": "Bé gái đeo ba lô đi học, đồng hồ hiển thị 6:15 AM.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 4",
+                    "full_transcript": "2. A: What time do you go to school? B: I go to school at six thirty.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What time do you go to school?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I go to school at six thirty." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Trong băng nói 6:30 (six thirty) nhưng hình là 6:15 AM (✗)."
+                },
+                {
+                  "question_id": "u2_c_ex1_q3",
+                  "label": "3",
+                  "image_description": "Cậu bé vươn vai thức dậy lúc 6:00 AM.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 4",
+                    "full_transcript": "3. A: What time do you get up? B: I get up at six o'clock.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What time do you get up?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "I get up at six o'clock." }
+                    ]
+                  },
+                  "correct_answer": true,
+                  "explanation_vi": "Đúng với hình thức dậy lúc 6:00 AM (✓)."
+                },
+                {
+                  "question_id": "u2_c_ex1_q4",
+                  "label": "4",
+                  "image_description": "Bé gái đang ngồi xem TV lúc 9:45 PM.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 4",
+                    "full_transcript": "4. A: What time do you go to bed? B: I go to bed at nine forty-five.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What time do you go to bed?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I go to bed at nine forty-five." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói đi ngủ (go to bed) lúc 9:45 PM nhưng hình là đang xem TV (✗)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u2_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u2_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What time is it, Mai?",
+                  "speaker_b_prompt": "It's ___.",
+                  "image_description": "Mai nghe điện thoại và nghĩ tới đồng hồ 6:15 PM.",
+                  "correct_answer": "six fifteen",
+                  "explanation_vi": "Đồng hồ chỉ 6:15 -> It's six fifteen."
+                },
+                {
+                  "question_id": "u2_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "What time do you have dinner?",
+                  "speaker_b_prompt": "I ___.",
+                  "image_description": "Mai trả lời điện thoại và nghĩ tới đồng hồ 7:30 PM.",
+                  "correct_answer": "have dinner at seven thirty",
+                  "explanation_vi": "Đồng hồ chỉ 7:30 -> I have dinner at seven thirty."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u2_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["At", "nine", "o'clock", "school", "time"],
+              "dialogue_lines": [
+                "A: What (1) ___ do you get up?",
+                "B: (2) ___ six fifteen.",
+                "A: What time do you go to (3) ___?",
+                "B: At seven (4) ___.",
+                "A: What time do you go to bed?",
+                "B: At (5) ___ forty-five."
+              ],
+              "questions": [
+                { "question_id": "u2_e_ex1_q1", "blank_number": 1, "correct_answer": "time" },
+                { "question_id": "u2_e_ex1_q2", "blank_number": 2, "correct_answer": "At" },
+                { "question_id": "u2_e_ex1_q3", "blank_number": 3, "correct_answer": "school" },
+                { "question_id": "u2_e_ex1_q4", "blank_number": 4, "correct_answer": "o'clock" },
+                { "question_id": "u2_e_ex1_q5", "blank_number": 5, "correct_answer": "nine" }
+              ]
+            },
+            {
+              "exercise_id": "u2_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc đoạn văn và nối hoạt động của Linh với thời gian đúng.",
+              "game_mechanic": "matching",
+              "reading_passage": "My name is Linh. Here is my daily routine. I get up at six o'clock. I have breakfast at six fifteen. I go to school at six forty-five. I have dinner at seven thirty. And I go to bed at eight forty-five. What is your daily routine?",
+              "pairs": [
+                { "left_id": "1", "left_text": "get up", "right_id": "d", "right_text": "6:00" },
+                { "left_id": "2", "left_text": "have breakfast", "right_id": "c", "right_text": "6:15" },
+                { "left_id": "3", "left_text": "go to school", "right_id": "b", "right_text": "6:45" },
+                { "left_id": "4", "left_text": "have dinner", "right_id": "e", "right_text": "7:30" },
+                { "left_id": "5", "left_text": "go to bed", "right_id": "a", "right_text": "8:45" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u2_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u2_f_ex1_q1", "label": "1", "shuffled_parts": ["o'clock", "It", "seven", "is"], "punctuation": ".", "correct_answer": "It is seven o'clock." },
+                { "question_id": "u2_f_ex1_q2", "label": "2", "shuffled_parts": ["time", "it", "is", "What"], "punctuation": "?", "correct_answer": "What time is it?" },
+                { "question_id": "u2_f_ex1_q3", "label": "3", "shuffled_parts": ["get up", "at", "I", "six fifteen"], "punctuation": ".", "correct_answer": "I get up at six fifteen." },
+                { "question_id": "u2_f_ex1_q4", "label": "4", "shuffled_parts": ["do", "go to school", "What time", "you"], "punctuation": "?", "correct_answer": "What time do you go to school?" }
+              ]
+            },
+            {
+              "exercise_id": "u2_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về thói quen hằng ngày của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "My name is {1}. I get up at {2}. I go to school at {3}. I have dinner at {4}. And I go to bed at {5}.",
+              "sample_answer": "My name is Nam. I get up at six o'clock. I go to school at six forty-five. I have dinner at seven o'clock. And I go to bed at nine thirty."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_03",
+      "unit_number": 3,
+      "unit_title": "My week",
+      "pages": [12, 13, 14, 15],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u3_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["u"],
+              "questions": [
+                { "question_id": "u3_a_ex1_q1", "label": "a", "prompt_text": "m_sic", "options": ["u"], "correct_answer": "u", "full_completed_text": "music", "explanation_vi": "music (âm /juː/)." },
+                { "question_id": "u3_a_ex1_q2", "label": "b", "prompt_text": "S_nday", "options": ["u"], "correct_answer": "u", "full_completed_text": "Sunday", "explanation_vi": "Sunday (âm /ʌ/)." },
+                { "question_id": "u3_a_ex1_q3", "label": "c", "prompt_text": "f_n", "options": ["u"], "correct_answer": "u", "full_completed_text": "fun", "explanation_vi": "fun (âm /ʌ/)." }
+              ]
+            },
+            {
+              "exercise_id": "u3_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u3_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "We listen to music on Saturdays.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 5",
+                    "full_transcript": "We listen to music on Saturdays.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "We listen to music on Saturdays." }]
+                  }
+                },
+                {
+                  "question_id": "u3_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "I do housework on Sundays.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 5",
+                    "full_transcript": "I do housework on Sundays.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "I do housework on Sundays." }]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u3_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u3_a_ex3_q1",
+                  "label": "1",
+                  "prompt_text": "It's ___.",
+                  "image_description": "Tờ lịch bàn ghi chữ Monday 16.",
+                  "correct_answer": "Monday",
+                  "explanation_vi": "Trên tờ lịch ghi Monday."
+                },
+                {
+                  "question_id": "u3_a_ex3_q2",
+                  "label": "2",
+                  "prompt_text": "I ___ at school on Thursdays.",
+                  "image_description": "Các học sinh đang ngồi học trong lớp vào thứ Năm (Thursdays).",
+                  "correct_answer": "study",
+                  "explanation_vi": "Cụm từ học ở trường: study at school."
+                },
+                {
+                  "question_id": "u3_a_ex3_q3",
+                  "label": "3",
+                  "prompt_text": "I stay at home on ___.",
+                  "image_description": "Cậu bé ngồi chơi máy bay đồ chơi ở nhà, góc hình ghi chữ Saturdays.",
+                  "correct_answer": "Saturdays",
+                  "explanation_vi": "Nhãn trong tranh ghi Saturdays."
+                },
+                {
+                  "question_id": "u3_a_ex3_q4",
+                  "label": "4",
+                  "prompt_text": "I ___ on Sundays.",
+                  "image_description": "Bé gái đeo tai nghe nghe nhạc, góc hình ghi chữ Sundays.",
+                  "correct_answer": "listen to music",
+                  "explanation_vi": "Hình ảnh đeo tai nghe nghe nhạc -> listen to music."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u3_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "housework" },
+                { "id": "b", "text": "on Saturdays" },
+                { "id": "c", "text": "What day" },
+                { "id": "d", "text": "Friday" }
+              ],
+              "questions": [
+                { "question_id": "u3_b_ex1_q1", "label": "1", "prompt_text": "___ is it today?", "correct_answer": "What day", "matched_option_id": "c" },
+                { "question_id": "u3_b_ex1_q2", "label": "2", "prompt_text": "It's ___.", "correct_answer": "Friday", "matched_option_id": "d" },
+                { "question_id": "u3_b_ex1_q3", "label": "3", "prompt_text": "What do you do ___?", "correct_answer": "on Saturdays", "matched_option_id": "b" },
+                { "question_id": "u3_b_ex1_q4", "label": "4", "prompt_text": "I do ___.", "correct_answer": "housework", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u3_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What day is it today?", "right_id": "c", "right_text": "It's Tuesday." },
+                { "left_id": "2", "left_text": "What do you do on Tuesdays?", "right_id": "d", "right_text": "I study at school." },
+                { "left_id": "3", "left_text": "What time do you go to school?", "right_id": "b", "right_text": "I go to school at seven o'clock." },
+                { "left_id": "4", "left_text": "What do you do on Sundays?", "right_id": "a", "right_text": "I stay at home." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u3_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and circle.",
+              "instruction_vi": "Nghe và khoanh tròn tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u3_c_ex1_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 6",
+                    "full_transcript": "1. A: What day is it today? B: It's Friday.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What day is it today?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's Friday." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Tờ lịch ghi Thursday 8." },
+                    { "id": "b", "image_description": "Tờ lịch ghi Friday 9." }
+                  ],
+                  "correct_answer": "b",
+                  "explanation_vi": "Nghe 'It's Friday' ứng với tờ lịch hình b."
+                },
+                {
+                  "question_id": "u3_c_ex1_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 6",
+                    "full_transcript": "2. A: What do you do on Sundays? B: I listen to music.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What do you do on Sundays?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I listen to music." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Bạn nữ đeo tai nghe nghe nhạc." },
+                    { "id": "b", "image_description": "Bạn nữ ngồi trên ghế sofa xem TV." }
+                  ],
+                  "correct_answer": "a",
+                  "explanation_vi": "Nghe 'I listen to music' ứng với hình a."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u3_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u3_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "What day is it today?",
+                  "speaker_b_prompt": "It's ___.",
+                  "image_description": "Tờ lịch để bàn ghi Tuesday 13.",
+                  "correct_answer": "Tuesday",
+                  "explanation_vi": "Lịch ghi Tuesday -> It's Tuesday."
+                },
+                {
+                  "question_id": "u3_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "What do you do on Thursdays?",
+                  "speaker_b_prompt": "I ___.",
+                  "image_description": "Cậu bé nghĩ về hình ảnh đi bộ vào cổng trường học (SCHOOL).",
+                  "correct_answer": "go to school",
+                  "explanation_vi": "Hình ảnh đi đến trường -> I go to school (hoặc study at school)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u3_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["Mondays", "music", "study", "today", "What"],
+              "dialogue_lines": [
+                "A: What day is it (1) ___?",
+                "B: It's Monday.",
+                "A: What do you do on (2) ___?",
+                "B: I (3) ___ at school.",
+                "A: (4) ___ do you do on Sundays?",
+                "B: I listen to (5) ___."
+              ],
+              "questions": [
+                { "question_id": "u3_e_ex1_q1", "blank_number": 1, "correct_answer": "today" },
+                { "question_id": "u3_e_ex1_q2", "blank_number": 2, "correct_answer": "Mondays" },
+                { "question_id": "u3_e_ex1_q3", "blank_number": 3, "correct_answer": "study" },
+                { "question_id": "u3_e_ex1_q4", "blank_number": 4, "correct_answer": "What" },
+                { "question_id": "u3_e_ex1_q5", "blank_number": 5, "correct_answer": "music" }
+              ]
+            },
+            {
+              "exercise_id": "u3_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and tick True or False.",
+              "instruction_vi": "Đọc đoạn văn và đánh dấu Đúng (True) hoặc Sai (False).",
+              "game_mechanic": "true_false",
+              "reading_passage": "Hello. My name is Mai. It is Tuesday today. It is a school day. My friend Linh and I go to school on Mondays, Tuesdays, Wednesdays, Thursdays and Fridays. At the weekend, we stay at home. We do homework on Saturdays. We do housework and listen to music on Sundays.",
+              "questions": [
+                { "question_id": "u3_e_ex2_q1", "label": "1", "prompt_text": "Today is Tuesday.", "correct_answer": true, "explanation_vi": "Trong bài: 'It is Tuesday today.'" },
+                { "question_id": "u3_e_ex2_q2", "label": "2", "prompt_text": "Mai and Linh study at school from Mondays to Fridays.", "correct_answer": true, "explanation_vi": "Trong bài: 'My friend Linh and I go to school on Mondays... and Fridays.'" },
+                { "question_id": "u3_e_ex2_q3", "label": "3", "prompt_text": "They are at home at the weekend.", "correct_answer": true, "explanation_vi": "Trong bài: 'At the weekend, we stay at home.'" },
+                { "question_id": "u3_e_ex2_q4", "label": "4", "prompt_text": "They do homework on Sundays.", "correct_answer": false, "explanation_vi": "Họ làm bài tập về nhà vào thứ Bảy (on Saturdays), còn Chủ nhật làm việc nhà và nghe nhạc." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u3_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u3_f_ex1_q1", "label": "1", "shuffled_parts": ["today", "is it", "What day"], "punctuation": "?", "correct_answer": "What day is it today?" },
+                { "question_id": "u3_f_ex1_q2", "label": "2", "shuffled_parts": ["Tuesday", "It", "is"], "punctuation": ".", "correct_answer": "It is Tuesday." },
+                { "question_id": "u3_f_ex1_q3", "label": "3", "shuffled_parts": ["What", "on Thursdays", "do you do"], "punctuation": "?", "correct_answer": "What do you do on Thursdays?" },
+                { "question_id": "u3_f_ex1_q4", "label": "4", "shuffled_parts": ["go to school", "on Thursdays", "I"], "punctuation": ".", "correct_answer": "I go to school on Thursdays." }
+              ]
+            },
+            {
+              "exercise_id": "u3_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về các hoạt động trong tuần của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "Hi. My name is {1}. Today is {2}. I {3} from Mondays to Fridays. At the weekend, I stay at home. I {4} on Saturdays. I {5} on Sundays.",
+              "sample_answer": "Hi. My name is Minh. Today is Wednesday. I go to school from Mondays to Fridays. At the weekend, I stay at home. I do homework on Saturdays. I listen to music on Sundays."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_04",
+      "unit_number": 4,
+      "unit_title": "My birthday party",
+      "pages": [16, 17, 18, 19],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u4_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["J", "w", "j"],
+              "questions": [
+                { "question_id": "u4_a_ex1_q1", "label": "a", "prompt_text": "_anuary", "options": ["J", "w", "j"], "correct_answer": "J", "full_completed_text": "January", "explanation_vi": "January (Tháng 1 - viết hoa chữ J)." },
+                { "question_id": "u4_a_ex1_q2", "label": "b", "prompt_text": "_ater", "options": ["J", "w", "j"], "correct_answer": "w", "full_completed_text": "water", "explanation_vi": "water (nước lọc)." },
+                { "question_id": "u4_a_ex1_q3", "label": "c", "prompt_text": "_am", "options": ["J", "w", "j"], "correct_answer": "j", "full_completed_text": "jam", "explanation_vi": "jam (mứt)." }
+              ]
+            },
+            {
+              "exercise_id": "u4_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and circle. Then say.",
+              "instruction_vi": "Nghe và khoanh tròn. Sau đó đọc to.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u4_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "My birthday is in ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 7",
+                    "full_transcript": "My birthday is in January.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "female_child", "text": "My birthday is in January." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "March" },
+                    { "id": "b", "text": "April" },
+                    { "id": "c", "text": "January" }
+                  ],
+                  "correct_answer": "c",
+                  "explanation_vi": "Nghe 'My birthday is in January' (luyện âm /dʒ/)."
+                },
+                {
+                  "question_id": "u4_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "I want some ___.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 7",
+                    "full_transcript": "I want some water.",
+                    "tts_voice_data": [{ "speaker": "Narrator", "voice_type": "male_child", "text": "I want some water." }]
+                  },
+                  "options": [
+                    { "id": "a", "text": "juice" },
+                    { "id": "b", "text": "water" },
+                    { "id": "c", "text": "jam" }
+                  ],
+                  "correct_answer": "b",
+                  "explanation_vi": "Nghe 'I want some water' (luyện âm /w/)."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u4_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u4_a_ex3_q1", "label": "1", "prompt_text": "My birthday is in ___.", "image_description": "Tờ lịch ghi MARCH 20.", "correct_answer": "March" },
+                { "question_id": "u4_a_ex3_q2", "label": "2", "prompt_text": "My birthday is in ___.", "image_description": "Tờ lịch ghi APRIL 5.", "correct_answer": "April" },
+                { "question_id": "u4_a_ex3_q3", "label": "3", "prompt_text": "I want some ___.", "image_description": "Ly nước ép trái cây (juice).", "correct_answer": "juice" },
+                { "question_id": "u4_a_ex3_q4", "label": "4", "prompt_text": "I want some ___.", "image_description": "Chùm nho tươi (grapes).", "correct_answer": "grapes" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u4_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "your birthday" },
+                { "id": "b", "text": "chips" },
+                { "id": "c", "text": "May" },
+                { "id": "d", "text": "to drink" }
+              ],
+              "questions": [
+                { "question_id": "u4_b_ex1_q1", "label": "1", "prompt_text": "I want some ___.", "correct_answer": "chips", "matched_option_id": "b" },
+                { "question_id": "u4_b_ex1_q2", "label": "2", "prompt_text": "What do you want ___?", "correct_answer": "to drink", "matched_option_id": "d" },
+                { "question_id": "u4_b_ex1_q3", "label": "3", "prompt_text": "When's ___?", "correct_answer": "your birthday", "matched_option_id": "a" },
+                { "question_id": "u4_b_ex1_q4", "label": "4", "prompt_text": "My birthday is in ___.", "correct_answer": "May", "matched_option_id": "c" }
+              ]
+            },
+            {
+              "exercise_id": "u4_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "When's your birthday?", "right_id": "c", "right_text": "It's in February." },
+                { "left_id": "2", "left_text": "Happy birthday to you!", "right_id": "d", "right_text": "Thank you." },
+                { "left_id": "3", "left_text": "What do you want to eat?", "right_id": "a", "right_text": "I want some grapes." },
+                { "left_id": "4", "left_text": "What do you want to drink?", "right_id": "b", "right_text": "I want some water." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u4_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick or cross.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) hoặc Cross (✗).",
+              "game_mechanic": "true_false",
+              "questions": [
+                {
+                  "question_id": "u4_c_ex1_q1",
+                  "label": "1",
+                  "image_description": "Lịch để bàn tháng 2 (FEBRUARY).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 8",
+                    "full_transcript": "1. A: When's your birthday? B: It's in February.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "When's your birthday?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's in February." }
+                    ]
+                  },
+                  "correct_answer": true,
+                  "explanation_vi": "Khớp với lịch FEBRUARY (✓)."
+                },
+                {
+                  "question_id": "u4_c_ex1_q2",
+                  "label": "2",
+                  "image_description": "Lịch để bàn tháng 4 (APRIL).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 8",
+                    "full_transcript": "2. A: When's your birthday? B: It's in March.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "When's your birthday?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's in March." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói tháng 3 (March) nhưng lịch là tháng 4 (APRIL) (✗)."
+                },
+                {
+                  "question_id": "u4_c_ex1_q3",
+                  "label": "3",
+                  "image_description": "Lọ mứt dâu (jam).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 8",
+                    "full_transcript": "3. A: What do you want to eat? B: I want some jam.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What do you want to eat?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "I want some jam." }
+                    ]
+                  },
+                  "correct_answer": true,
+                  "explanation_vi": "Khớp với hình lọ mứt (jam) (✓)."
+                },
+                {
+                  "question_id": "u4_c_ex1_q4",
+                  "label": "4",
+                  "image_description": "Cốc nước lọc (water).",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 8",
+                    "full_transcript": "4. A: What do you want to drink? B: I want some milk.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What do you want to drink?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "I want some milk." }
+                    ]
+                  },
+                  "correct_answer": false,
+                  "explanation_vi": "Băng nói sữa (milk) nhưng hình là cốc nước lọc (water) (✗)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u4_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u4_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "When's your birthday?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ về tờ lịch FEBRUARY.",
+                  "correct_answer": "It's in February",
+                  "explanation_vi": "Trả lời: It's in February."
+                },
+                {
+                  "question_id": "u4_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "What do you want to eat?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nam nghĩ về hộp gà rán (chicken) và khoai tây chiên (chips).",
+                  "correct_answer": "I want some chicken and chips",
+                  "explanation_vi": "Trả lời: I want some chicken and chips."
+                },
+                {
+                  "question_id": "u4_d_ex1_q3",
+                  "label": "3",
+                  "speaker_a": "What do you want to drink?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ nghĩ về chai nước và cốc nước lọc (water).",
+                  "correct_answer": "I want some water",
+                  "explanation_vi": "Trả lời: I want some water."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u4_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "A: What are you doing, Mary?",
+                "B: I'm (1) ___ a birthday party invitation.",
+                "A: (2) ___ your birthday?",
+                "B: It's (3) ___ April.",
+                "A: Oh, it's soon!",
+                "B: Yes, it is. Come to my (4) ___ party!"
+              ],
+              "questions": [
+                { "question_id": "u4_e_ex1_q1", "label": "1", "options": [{ "id": "a", "text": "playing" }, { "id": "b", "text": "writing" }], "correct_answer": "b" },
+                { "question_id": "u4_e_ex1_q2", "label": "2", "options": [{ "id": "a", "text": "When's" }, { "id": "b", "text": "Where's" }], "correct_answer": "a" },
+                { "question_id": "u4_e_ex1_q3", "label": "3", "options": [{ "id": "a", "text": "on" }, { "id": "b", "text": "in" }], "correct_answer": "b" },
+                { "question_id": "u4_e_ex1_q4", "label": "4", "options": [{ "id": "a", "text": "school" }, { "id": "b", "text": "birthday" }], "correct_answer": "b" }
+              ]
+            },
+            {
+              "exercise_id": "u4_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc hai đoạn văn và điền thông tin còn thiếu vào bảng.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Hi. I'm Katie. I'm from Britain. My hobby is cooking. My birthday is in February. I want some chicken and milk at my birthday party.\nHi. I'm Akiko. I'm from Japan. I like drawing. My birthday is in May. I want some chips and apple juice at my birthday party.",
+              "questions": [
+                { "question_id": "u4_e_ex2_q1", "blank_number": 1, "prompt_text": "Katie - Hobby", "correct_answer": "cooking" },
+                { "question_id": "u4_e_ex2_q2", "blank_number": 2, "prompt_text": "Katie - Birthday", "correct_answer": "February" },
+                { "question_id": "u4_e_ex2_q3", "blank_number": 3, "prompt_text": "Katie - Drink", "correct_answer": "milk" },
+                { "question_id": "u4_e_ex2_q4", "blank_number": 4, "prompt_text": "Akiko - Birthday", "correct_answer": "May" },
+                { "question_id": "u4_e_ex2_q5", "blank_number": 5, "prompt_text": "Akiko - Food", "correct_answer": "chips" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u4_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u4_f_ex1_q1", "label": "1", "shuffled_parts": ["some grapes", "want", "I"], "punctuation": ".", "correct_answer": "I want some grapes." },
+                { "question_id": "u4_f_ex1_q2", "label": "2", "shuffled_parts": ["your", "When is", "birthday"], "punctuation": "?", "correct_answer": "When is your birthday?" },
+                { "question_id": "u4_f_ex1_q3", "label": "3", "shuffled_parts": ["do you want", "What", "to drink"], "punctuation": "?", "correct_answer": "What do you want to drink?" },
+                { "question_id": "u4_f_ex1_q4", "label": "4", "shuffled_parts": ["March", "My birthday is", "in"], "punctuation": ".", "correct_answer": "My birthday is in March." }
+              ]
+            },
+            {
+              "exercise_id": "u4_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về bữa tiệc sinh nhật của bạn em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "I have a friend. His / Her name is {1}. He / She is from {2}. His / Her hobby is {3}. His / Her birthday is in {4}. He / She wants {5} at his / her birthday party.",
+              "sample_answer": "I have a friend. Her name is Mai. She is from Viet Nam. Her hobby is singing. Her birthday is in April. She wants some cake and orange juice at her birthday party."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_05",
+      "unit_number": 5,
+      "unit_title": "Things we can do",
+      "pages": [20, 21, 22, 23],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "PHONICS AND VOCABULARY",
+          "exercises": [
+            {
+              "exercise_id": "u5_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete and say.",
+              "instruction_vi": "Hoàn thành từ và đọc to.",
+              "game_mechanic": "fill_in_chars",
+              "word_bank": ["y", "n"],
+              "questions": [
+                { "question_id": "u5_a_ex1_q1", "label": "a", "prompt_text": "_es", "options": ["y", "n"], "correct_answer": "y", "full_completed_text": "yes" },
+                { "question_id": "u5_a_ex1_q2", "label": "b", "prompt_text": "_ose", "options": ["y", "n"], "correct_answer": "n", "full_completed_text": "nose" },
+                { "question_id": "u5_a_ex1_q3", "label": "c", "prompt_text": "_ellow", "options": ["y", "n"], "correct_answer": "y", "full_completed_text": "yellow" }
+              ]
+            },
+            {
+              "exercise_id": "u5_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Listen and repeat.",
+              "instruction_vi": "Nghe và nhắc lại.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                {
+                  "question_id": "u5_a_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "A: Do you like this yellow car? B: No, I don't.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 9",
+                    "full_transcript": "Do you like this yellow car? No, I don't.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Do you like this yellow car?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "No, I don't." }
+                    ]
+                  }
+                },
+                {
+                  "question_id": "u5_a_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "A: Can you find the nurse? B: Yes. Here she is.",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 9",
+                    "full_transcript": "Can you find the nurse? Yes. Here she is.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "Can you find the nurse?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "Yes. Here she is." }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "exercise_id": "u5_a_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành từ và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u5_a_ex3_q1", "label": "1", "prompt_text": "She can d___ a flower.", "image_description": "Bé gái đang vẽ một bông hoa trên giấy.", "correct_answer": "draw", "explanation_vi": "draw a flower (vẽ một bông hoa)." },
+                { "question_id": "u5_a_ex3_q2", "label": "2", "prompt_text": "He can r___ s___ very well.", "image_description": "Cậu bé đang trượt patin rất điêu luyện.", "correct_answer": "roller skate", "explanation_vi": "roller skate (trượt patin)." },
+                { "question_id": "u5_a_ex3_q3", "label": "3", "prompt_text": "My dad can play the g___.", "image_description": "Người bố đang chơi đàn ghi-ta.", "correct_answer": "guitar", "explanation_vi": "play the guitar (chơi đàn ghi-ta)." },
+                { "question_id": "u5_a_ex3_q4", "label": "4", "prompt_text": "My little sister can't r___ a bike.", "image_description": "Em gái nhỏ bị ngã xe đạp, chị gái đang dỗ dành.", "correct_answer": "ride", "explanation_vi": "ride a bike (đi xe đạp)." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "SENTENCE PATTERNS",
+          "exercises": [
+            {
+              "exercise_id": "u5_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành câu.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "she can play the guitar" },
+                { "id": "b", "text": "cook" },
+                { "id": "c", "text": "can't ride a horse" },
+                { "id": "d", "text": "your brother cook" }
+              ],
+              "questions": [
+                { "question_id": "u5_b_ex1_q1", "label": "1", "prompt_text": "Can you ___?", "correct_answer": "cook", "matched_option_id": "b" },
+                { "question_id": "u5_b_ex1_q2", "label": "2", "prompt_text": "My dad ___.", "correct_answer": "can't ride a horse", "matched_option_id": "c" },
+                { "question_id": "u5_b_ex1_q3", "label": "3", "prompt_text": "Can ___?", "correct_answer": "your brother cook", "matched_option_id": "d" },
+                { "question_id": "u5_b_ex1_q4", "label": "4", "prompt_text": "My mum can't play the piano, but ___.", "correct_answer": "she can play the guitar", "matched_option_id": "a" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and match.",
+              "instruction_vi": "Đọc và nối.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Can you swim?", "right_id": "c", "right_text": "Yes, I can." },
+                { "left_id": "2", "left_text": "Can your brother ride a bike?", "right_id": "d", "right_text": "No, he can't." },
+                { "left_id": "3", "left_text": "Can she ride a horse?", "right_id": "a", "right_text": "Yes, she can." },
+                { "left_id": "4", "left_text": "Can they roller skate?", "right_id": "b", "right_text": "No, they can't." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "u5_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and number.",
+              "instruction_vi": "Nghe và đánh số thứ tự tranh từ 1 đến 4.",
+              "game_mechanic": "ordering_pictures",
+              "simulated_audio": {
+                "original_track_ref": "Track 10",
+                "full_transcript": "1. Can he play the piano? Yes, he can. 2. Can she cook? Yes, she can. 3. Can he ride a bike? No, he can't. 4. Can he play the guitar? Yes, he can.",
+                "tts_voice_data": [
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "One." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Can he play the piano?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "Yes, he can." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Two." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Can she cook?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Yes, she can." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Three." },
+                  { "speaker": "A", "voice_type": "female_child", "text": "Can he ride a bike?" },
+                  { "speaker": "B", "voice_type": "male_child", "text": "No, he can't." },
+                  { "speaker": "Narrator", "voice_type": "female_adult", "text": "Four." },
+                  { "speaker": "A", "voice_type": "male_child", "text": "Can he play the guitar?" },
+                  { "speaker": "B", "voice_type": "female_child", "text": "Yes, he can." }
+                ]
+              },
+              "pictures": [
+                { "picture_id": "a", "image_description": "Bé gái đang nấu ăn trong bếp.", "correct_order_number": 2 },
+                { "picture_id": "b", "image_description": "Cậu bé đang chơi đàn ghi-ta.", "correct_order_number": 4 },
+                { "picture_id": "c", "image_description": "Cậu bé bị ngã xe đạp (không biết đi xe đạp).", "correct_order_number": 3 },
+                { "picture_id": "d", "image_description": "Cậu bé đeo kính đang chơi đàn pi-a-nô.", "correct_order_number": 1 }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "u5_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                {
+                  "question_id": "u5_d_ex1_q1",
+                  "label": "1",
+                  "speaker_a": "Can you play the piano?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nữ mỉm cười tự tin trả lời bạn nam trước cổng trường.",
+                  "correct_answer": "Yes, I can",
+                  "explanation_vi": "Có thể trả lời 'Yes, I can' hoặc 'No, I can't'."
+                },
+                {
+                  "question_id": "u5_d_ex1_q2",
+                  "label": "2",
+                  "speaker_a": "Can your sister cook? / Can your brother cook?",
+                  "speaker_b_prompt": "___.",
+                  "image_description": "Bạn nam suy nghĩ trả lời câu hỏi về chị/em gái hoặc anh/em trai.",
+                  "correct_answer": "Yes, she can",
+                  "explanation_vi": "Trả lời: Yes, she can / No, she can't (hoặc Yes, he can / No, he can't)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "READING",
+          "exercises": [
+            {
+              "exercise_id": "u5_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và hoàn thành hội thoại.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["but", "piano", "play", "you"],
+              "dialogue_lines": [
+                "A: What are you doing?",
+                "B: I'm playing the (1) ___.",
+                "A: It's great!",
+                "B: Can you (2) ___ the piano?",
+                "A: No, I can't, (3) ___ I can play the guitar.",
+                "B: Wonderful! There's a music club at our school. Do (4) ___ want to join?",
+                "A: Yes, I'd love to!"
+              ],
+              "questions": [
+                { "question_id": "u5_e_ex1_q1", "blank_number": 1, "correct_answer": "piano" },
+                { "question_id": "u5_e_ex1_q2", "blank_number": 2, "correct_answer": "play" },
+                { "question_id": "u5_e_ex1_q3", "blank_number": 3, "correct_answer": "but" },
+                { "question_id": "u5_e_ex1_q4", "blank_number": 4, "correct_answer": "you" }
+              ]
+            },
+            {
+              "exercise_id": "u5_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read and circle.",
+              "instruction_vi": "Đọc đoạn văn và khoanh tròn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Hello. My name is Lan. I have a brother and a sister. My brother can swim very well. My sister likes music. She can play the guitar and she can play the piano. I can't swim and I can't play the guitar, but I can cook very well. I love cooking!",
+              "questions": [
+                {
+                  "question_id": "u5_e_ex2_q1",
+                  "label": "1",
+                  "prompt_text": "How many brothers and sisters does Lan have?",
+                  "options": [{ "id": "a", "text": "Two brothers and one sister." }, { "id": "b", "text": "One brother and one sister." }],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "u5_e_ex2_q2",
+                  "label": "2",
+                  "prompt_text": "Can Lan's brother swim?",
+                  "options": [{ "id": "a", "text": "Yes, he can." }, { "id": "b", "text": "No, he can't." }],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u5_e_ex2_q3",
+                  "label": "3",
+                  "prompt_text": "Can Lan's sister play the piano?",
+                  "options": [{ "id": "a", "text": "Yes, she can." }, { "id": "b", "text": "No, she can't." }],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "u5_e_ex2_q4",
+                  "label": "4",
+                  "prompt_text": "Can Lan play the guitar?",
+                  "options": [{ "id": "a", "text": "Yes, she can." }, { "id": "b", "text": "No, she can't." }],
+                  "correct_answer": "b"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "F",
+          "section_title": "WRITING",
+          "exercises": [
+            {
+              "exercise_id": "u5_f_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u5_f_ex1_q1", "label": "1", "shuffled_parts": ["draw", "She", "can", "very well"], "punctuation": ".", "correct_answer": "She can draw very well." },
+                { "question_id": "u5_f_ex1_q2", "label": "2", "shuffled_parts": ["ride a bike", "can't", "He"], "punctuation": ".", "correct_answer": "He can't ride a bike." },
+                { "question_id": "u5_f_ex1_q3", "label": "3", "shuffled_parts": ["sing", "She can", "and dance"], "punctuation": ".", "correct_answer": "She can sing and dance." },
+                { "question_id": "u5_f_ex1_q4", "label": "4", "shuffled_parts": ["My little brother can't", "can roller skate", "he", "but", "ride a horse,"], "punctuation": ".", "correct_answer": "My little brother can't ride a horse, but he can roller skate." }
+              ]
+            },
+            {
+              "exercise_id": "u5_f_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Let's write.",
+              "instruction_vi": "Viết về những việc em và người thân có thể / không thể làm.",
+              "game_mechanic": "guided_writing",
+              "template_text": "Hi. My name is {1}. I can {2} and I can {3}. This is my {4}. He / She can {5}, but he / she can't {6}.",
+              "sample_answer": "Hi. My name is Phong. I can swim and I can ride a bike. This is my brother. He can play football, but he can't play the piano."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "self_check_01",
+      "unit_number": 0,
+      "unit_title": "Self-check 1",
+      "pages": [24, 25, 26, 27],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "LISTENING",
+          "exercises": [
+            {
+              "exercise_id": "sc1_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Listen and tick.",
+              "instruction_vi": "Nghe và đánh dấu Tick (✓) vào tranh đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "sc1_a_ex1_q1",
+                  "label": "1",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 11",
+                    "full_transcript": "1. A: What time is it? B: It's eight fifteen.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "What time is it?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "It's eight fifteen." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Đồng hồ chỉ 8:45 AM." },
+                    { "id": "b", "image_description": "Đồng hồ chỉ 8:15 AM." },
+                    { "id": "c", "image_description": "Đồng hồ chỉ 8:30 AM." }
+                  ],
+                  "correct_answer": "b"
+                },
+                {
+                  "question_id": "sc1_a_ex1_q2",
+                  "label": "2",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 11",
+                    "full_transcript": "2. A: When's your birthday? B: It's in April.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "When's your birthday?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's in April." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Lịch tháng 1 (JANUARY)." },
+                    { "id": "b", "image_description": "Lịch tháng 2 (FEBRUARY)." },
+                    { "id": "c", "image_description": "Lịch tháng 4 (APRIL)." }
+                  ],
+                  "correct_answer": "c"
+                },
+                {
+                  "question_id": "sc1_a_ex1_q3",
+                  "label": "3",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 11",
+                    "full_transcript": "3. A: Where's he from? B: He's from Australia.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Where's he from?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "He's from Australia." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Cậu bé cầm cờ nước Anh (Britain)." },
+                    { "id": "b", "image_description": "Cậu bé cầm cờ nước Mỹ (America)." },
+                    { "id": "c", "image_description": "Cậu bé cầm cờ nước Úc (Australia)." }
+                  ],
+                  "correct_answer": "c"
+                },
+                {
+                  "question_id": "sc1_a_ex1_q4",
+                  "label": "4",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 11",
+                    "full_transcript": "4. A: Can you swim? B: Yes, I can.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "female_child", "text": "Can you swim?" },
+                      { "speaker": "B", "voice_type": "male_child", "text": "Yes, I can." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Cậu bé đang bơi dưới hồ bơi." },
+                    { "id": "b", "image_description": "Cậu bé đang vẽ tranh." },
+                    { "id": "c", "image_description": "Cậu bé đang nấu ăn." }
+                  ],
+                  "correct_answer": "a"
+                },
+                {
+                  "question_id": "sc1_a_ex1_q5",
+                  "label": "5",
+                  "simulated_audio": {
+                    "original_track_ref": "Track 11",
+                    "full_transcript": "5. A: What day is it today? B: It's Friday.",
+                    "tts_voice_data": [
+                      { "speaker": "A", "voice_type": "male_child", "text": "What day is it today?" },
+                      { "speaker": "B", "voice_type": "female_child", "text": "It's Friday." }
+                    ]
+                  },
+                  "options": [
+                    { "id": "a", "image_description": "Tờ lịch ghi Thursday 10." },
+                    { "id": "b", "image_description": "Tờ lịch ghi Friday 11." },
+                    { "id": "c", "image_description": "Tờ lịch ghi Saturday 12." }
+                  ],
+                  "correct_answer": "b"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "READING AND WRITING",
+          "exercises": [
+            {
+              "exercise_id": "sc1_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Look and tick or cross.",
+              "instruction_vi": "Nhìn tranh và đánh dấu Tick (✓) nếu đúng hoặc Cross (✗) nếu sai.",
+              "game_mechanic": "true_false",
+              "questions": [
+                { "question_id": "sc1_b_ex1_q1", "label": "1", "prompt_text": "Britain", "image_description": "Lá cờ nước Úc (Australia).", "correct_answer": false, "explanation_vi": "Hình là cờ nước Úc (Australia), không phải Britain (✗)." },
+                { "question_id": "sc1_b_ex1_q2", "label": "2", "prompt_text": "chips", "image_description": "Đĩa khoai tây chiên (chips).", "correct_answer": true, "explanation_vi": "Hình đúng là khoai tây chiên (chips) (✓)." },
+                { "question_id": "sc1_b_ex1_q3", "label": "3", "prompt_text": "listen to music", "image_description": "Cậu bé đang ngồi học bài / làm bài tập ở bàn học.", "correct_answer": false, "explanation_vi": "Hình là đang học bài (do homework / study), không phải nghe nhạc (✗)." },
+                { "question_id": "sc1_b_ex1_q4", "label": "4", "prompt_text": "ride a bike", "image_description": "Bé gái đang đạp xe đạp.", "correct_answer": true, "explanation_vi": "Hình đúng là đi xe đạp (ride a bike) (✓)." },
+                { "question_id": "sc1_b_ex1_q5", "label": "5", "prompt_text": "go to bed", "image_description": "Hai bạn nhỏ đang đi bộ đến cổng trường (School).", "correct_answer": false, "explanation_vi": "Hình là đi học (go to school), không phải đi ngủ (go to bed) (✗)." }
+              ]
+            },
+            {
+              "exercise_id": "sc1_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look, complete and read.",
+              "instruction_vi": "Nhìn tranh, hoàn thành câu và đọc.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc1_b_ex2_q1", "label": "1", "prompt_text": "I want some ___.", "image_description": "Ly nước chanh / nước ép (juice / lemonade).", "correct_answer": "juice" },
+                { "question_id": "sc1_b_ex2_q2", "label": "2", "prompt_text": "He's from ___.", "image_description": "Lá cờ nước Mỹ (America).", "correct_answer": "America" },
+                { "question_id": "sc1_b_ex2_q3", "label": "3", "prompt_text": "She can ___ a horse.", "image_description": "Cô gái đang cưỡi ngựa.", "correct_answer": "ride" },
+                { "question_id": "sc1_b_ex2_q4", "label": "4", "prompt_text": "I ___ on Sundays.", "image_description": "Cậu bé đang đánh đàn ghi-ta.", "correct_answer": "play the guitar" },
+                { "question_id": "sc1_b_ex2_q5", "label": "5", "prompt_text": "I ___ at seven o'clock.", "image_description": "Bé gái vươn vai thức dậy trên giường lúc 7:00 AM.", "correct_answer": "get up" }
+              ]
+            },
+            {
+              "exercise_id": "sc1_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read and complete.",
+              "instruction_vi": "Đọc và điền từ trong khung vào đoạn văn.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["April", "Australia", "can", "Sundays", "want"],
+              "reading_passage": "My name is Tom. I am from (1) ___. I go to school from Mondays to Fridays. I do housework on (2) ___. I like cooking. I (3) ___ cook rice, chicken and eggs. My birthday is in (4) ___. I (5) ___ a big cake at my birthday party.",
+              "questions": [
+                { "question_id": "sc1_b_ex3_q1", "blank_number": 1, "correct_answer": "Australia" },
+                { "question_id": "sc1_b_ex3_q2", "blank_number": 2, "correct_answer": "Sundays" },
+                { "question_id": "sc1_b_ex3_q3", "blank_number": 3, "correct_answer": "can" },
+                { "question_id": "sc1_b_ex3_q4", "blank_number": 4, "correct_answer": "April" },
+                { "question_id": "sc1_b_ex3_q5", "blank_number": 5, "correct_answer": "want" }
+              ]
+            },
+            {
+              "exercise_id": "sc1_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Make sentences.",
+              "instruction_vi": "Sắp xếp các từ thành câu hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "sc1_b_ex4_q1", "label": "1", "shuffled_parts": ["do you", "What time", "have breakfast"], "punctuation": "?", "correct_answer": "What time do you have breakfast?" },
+                { "question_id": "sc1_b_ex4_q2", "label": "2", "shuffled_parts": ["some water", "want", "I"], "punctuation": ".", "correct_answer": "I want some water." },
+                { "question_id": "sc1_b_ex4_q3", "label": "3", "shuffled_parts": ["play", "He", "the piano", "can"], "punctuation": ".", "correct_answer": "He can play the piano." },
+                { "question_id": "sc1_b_ex4_q4", "label": "4", "shuffled_parts": ["she", "Where is", "from"], "punctuation": "?", "correct_answer": "Where is she from?" },
+                { "question_id": "sc1_b_ex4_q5", "label": "5", "shuffled_parts": ["on Saturdays", "listen to music", "I"], "punctuation": ".", "correct_answer": "I listen to music on Saturdays." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "SPEAKING",
+          "exercises": [
+            {
+              "exercise_id": "sc1_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Ask and answer.",
+              "instruction_vi": "Hỏi và trả lời theo 5 tình huống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "sc1_c_ex1_q1", "label": "1", "speaker_a": "What do you do on Tuesdays?", "speaker_b_prompt": "___.", "image_description": "Cậu bé nghĩ về hình ảnh đang ngồi học bài trước bảng đen ở trường.", "correct_answer": "I study at school" },
+                { "question_id": "sc1_c_ex1_q2", "label": "2", "speaker_a": "Where are you from?", "speaker_b_prompt": "___.", "image_description": "Cậu bé chỉ vào lá cờ Malaysia.", "correct_answer": "I'm from Malaysia" },
+                { "question_id": "sc1_c_ex1_q3", "label": "3", "speaker_a": "Can you roller skate?", "speaker_b_prompt": "___.", "image_description": "Cậu bé nghĩ về cảnh mình bị ngã khi trượt patin.", "correct_answer": "No, I can't" },
+                { "question_id": "sc1_c_ex1_q4", "label": "4", "speaker_a": "What time do you go to bed?", "speaker_b_prompt": "___.", "image_description": "Cậu bé nghĩ về chiếc đồng hồ 9:45 PM.", "correct_answer": "I go to bed at nine forty-five" },
+                { "question_id": "sc1_c_ex1_q5", "label": "5", "speaker_a": "What do you want to eat?", "speaker_b_prompt": "___.", "image_description": "Cậu bé nghĩ về đĩa gà rán và chùm nho (chicken and grapes).", "correct_answer": "I want some chicken and grapes" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

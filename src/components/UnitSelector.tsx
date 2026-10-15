@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { BookOpen, Star, Sparkles, CheckCircle2, Play, Search, Gamepad2, Trophy, Flame, X } from 'lucide-react';
-import { UnitData, UserProfile } from '../types';
+import { BookOpen, Star, Sparkles, CheckCircle2, Play, Search, Gamepad2, Trophy, Flame, X, FileText, ChevronRight } from 'lucide-react';
+import { UnitData, UserProfile, ExerciseCluster } from '../types';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent } from '../utils/avatarUtils';
 
@@ -12,6 +12,8 @@ interface UnitSelectorProps {
   onSelectGame: (unit: UnitData, gameType: 'flashcards' | 'memory' | 'wordScramble' | 'sentence' | 'quiz') => void;
   onStartChallenge?: () => void;
   onOpenAvatarModal?: () => void;
+  exerciseClusters?: ExerciseCluster[];
+  onSelectExerciseCluster?: (cluster: ExerciseCluster) => void;
 }
 
 interface PreGamePrompt {
@@ -28,8 +30,11 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   onSelectUnit,
   onSelectGame,
   onStartChallenge,
-  onOpenAvatarModal
+  onOpenAvatarModal,
+  exerciseClusters = [],
+  onSelectExerciseCluster
 }) => {
+  const [learningMode, setLearningMode] = useState<'textbook' | 'exercises'>('textbook');
   const [activeBookTab, setActiveBookTab] = useState<'Phần 1' | 'Phần 2'>('Phần 1');
   const [searchQuery, setSearchQuery] = useState('');
   const [preGamePrompt, setPreGamePrompt] = useState<PreGamePrompt | null>(null);
@@ -51,6 +56,16 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
       unit.vocabulary.some(v => v.word.toLowerCase().includes(searchQuery.toLowerCase()) || v.meaning.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return matchesBook && matchesQuery;
+  });
+
+  const filteredClusters = exerciseClusters.filter(c => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      c.title.toLowerCase().includes(q) ||
+      (c.description && c.description.toLowerCase().includes(q)) ||
+      (c.questions && c.questions.some(item => item.question.toLowerCase().includes(q)))
+    );
   });
 
   const getUnitStars = (unitNumber: number): number => {
@@ -177,51 +192,51 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
         </button>
       </div>
 
-      {/* Book Tabs & Search Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        {/* Book Tabs for Primary (Cấp 1 có 20 Unit), Cấp 2 & 3 hiển thị trọn bộ 12 Unit */}
-        {!isSecondaryOrHigher ? (
-          <div className="flex bg-amber-100/70 p-1.5 rounded-2xl border border-amber-200">
-            <button
-              onClick={() => {
-                soundEffects.playClick();
-                setActiveBookTab('Phần 1');
-              }}
-              className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl font-display font-bold text-sm sm:text-base transition cursor-pointer flex items-center justify-center gap-2 ${
-                activeBookTab === 'Phần 1'
-                  ? 'bg-white text-slate-800 shadow-md shadow-slate-900/5'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <span>📘 Phần 1</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                Unit 1 - 10
-              </span>
-            </button>
+      {/* Main Mode Navigation: SGK Tiếng Anh Lớp ... & Bài tập Tiếng Anh Lớp ... (ĐẶT KẾ BÊN NHAU) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/80 backdrop-blur-md p-2 rounded-3xl border border-slate-200/80 shadow-2xs">
+        <div className="flex items-center gap-2">
+          {/* Mục 1: SGK Tiếng Anh Lớp ... */}
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setLearningMode('textbook');
+            }}
+            className={`px-4 sm:px-5 py-2.5 rounded-2xl font-display font-bold text-xs sm:text-sm transition cursor-pointer flex items-center justify-center gap-2 ${
+              learningMode === 'textbook'
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-amber-500/20'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>SGK Tiếng Anh Lớp {user.grade}</span>
+            <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
+              learningMode === 'textbook' ? 'bg-white/20 text-white' : 'bg-amber-100 text-amber-800'
+            }`}>
+              {units.length} Unit
+            </span>
+          </button>
 
-            <button
-              onClick={() => {
-                soundEffects.playClick();
-                setActiveBookTab('Phần 2');
-              }}
-              className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-xl font-display font-bold text-sm sm:text-base transition cursor-pointer flex items-center justify-center gap-2 ${
-                activeBookTab === 'Phần 2'
-                  ? 'bg-white text-slate-800 shadow-md shadow-slate-900/5'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              <span>📗 Phần 2</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                Unit 11 - 20
-              </span>
-            </button>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 px-4 py-2.5 bg-amber-100/80 border border-amber-300 text-amber-900 rounded-2xl text-xs sm:text-sm font-bold shadow-2xs">
-            <BookOpen className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>Trọn bộ {units.length} Unit (Chương trình Tiếng Anh Lớp {user.grade})</span>
-          </div>
-        )}
+          {/* Mục 2: Bài tập Tiếng Anh Lớp ... (kế bên mục SGK) */}
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setLearningMode('exercises');
+            }}
+            className={`px-4 sm:px-5 py-2.5 rounded-2xl font-display font-bold text-xs sm:text-sm transition cursor-pointer flex items-center justify-center gap-2 ${
+              learningMode === 'exercises'
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-600/20'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+            }`}
+          >
+            <FileText className="w-4 h-4" />
+            <span>Bài tập Tiếng Anh Lớp {user.grade}</span>
+            <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
+              learningMode === 'exercises' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-700'
+            }`}>
+              {exerciseClusters.length} Cụm
+            </span>
+          </button>
+        </div>
 
         {/* Search Input */}
         <div className="relative flex-1 sm:max-w-xs">
@@ -230,11 +245,156 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm theo tên bài, từ vựng..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
+            placeholder={learningMode === 'textbook' ? "Tìm theo tên bài, từ vựng..." : "Tìm bài tập, câu hỏi..."}
+            className="w-full pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-amber-400 transition"
           />
         </div>
       </div>
+
+      {learningMode === 'exercises' ? (
+        /* MỤC BÀI TẬP TIẾNG ANH (RENDER CÁC CỤM BÀI TẬP TỪ JSON) */
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 flex items-center gap-2">
+                <span>📝 Danh sách Cụm Bài tập Tiếng Anh Lớp {user.grade}</span>
+              </h2>
+              <p className="text-xs text-slate-500">
+                Các cụm câu hỏi bài tập rèn luyện trích xuất từ tài liệu PDF bài tập
+              </p>
+            </div>
+            <span className="text-xs font-bold px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-full">
+              {filteredClusters.length} cụm khả dụng
+            </span>
+          </div>
+
+          {filteredClusters.length === 0 ? (
+            <div className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-dashed border-slate-200 text-center space-y-3">
+              <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mx-auto">
+                📂
+              </div>
+              <h3 className="font-display font-bold text-lg text-slate-800">
+                Chưa có dữ liệu bài tập cho Lớp {user.grade}
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                Quản trị viên có thể vào trang <strong>Quản lý hệ thống ➔ Quản lý JSON ➔ Quản lý dữ liệu bài tập JSON</strong> để cấu hình số lượng cụm và tải lên các tệp JSON bài tập trích xuất từ tài liệu PDF.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+              {filteredClusters.map((cluster) => {
+                const qCount = cluster.questions?.length || 0;
+                return (
+                  <div
+                    key={cluster.id}
+                    className="bg-white rounded-3xl border-2 border-purple-100 hover:border-purple-300 p-5 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between space-y-4 group"
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center text-2xl shadow-sm shrink-0">
+                            📝
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-[11px] font-extrabold text-purple-600 uppercase tracking-wider bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200 inline-block">
+                              Cụm {cluster.clusterNumber}
+                            </span>
+                            <h3 className="font-display font-bold text-base sm:text-lg text-slate-800 mt-1 leading-snug truncate">
+                              {cluster.title}
+                            </h3>
+                          </div>
+                        </div>
+                        <span className={`text-xs font-extrabold px-2.5 py-1 rounded-xl border shrink-0 ${
+                          qCount > 0
+                            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+                            : 'bg-amber-50 text-amber-800 border-amber-200'
+                        }`}>
+                          {qCount} câu hỏi
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                        {cluster.description || 'Bộ bài tập ôn luyện theo chương trình học.'}
+                      </p>
+
+                      {/* Preview câu hỏi */}
+                      {cluster.questions && cluster.questions.length > 0 && (
+                        <div className="bg-slate-50/80 rounded-2xl p-3 border border-slate-200/80 space-y-1.5 text-xs text-slate-700">
+                          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                            Xem trước câu hỏi mẫu:
+                          </span>
+                          {cluster.questions.slice(0, 2).map((q, qIdx) => (
+                            <div key={qIdx} className="truncate text-slate-600 flex items-center gap-1.5 text-[11px]">
+                              <span className="w-4 h-4 rounded-full bg-purple-100 text-purple-700 font-bold text-[9px] flex items-center justify-center shrink-0">
+                                {qIdx + 1}
+                              </span>
+                              <span className="truncate">{q.question}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        onClick={() => {
+                          soundEffects.playClick();
+                          onSelectExerciseCluster?.(cluster);
+                        }}
+                        disabled={qCount === 0}
+                        className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-display font-bold text-sm shadow-md shadow-purple-600/20 transition active:scale-98 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        <span>Làm bài tập ngay</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      ) : (
+        /* MỤC SGK TIẾNG ANH (HIỂN THỊ CÁC UNIT SGK NHƯ CŨ) */
+        <div className="space-y-6">
+          {/* Book Tabs for Primary (Cấp 1 có 20 Unit), Cấp 2 & 3 hiển thị trọn bộ 12 Unit */}
+          {!isSecondaryOrHigher && (
+            <div className="flex bg-amber-100/70 p-1.5 rounded-2xl border border-amber-200 w-fit">
+              <button
+                onClick={() => {
+                  soundEffects.playClick();
+                  setActiveBookTab('Phần 1');
+                }}
+                className={`px-5 py-2 rounded-xl font-display font-bold text-sm transition cursor-pointer flex items-center gap-2 ${
+                  activeBookTab === 'Phần 1'
+                    ? 'bg-white text-slate-800 shadow-md shadow-slate-900/5'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>📘 Phần 1</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                  Unit 1 - 10
+                </span>
+              </button>
+
+              <button
+                onClick={() => {
+                  soundEffects.playClick();
+                  setActiveBookTab('Phần 2');
+                }}
+                className={`px-5 py-2 rounded-xl font-display font-bold text-sm transition cursor-pointer flex items-center gap-2 ${
+                  activeBookTab === 'Phần 2'
+                    ? 'bg-white text-slate-800 shadow-md shadow-slate-900/5'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <span>📗 Phần 2</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
+                  Unit 11 - 20
+                </span>
+              </button>
+            </div>
+          )}
 
       {/* Units Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
@@ -358,6 +518,8 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
           );
         })}
       </div>
+    </div>
+  )}
 
       {/* Modal xác nhận trước khi vào học các nội dung đã có sao */}
       {preGamePrompt && (

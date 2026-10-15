@@ -24,14 +24,18 @@ import {
   Monitor,
   Maximize2,
   CloudUpload,
-  Cloud
+  Cloud,
+  FileText,
+  FolderPlus,
+  BookOpen
 } from 'lucide-react';
-import { UserProfile, UnitData } from '../types';
+import { UserProfile, UnitData, ExerciseCluster } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
 import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES } from '../utils/gradeUtils';
 import { clearAppCache } from '../utils/cacheUtils';
+import { parseExerciseJson, createDefaultClusters, createEmptyCluster } from '../utils/exerciseUtils';
 import { EasyEngLogo } from './EasyEngLogo';
 
 interface AdminClassInfo {
@@ -62,6 +66,8 @@ interface AdminManagerModalProps {
   welcomeLogoSize?: number;
   onSaveLogoSizes?: (headerSize: number, welcomeSize: number) => void;
   onSaveBranding?: (logo: string | null, headerSize: number, welcomeSize: number) => Promise<boolean> | void;
+  gradeExercisesMap?: Record<number, ExerciseCluster[]>;
+  onSaveExercises?: (grade: number, clusters: ExerciseCluster[]) => Promise<boolean> | void;
 }
 
 // Secure SHA-256 hash of password with cryptographic salt
@@ -102,7 +108,9 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   headerLogoSize = 200,
   welcomeLogoSize = 300,
   onSaveLogoSizes,
-  onSaveBranding
+  onSaveBranding,
+  gradeExercisesMap = {},
+  onSaveExercises
 }) => {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -342,6 +350,192 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [jsonSuccess, setJsonSuccess] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Exercise Clusters JSON Tab state
+  const [jsonSubTab, setJsonSubTab] = useState<'curriculum' | 'exercises'>('curriculum');
+  const [selectedExerciseGrade, setSelectedExerciseGrade] = useState<number>(classes[0]?.grade || 4);
+  const [exerciseClustersMap, setExerciseClustersMap] = useState<Record<number, ExerciseCluster[]>>(() => {
+    return gradeExercisesMap || {};
+  });
+  const [exerciseSaveSuccess, setExerciseSaveSuccess] = useState<string | null>(null);
+  const [exerciseSaveError, setExerciseSaveError] = useState<string | null>(null);
+  const [isSavingExercises, setIsSavingExercises] = useState(false);
+
+  // Modal Load JSON for a specific cluster
+  const [clusterJsonModal, setClusterJsonModal] = useState<{
+    clusterIndex: number;
+    title: string;
+    rawText: string;
+    detectedCount: number;
+    error: string | null;
+  } | null>(null);
+  const clusterFileInputRef = useRef<HTMLInputElement>(null);
+
+  const getCurrentGradeClusters = (): ExerciseCluster[] => {
+    const list = exerciseClustersMap[selectedExerciseGrade];
+    if (list && list.length > 0) return list;
+    return createDefaultClusters(selectedExerciseGrade, 4);
+  };
+
+  const handleSelectExerciseGrade = (grade: number) => {
+    setSelectedExerciseGrade(grade);
+    setExerciseSaveSuccess(null);
+    setExerciseSaveError(null);
+    if (!exerciseClustersMap[grade] || exerciseClustersMap[grade].length === 0) {
+      setExerciseClustersMap(prev => ({
+        ...prev,
+        [grade]: createDefaultClusters(grade, 4)
+      }));
+    }
+  };
+
+  const handleSetClusterCount = (newCount: number) => {
+    soundEffects.playClick();
+    const current = getCurrentGradeClusters();
+    if (newCount === current.length) return;
+    if (newCount > current.length) {
+      const added: ExerciseCluster[] = [...current];
+      for (let i = current.length + 1; i <= newCount; i++) {
+        added.push(createEmptyCluster(i, selectedExerciseGrade));
+      }
+      setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: added }));
+    } else {
+      if (window.confirm(`Bạn có chắc chắn muốn giảm số lượng cụm xuống ${newCount} cụm không? Các cụm phía sau sẽ bị lược bỏ.`)) {
+        const sliced = current.slice(0, newCount);
+        setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: sliced }));
+      }
+    }
+  };
+
+  const handleAddCluster = () => {
+    soundEffects.playClick();
+    const current = getCurrentGradeClusters();
+    const nextNum = current.length + 1;
+    const newCluster = createEmptyCluster(nextNum, selectedExerciseGrade);
+    setExerciseClustersMap(prev => ({
+      ...prev,
+      [selectedExerciseGrade]: [...current, newCluster]
+    }));
+  };
+
+  const handleDeleteCluster = (clusterIdx: number) => {
+    soundEffects.playClick();
+    const current = getCurrentGradeClusters();
+    if (current.length <= 1) {
+      alert('Tối thiểu phải có 1 cụm bài tập.');
+      return;
+    }
+    if (window.confirm(`Bạn có chắc muốn xóa Cụm ${clusterIdx + 1}?`)) {
+      const filtered = current.filter((_, idx) => idx !== clusterIdx).map((c, idx) => ({
+        ...c,
+        clusterNumber: idx + 1
+      }));
+      setExerciseClustersMap(prev => ({
+        ...prev,
+        [selectedExerciseGrade]: filtered
+      }));
+    }
+  };
+
+  const handleClusterTitleChange = (clusterIdx: number, newTitle: string) => {
+    const current = getCurrentGradeClusters();
+    const updated = [...current];
+    if (updated[clusterIdx]) {
+      updated[clusterIdx] = { ...updated[clusterIdx], title: newTitle };
+      setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: updated }));
+    }
+  };
+
+  const handleClusterDescChange = (clusterIdx: number, newDesc: string) => {
+    const current = getCurrentGradeClusters();
+    const updated = [...current];
+    if (updated[clusterIdx]) {
+      updated[clusterIdx] = { ...updated[clusterIdx], description: newDesc };
+      setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: updated }));
+    }
+  };
+
+  const handleOpenLoadJson = (clusterIdx: number) => {
+    soundEffects.playClick();
+    const current = getCurrentGradeClusters();
+    const target = current[clusterIdx];
+    if (!target) return;
+    setClusterJsonModal({
+      clusterIndex: clusterIdx,
+      title: target.title,
+      rawText: target.rawJson || '',
+      detectedCount: target.questions?.length || 0,
+      error: null
+    });
+  };
+
+  const handleClusterJsonTextChange = (text: string) => {
+    if (!clusterJsonModal) return;
+    const parsedRes = parseExerciseJson(text, clusterJsonModal.clusterIndex + 1, selectedExerciseGrade);
+    setClusterJsonModal({
+      ...clusterJsonModal,
+      rawText: text,
+      detectedCount: parsedRes.cluster.questions?.length || 0,
+      error: parsedRes.error || null
+    });
+  };
+
+  const handleClusterFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !clusterJsonModal) return;
+    soundEffects.playClick();
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result as string;
+      if (content) {
+        handleClusterJsonTextChange(content);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleApplyClusterJson = () => {
+    if (!clusterJsonModal) return;
+    const { clusterIndex, rawText } = clusterJsonModal;
+    const parsedRes = parseExerciseJson(rawText, clusterIndex + 1, selectedExerciseGrade);
+    if (parsedRes.cluster.questions.length === 0 && parsedRes.error) {
+      soundEffects.playError();
+      return;
+    }
+    soundEffects.playSuccess();
+    const current = getCurrentGradeClusters();
+    const updated = [...current];
+    updated[clusterIndex] = {
+      ...parsedRes.cluster,
+      title: clusterJsonModal.title || parsedRes.cluster.title,
+      clusterNumber: clusterIndex + 1
+    };
+    setExerciseClustersMap(prev => ({
+      ...prev,
+      [selectedExerciseGrade]: updated
+    }));
+    setClusterJsonModal(null);
+    setExerciseSaveSuccess(`Đã nạp thành công ${parsedRes.cluster.questions.length} câu hỏi vào Cụm ${clusterIndex + 1}! Nhấn nút "Lưu tất cả cụm lên Cloud" bên dưới để hoàn tất.`);
+  };
+
+  const handleSaveAllExerciseClusters = async () => {
+    soundEffects.playClick();
+    setIsSavingExercises(true);
+    setExerciseSaveSuccess(null);
+    setExerciseSaveError(null);
+    try {
+      const current = getCurrentGradeClusters();
+      await onSaveExercises?.(selectedExerciseGrade, current);
+      soundEffects.playSuccess();
+      setExerciseSaveSuccess(`Đã lưu và đồng bộ thành công ${current.length} Cụm bài tập Lớp ${selectedExerciseGrade} lên Cloud Firestore! Học sinh Lớp ${selectedExerciseGrade} đã có thể làm các bài tập này ngay.`);
+      setTimeout(() => setExerciseSaveSuccess(null), 6000);
+    } catch (err: any) {
+      soundEffects.playError();
+      setExerciseSaveError(`Lỗi lưu dữ liệu: ${err.message || 'Không thể lưu lên Cloud'}`);
+    } finally {
+      setIsSavingExercises(false);
+    }
+  };
 
   // Combine standard avatars + custom uploaded avatars
   const allAvailableAvatars = [
@@ -686,9 +880,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
           <form onSubmit={handleAuthSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                Mật khẩu quản trị:
-              </label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -1553,121 +1744,344 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
           {/* ========================================================= */}
           {activeTab === 'curriculum' && (
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <h3 className="font-display font-bold text-lg text-slate-800">
-                    Quản lý dữ liệu giáo trình JSON
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    Xem, dán code trích xuất từ NotebookLM, sao chép hoặc nhập tệp tin JSON
-                  </p>
-                </div>
-
-                {/* Grade picker */}
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-slate-600">Đang chọn:</span>
-                  <select
-                    value={selectedJsonGrade}
-                    onChange={(e) => handleSelectJsonGrade(Number(e.target.value))}
-                    className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl font-display font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400"
-                  >
-                    {classes.map(c => (
-                      <option key={c.grade} value={c.grade}>
-                        {c.emoji} {c.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Action Toolbar */}
-              <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 text-xs">
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <button
-                    onClick={handleCopyJson}
-                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
-                  >
-                    {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-                    {copied ? 'Đã sao chép' : 'Sao chép code'}
-                  </button>
-
-                  <button
-                    onClick={handlePasteJson}
-                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
-                    title="Dán từ Clipboard"
-                  >
-                    Dán code
-                  </button>
-
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    accept=".json"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
-                  >
-                    <Upload className="w-3.5 h-3.5" /> Nhập tệp .json
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-1.5">
-                  <button
-                    onClick={() => {
-                      if (window.confirm(`Khôi phục về dữ liệu mặc định Lớp ${selectedJsonGrade}?`)) {
-                        onResetCurriculum(selectedJsonGrade);
-                        handleCancelOrResetJson();
-                      }
-                    }}
-                    className="px-3 py-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-xl font-bold transition cursor-pointer flex items-center gap-1"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" /> Khôi phục gốc
-                  </button>
-                </div>
-              </div>
-
-              {/* JSON Editor Textarea */}
-              <div className="relative min-h-[300px]">
-                <textarea
-                  value={jsonContent}
-                  onChange={(e) => setJsonContent(e.target.value)}
-                  className="w-full h-80 sm:h-96 p-4 bg-slate-900 text-amber-300 font-mono text-xs rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none selection:bg-amber-600 selection:text-white"
-                  placeholder="Dán mã JSON mảng [ ... ] tại đây..."
-                  spellCheck={false}
-                />
-              </div>
-
-              {/* Feedback banners */}
-              {jsonError && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {jsonError}
-                </div>
-              )}
-              {jsonSuccess && (
-                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-                  <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {jsonSuccess}
-                </div>
-              )}
-
-              {/* Save & Cancel Footer */}
-              <div className="flex items-center justify-end gap-2.5 pt-2">
+              {/* Sub-tab Switcher: Giáo trình SGK vs Quản lý dữ liệu bài tập JSON */}
+              <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
                 <button
-                  onClick={handleCancelOrResetJson}
-                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition cursor-pointer"
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playClick();
+                    setJsonSubTab('curriculum');
+                  }}
+                  className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer ${
+                    jsonSubTab === 'curriculum'
+                      ? 'bg-amber-500 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
                 >
-                  Hủy thay đổi
+                  <BookOpen className="w-4 h-4" />
+                  <span>Dữ liệu Giáo trình SGK</span>
                 </button>
+
                 <button
-                  onClick={handleSaveJson}
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-display font-bold text-xs shadow-md shadow-emerald-500/20 transition active:scale-95 cursor-pointer flex items-center gap-1.5"
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playClick();
+                    setJsonSubTab('exercises');
+                  }}
+                  className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer ${
+                    jsonSubTab === 'exercises'
+                      ? 'bg-purple-600 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
                 >
-                  <Save className="w-4 h-4" /> Lưu dữ liệu Lớp {selectedJsonGrade} 🚀
+                  <FileText className="w-4 h-4" />
+                  <span>Quản lý dữ liệu bài tập JSON</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+                    jsonSubTab === 'exercises' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-700'
+                  }`}>
+                    {getCurrentGradeClusters().length} Cụm
+                  </span>
                 </button>
               </div>
+
+              {jsonSubTab === 'curriculum' ? (
+                /* GIAO DIEN QUAN LY DU LIEU GIAO TRINH SGK (CU) */
+                <div className="space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="font-display font-bold text-lg text-slate-800">
+                        Quản lý dữ liệu giáo trình JSON
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Xem, dán code trích xuất từ NotebookLM, sao chép hoặc nhập tệp tin JSON
+                      </p>
+                    </div>
+
+                    {/* Grade picker */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-slate-600">Đang chọn:</span>
+                      <select
+                        value={selectedJsonGrade}
+                        onChange={(e) => handleSelectJsonGrade(Number(e.target.value))}
+                        className="px-3 py-1.5 bg-white border border-slate-200 rounded-xl font-display font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                      >
+                        {classes.map(c => (
+                          <option key={c.grade} value={c.grade}>
+                            {c.emoji} {c.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Action Toolbar */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 text-xs">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <button
+                        onClick={handleCopyJson}
+                        className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                        {copied ? 'Đã sao chép' : 'Sao chép code'}
+                      </button>
+
+                      <button
+                        onClick={handlePasteJson}
+                        className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
+                        title="Dán từ Clipboard"
+                      >
+                        Dán code
+                      </button>
+
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        accept=".json"
+                        onChange={handleFileUpload}
+                        className="hidden"
+                      />
+
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1 transition cursor-pointer"
+                      >
+                        <Upload className="w-3.5 h-3.5" /> Nhập tệp .json
+                      </button>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => {
+                          if (window.confirm(`Khôi phục về dữ liệu mặc định Lớp ${selectedJsonGrade}?`)) {
+                            onResetCurriculum(selectedJsonGrade);
+                            handleCancelOrResetJson();
+                          }
+                        }}
+                        className="px-3 py-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-200/60 rounded-xl font-bold transition cursor-pointer flex items-center gap-1"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" /> Khôi phục gốc
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* JSON Editor Textarea */}
+                  <div className="relative min-h-[300px]">
+                    <textarea
+                      value={jsonContent}
+                      onChange={(e) => setJsonContent(e.target.value)}
+                      className="w-full h-80 sm:h-96 p-4 bg-slate-900 text-amber-300 font-mono text-xs rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none selection:bg-amber-600 selection:text-white"
+                      placeholder="Dán mã JSON mảng [ ... ] tại đây..."
+                      spellCheck={false}
+                    />
+                  </div>
+
+                  {/* Feedback banners */}
+                  {jsonError && (
+                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {jsonError}
+                    </div>
+                  )}
+                  {jsonSuccess && (
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                      <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {jsonSuccess}
+                    </div>
+                  )}
+
+                  {/* Save & Cancel Footer */}
+                  <div className="flex items-center justify-end gap-2.5 pt-2">
+                    <button
+                      onClick={handleCancelOrResetJson}
+                      className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition cursor-pointer"
+                    >
+                      Hủy thay đổi
+                    </button>
+                    <button
+                      onClick={handleSaveJson}
+                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-display font-bold text-xs shadow-md shadow-emerald-500/20 transition active:scale-95 cursor-pointer flex items-center gap-1.5"
+                    >
+                      <Save className="w-4 h-4" /> Lưu dữ liệu Lớp {selectedJsonGrade} 🚀
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* PHẦN QUẢN LÝ DỮ LIỆU BÀI TẬP JSON THEO YÊU CẦU */
+                <div className="space-y-4">
+                  {/* Top Bar: Title & Mục Chọn Lớp */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                      <h3 className="font-display font-bold text-lg text-slate-800 flex items-center gap-2">
+                        <span>Quản lý dữ liệu bài tập JSON</span>
+                        <span className="text-xs font-semibold px-2 py-0.5 bg-purple-100 text-purple-700 rounded-md">
+                          Trích xuất từ PDF
+                        </span>
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Cấu hình các cụm bài tập, nạp dữ liệu câu hỏi từ file JSON và đồng bộ tới học sinh.
+                      </p>
+                    </div>
+
+                    {/* Mục Chọn Lớp */}
+                    <div className="flex items-center gap-2 bg-purple-50 p-1.5 px-3 rounded-2xl border border-purple-200">
+                      <span className="text-xs font-bold text-purple-800">Lớp:</span>
+                      <select
+                        value={selectedExerciseGrade}
+                        onChange={(e) => handleSelectExerciseGrade(Number(e.target.value))}
+                        className="px-3 py-1 bg-white border border-purple-300 rounded-xl font-display font-bold text-xs text-purple-900 focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer"
+                      >
+                        {classes.map(c => (
+                          <option key={c.grade} value={c.grade}>
+                            {c.emoji} {c.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Thanh điều khiển số lượng cụm (Mặc định 4 cụm) & Nút + Thêm cụm */}
+                  <div className="bg-slate-50 p-3 sm:p-4 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-bold text-slate-700">
+                        Số lượng cụm cần add JSON:
+                      </span>
+                      <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200">
+                        {[2, 4, 6, 8].map(count => (
+                          <button
+                            key={count}
+                            type="button"
+                            onClick={() => handleSetClusterCount(count)}
+                            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
+                              getCurrentGradeClusters().length === count
+                                ? 'bg-purple-600 text-white shadow-2xs'
+                                : 'text-slate-600 hover:bg-slate-100'
+                            }`}
+                          >
+                            {count} cụm {count === 4 && <span className="text-[10px] opacity-80">(Mặc định)</span>}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Nút + Thêm cụm */}
+                    <button
+                      type="button"
+                      onClick={handleAddCluster}
+                      className="px-3.5 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer active:scale-95"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Thêm cụm (+)</span>
+                    </button>
+                  </div>
+
+                  {/* Feedback Banners */}
+                  {exerciseSaveError && (
+                    <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {exerciseSaveError}
+                    </div>
+                  )}
+                  {exerciseSaveSuccess && (
+                    <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                      <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {exerciseSaveSuccess}
+                    </div>
+                  )}
+
+                  {/* Danh sách từng cụm bài tập */}
+                  <div className="space-y-3">
+                    {getCurrentGradeClusters().map((cluster, idx) => {
+                      const qCount = cluster.questions?.length || 0;
+                      return (
+                        <div
+                          key={cluster.id || idx}
+                          className="bg-white rounded-2xl border-2 border-slate-200 p-4 space-y-3 shadow-2xs transition hover:border-purple-300"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                            <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                              <span className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 font-display font-extrabold text-sm flex items-center justify-center shrink-0">
+                                {idx + 1}
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <input
+                                  type="text"
+                                  value={cluster.title}
+                                  onChange={(e) => handleClusterTitleChange(idx, e.target.value)}
+                                  placeholder={`Cụm bài tập ${idx + 1}`}
+                                  className="w-full px-2.5 py-1 text-sm font-display font-bold text-slate-800 bg-slate-50 hover:bg-white border border-transparent hover:border-slate-300 focus:bg-white focus:border-purple-400 rounded-lg transition focus:outline-none"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border ${
+                                qCount > 0
+                                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                  : 'bg-amber-50 text-amber-700 border-amber-200'
+                              }`}>
+                                {qCount > 0 ? `✅ ${qCount} câu hỏi` : '⚠️ Chưa có dữ liệu'}
+                              </span>
+
+                              {/* NÚT LOAD JSON CHO TỪNG CỤM */}
+                              <button
+                                type="button"
+                                onClick={() => handleOpenLoadJson(idx)}
+                                className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 hover:border-purple-300 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer"
+                              >
+                                <Upload className="w-3.5 h-3.5" />
+                                <span>Load JSON</span>
+                              </button>
+
+                              {/* Nút xóa cụm */}
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteCluster(idx)}
+                                className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition cursor-pointer"
+                                title="Xóa cụm này"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Mô tả cụm */}
+                          <input
+                            type="text"
+                            value={cluster.description || ''}
+                            onChange={(e) => handleClusterDescChange(idx, e.target.value)}
+                            placeholder="Mô tả nội dung cụm (ví dụ: Ôn tập ngữ pháp, câu hỏi từ vựng Unit 1 - 5)..."
+                            className="w-full px-3 py-1.5 text-xs text-slate-600 bg-slate-50 hover:bg-white border border-slate-200 focus:bg-white focus:border-purple-400 rounded-xl transition focus:outline-none"
+                          />
+
+                          {/* Preview 2 câu hỏi mẫu nếu đã load */}
+                          {qCount > 0 && (
+                            <div className="bg-slate-50/70 p-2.5 rounded-xl border border-slate-100 text-xs text-slate-600 space-y-1">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                                Xem nhanh câu hỏi đã nạp:
+                              </span>
+                              {cluster.questions.slice(0, 2).map((q, qIdx) => (
+                                <div key={qIdx} className="truncate flex items-center gap-1.5 text-[11px]">
+                                  <span className="font-bold text-purple-600 shrink-0">Câu {qIdx + 1}:</span>
+                                  <span className="truncate">{q.question}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Save All Clusters Footer */}
+                  <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-200">
+                    <button
+                      type="button"
+                      disabled={isSavingExercises}
+                      onClick={handleSaveAllExerciseClusters}
+                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-display font-bold text-xs shadow-md shadow-purple-600/20 transition active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                    >
+                      <Save className="w-4 h-4" />
+                      <span>{isSavingExercises ? 'Đang lưu lên Cloud...' : `Lưu tất cả cụm bài tập Lớp ${selectedExerciseGrade} lên Cloud 🚀`}</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -2128,10 +2542,99 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
               </div>
             </div>
           )}
-
         </div>
-
       </div>
+
+      {/* MODAL LOAD JSON CHO TỪNG CỤM BÀI TẬP */}
+      {clusterJsonModal && (
+        <div className="fixed inset-0 z-60 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4 animate-scale-up">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <h3 className="font-display font-bold text-base sm:text-lg text-slate-800 flex items-center gap-2">
+                  <span>📥 Load JSON cho Cụm {clusterJsonModal.clusterIndex + 1}: {clusterJsonModal.title}</span>
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Dán mã JSON trích xuất từ tài liệu PDF bài tập hoặc tải tệp .json từ máy tính
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setClusterJsonModal(null)}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Toolbar: Upload file or Paste */}
+            <div className="flex flex-wrap items-center justify-between gap-2 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 text-xs">
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={clusterFileInputRef}
+                  accept=".json"
+                  onChange={handleClusterFileUpload}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => clusterFileInputRef.current?.click()}
+                  className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl font-bold flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <Upload className="w-3.5 h-3.5" /> Chọn tệp .json
+                </button>
+              </div>
+
+              <span className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${
+                clusterJsonModal.detectedCount > 0
+                  ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                  : 'bg-amber-50 text-amber-800 border-amber-300'
+              }`}>
+                {clusterJsonModal.detectedCount > 0
+                  ? `✓ Nhận diện được ${clusterJsonModal.detectedCount} câu hỏi`
+                  : 'Chưa có câu hỏi'}
+              </span>
+            </div>
+
+            {/* Textarea */}
+            <textarea
+              value={clusterJsonModal.rawText}
+              onChange={(e) => handleClusterJsonTextChange(e.target.value)}
+              placeholder="Dán mã JSON bài tập tại đây (mảng [ { question: '...', options: [...] } ] hoặc định dạng NotebookLM)..."
+              className="w-full h-64 p-3 bg-slate-900 text-amber-300 font-mono text-xs rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none selection:bg-purple-600 selection:text-white"
+              spellCheck={false}
+            />
+
+            {clusterJsonModal.error && (
+              <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+                <span>{clusterJsonModal.error}</span>
+              </div>
+            )}
+
+            {/* Footer Buttons */}
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setClusterJsonModal(null)}
+                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition cursor-pointer"
+              >
+                Hủy
+              </button>
+              <button
+                type="button"
+                onClick={handleApplyClusterJson}
+                disabled={clusterJsonModal.detectedCount === 0}
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-display font-bold text-xs shadow-md shadow-purple-600/20 transition active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+              >
+                <Check className="w-4 h-4" />
+                <span>Áp dụng vào Cụm {clusterJsonModal.clusterIndex + 1}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

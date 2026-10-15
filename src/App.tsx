@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { UnitData, UserProfile } from './types';
+import { UnitData, UserProfile, ExerciseCluster } from './types';
 import { DEFAULT_UNITS_DATA } from './data/unitsData';
 import { GRADE_7_UNITS_DATA } from './data/unitsGrade7Data';
 import { Header } from './components/Header';
@@ -16,6 +16,7 @@ import { WordScrambleGame } from './components/games/WordScrambleGame';
 import { SentenceBuilderGame } from './components/games/SentenceBuilderGame';
 import { QuizArenaGame } from './components/games/QuizArenaGame';
 import { ComprehensiveChallengeGame } from './components/games/ComprehensiveChallengeGame';
+import { ExerciseClusterRunner } from './components/games/ExerciseClusterRunner';
 import { BadgesModal } from './components/BadgesModal';
 import { AvatarModal } from './components/AvatarModal';
 import { AdminManagerModal } from './components/AdminManagerModal';
@@ -24,6 +25,7 @@ import { soundEffects } from './services/soundEffects';
 import { speechService, VoiceGender } from './services/speechService';
 import { CustomAvatarItem } from './utils/avatarUtils';
 import { getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, getGradeLevelName } from './utils/gradeUtils';
+import { createDefaultClusters } from './utils/exerciseUtils';
 import {
   testConnection,
   syncLearnerToCloud,
@@ -43,7 +45,10 @@ import {
   subscribeToClasses,
   syncBrandingToCloud,
   fetchBrandingFromCloud,
-  subscribeToBranding
+  subscribeToBranding,
+  syncExercisesToCloud,
+  fetchExercisesFromCloud,
+  subscribeToExercises
 } from './services/firebase';
 import { fireGrandFireworks } from './utils/confettiFireworks';
 
@@ -52,6 +57,7 @@ const STORAGE_KEY_LEARNERS = 'easyeng_learners_list_v3';
 const STORAGE_KEY_CLASSES = 'easyeng_classes_list_v3';
 const STORAGE_KEY_CURRICULUM = 'easyeng_curriculum_map_v3';
 const STORAGE_KEY_CUSTOM_AVATARS = 'easyeng_custom_avatars_v3';
+const STORAGE_KEY_EXERCISES = 'easyeng_grade_exercises_v3';
 
 interface ClassItem {
   grade: number;
@@ -393,12 +399,37 @@ export default function App() {
     };
   });
 
+  // Exercise clusters map { [grade: number]: ExerciseCluster[] }
+  const [gradeExercisesMap, setGradeExercisesMap] = useState<Record<number, ExerciseCluster[]>>(() => {
+    const saved = localStorage.getItem(STORAGE_KEY_EXERCISES);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') return parsed;
+      } catch {
+        // fallback
+      }
+    }
+    return {
+      4: createDefaultClusters(4, 4),
+      7: createDefaultClusters(7, 4)
+    };
+  });
+
+  // Active exercise cluster when learner is practicing
+  const [activeExerciseCluster, setActiveExerciseCluster] = useState<ExerciseCluster | null>(null);
+
   // Active learner profile
   const currentUser = learners.find(l => l.learnerId === activeLearnerId) || learners[0];
 
   // Active curriculum units for current learner's grade
   const currentUnits = (currentUser && gradeUnitsMap[currentUser.grade]) || (
     currentUser ? getDefaultUnitsForGrade(currentUser.grade) : DEFAULT_UNITS_DATA
+  );
+
+  // Active exercise clusters for current learner's grade
+  const currentExercises = (currentUser && gradeExercisesMap[currentUser.grade]) || (
+    currentUser ? createDefaultClusters(currentUser.grade, 4) : []
   );
 
   // Selected Unit
@@ -620,6 +651,27 @@ export default function App() {
       }
     });
 
+    // 5. Fetch & subscribe to custom exercise clusters from Cloud Firestore
+    fetchExercisesFromCloud().then(cloudExercises => {
+      if (cloudExercises && Object.keys(cloudExercises).length > 0) {
+        setGradeExercisesMap(prev => ({
+          ...prev,
+          ...cloudExercises
+        }));
+      }
+    }).catch(err => {
+      console.warn('Fetch exercises notice:', err);
+    });
+
+    const unsubscribeExercises = subscribeToExercises((cloudExercises) => {
+      if (cloudExercises && Object.keys(cloudExercises).length > 0) {
+        setGradeExercisesMap(prev => ({
+          ...prev,
+          ...cloudExercises
+        }));
+      }
+    });
+
     const handleSyncCheck = () => {
       fetchLearnersFromCloud().then(cloudList => {
         if (cloudList && cloudList.length > 0) setLearners(cloudList);
@@ -630,6 +682,11 @@ export default function App() {
       fetchCurriculumFromCloud().then(cloudCurriculum => {
         if (cloudCurriculum && Object.keys(cloudCurriculum).length > 0) {
           setGradeUnitsMap(prev => ({ ...prev, ...cloudCurriculum }));
+        }
+      }).catch(() => {});
+      fetchExercisesFromCloud().then(cloudExercises => {
+        if (cloudExercises && Object.keys(cloudExercises).length > 0) {
+          setGradeExercisesMap(prev => ({ ...prev, ...cloudExercises }));
         }
       }).catch(() => {});
       fetchBrandingFromCloud().then(cloudBranding => {
@@ -655,6 +712,7 @@ export default function App() {
       unsubscribeClasses();
       unsubscribeCurriculum();
       unsubscribeBranding();
+      unsubscribeExercises();
       window.removeEventListener('focus', handleSyncCheck);
       document.removeEventListener('visibilitychange', handleSyncCheck);
     };
@@ -674,6 +732,39 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_CURRICULUM, JSON.stringify(gradeUnitsMap));
   }, [gradeUnitsMap]);
+
+  // Save exercises to localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY_EXERCISES, JSON.stringify(gradeExercisesMap));
+  }, [gradeExercisesMap]);
+
+  const handleSaveExercises = async (grade: number, clusters: ExerciseCluster[]): Promise<boolean> => {
+    setGradeExercisesMap(prev => {
+      const updated = { ...prev, [grade]: clusters };
+      localStorage.setItem(STORAGE_KEY_EXERCISES, JSON.stringify(updated));
+      return updated;
+    });
+    return await syncExercisesToCloud(grade, clusters);
+  };
+
+  const handleExerciseClusterComplete = (score: number, maxScore: number, starsEarned: number) => {
+    if (!currentUser) return;
+    const addedXp = score * 15;
+    const newXp = currentUser.xp + addedXp;
+    const newLevel = Math.floor(newXp / 200) + 1;
+    const newTotalStars = currentUser.totalStars + starsEarned;
+
+    const updatedUser: UserProfile = {
+      ...currentUser,
+      xp: newXp,
+      level: newLevel,
+      totalStars: newTotalStars,
+      lastActiveDate: new Date().toISOString()
+    };
+
+    setLearners(prev => prev.map(l => l.learnerId === updatedUser.learnerId ? updatedUser : l));
+    syncLearnerToCloud(updatedUser).catch(() => {});
+  };
 
   // Save active learner ID
   useEffect(() => {
@@ -960,6 +1051,8 @@ export default function App() {
             classes={classes}
             customAvatars={customAvatars}
             gradeUnitsMap={gradeUnitsMap}
+            gradeExercisesMap={gradeExercisesMap}
+            onSaveExercises={handleSaveExercises}
             onUpdateLearner={handleUpdateLearner}
             onAddLearner={handleAddLearner}
             onDeleteLearner={handleDeleteLearner}
@@ -991,23 +1084,33 @@ export default function App() {
         onOpenAdminManager={() => setShowAdminModal(true)}
         onOpenAvatarModal={() => setShowAvatarModal(true)}
         onGoHome={() => {
-          if (activeGame !== 'none') {
+          if (activeExerciseCluster) {
+            setActiveExerciseCluster(null);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else if (activeGame !== 'none') {
             setShowGameExitModal(true);
           } else {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }}
-        onSwitchLearner={handleSwitchLearner}
+        onSwitchLearner={() => {
+          if (activeExerciseCluster) setActiveExerciseCluster(null);
+          handleSwitchLearner();
+        }}
         onExitLearner={() => {
           soundEffects.playClick();
-          if (activeGame !== 'none') {
+          if (activeExerciseCluster) {
+            setActiveExerciseCluster(null);
+          } else if (activeGame !== 'none') {
             setShowGameExitModal(true);
           } else {
             setShowExitModal(true);
           }
         }}
         currentUnitTitle={
-          activeGame === 'challenge'
+          activeExerciseCluster
+            ? `Bài tập Lớp ${currentUser.grade} • ${activeExerciseCluster.title}`
+            : activeGame === 'challenge'
             ? `Thử thách toàn diện Lớp ${currentUser.grade}`
             : activeGame !== 'none'
             ? `Unit ${selectedUnit.unit}: ${selectedUnit.title}`
@@ -1019,18 +1122,35 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:py-8">
-        {activeGame === 'none' && (
+        {activeGame === 'none' && !activeExerciseCluster && (
           <UnitSelector
             units={currentUnits}
             user={currentUser}
             selectedUnitId={selectedUnit.unit}
             onSelectUnit={(unit) => setSelectedUnit(unit)}
             onSelectGame={handleLaunchGame}
+            exerciseClusters={currentExercises}
+            onSelectExerciseCluster={(cluster) => {
+              setActiveExerciseCluster(cluster);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             onStartChallenge={() => {
               setActiveGame('challenge');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onOpenAvatarModal={() => setShowAvatarModal(true)}
+          />
+        )}
+
+        {activeExerciseCluster && (
+          <ExerciseClusterRunner
+            cluster={activeExerciseCluster}
+            grade={currentUser.grade}
+            onComplete={handleExerciseClusterComplete}
+            onBack={() => {
+              setActiveExerciseCluster(null);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           />
         )}
 
@@ -1119,6 +1239,8 @@ export default function App() {
           classes={classes}
           customAvatars={customAvatars}
           gradeUnitsMap={gradeUnitsMap}
+          gradeExercisesMap={gradeExercisesMap}
+          onSaveExercises={handleSaveExercises}
           onUpdateLearner={handleUpdateLearner}
           onAddLearner={handleAddLearner}
           onDeleteLearner={handleDeleteLearner}

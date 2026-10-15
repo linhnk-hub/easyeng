@@ -68,3 +68,50 @@ export interface Badge {
   icon: string;
   reqSummary: string;
 }
+
+export interface ExerciseQuestion {
+  id?: string | number;
+  question: string;
+  options?: string[];
+  answerIndex?: number;
+  answer?: string | number;
+  correctAnswer?: string | number;
+  explanation?: string;
+  type?: 'quiz' | 'fill' | 'matching' | 'word' | 'sentence' | 'true_false' | 'sentence_reorder' | 'listen' | string;
+  category?: string;
+  unitNumber?: number;
+  unitTitle?: string;
+  sectionId?: string;
+  sectionTitle?: string;
+  instructionEn?: string;
+  instructionVi?: string;
+  vietnameseMeaning?: string;
+  hint?: string;
+  word?: string;
+  phonetic?: string;
+  meaning?: string;
+  example?: string;
+  correctSentence?: string;
+  scrambledWords?: string[];
+  imageDescription?: string;
+  imageUrl?: string;
+  audioTranscript?: string;
+  readingPassage?: string;
+  fullCompletedText?: string;
+  shuffledParts?: string[];
+  pairs?: Array<{ left: string; right: string }>;
+}
+
+export interface ExerciseCluster {
+  id: string;
+  clusterNumber: number;
+  title: string;
+  description?: string;
+  grade: number;
+  questions: ExerciseQuestion[];
+  rawJson?: string;
+  itemsCount: number;
+  unitsCount?: number;
+  updatedAt?: string;
+}
+
