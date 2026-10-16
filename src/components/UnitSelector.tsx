@@ -14,6 +14,8 @@ interface UnitSelectorProps {
   onOpenAvatarModal?: () => void;
   exerciseClusters?: ExerciseCluster[];
   onSelectExerciseCluster?: (cluster: ExerciseCluster) => void;
+  learningMode?: 'textbook' | 'exercises';
+  onLearningModeChange?: (mode: 'textbook' | 'exercises') => void;
 }
 
 interface PreGamePrompt {
@@ -32,9 +34,18 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   onStartChallenge,
   onOpenAvatarModal,
   exerciseClusters = [],
-  onSelectExerciseCluster
+  onSelectExerciseCluster,
+  learningMode: controlledLearningMode,
+  onLearningModeChange
 }) => {
-  const [learningMode, setLearningMode] = useState<'textbook' | 'exercises'>('textbook');
+  const [internalLearningMode, setInternalLearningMode] = useState<'textbook' | 'exercises'>('textbook');
+  const learningMode = controlledLearningMode !== undefined ? controlledLearningMode : internalLearningMode;
+
+  const handleSetLearningMode = (mode: 'textbook' | 'exercises') => {
+    setInternalLearningMode(mode);
+    onLearningModeChange?.(mode);
+  };
+
   const [activeBookTab, setActiveBookTab] = useState<'Phần 1' | 'Phần 2'>('Phần 1');
   const [searchQuery, setSearchQuery] = useState('');
   const [preGamePrompt, setPreGamePrompt] = useState<PreGamePrompt | null>(null);
@@ -174,7 +185,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
           <button
             onClick={() => {
               soundEffects.playClick();
-              setLearningMode('textbook');
+              handleSetLearningMode('textbook');
             }}
             className={`px-4 sm:px-5 py-2.5 rounded-2xl font-display font-bold text-xs sm:text-sm transition cursor-pointer flex items-center justify-center gap-2 ${
               learningMode === 'textbook'
@@ -195,7 +206,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
           <button
             onClick={() => {
               soundEffects.playClick();
-              setLearningMode('exercises');
+              handleSetLearningMode('exercises');
             }}
             className={`px-4 sm:px-5 py-2.5 rounded-2xl font-display font-bold text-xs sm:text-sm transition cursor-pointer flex items-center justify-center gap-2 ${
               learningMode === 'exercises'

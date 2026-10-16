@@ -436,6 +436,8 @@ export default function App() {
 
   // Active exercise cluster when learner is practicing
   const [activeExerciseCluster, setActiveExerciseCluster] = useState<ExerciseCluster | null>(null);
+  // Current main learning tab: 'textbook' (SGK) or 'exercises' (Bài tập)
+  const [learningMode, setLearningMode] = useState<'textbook' | 'exercises'>('textbook');
 
   // Active learner profile
   const currentUser = learners.find(l => l.learnerId === activeLearnerId) || learners[0];
@@ -1126,21 +1128,25 @@ export default function App() {
         onGoHome={() => {
           if (activeExerciseCluster) {
             setActiveExerciseCluster(null);
+            setLearningMode('textbook');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           } else if (activeGame !== 'none') {
             setShowGameExitModal(true);
           } else {
+            setLearningMode('textbook');
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }}
         onSwitchLearner={() => {
           if (activeExerciseCluster) setActiveExerciseCluster(null);
+          setLearningMode('textbook');
           handleSwitchLearner();
         }}
         onExitLearner={() => {
           soundEffects.playClick();
           if (activeExerciseCluster) {
             setActiveExerciseCluster(null);
+            setLearningMode('exercises');
           } else if (activeGame !== 'none') {
             setShowGameExitModal(true);
           } else {
@@ -1170,8 +1176,11 @@ export default function App() {
             onSelectUnit={(unit) => setSelectedUnit(unit)}
             onSelectGame={handleLaunchGame}
             exerciseClusters={currentExercises}
+            learningMode={learningMode}
+            onLearningModeChange={setLearningMode}
             onSelectExerciseCluster={(cluster) => {
               setActiveExerciseCluster(cluster);
+              setLearningMode('exercises');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onStartChallenge={() => {
@@ -1189,6 +1198,7 @@ export default function App() {
             onComplete={handleExerciseClusterComplete}
             onBack={() => {
               setActiveExerciseCluster(null);
+              setLearningMode('exercises');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />
