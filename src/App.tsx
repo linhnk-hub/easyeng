@@ -404,61 +404,23 @@ export default function App() {
 
   // Exercise clusters (học phần) map { [grade: number]: ExerciseCluster[] }
   const [gradeExercisesMap, setGradeExercisesMap] = useState<Record<number, ExerciseCluster[]>>(() => {
-    // Detect F5 reload
-    let isReload = false;
-    try {
-      const navEntries = performance.getEntriesByType('navigation');
-      if (navEntries.length > 0) {
-        isReload = (navEntries[0] as PerformanceNavigationTiming).type === 'reload';
-      }
-      if (!isReload && (performance as any)?.navigation?.type === 1) {
-        isReload = true;
-      }
-    } catch {}
-
     const defaultOfficial = {
       4: createDefaultClusters(4, 4),
       7: createDefaultClusters(7, 4)
     };
-
-    if (isReload) {
-      try {
-        localStorage.removeItem(STORAGE_KEY_EXERCISES);
-        localStorage.setItem(STORAGE_KEY_EXERCISES, JSON.stringify(defaultOfficial));
-      } catch {}
-      return defaultOfficial;
-    }
 
     const saved = localStorage.getItem(STORAGE_KEY_EXERCISES);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === 'object') {
-          // Clean legacy "Cụm" naming to "Học phần"
-          Object.keys(parsed).forEach(gradeKey => {
-            const numKey = Number(gradeKey);
-            if (Array.isArray(parsed[numKey])) {
-              parsed[numKey] = parsed[numKey].map((c: ExerciseCluster) => ({
-                ...c,
-                title: c.title ? c.title.replace(/Cụm/g, 'Học phần') : c.title,
-                description: c.description ? c.description.replace(/Cụm/g, 'Học phần') : c.description
-              }));
-            }
-          });
-
-          // Grade 4 must have official workbooks (833 questions total)
-          const qCount4 = (parsed[4] || []).reduce((sum: number, c: any) => sum + (c.questions?.length || 0), 0);
-          if (qCount4 < 800) {
-            parsed[4] = createDefaultClusters(4, 4);
+          // Khởi tạo mặc định nếu Lớp 4 hoặc Lớp 7 chưa từng có dữ liệu
+          if (!parsed[4] || !Array.isArray(parsed[4]) || parsed[4].length === 0) {
+            parsed[4] = defaultOfficial[4];
           }
-
-          // Grade 7 must have official workbooks (910 questions total)
-          const qCount7 = (parsed[7] || []).reduce((sum: number, c: any) => sum + (c.questions?.length || 0), 0);
-          if (qCount7 < 850) {
-            parsed[7] = createDefaultClusters(7, 4);
+          if (!parsed[7] || !Array.isArray(parsed[7]) || parsed[7].length === 0) {
+            parsed[7] = defaultOfficial[7];
           }
-
-          localStorage.setItem(STORAGE_KEY_EXERCISES, JSON.stringify(parsed));
           return parsed;
         }
       } catch {
@@ -716,35 +678,16 @@ export default function App() {
         const g = Number(gk);
         const cloudClusters = cloudData[g];
         if (Array.isArray(cloudClusters) && cloudClusters.length > 0) {
-          const currentTotalQ = (result[g] || []).reduce((sum, c) => sum + (c.questions?.length || 0), 0);
-          const cloudTotalQ = cloudClusters.reduce((sum, c) => sum + (c.questions?.length || 0), 0);
-
-          // For Grade 4 and Grade 7:
-          // Never downgrade official workbooks (833 for grade 4, 910 for grade 7) to outdated cloud data!
-          if (g === 4 && cloudTotalQ < 800) {
-            if (currentTotalQ < 800) {
-              result[4] = createDefaultClusters(4, 4);
-            }
-            syncExercisesToCloud(4, result[4]).catch(() => {});
-          } else if (g === 7 && cloudTotalQ < 850) {
-            if (currentTotalQ < 850) {
-              result[7] = createDefaultClusters(7, 4);
-            }
-            syncExercisesToCloud(7, result[7]).catch(() => {});
-          } else {
-            result[g] = cloudClusters;
-          }
+          result[g] = cloudClusters;
         }
       });
 
-      // Always guarantee Grade 4 has all 833 questions and Grade 7 has all 910 questions
-      const finalQ4 = (result[4] || []).reduce((sum, c) => sum + (c.questions?.length || 0), 0);
-      if (finalQ4 < 800) {
+      // Chỉ khởi tạo mặc định nếu khối lớp 4 hoặc 7 hoàn toàn trống
+      if (!result[4] || !Array.isArray(result[4]) || result[4].length === 0) {
         result[4] = createDefaultClusters(4, 4);
         syncExercisesToCloud(4, result[4]).catch(() => {});
       }
-      const finalQ7 = (result[7] || []).reduce((sum, c) => sum + (c.questions?.length || 0), 0);
-      if (finalQ7 < 850) {
+      if (!result[7] || !Array.isArray(result[7]) || result[7].length === 0) {
         result[7] = createDefaultClusters(7, 4);
         syncExercisesToCloud(7, result[7]).catch(() => {});
       }
