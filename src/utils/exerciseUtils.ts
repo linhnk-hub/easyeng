@@ -41,8 +41,42 @@ export function parseWorkbookCluster(
   const questions: ExerciseQuestion[] = [];
 
   (data.units || []).forEach((u: any, uIdx: number) => {
-    const unitNum = u.unit_number !== undefined ? u.unit_number : (uIdx + 1);
-    const unitTitle = u.unit_title || `Unit ${unitNum}`;
+    const rawUnitNum = u.unit_number !== undefined ? Number(u.unit_number) : (uIdx + 1);
+    const rawTitle = u.unit_title || u.title || `Unit ${rawUnitNum}`;
+    const rawUnitId = u.unit_id || '';
+    const isTestYourself = /test\s*yourself/i.test(rawTitle) || 
+                           /test[\s\-_]*yourself/i.test(rawUnitId) || 
+                           /^ty\d*/i.test(rawUnitId) ||
+                           /comprehensive\s*test/i.test(rawTitle);
+    const isSelfCheck = /self[\s\-_]*check/i.test(rawTitle) || 
+                        /self[\s\-_]*check/i.test(rawUnitId) || 
+                        /^sc\d*/i.test(rawUnitId);
+
+    let unitNum = rawUnitNum;
+    let unitDisplayTitle = rawTitle;
+
+    if (unitNum === 0 || isTestYourself || isSelfCheck) {
+      unitNum = 0;
+      if (isTestYourself) {
+        const numMatch = (rawTitle + ' ' + rawUnitId).match(/test\s*yourself\s*(\d+)/i) || 
+                         rawUnitId.match(/ty(\d+)/i) || 
+                         rawTitle.match(/\d+/);
+        const testNum = numMatch ? (numMatch[1] || numMatch[0]) : clusterNumber;
+        unitDisplayTitle = `Test Yourself ${testNum}`;
+      } else if (isSelfCheck) {
+        const numMatch = (rawTitle + ' ' + rawUnitId).match(/self[\s\-_]*check\s*(\d+)/i) || 
+                         rawUnitId.match(/sc(\d+)/i) || 
+                         rawTitle.match(/\d+/);
+        const checkNum = numMatch ? (numMatch[1] || numMatch[0]) : clusterNumber;
+        unitDisplayTitle = `Self-check ${checkNum}`;
+      } else {
+        unitDisplayTitle = grade >= 6 ? `Test Yourself ${clusterNumber}` : `Self-check ${clusterNumber}`;
+      }
+    } else {
+      if (!/^Unit\s+\d+/i.test(unitDisplayTitle)) {
+        unitDisplayTitle = `Unit ${unitNum}: ${rawTitle}`;
+      }
+    }
 
     (u.sections || []).forEach((sec: any) => {
       const secId = sec.section_id || '';
@@ -141,7 +175,7 @@ export function parseWorkbookCluster(
               type: mechanic,
               category: `${secTitle} • ${instVi || instEn || 'Bài tập'}`,
               unitNumber: unitNum,
-              unitTitle: `Unit ${unitNum}: ${unitTitle}`,
+              unitTitle: unitDisplayTitle,
               sectionId: secId,
               sectionTitle: secTitle,
               instructionEn: instEn,
@@ -174,7 +208,7 @@ export function parseWorkbookCluster(
               type: 'matching',
               category: `${secTitle} • Đọc và nối`,
               unitNumber: unitNum,
-              unitTitle: `Unit ${unitNum}: ${unitTitle}`,
+              unitTitle: unitDisplayTitle,
               sectionId: secId,
               sectionTitle: secTitle,
               instructionEn: instEn,
@@ -201,7 +235,7 @@ export function parseWorkbookCluster(
               type: 'ordering_pictures',
               category: `${secTitle} • Nghe và đánh số`,
               unitNumber: unitNum,
-              unitTitle: `Unit ${unitNum}: ${unitTitle}`,
+              unitTitle: unitDisplayTitle,
               sectionId: secId,
               sectionTitle: secTitle,
               instructionEn: instEn,
@@ -354,6 +388,64 @@ export function parseExerciseJson(
         }
       }
 
+      let qUnitNum: number | undefined = undefined;
+      let qUnitTitle: string | undefined = undefined;
+
+      const rawUnitStr = [
+        item.unit,
+        item.unitTitle,
+        item.unit_title,
+        item.unit_name,
+        item.category,
+        item.section,
+        item.section_title,
+        item.sectionTitle,
+        item.topic,
+        item.part
+      ].filter(Boolean).map(String).join(' ');
+
+      const idStr = String(item.id || item.unit_id || item.exercise_id || '');
+
+      const isItemTY = /test\s*yourself/i.test(rawUnitStr) || 
+                       /test[\s\-_]*yourself/i.test(idStr) || 
+                       /^ty\d*/i.test(idStr) ||
+                       /comprehensive\s*test/i.test(rawUnitStr);
+
+      const isItemSC = /self[\s\-_]*check/i.test(rawUnitStr) || 
+                       /self[\s\-_]*check/i.test(idStr) || 
+                       /^sc\d*/i.test(idStr);
+
+      if (isItemTY) {
+        qUnitNum = 0;
+        const numMatch = (rawUnitStr + ' ' + idStr).match(/test\s*yourself\s*(\d+)/i) || 
+                         idStr.match(/ty(\d+)/i) || 
+                         rawUnitStr.match(/\d+/);
+        const tyNum = numMatch ? (numMatch[1] || numMatch[0]) : clusterNumber;
+        qUnitTitle = `Test Yourself ${tyNum}`;
+      } else if (isItemSC) {
+        qUnitNum = 0;
+        const numMatch = (rawUnitStr + ' ' + idStr).match(/self[\s\-_]*check\s*(\d+)/i) || 
+                         idStr.match(/sc(\d+)/i) || 
+                         rawUnitStr.match(/\d+/);
+        const scNum = numMatch ? (numMatch[1] || numMatch[0]) : clusterNumber;
+        qUnitTitle = `Self-check ${scNum}`;
+      } else {
+        if (item.unitNumber !== undefined) qUnitNum = Number(item.unitNumber);
+        else if (item.unit_number !== undefined) qUnitNum = Number(item.unit_number);
+        else if (typeof item.unit === 'number') qUnitNum = item.unit;
+        else if (typeof item.unit === 'string') {
+          const m = item.unit.match(/\d+/);
+          if (m) qUnitNum = parseInt(m[0], 10);
+        }
+
+        if (item.unitTitle) qUnitTitle = String(item.unitTitle);
+        else if (item.unit_title) qUnitTitle = String(item.unit_title);
+        else if (item.unit && typeof item.unit === 'string') qUnitTitle = item.unit;
+        else if (item.section_title) qUnitTitle = item.section_title;
+        else if (item.sectionTitle) qUnitTitle = item.sectionTitle;
+        else if (item.category) qUnitTitle = item.category;
+      }
+
       questions.push({
         id: item.id || `q_${clusterNumber}_${idx + 1}`,
         question: String(qText).trim(),
@@ -362,7 +454,9 @@ export function parseExerciseJson(
         explanation: item.explanation || item.giaiThich || item.note || '',
         type: item.type || (options.length > 0 ? 'quiz' : 'fill'),
         category: item.category || 'Bài tập PDF',
-        hint: item.hint || ''
+        hint: item.hint || '',
+        unitNumber: qUnitNum,
+        unitTitle: qUnitTitle
       });
     });
 
@@ -442,5 +536,34 @@ export function createDefaultClusters(grade: number, count: number = 4): Exercis
 
   // Nếu chưa có bài tập cho lớp này, trả về danh sách rỗng để hiển thị thông báo chưa có dữ liệu
   return [];
+}
+
+/**
+ * Checks whether an exercise question belongs to a "Test Yourself" assessment.
+ */
+export function isTestYourselfQuestion(q: ExerciseQuestion, grade?: number): boolean {
+  const title = String(q.unitTitle || '');
+  const cat = String(q.category || '');
+  const sec = String(q.sectionTitle || '');
+  const id = String(q.id || '');
+  if (/test\s*yourself/i.test(title) || /test\s*yourself/i.test(cat) || /test\s*yourself/i.test(sec)) return true;
+  if (/test[\s\-_]*yourself/i.test(id) || /^ty\d*/i.test(id)) return true;
+  if (/comprehensive\s*test/i.test(title) || /comprehensive\s*test/i.test(sec) || /comprehensive\s*test/i.test(cat)) return true;
+  if (q.unitNumber === 0 && (!grade || grade >= 6)) return true;
+  return false;
+}
+
+/**
+ * Checks whether an exercise question belongs to a "Self-check" assessment.
+ */
+export function isSelfCheckQuestion(q: ExerciseQuestion, grade?: number): boolean {
+  const title = String(q.unitTitle || '');
+  const cat = String(q.category || '');
+  const sec = String(q.sectionTitle || '');
+  const id = String(q.id || '');
+  if (/self[\s\-_]*check/i.test(title) || /self[\s\-_]*check/i.test(cat) || /self[\s\-_]*check/i.test(sec)) return true;
+  if (/self[\s\-_]*check/i.test(id) || /^sc\d*/i.test(id)) return true;
+  if (q.unitNumber === 0 && grade && grade <= 5) return true;
+  return false;
 }
 

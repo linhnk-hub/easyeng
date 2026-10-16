@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import {
   ArrowLeft,
   Volume2,
@@ -15,6 +15,7 @@ import {
 import { ExerciseCluster, ExerciseQuestion } from '../../types';
 import { soundEffects } from '../../services/soundEffects';
 import { speechService } from '../../services/speechService';
+import { isTestYourselfQuestion, isSelfCheckQuestion } from '../../utils/exerciseUtils';
 
 interface ExerciseClusterRunnerProps {
   cluster: ExerciseCluster;
@@ -31,25 +32,121 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
 }) => {
   const allQuestions: ExerciseQuestion[] = cluster.questions || [];
 
-  // Extract unique units for filtering
+  // Helper to check whether a question belongs to a specific filter key
+  const matchesFilter = useCallback((q: ExerciseQuestion, filterKey: number | string | 'all') => {
+    if (filterKey === 'all') return true;
+
+    const isTY = isTestYourselfQuestion(q, grade);
+    const isSC = isSelfCheckQuestion(q, grade);
+
+    const filterStr = String(filterKey);
+    if (typeof filterKey === 'string' && /test_yourself/i.test(filterStr)) {
+      if (!isTY) return false;
+      const filterNumMatch = filterStr.match(/\d+/);
+      if (filterNumMatch) {
+        const qNumMatch = (String(q.unitTitle || '') + ' ' + String(q.id || '')).match(/test\s*yourself\s*(\d+)/i) || 
+                          String(q.id || '').match(/ty(\d+)/i) || 
+                          String(q.unitTitle || '').match(/\d+/);
+        if (qNumMatch && (qNumMatch[1] || qNumMatch[0]) !== filterNumMatch[0]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    if (typeof filterKey === 'string' && /self_check/i.test(filterStr)) {
+      if (!isSC) return false;
+      const filterNumMatch = filterStr.match(/\d+/);
+      if (filterNumMatch) {
+        const qNumMatch = (String(q.unitTitle || '') + ' ' + String(q.id || '')).match(/self[\s\-_]*check\s*(\d+)/i) || 
+                          String(q.id || '').match(/sc(\d+)/i) || 
+                          String(q.unitTitle || '').match(/\d+/);
+        if (qNumMatch && (qNumMatch[1] || qNumMatch[0]) !== filterNumMatch[0]) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Numerical unit filter (Unit 1, Unit 2, Unit 3...)
+    if (typeof filterKey === 'number') {
+      if (isTY || isSC) return false; // Do not mix Test Yourself into Unit 1!
+      return q.unitNumber === filterKey;
+    }
+
+    // String title match
+    if (q.unitTitle && q.unitTitle === filterKey) return true;
+
+    return false;
+  }, [grade]);
+
+  // Extract unique units for filtering (Units and Test Yourself / Self-check)
   const availableUnits = useMemo(() => {
-    const map = new Map<number, string>();
+    const list: { key: number | string; label: string }[] = [];
+    const seen = new Set<string>();
+
     allQuestions.forEach(q => {
-      if (q.unitNumber !== undefined) {
-        const title = q.unitTitle || (q.unitNumber === 0 ? 'Self-check 1' : `Unit ${q.unitNumber}`);
-        map.set(q.unitNumber, title);
+      const isTY = isTestYourselfQuestion(q, grade);
+      const isSC = isSelfCheckQuestion(q, grade);
+
+      let key: number | string;
+      let label = '';
+      const rawTitle = String(q.unitTitle || '');
+      const rawId = String(q.id || '');
+      const clusterTitleStr = String(cluster.title || '');
+
+      if (isTY) {
+        const numMatch = (rawTitle + ' ' + rawId).match(/test\s*yourself\s*(\d+)/i) || 
+                         rawId.match(/ty(\d+)/i) || 
+                         clusterTitleStr.match(/test\s*yourself\s*(\d+)/i) ||
+                         rawTitle.match(/\d+/);
+        const tyNum = numMatch ? (numMatch[1] || numMatch[0]) : (cluster.clusterNumber || 1);
+        key = `test_yourself_${tyNum}`;
+        label = `Test Yourself ${tyNum}`;
+      } else if (isSC) {
+        const numMatch = (rawTitle + ' ' + rawId).match(/self[\s\-_]*check\s*(\d+)/i) || 
+                         rawId.match(/sc(\d+)/i) || 
+                         clusterTitleStr.match(/self[\s\-_]*check\s*(\d+)/i) ||
+                         rawTitle.match(/\d+/);
+        const scNum = numMatch ? (numMatch[1] || numMatch[0]) : (cluster.clusterNumber || 1);
+        key = `self_check_${scNum}`;
+        label = `Self-check ${scNum}`;
+      } else if (q.unitNumber !== undefined && q.unitNumber > 0) {
+        key = q.unitNumber;
+        label = `Unit ${q.unitNumber}`;
+      } else if (q.unitTitle) {
+        key = q.unitTitle;
+        label = q.unitTitle;
+      } else {
+        key = 'unit_other';
+        label = 'Khác';
+      }
+
+      const mapKey = String(key);
+      if (label && !seen.has(mapKey)) {
+        seen.add(mapKey);
+        list.push({ key, label });
       }
     });
-    return Array.from(map.entries()).map(([num, title]) => ({ num, title }));
-  }, [allQuestions]);
 
-  const [selectedUnitFilter, setSelectedUnitFilter] = useState<number | 'all'>('all');
+    // Sort: numerical units first (Unit 1, 2, 3), then Test Yourself / Self-check at the end
+    return list.sort((a, b) => {
+      const aIsSpecial = typeof a.key === 'string' && (/test_yourself/i.test(a.key) || /self_check/i.test(a.key));
+      const bIsSpecial = typeof b.key === 'string' && (/test_yourself/i.test(b.key) || /self_check/i.test(b.key));
+      if (aIsSpecial && !bIsSpecial) return 1;
+      if (!aIsSpecial && bIsSpecial) return -1;
+      if (typeof a.key === 'number' && typeof b.key === 'number') return a.key - b.key;
+      return String(a.label).localeCompare(String(b.label));
+    });
+  }, [allQuestions, grade, cluster.clusterNumber, cluster.title]);
+
+  const [selectedUnitFilter, setSelectedUnitFilter] = useState<number | string | 'all'>('all');
 
   // Filtered questions based on selected unit
   const questions = useMemo(() => {
     if (selectedUnitFilter === 'all') return allQuestions;
-    return allQuestions.filter(q => q.unitNumber === selectedUnitFilter);
-  }, [allQuestions, selectedUnitFilter]);
+    return allQuestions.filter(q => matchesFilter(q, selectedUnitFilter));
+  }, [allQuestions, selectedUnitFilter, matchesFilter]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -70,9 +167,9 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
   }, [currentIndex, selectedUnitFilter]);
 
   // Handle changing unit filter
-  const handleFilterChange = (unitNum: number | 'all') => {
+  const handleFilterChange = (unitKey: number | string | 'all') => {
     soundEffects.playClick();
-    setSelectedUnitFilter(unitNum);
+    setSelectedUnitFilter(unitKey);
     setCurrentIndex(0);
     setScore(0);
     setIsFinished(false);
@@ -270,18 +367,19 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
           </span>
 
           {availableUnits.map(u => {
-            const count = allQuestions.filter(q => q.unitNumber === u.num).length;
+            const count = allQuestions.filter(q => matchesFilter(q, u.key)).length;
+
             return (
               <button
-                key={u.num}
-                onClick={() => handleFilterChange(u.num)}
+                key={String(u.key)}
+                onClick={() => handleFilterChange(u.key)}
                 className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
-                  selectedUnitFilter === u.num
+                  selectedUnitFilter === u.key
                     ? 'bg-purple-600 text-white shadow-2xs'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
-                {u.num === 0 ? 'Self-check 1' : `Unit ${u.num}`} ({count})
+                {u.label} ({count})
               </button>
             );
           })}
