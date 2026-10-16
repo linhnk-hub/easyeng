@@ -58,7 +58,10 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
     return matchesBook && matchesQuery;
   });
 
-  const filteredClusters = exerciseClusters.filter(c => {
+  // Chỉ hiển thị các học phần thực sự có câu hỏi (bỏ qua học phần rỗng mặc định chưa có dữ liệu)
+  const availableExerciseClusters = exerciseClusters.filter(c => (c.questions && c.questions.length > 0));
+
+  const filteredClusters = availableExerciseClusters.filter(c => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     return (
@@ -164,34 +167,6 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
         <div className="absolute -left-12 -top-12 w-40 h-40 bg-yellow-300/20 rounded-full blur-2xl pointer-events-none" />
       </div>
 
-      {/* Mega Challenge Banner: Thử Thách Toàn Diện */}
-      <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-4 sm:p-5 text-white shadow-lg shadow-orange-500/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shrink-0 shadow-inner">
-            🏆
-          </div>
-          <div>
-            <h3 className="font-display font-bold text-base sm:text-lg">
-              Đấu trường thử thách
-            </h3>
-            <p className="text-xs text-white/90 mt-0.5 font-medium">
-              Chinh phục 4 chặng: Học từ, Ghép từ, Xếp câu & Trắc nghiệm tổng hợp toàn bộ bài học!
-            </p>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => {
-            soundEffects.playClick();
-            onStartChallenge?.();
-          }}
-          className="px-5 py-2.5 rounded-2xl bg-white text-orange-600 hover:bg-amber-50 font-display font-bold text-xs sm:text-sm shadow-md transition active:scale-95 shrink-0 flex items-center justify-center gap-1.5 cursor-pointer"
-        >
-          <Trophy className="w-4 h-4 text-amber-500" /> Bắt đầu thử thách 🚀
-        </button>
-      </div>
-
       {/* Main Mode Navigation: SGK Tiếng Anh Lớp ... & Bài tập Tiếng Anh Lớp ... (ĐẶT KẾ BÊN NHAU) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/80 backdrop-blur-md p-2 rounded-3xl border border-slate-200/80 shadow-2xs">
         <div className="flex items-center gap-2">
@@ -233,7 +208,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
             <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
               learningMode === 'exercises' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-700'
             }`}>
-              {exerciseClusters.length} Học phần
+              {availableExerciseClusters.length} Học phần
             </span>
           </button>
         </div>
@@ -275,7 +250,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                 Chưa có dữ liệu bài tập cho Lớp {user.grade}
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-                Quản trị viên có thể vào trang <strong>Quản lý hệ thống ➔ Quản lý JSON ➔ Quản lý dữ liệu bài tập JSON</strong> để cấu hình số lượng học phần và tải lên các tệp JSON bài tập trích xuất từ tài liệu PDF.
+                Quản trị viên có thể vào trang <strong>Quản lý hệ thống ➔ Quản lý JSON ➔ Dữ liệu Bài tập</strong> để cấu hình số lượng học phần và nạp các tệp JSON bài tập.
               </p>
             </div>
           ) : (
@@ -311,9 +286,11 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                         </span>
                       </div>
 
-                      <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
-                        {cluster.description || 'Bộ bài tập ôn luyện theo chương trình học.'}
-                      </p>
+                      {cluster.description && cluster.description.trim() ? (
+                        <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                          {cluster.description}
+                        </p>
+                      ) : null}
 
                   
                     </div>
@@ -503,6 +480,34 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
       </div>
     </div>
   )}
+
+  {/* Mega Challenge Banner: Thử Thách Toàn Diện (Nằm dưới mục Sách giáo khoa & Sách bài tập) */}
+  <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 rounded-3xl p-4 sm:p-5 text-white shadow-lg shadow-orange-500/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="flex items-center gap-3.5">
+      <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-2xl shrink-0 shadow-inner">
+        🏆
+      </div>
+      <div>
+        <h3 className="font-display font-bold text-base sm:text-lg">
+          Thử thách toàn diện
+        </h3>
+        <p className="text-xs text-white/90 mt-0.5 font-medium">
+          Chinh phục 4 chặng: Học từ, Ghép từ, Xếp câu & Trắc nghiệm tổng hợp toàn bộ bài học!
+        </p>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      onClick={() => {
+        soundEffects.playClick();
+        onStartChallenge?.();
+      }}
+      className="px-5 py-2.5 rounded-2xl bg-white text-orange-600 hover:bg-amber-50 font-display font-bold text-xs sm:text-sm shadow-md transition active:scale-95 shrink-0 flex items-center justify-center gap-1.5 cursor-pointer"
+    >
+      <Trophy className="w-4 h-4 text-amber-500" /> Bắt đầu thử thách 🚀
+    </button>
+  </div>
 
       {/* Modal xác nhận trước khi vào học các nội dung đã có sao */}
       {preGamePrompt && (

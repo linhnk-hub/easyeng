@@ -1,0 +1,1103 @@
+{
+  "book_title": "Tiếng Anh 7 - Sách bài tập (Global Success)",
+  "module_id": "hoc_phan_3",
+  "module_name": "Học phần 3: Units 7 - 9 & Test Yourself 3",
+  "units": [
+    {
+      "unit_id": "unit_07",
+      "unit_number": 7,
+      "unit_title": "TRAFFIC",
+      "pages": [53, 54, 55, 56, 57, 58, 59],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u7_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the word in which the underlined part is pronounced differently.",
+              "instruction_vi": "Chọn từ có phần gạch chân được phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                {
+                  "question_id": "u7_a_ex1_q1",
+                  "label": "1",
+                  "options": [
+                    { "id": "A", "text": "fl[i]ght" },
+                    { "id": "B", "text": "tr[i]cycle" },
+                    { "id": "C", "text": "s[i]gn" },
+                    { "id": "D", "text": "veh[i]cle" }
+                  ],
+                  "correct_answer": "D",
+                  "explanation_vi": "'vehicle' phát âm là /ɪ/, các từ còn lại phát âm là /aɪ/."
+                },
+                {
+                  "question_id": "u7_a_ex1_q2",
+                  "label": "2",
+                  "options": [
+                    { "id": "A", "text": "d[a]te" },
+                    { "id": "B", "text": "s[a]fety" },
+                    { "id": "C", "text": "tr[a]ffic" },
+                    { "id": "D", "text": "st[a]tion" }
+                  ],
+                  "correct_answer": "C",
+                  "explanation_vi": "'traffic' phát âm là /æ/, các từ còn lại phát âm là /eɪ/."
+                },
+                {
+                  "question_id": "u7_a_ex1_q3",
+                  "label": "3",
+                  "options": [
+                    { "id": "A", "text": "s[y]stem" },
+                    { "id": "B", "text": "c[y]clist" },
+                    { "id": "C", "text": "cr[y]ing" },
+                    { "id": "D", "text": "st[y]le" }
+                  ],
+                  "correct_answer": "A",
+                  "explanation_vi": "'system' phát âm là /ɪ/, các từ còn lại phát âm là /aɪ/."
+                },
+                {
+                  "question_id": "u7_a_ex1_q4",
+                  "label": "4",
+                  "options": [
+                    { "id": "A", "text": "surv[ey]" },
+                    { "id": "B", "text": "hon[ey]" },
+                    { "id": "C", "text": "ob[ey]" },
+                    { "id": "D", "text": "gr[ey]" }
+                  ],
+                  "correct_answer": "B",
+                  "explanation_vi": "'honey' phát âm là /i/, các từ còn lại phát âm là /eɪ/."
+                },
+                {
+                  "question_id": "u7_a_ex1_q5",
+                  "label": "5",
+                  "options": [
+                    { "id": "A", "text": "w[ei]ght" },
+                    { "id": "B", "text": "sl[ei]gh" },
+                    { "id": "C", "text": "[ei]ghty" },
+                    { "id": "D", "text": "h[ei]ght" }
+                  ],
+                  "correct_answer": "D",
+                  "explanation_vi": "'height' phát âm là /aɪ/, các từ còn lại phát âm là /eɪ/."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u7_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Single-underline the words with the sound /eɪ/ and double-underline the words with the sound /aɪ/ in the dialogue. Then act out the dialogue with a friend.",
+              "instruction_vi": "Phân loại các từ chứa âm /eɪ/ (gạch chân 1 nét) và âm /aɪ/ (gạch chân 2 nét) trong đoạn hội thoại.",
+              "game_mechanic": "category_sorting",
+              "dialogue_text": "A: Excuse me. This train is late! I've been here since nine.\nB: Which train, madam?\nA: The nine-twenty train to Miami.\nB: I don't think there's a nine-twenty train to Miami.\nA: But I wrote in my notebook: Miami train - nine-twenty.\nB: Oh, no. The Miami train leaves at eight-twenty.\nA: Eight-twenty?\nB: Yes. They changed the timetable at the end of July. It's the fourth of August today.\nA: Oh, dear! What time does the train go to Miami today?\nB: Eight-twenty.\nA: So the train isn't late! I'm late!",
+              "categories": [
+                { "sound": "/eɪ/ (Single-underline)", "words": ["train", "late", "eight", "They", "changed", "timetable", "today"] },
+                { "sound": "/aɪ/ (Double-underline)", "words": ["I've", "nine", "Miami", "I", "my", "timetable", "July", "time", "I'm"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u7_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match the words and phrases in column A with their definitions or explanations in column B.",
+              "instruction_vi": "Nối các từ/cụm từ ở cột A với định nghĩa tương ứng ở cột B.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "road user", "right_id": "c", "right_text": "anyone who uses a road, such as a pedestrian, cyclist or motorist" },
+                { "left_id": "2", "left_text": "footpath", "right_id": "d", "right_text": "a path for people to walk along" },
+                { "left_id": "3", "left_text": "passenger", "right_id": "f", "right_text": "a person travelling in a vehicle but not driving it" },
+                { "left_id": "4", "left_text": "signal", "right_id": "a", "right_text": "a movement of giving information" },
+                { "left_id": "5", "left_text": "traffic laws", "right_id": "b", "right_text": "system of rules that all road users must obey" },
+                { "left_id": "6", "left_text": "pedestrian", "right_id": "e", "right_text": "a person walking in the street or on the pavement and not travelling in a vehicle" }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "What does each sign mean? Choose the correct answer.",
+              "instruction_vi": "Mỗi biển báo giao thông sau có ý nghĩa gì? Chọn đáp án đúng.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u7_b_ex2_q1",
+                  "label": "1",
+                  "image_description": "Biển báo cấm đi ngược chiều (hình tròn đỏ có gạch ngang trắng ở giữa).",
+                  "options": [
+                    { "id": "A", "text": "Reduce your speed." },
+                    { "id": "B", "text": "You should go fast." },
+                    { "id": "C", "text": "Do not enter this road." }
+                  ],
+                  "correct_answer": "C"
+                },
+                {
+                  "question_id": "u7_b_ex2_q2",
+                  "label": "2",
+                  "image_description": "Biển báo STOP hình bát giác màu đỏ.",
+                  "options": [
+                    { "id": "A", "text": "You can't stop here." },
+                    { "id": "B", "text": "You must stop here." },
+                    { "id": "C", "text": "You should go now." }
+                  ],
+                  "correct_answer": "B"
+                },
+                {
+                  "question_id": "u7_b_ex2_q3",
+                  "label": "3",
+                  "image_description": "Biển cảnh báo hình tam giác có hình người đang xúc đất thi công.",
+                  "options": [
+                    { "id": "A", "text": "Be careful! Roadworks ahead." },
+                    { "id": "B", "text": "Watch out! There are workers." },
+                    { "id": "C", "text": "Look out for children!" }
+                  ],
+                  "correct_answer": "A"
+                },
+                {
+                  "question_id": "u7_b_ex2_q4",
+                  "label": "4",
+                  "image_description": "Biển cảnh báo hình tam giác có hình con bò (gia súc).",
+                  "options": [
+                    { "id": "A", "text": "There are wild animals ahead." },
+                    { "id": "B", "text": "There are cattle ahead." },
+                    { "id": "C", "text": "You can buy cattle here." }
+                  ],
+                  "correct_answer": "B"
+                },
+                {
+                  "question_id": "u7_b_ex2_q5",
+                  "label": "5",
+                  "image_description": "Biển cấm đỗ xe (chữ P có gạch chéo đỏ).",
+                  "options": [
+                    { "id": "A", "text": "Cars and buses can pass." },
+                    { "id": "B", "text": "Cars cannot be sold here." },
+                    { "id": "C", "text": "Parking is not allowed." }
+                  ],
+                  "correct_answer": "C"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Match the two halves in A and B to make sentences.",
+              "instruction_vi": "Nối hai vế ở cột A và cột B để tạo thành câu hoàn chỉnh.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "When you cross a road,", "right_id": "f", "right_text": "you should stop and look both ways." },
+                { "left_id": "2", "left_text": "If you get lost in a city,", "right_id": "e", "right_text": "you should ask a policeman." },
+                { "left_id": "3", "left_text": "When you see an old woman crossing the road,", "right_id": "b", "right_text": "you should help her." },
+                { "left_id": "4", "left_text": "If your mum has a headache,", "right_id": "a", "right_text": "you should get her some medicine." },
+                { "left_id": "5", "left_text": "You should cross the street", "right_id": "d", "right_text": "at the zebra crossing." },
+                { "left_id": "6", "left_text": "There's an accident over there;", "right_id": "c", "right_text": "they should avoid that area." }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Choose the correct option for each gap in each of the sentences.",
+              "instruction_vi": "Chọn đáp án đúng A, B, C hoặc D cho mỗi câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u7_b_ex4_q1", "label": "1", "prompt_text": "- \"How did she get here?\"\n- \"___\"", "options": [{ "id": "A", "text": "She came by train." }, { "id": "B", "text": "She came here last night." }, { "id": "C", "text": "The train was crowded." }, { "id": "D", "text": "Is it far from here?" }], "correct_answer": "A" },
+                { "question_id": "u7_b_ex4_q2", "label": "2", "prompt_text": "My mum ___ the bus to work every morning, but my dad drives.", "options": [{ "id": "A", "text": "catches" }, { "id": "B", "text": "goes" }, { "id": "C", "text": "does" }, { "id": "D", "text": "runs" }], "correct_answer": "A" },
+                { "question_id": "u7_b_ex4_q3", "label": "3", "prompt_text": "Traffic accidents can be prevented if people ___ the rules.", "options": [{ "id": "A", "text": "remember" }, { "id": "B", "text": "obey" }, { "id": "C", "text": "go after" }, { "id": "D", "text": "take care of" }], "correct_answer": "B" },
+                { "question_id": "u7_b_ex4_q4", "label": "4", "prompt_text": "You should look right and left when you go ___ the road.", "options": [{ "id": "A", "text": "along" }, { "id": "B", "text": "up" }, { "id": "C", "text": "down" }, { "id": "D", "text": "across" }], "correct_answer": "D" },
+                { "question_id": "u7_b_ex4_q5", "label": "5", "prompt_text": "Hurry up, or we'll ___ the last bus.", "options": [{ "id": "A", "text": "lose" }, { "id": "B", "text": "avoid" }, { "id": "C", "text": "miss" }, { "id": "D", "text": "drop" }], "correct_answer": "C" },
+                { "question_id": "u7_b_ex4_q6", "label": "6", "prompt_text": "She's always tired. She ___ go to bed late every night.", "options": [{ "id": "A", "text": "wouldn't" }, { "id": "B", "text": "shouldn't" }, { "id": "C", "text": "mightn't" }, { "id": "D", "text": "couldn't" }], "correct_answer": "B" },
+                { "question_id": "u7_b_ex4_q7", "label": "7", "prompt_text": "The public ___ in this city is quite good, and it's not expensive.", "options": [{ "id": "A", "text": "journey" }, { "id": "B", "text": "travel" }, { "id": "C", "text": "vehicle" }, { "id": "D", "text": "transport" }], "correct_answer": "D" },
+                { "question_id": "u7_b_ex4_q8", "label": "8", "prompt_text": "___ is not very far from here to the harbour.", "options": [{ "id": "A", "text": "There" }, { "id": "B", "text": "This" }, { "id": "C", "text": "It" }, { "id": "D", "text": "That" }], "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Make questions for the underlined parts in the following sentences.",
+              "instruction_vi": "Đặt câu hỏi cho phần gạch chân trong các câu sau.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u7_b_ex5_q1", "label": "1", "prompt_text": "Most of my classmates go to school [by bicycle].", "correct_answer": "How do most of your classmates go to school?" },
+                { "question_id": "u7_b_ex5_q2", "label": "2", "prompt_text": "It is [about three kilometres] from my home to the nearest town.", "correct_answer": "How far is it from your home to the nearest town?" },
+                { "question_id": "u7_b_ex5_q3", "label": "3", "prompt_text": "It is [about 170 km] from Ho Chi Minh City to Can Tho City.", "correct_answer": "How far is it from Ho Chi Minh City to Can Tho City?" },
+                { "question_id": "u7_b_ex5_q4", "label": "4", "prompt_text": "There are often traffic jams in the city centre [during rush hour].", "correct_answer": "When are there often traffic jams in the city centre?" },
+                { "question_id": "u7_b_ex5_q5", "label": "5", "prompt_text": "Trung usually rides his motorbike [very carefully].", "correct_answer": "How does Trung usually ride his motorbike?" }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Complete each sentence with should / shouldn't and a verb from the box.",
+              "instruction_vi": "Hoàn thành câu với should / shouldn't kết hợp với một động từ trong khung.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["call", "ask", "do", "finish", "ride", "drive"],
+              "questions": [
+                { "question_id": "u7_b_ex6_q1", "label": "1", "prompt_text": "He ___ his bike too fast. It's dangerous.", "correct_answer": "shouldn't ride" },
+                { "question_id": "u7_b_ex6_q2", "label": "2", "prompt_text": "It's a long way to the station. You ___ a taxi.", "correct_answer": "should call" },
+                { "question_id": "u7_b_ex6_q3", "label": "3", "prompt_text": "I think the world ___ more to stop the spread of the disease.", "correct_answer": "should do" },
+                { "question_id": "u7_b_ex6_q4", "label": "4", "prompt_text": "You ___ the teacher to help you if you don't understand the lesson.", "correct_answer": "should ask" },
+                { "question_id": "u7_b_ex6_q5", "label": "5", "prompt_text": "People ___ fast in the town centre.", "correct_answer": "shouldn't drive" },
+                { "question_id": "u7_b_ex6_q6", "label": "6", "prompt_text": "You ___ this project completely before you start the next one.", "correct_answer": "should finish" }
+              ]
+            },
+            {
+              "exercise_id": "u7_b_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Fill in each blank with a word to complete each of the sentences.",
+              "instruction_vi": "Điền một từ thích hợp vào mỗi chỗ trống để hoàn thành câu.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u7_b_ex7_q1", "label": "1", "prompt_text": "At some stations you can buy a train ___ from the machine.", "correct_answer": "ticket" },
+                { "question_id": "u7_b_ex7_q2", "label": "2", "prompt_text": "There was a(n) ___ here this morning. The traffic was congested for an hour.", "correct_answer": "accident" },
+                { "question_id": "u7_b_ex7_q3", "label": "3", "prompt_text": "Try to start your journey early to avoid morning ___.", "correct_answer": "traffic" },
+                { "question_id": "u7_b_ex7_q4", "label": "4", "prompt_text": "A ___ crossing is a type of pedestrian crossing.", "correct_answer": "zebra" },
+                { "question_id": "u7_b_ex7_q5", "label": "5", "prompt_text": "The camel is the most common ___ of transport in the desert in some countries.", "correct_answer": "means" },
+                { "question_id": "u7_b_ex7_q6", "label": "6", "prompt_text": "There is a three-kilometre traffic ___ on the road approaching the town.", "correct_answer": "jam" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u7_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Work with a partner. Take turns to ask and answer about the means of transport you and your classmate use every day.",
+              "instruction_vi": "Thực hành hỏi và trả lời về phương tiện đi học hằng ngày.",
+              "game_mechanic": "guided_speaking",
+              "sample_answer": "A: How do you go to school every day?\nB: I usually go to school by bicycle. What about you?\nA: My father takes me to school by motorbike."
+            },
+            {
+              "exercise_id": "u7_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Take the quiz. Tick (✓) T (True) or F (False).",
+              "instruction_vi": "Làm bài đố vui về giao thông: Đánh dấu T (Đúng) hoặc F (Sai).",
+              "game_mechanic": "true_false",
+              "questions": [
+                { "question_id": "u7_c_ex2_q1", "label": "1", "prompt_text": "The traffic rule is to keep to the right in Thailand.", "correct_answer": false, "explanation_vi": "Ở Thái Lan quy định đi bên trái đường (F)." },
+                { "question_id": "u7_c_ex2_q2", "label": "2", "prompt_text": "The camel is used for transport in the Sahara.", "correct_answer": true },
+                { "question_id": "u7_c_ex2_q3", "label": "3", "prompt_text": "People in Southwestern Viet Nam travel by boat a lot.", "correct_answer": true },
+                { "question_id": "u7_c_ex2_q4", "label": "4", "prompt_text": "Christopher Columbus travelled by boat.", "correct_answer": true },
+                { "question_id": "u7_c_ex2_q5", "label": "5", "prompt_text": "Dog sledding is a special form of transport used in Alaska.", "correct_answer": true },
+                { "question_id": "u7_c_ex2_q6", "label": "6", "prompt_text": "Santa Claus travels on a skateboard.", "correct_answer": false, "explanation_vi": "Ông già Noel di chuyển bằng xe trượt tuyết tuần lộc kéo (sleigh), không phải ván trượt (F)." }
+              ]
+            },
+            {
+              "exercise_id": "u7_c_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Talk about the means of transport you should use if you are in the following places, and explain why.",
+              "instruction_vi": "Chọn phương tiện giao thông phù hợp cho 3 địa điểm trong tranh và giải thích lý do.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["boat", "car", "camel", "motorbike"],
+              "questions": [
+                { "question_id": "u7_c_ex3_q1", "label": "1", "image_description": "Sa mạc cát mênh mông.", "correct_answer": "camel", "explanation_vi": "The camel. Because you can't use other means of transport in the desert." },
+                { "question_id": "u7_c_ex3_q2", "label": "2", "image_description": "Thành phố kênh đào Venice (nhiều sông nước).", "correct_answer": "boat", "explanation_vi": "The boat. Because it can travel on water." },
+                { "question_id": "u7_c_ex3_q3", "label": "3", "image_description": "Đường phố Việt Nam đông đúc giờ cao điểm.", "correct_answer": "motorbike", "explanation_vi": "The motorbike. Because it is quick and convenient." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u7_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the following passage and decide whether the statements are true (T) or false (F).",
+              "instruction_vi": "Đọc đoạn văn và xác định các câu bên dưới là Đúng (T) hay Sai (F).",
+              "game_mechanic": "true_false",
+              "reading_passage": "Who are the best drivers? According to a recent survey, young and inexperienced drivers are the most likely to have an accident. Older drivers are more careful. Young men have the worst accident record of all. They often drive faster cars with bigger engines. One of the most interesting findings in the survey is that passengers can affect the driver. When young male drivers drive their friends, their driving becomes worse. When their wives or girlfriends are in the car; however, their driving improves. But this is not true for women. Their driving is more dangerous when their husbands or boyfriends are in the car. However, if their children are riding in the car, they drive more slowly and safely.",
+              "questions": [
+                { "question_id": "u7_d_ex1_q1", "label": "1", "prompt_text": "According to the survey, young and inexperienced drivers are the most likely to have an accident.", "correct_answer": true },
+                { "question_id": "u7_d_ex1_q2", "label": "2", "prompt_text": "Generally, older men are likely to drive fast cars with big engines.", "correct_answer": false, "explanation_vi": "Nam giới trẻ tuổi (Young men) mới thường lái xe nhanh với động cơ lớn, không phải older men (F)." },
+                { "question_id": "u7_d_ex1_q3", "label": "3", "prompt_text": "Passengers have an effect on the driver.", "correct_answer": true },
+                { "question_id": "u7_d_ex1_q4", "label": "4", "prompt_text": "When men have their wives or girlfriends in the car, they drive worse.", "correct_answer": false, "explanation_vi": "Khi có vợ hoặc bạn gái ngồi trong xe, việc lái xe của họ tốt hơn (their driving improves) (F)." },
+                { "question_id": "u7_d_ex1_q5", "label": "5", "prompt_text": "When children are in the car, mothers drive more slowly and safely.", "correct_answer": true }
+              ]
+            },
+            {
+              "exercise_id": "u7_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read the text and decide which answer A, B, C, or D best fills each gap.",
+              "instruction_vi": "Đọc văn bản và chọn đáp án đúng A, B, C hoặc D cho mỗi chỗ trống.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "When you are in Hong Kong, you can go about by taxi, by tram, by bus, or (1) ___ underground. I prefer the underground (2) ___ it is fast, easy and cheap. There are (3) ___ trams and buses in Hong Kong, and one cannot drive on the road (4) ___ and without stopping many times. The underground is therefore usually quicker (5) ___ taxis or buses. If you do not know Hong Kong very well, it is very difficult (6) ___ the bus you want. You can take a taxi, but it is (7) ___ expensive than the underground or a bus. At the underground you can find good maps that tell you the station names and show you (8) ___ to get to them, so that it is easy to find your way.",
+              "questions": [
+                { "question_id": "u7_d_ex2_q1", "label": "1", "options": [{ "id": "A", "text": "in" }, { "id": "B", "text": "by" }, { "id": "C", "text": "on" }, { "id": "D", "text": "with" }], "correct_answer": "B" },
+                { "question_id": "u7_d_ex2_q2", "label": "2", "options": [{ "id": "A", "text": "because" }, { "id": "B", "text": "when" }, { "id": "C", "text": "so" }, { "id": "D", "text": "but" }], "correct_answer": "A" },
+                { "question_id": "u7_d_ex2_q3", "label": "3", "options": [{ "id": "A", "text": "some" }, { "id": "B", "text": "a lot" }, { "id": "C", "text": "many" }, { "id": "D", "text": "few" }], "correct_answer": "C" },
+                { "question_id": "u7_d_ex2_q4", "label": "4", "options": [{ "id": "A", "text": "quick" }, { "id": "B", "text": "quicker" }, { "id": "C", "text": "quickly" }, { "id": "D", "text": "quickest" }], "correct_answer": "C" },
+                { "question_id": "u7_d_ex2_q5", "label": "5", "options": [{ "id": "A", "text": "as" }, { "id": "B", "text": "than" }, { "id": "C", "text": "so" }, { "id": "D", "text": "like" }], "correct_answer": "B" },
+                { "question_id": "u7_d_ex2_q6", "label": "6", "options": [{ "id": "A", "text": "finding" }, { "id": "B", "text": "to find" }, { "id": "C", "text": "found" }, { "id": "D", "text": "to finding" }], "correct_answer": "B" },
+                { "question_id": "u7_d_ex2_q7", "label": "7", "options": [{ "id": "A", "text": "more" }, { "id": "B", "text": "much" }, { "id": "C", "text": "as" }, { "id": "D", "text": "too" }], "correct_answer": "A" },
+                { "question_id": "u7_d_ex2_q8", "label": "8", "options": [{ "id": "A", "text": "who" }, { "id": "B", "text": "when" }, { "id": "C", "text": "what" }, { "id": "D", "text": "how" }], "correct_answer": "D" }
+              ]
+            },
+            {
+              "exercise_id": "u7_d_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read the passage and put a suitable word or phrase from the box in each of the gaps.",
+              "instruction_vi": "Đọc đoạn văn và điền từ/cụm từ thích hợp trong khung vào chỗ trống.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["vehicles", "important", "healthier", "to work", "move around", "means of travel"],
+              "reading_passage": "Public transport is very important in big cities. It allows a lot of people to (1) ___ easily. The term \"public transport\" covers many different types of (2) ___, but most commonly refers to buses and trains.\nGood transport has lots of benefits for people, businesses, and the environment. For example, good transport can help people go (3) ___ every day. It can also reduce the time people go to work and the cost of living. Public transport is especially (4) ___ for people with low income. Public transport also helps us keep our community greener and (5) ___. It can improve our health and reduce healthcare costs. By providing an alternative (6) ___, public transport also has an important role in reducing carbon emission.",
+              "questions": [
+                { "question_id": "u7_d_ex3_q1", "blank_number": 1, "correct_answer": "move around" },
+                { "question_id": "u7_d_ex3_q2", "blank_number": 2, "correct_answer": "vehicles" },
+                { "question_id": "u7_d_ex3_q3", "blank_number": 3, "correct_answer": "to work" },
+                { "question_id": "u7_d_ex3_q4", "blank_number": 4, "correct_answer": "important" },
+                { "question_id": "u7_d_ex3_q5", "blank_number": 5, "correct_answer": "healthier" },
+                { "question_id": "u7_d_ex3_q6", "blank_number": 6, "correct_answer": "means of travel" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u7_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write full sentences, using the words and phrases given.",
+              "instruction_vi": "Viết câu hoàn chỉnh từ các từ và cụm từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u7_e_ex1_q1", "label": "1", "prompt_text": "How / your close friend / go / school / ? - She / cycle / .", "correct_answer": "How does your close friend go to school? - She cycles." },
+                { "question_id": "u7_e_ex1_q2", "label": "2", "prompt_text": "Traffic jams / a problem / big cities / Viet Nam / .", "correct_answer": "Traffic jams are a problem in big cities in Viet Nam." },
+                { "question_id": "u7_e_ex1_q3", "label": "3", "prompt_text": "If you / not careful / fall off / your bicycle / .", "correct_answer": "If you are not careful, you will fall off your bicycle." },
+                { "question_id": "u7_e_ex1_q4", "label": "4", "prompt_text": "Before / every meal / should wash / our hands / carefully / .", "correct_answer": "Before every meal, we should wash our hands carefully." },
+                { "question_id": "u7_e_ex1_q5", "label": "5", "prompt_text": "It / about 300 km / Ho Chi Minh City / Phu Quoc Island / .", "correct_answer": "It is about 300 km from Ho Chi Minh City to Phu Quoc Island." }
+              ]
+            },
+            {
+              "exercise_id": "u7_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Rewrite the following sentences so that their meaning stays the same, using the word given for each.",
+              "instruction_vi": "Viết lại các câu sau sao cho nghĩa không đổi, sử dụng từ cho sẵn trong ngoặc.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "u7_e_ex2_q1", "label": "1", "original_sentence": "A train leaves for Da Nang at 5 o'clock every morning.", "keyword": "THERE", "correct_answer": "There is a train leaving for Da Nang at 5 o'clock every morning." },
+                { "question_id": "u7_e_ex2_q2", "label": "2", "original_sentence": "Is it possible to travel to Sa Pa by air?", "keyword": "CAN", "correct_answer": "Can we travel to Sa Pa by air?" },
+                { "question_id": "u7_e_ex2_q3", "label": "3", "original_sentence": "Our teacher is always a careful driver.", "keyword": "DRIVES", "correct_answer": "Our teacher always drives carefully." },
+                { "question_id": "u7_e_ex2_q4", "label": "4", "original_sentence": "The distance from Ha Noi to Hue City is about 540 km.", "keyword": "IT", "correct_answer": "It is about 540 km from Ha Noi to Hue City." },
+                { "question_id": "u7_e_ex2_q5", "label": "5", "original_sentence": "Road users should obey traffic rules strictly.", "keyword": "OBEYED", "correct_answer": "Traffic rules should be obeyed strictly by road users." }
+              ]
+            },
+            {
+              "exercise_id": "u7_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Write a paragraph (about 80 words) about the traffic problems in your area or a place you know.",
+              "instruction_vi": "Viết đoạn văn (khoảng 80 từ) về các vấn đề giao thông ở nơi em sống dựa vào các gợi ý.",
+              "game_mechanic": "guided_writing",
+              "cues": [
+                "this place / some traffic problems",
+                "cattle / dogs / run along or across the road",
+                "children play on the road",
+                "sell and buy things on the road",
+                "people not obey traffic rules",
+                "dangerous -> should be careful"
+              ],
+              "sample_answer": "There are some serious traffic problems in my area. Firstly, some people let their cattle and dogs run freely along or across the road. Secondly, in the afternoon, many children often play football or badminton right on the road. Moreover, local people sometimes gather to sell and buy things on the pavement and even on the street during rush hour. Many road users do not obey traffic rules strictly, such as riding motorbikes without helmets. It is very dangerous, so everyone should be more careful when travelling here."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_08",
+      "unit_number": 8,
+      "unit_title": "FILMS",
+      "pages": [60, 61, 62, 63, 64, 65],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u8_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write the following words in the correct columns (/ɪə/ or /eə/). Then practise reading out the words.",
+              "instruction_vi": "Xếp các từ cho sẵn vào đúng cột nguyên âm đôi (/ɪə/ hoặc /eə/).",
+              "game_mechanic": "category_sorting",
+              "word_bank": ["near", "nightmare", "square", "fare", "cheer", "here", "fear", "care", "stair", "chair", "there", "share", "pier", "clear", "hair"],
+              "categories": [
+                { "sound": "/ɪə/", "words": ["near", "cheer", "here", "fear", "pier", "clear"] },
+                { "sound": "/eə/", "words": ["nightmare", "square", "fare", "care", "stair", "chair", "there", "share", "hair"] }
+              ]
+            },
+            {
+              "exercise_id": "u8_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Practise reading out these sentences, paying attention to the underlined words.",
+              "instruction_vi": "Luyện đọc to các câu sau, chú ý phát âm các từ gạch chân chứa âm /ɪə/ và /eə/.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                { "question_id": "u8_a_ex2_q1", "label": "1", "prompt_text": "The film is about a nice girl with fair hair." },
+                { "question_id": "u8_a_ex2_q2", "label": "2", "prompt_text": "They made a lot of films here over many years." },
+                { "question_id": "u8_a_ex2_q3", "label": "3", "prompt_text": "Look at the aeroplane up there, flying in the air." },
+                { "question_id": "u8_a_ex2_q4", "label": "4", "prompt_text": "Where is the nearest square?" },
+                { "question_id": "u8_a_ex2_q5", "label": "5", "prompt_text": "She is sitting on the bottom stair with her foot on a chair." },
+                { "question_id": "u8_a_ex2_q6", "label": "6", "prompt_text": "I can clearly hear her voice." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u8_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match the film types (a - f) in the box with the film titles and their plots (1 - 6).",
+              "instruction_vi": "Nối thể loại phim (a - f) với tên phim và tóm tắt cốt truyện tương ứng (1 - 6).",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "1. The Chainsaw Massacre at Halloween (A killer with a severe mental illness escapes from a hospital on Halloween.)", "right_id": "c", "right_text": "horror film" },
+                { "left_id": "2", "left_text": "2. Men in Black (Two men try to save Earth after aliens threaten to destroy it.)", "right_id": "e", "right_text": "science fiction film" },
+                { "left_id": "3", "left_text": "3. Pirates of Southeast Asia (About modern-day pirates in Indonesia and Malaysia.)", "right_id": "a", "right_text": "documentary" },
+                { "left_id": "4", "left_text": "4. The Wise Little Hen (Donald Duck and his friend, Peter Pig, try to avoid work until Mrs Hen teaches the value of labour.)", "right_id": "f", "right_text": "cartoon" },
+                { "left_id": "5", "left_text": "5. The Lord of the Rings (A hobbit must destroy a magic ring before an evil wizard gets it.)", "right_id": "b", "right_text": "fantasy" },
+                { "left_id": "6", "left_text": "6. Mr Bean's Holiday (Many funny things happen after Mr Bean wins a trip to Cannes...)", "right_id": "d", "right_text": "comedy" }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Put the words from the box in the correct columns (Positive or Negative).",
+              "instruction_vi": "Xếp các tính từ mô tả phim vào đúng cột Tích cực (Positive) hoặc Tiêu cực (Negative).",
+              "game_mechanic": "category_sorting",
+              "word_bank": ["boring", "enjoyable", "entertaining", "funny", "dull", "awful", "moving", "gripping", "amazing", "confusing"],
+              "categories": [
+                { "type": "Positive", "words": ["enjoyable", "entertaining", "funny", "moving", "gripping", "amazing"] },
+                { "type": "Negative", "words": ["boring", "dull", "awful", "confusing"] }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Choose the correct word to complete each of the following sentences.",
+              "instruction_vi": "Chọn tính từ đúng trong ngoặc để hoàn thành câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u8_b_ex3_q1", "label": "1", "prompt_text": "Tom doesn't like watching (frightening / entertaining) films. He always has bad dreams.", "options": ["frightening", "entertaining"], "correct_answer": "frightening" },
+                { "question_id": "u8_b_ex3_q2", "label": "2", "prompt_text": "The film was so (awful / moving) that she cried at the end.", "options": ["awful", "moving"], "correct_answer": "moving" },
+                { "question_id": "u8_b_ex3_q3", "label": "3", "prompt_text": "I can't stand war films. They're too (amazing / violent).", "options": ["amazing", "violent"], "correct_answer": "violent" },
+                { "question_id": "u8_b_ex3_q4", "label": "4", "prompt_text": "She laughed all the way through the film. It was so (funny / confusing).", "options": ["funny", "confusing"], "correct_answer": "funny" },
+                { "question_id": "u8_b_ex3_q5", "label": "5", "prompt_text": "Many children don't usually like documentaries because they think documentaries are often (boring / gripping).", "options": ["boring", "gripping"], "correct_answer": "boring" },
+                { "question_id": "u8_b_ex3_q6", "label": "6", "prompt_text": "If you like (scary / dull) films about ghosts, monsters and crazy killers, you're a fan of horror films.", "options": ["scary", "dull"], "correct_answer": "scary" }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Find the odd one out.",
+              "instruction_vi": "Tìm từ khác loại trong mỗi nhóm.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u8_b_ex4_q1", "label": "1", "options": ["cartoon", "documentary", "fantasy", "opera", "comedy"], "correct_answer": "opera", "explanation_vi": "'opera' là loại hình nhạc kịch sân khấu, các từ còn lại là thể loại phim." },
+                { "question_id": "u8_b_ex4_q2", "label": "2", "options": ["silent", "black-and-white", "director", "full-length", "short"], "correct_answer": "director", "explanation_vi": "'director' là danh từ chỉ người (đạo diễn), các từ còn lại là tính từ mô tả phim." },
+                { "question_id": "u8_b_ex4_q3", "label": "3", "options": ["actor", "director", "cameraman", "extra", "trailer"], "correct_answer": "trailer", "explanation_vi": "'trailer' là đoạn giới thiệu phim, các từ còn lại chỉ người làm phim/diễn viên." },
+                { "question_id": "u8_b_ex4_q4", "label": "4", "options": ["amazing", "fascinating", "thrilling", "entertaining", "delicious"], "correct_answer": "delicious", "explanation_vi": "'delicious' dùng tả đồ ăn ngon, các từ còn lại tả bộ phim hấp dẫn." },
+                { "question_id": "u8_b_ex4_q5", "label": "5", "options": ["shoot", "play", "act", "laugh", "direct"], "correct_answer": "laugh", "explanation_vi": "'laugh' (cười) không phải hoạt động chuyên môn sản xuất/diễn xuất phim." }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Choose the best answer A, B, or C to complete each sentence.",
+              "instruction_vi": "Chọn đáp án đúng nhất A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u8_b_ex5_q1", "label": "1", "prompt_text": "Tom Cruise, Penélope Cruz and Cameron Diaz ___ in the film Vanilla Sky.", "options": [{ "id": "A", "text": "direct" }, { "id": "B", "text": "star" }, { "id": "C", "text": "make" }], "correct_answer": "B" },
+                { "question_id": "u8_b_ex5_q2", "label": "2", "prompt_text": "The film begins with a terrible disaster, but it has a happy ___.", "options": [{ "id": "A", "text": "ending" }, { "id": "B", "text": "acting" }, { "id": "C", "text": "setting" }], "correct_answer": "A" },
+                { "question_id": "u8_b_ex5_q3", "label": "3", "prompt_text": "The film received positive ___. Most critics say it's a must-see.", "options": [{ "id": "A", "text": "reviews" }, { "id": "B", "text": "reports" }, { "id": "C", "text": "summaries" }], "correct_answer": "A" },
+                { "question_id": "u8_b_ex5_q4", "label": "4", "prompt_text": "Most people say the film is a must-see - the acting is excellent and the ___ is gripping.", "options": [{ "id": "A", "text": "character" }, { "id": "B", "text": "style" }, { "id": "C", "text": "plot" }], "correct_answer": "C" },
+                { "question_id": "u8_b_ex5_q5", "label": "5", "prompt_text": "Jean Dujardin won the best ___ award in 2011 for the film The Artist.", "options": [{ "id": "A", "text": "actor" }, { "id": "B", "text": "character" }, { "id": "C", "text": "writer" }], "correct_answer": "A" },
+                { "question_id": "u8_b_ex5_q6", "label": "6", "prompt_text": "Tom Cruise played the leading ___ in the film Mission Impossible.", "options": [{ "id": "A", "text": "performance" }, { "id": "B", "text": "part" }, { "id": "C", "text": "action" }], "correct_answer": "B" },
+                { "question_id": "u8_b_ex5_q7", "label": "7", "prompt_text": "- \"Do you like the film?\"\n- \"___\"", "options": [{ "id": "A", "text": "No, it's too frightening for me." }, { "id": "B", "text": "Sure. What film shall we see?" }, { "id": "C", "text": "Who stars in it?" }], "correct_answer": "A" },
+                { "question_id": "u8_b_ex8", "label": "8", "prompt_text": "The film broke box office records and became a ___.", "options": [{ "id": "A", "text": "thriller" }, { "id": "B", "text": "master" }, { "id": "C", "text": "blockbuster" }], "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Complete the sentences using although / though or however.",
+              "instruction_vi": "Hoàn thành các câu sử dụng Although / Though hoặc However.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u8_b_ex6_q1", "label": "1", "prompt_text": "It was cold and wet. ___, he put on his swimsuit and went to the swimming pool.", "correct_answer": "However" },
+                { "question_id": "u8_b_ex6_q2", "label": "2", "prompt_text": "___ he has problems with his health, he is an active actor.", "correct_answer": ["Although", "Though"] },
+                { "question_id": "u8_b_ex6_q3", "label": "3", "prompt_text": "___ she was an amateur actress, she was chosen for the leading part in the film.", "correct_answer": ["Although", "Though"] },
+                { "question_id": "u8_b_ex6_q4", "label": "4", "prompt_text": "Her father gave her a lot of good advice. ___, she didn't follow it.", "correct_answer": "However" },
+                { "question_id": "u8_b_ex6_q5", "label": "5", "prompt_text": "___ I had a lot of studying to do, I went to the cinema.", "correct_answer": ["Although", "Though"] }
+              ]
+            },
+            {
+              "exercise_id": "u8_b_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Read the text. Fill in the gaps with although / though or however.",
+              "instruction_vi": "Đọc đoạn văn và điền Although / Though hoặc However vào chỗ trống.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "(1) ___ Mai had lots of homework to do, she agreed to go shopping with her friend Mark. Mark loves to buy jeans and T-shirts. (2) ___, Mai prefers to buy sportswear. (3) ___ it rained, they set off on Sunday morning for the town centre. Mark, as always, had more cash than Mai. (4) ___, Mai was better at buying things at a lower price. They were hungry and had lunch at the local burger bar. (5) ___ they had spent nearly all their money, there were still a few shops that Mark wanted to visit. (6) ___ they had aching feet, Mai and Mark ended up spending a few more hours shopping.",
+              "questions": [
+                { "question_id": "u8_b_ex7_q1", "blank_number": 1, "correct_answer": ["Although", "Though"] },
+                { "question_id": "u8_b_ex7_q2", "blank_number": 2, "correct_answer": "However" },
+                { "question_id": "u8_b_ex7_q3", "blank_number": 3, "correct_answer": ["Although", "Though"] },
+                { "question_id": "u8_b_ex7_q4", "blank_number": 4, "correct_answer": "However" },
+                { "question_id": "u8_b_ex7_q5", "blank_number": 5, "correct_answer": ["Although", "Though"] },
+                { "question_id": "u8_b_ex7_q6", "blank_number": 6, "correct_answer": ["Although", "Though"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u8_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match A with B to make suitable conversations. Then practise each conversation with your friend.",
+              "instruction_vi": "Nối lời rủ/câu hỏi ở cột A với lời đáp phù hợp ở cột B.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Shall we go to the cinema tomorrow afternoon?", "right_id": "e", "right_text": "I'd love to, but I have extra classes every afternoon." },
+                { "left_id": "2", "left_text": "Shall we go and see a film on Saturday morning?", "right_id": "a", "right_text": "I'm afraid I can't. I'm busy at the weekend. How about on a weekday instead?" },
+                { "left_id": "3", "left_text": "Let's go to see Crazy Coconut tonight.", "right_id": "b", "right_text": "That's a good idea. I quite like romantic comedies." },
+                { "left_id": "4", "left_text": "Do you like horror films?", "right_id": "f", "right_text": "No, I find them too frightening. They make me have bad dreams at night." },
+                { "left_id": "5", "left_text": "Which cinema shall we go to? How about the Centre Cinema?", "right_id": "c", "right_text": "I'd love to, but it's too far for me to travel." },
+                { "left_id": "6", "left_text": "How about going to see a science fiction film tonight?", "right_id": "d", "right_text": "I'm not keen on science fiction films. I'd prefer to watch something else." }
+              ]
+            },
+            {
+              "exercise_id": "u8_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Complete the conversation with the sentences (A - E) in the box. Then practise it with your friend.",
+              "instruction_vi": "Hoàn thành đoạn hội thoại với các câu A - E trong khung.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "A", "text": "I'll get the tickets for the 4:45 show." },
+                { "id": "B", "text": "Our Holiday is on at the Town Cinema." },
+                { "id": "C", "text": "Err... We can go after that." },
+                { "id": "D", "text": "See you then." },
+                { "id": "E", "text": "What time can you be at the Town Cinema?" }
+              ],
+              "dialogue_lines": [
+                "Mark: (1) ___ How about seeing it tomorrow?",
+                "Mai: I'd love to, but I'm having a party at my uncle's house.",
+                "Mark: (2) ___ I really want to see it.",
+                "Mai: That would be great. I'll be free after 4 p.m.",
+                "Mark: That's OK. (3) ___",
+                "Mai: I can be there at 4:30.",
+                "Mark: OK. Don't be late. (4) ___",
+                "Mai: That's fine. (5) ___"
+              ],
+              "questions": [
+                { "question_id": "u8_c_ex2_q1", "blank_number": 1, "correct_answer": "B" },
+                { "question_id": "u8_c_ex2_q2", "blank_number": 2, "correct_answer": "C" },
+                { "question_id": "u8_c_ex2_q3", "blank_number": 3, "correct_answer": "E" },
+                { "question_id": "u8_c_ex2_q4", "blank_number": 4, "correct_answer": "A" },
+                { "question_id": "u8_c_ex2_q5", "blank_number": 5, "correct_answer": "D" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u8_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the text about the film The Theory of Everything and answer the questions that follow.",
+              "instruction_vi": "Đọc đoạn văn về bộ phim The Theory of Everything và trả lời câu hỏi.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "The Theory of Everything is a biographical film, directed by James Marsh in 2014. It stars Eddie Redmayne and Felicity Jones.\nThe film is about the life of the scientist Stephen Hawking. It was adapted by Anthony McCarten from the book Travelling to Infinity: My Life with Stephen by the scientist's wife, Jane Hawking. The film is set in England in the early 1960s. It tells the story of Hawking's relationship with his wife, the diagnosis of his motor neuron disease and his success in the field of physics.\nThe film received positive reviews. People say it is a must-see. I agree, because the story is moving and the acting is excellent. The music is also incredible. Although The Theory of Everything is a little sad at times, its story is very interesting and there is a lot of action. Go and see it if you can.",
+              "questions": [
+                { "question_id": "u8_d_ex1_q1", "label": "1", "prompt_text": "What kind of film is The Theory of Everything?", "correct_answer": "It is a biographical film." },
+                { "question_id": "u8_d_ex1_q2", "label": "2", "prompt_text": "Who stars in it?", "correct_answer": "Eddie Redmayne and Felicity Jones star in it." },
+                { "question_id": "u8_d_ex1_q3", "label": "3", "prompt_text": "What is it about?", "correct_answer": "It is about the life of the scientist Stephen Hawking." },
+                { "question_id": "u8_d_ex1_q4", "label": "4", "prompt_text": "What book was it adapted from?", "correct_answer": "It was adapted from the book Travelling to Infinity: My Life with Stephen (by Jane Hawking)." },
+                { "question_id": "u8_d_ex1_q5", "label": "5", "prompt_text": "What do people say about the film?", "correct_answer": "People say it is a must-see." }
+              ]
+            },
+            {
+              "exercise_id": "u8_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "This is Nick's letter to his friend telling him about his favourite film. Put the following paragraphs in the correct order.",
+              "instruction_vi": "Sắp xếp các đoạn văn (A, B, C, D) theo đúng thứ tự bức thư của Nick.",
+              "game_mechanic": "sentence_reorder",
+              "paragraphs": [
+                { "id": "A", "text": "Titanic is a romantic film, which was directed by James Cameron. It stars Leonardo DiCaprio and Kate Winslet. The film is about the sinking of the ship Titanic on its first voyage..." },
+                { "id": "B", "text": "What about you? What type of films do you like? Have you been to the cinema lately? What did you see? Write back and tell me.\nYours,\nNick" },
+                { "id": "C", "text": "Dear Mark,\nHow are you? I'm writing to tell you about the great film I saw last Saturday at the cinema. I went to see Titanic with some friends." },
+                { "id": "D", "text": "Titanic received a lot of positive reviews because the plot is moving and the acting is excellent. The special effects, visuals, and music are also incredible. I think it is worth watching." }
+              ],
+              "correct_order": ["C", "A", "D", "B"],
+              "explanation_vi": "Thứ tự chuẩn của bức thư: Mở đầu chào hỏi (C) -> Giới thiệu nội dung phim (A) -> Đánh giá phim (D) -> Kết thư (B)."
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u8_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Rewrite these sentences using however as in the example.",
+              "instruction_vi": "Viết lại các câu sau sử dụng 'However' theo mẫu.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "u8_e_ex1_q1", "label": "1", "original_sentence": "Although the film didn't receive good reviews from critics, many people went to see it.", "correct_answer": "The film didn't receive good reviews from critics. However, many people went to see it." },
+                { "question_id": "u8_e_ex1_q2", "label": "2", "original_sentence": "Although the story is silly, many people enjoy the film.", "correct_answer": "The story is silly. However, many people enjoy the film." },
+                { "question_id": "u8_e_ex1_q3", "label": "3", "original_sentence": "Although they spent millions of dollars on making the film, it wasn't successful as expected.", "correct_answer": "They spent millions of dollars on making the film. However, it wasn't successful as expected." },
+                { "question_id": "u8_e_ex1_q4", "label": "4", "original_sentence": "Although Jaws is one of Spielberg's first films, it is one of his best.", "correct_answer": "Jaws is one of Spielberg's first films. However, it is one of his best." },
+                { "question_id": "u8_e_ex1_q5", "label": "5", "original_sentence": "Although the film was a bit frightening, I really enjoyed it.", "correct_answer": "The film was a bit frightening. However, I really enjoyed it." }
+              ]
+            },
+            {
+              "exercise_id": "u8_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Think of your favourite film and make notes for the headings. Then write a letter (60 - 80 words) to your penfriend about your favourite film.",
+              "instruction_vi": "Ghi chú và viết một bức thư (60 - 80 từ) cho bạn qua thư kể về bộ phim yêu thích của em.",
+              "game_mechanic": "guided_writing",
+              "headings": ["Film title", "Film type", "Setting", "Star(s)", "Summary of the plot", "Other (acting / sound / music / costumes / special effects)", "Recommendation"],
+              "sample_answer": "Dear Tom,\nHow are you? I'm writing to tell you about my favourite animated film, Doraemon: Stand by Me. It is a 3D cartoon and science fiction film set in Tokyo, Japan. The main characters are Nobita and the robotic cat Doraemon from the 22nd century. Doraemon uses his magic gadgets to help Nobita overcome difficulties and become a better person. The plot is very moving and funny, and the 3D visuals are amazing. It's a must-see!\nWrite back soon,\nMinh"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_09",
+      "unit_number": 9,
+      "unit_title": "FESTIVALS AROUND THE WORLD",
+      "pages": [66, 67, 68, 69, 70, 71, 72],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u9_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the word with a different stress pattern from the others.",
+              "instruction_vi": "Chọn từ có vị trí trọng âm khác với các từ còn lại.",
+              "game_mechanic": "stress_odd_one_out",
+              "questions": [
+                { "question_id": "u9_a_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "driver" }, { "id": "B", "text": "distance" }, { "id": "C", "text": "traffic" }, { "id": "D", "text": "repeat" }], "correct_answer": "D", "explanation_vi": "'repeat' (động từ 2 âm tiết) có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "u9_a_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "travel" }, { "id": "B", "text": "sentence" }, { "id": "C", "text": "obey" }, { "id": "D", "text": "safety" }], "correct_answer": "C", "explanation_vi": "'obey' có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "u9_a_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "grammar" }, { "id": "B", "text": "describe" }, { "id": "C", "text": "accept" }, { "id": "D", "text": "suggest" }], "correct_answer": "A", "explanation_vi": "'grammar' (danh từ) có trọng âm rơi vào âm tiết 1, các động từ còn lại rơi vào âm tiết 2." },
+                { "question_id": "u9_a_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "believe" }, { "id": "B", "text": "pretty" }, { "id": "C", "text": "decide" }, { "id": "D", "text": "complete" }], "correct_answer": "B", "explanation_vi": "'pretty' (tính từ) có trọng âm rơi vào âm tiết 1, các động từ còn lại rơi vào âm tiết 2." },
+                { "question_id": "u9_a_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "confuse" }, { "id": "B", "text": "shocking" }, { "id": "C", "text": "useful" }, { "id": "D", "text": "boring" }], "correct_answer": "A", "explanation_vi": "'confuse' (động từ) có trọng âm rơi vào âm tiết 2, các tính từ còn lại rơi vào âm tiết 1." }
+              ]
+            },
+            {
+              "exercise_id": "u9_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Put the underlined words in the correct column according to their stress pattern. Practise reading the sentences.",
+              "instruction_vi": "Xếp các từ gạch chân vào đúng cột trọng âm (Âm tiết 1 hoặc Âm tiết 2).",
+              "game_mechanic": "category_sorting",
+              "sentences": [
+                "1. At Tet, [people] in Viet Nam usually [gather] together.",
+                "2. We all [enjoy] Tet and [prepare] for it carefully.",
+                "3. We [tidy] our house and cook [special] food.",
+                "4. We [sometimes] go out to watch [fireworks].",
+                "5. [Children] [become] excited because they usually [receive] [lucky] [money] at Tet."
+              ],
+              "categories": [
+                { "stress": "Stress on 1st syllable", "words": ["people", "gather", "tidy", "special", "sometimes", "fireworks", "Children", "lucky", "money"] },
+                { "stress": "Stress on 2nd syllable", "words": ["enjoy", "prepare", "become", "receive"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u9_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Solve the crossword puzzle.",
+              "instruction_vi": "Giải ô chữ chủ đề Lễ hội.",
+              "game_mechanic": "crossword",
+              "questions": [
+                { "question_id": "u9_b_ex1_q1", "label": "1 (Across)", "prompt_text": "a large vehicle that is decorated and used in festivals (5 letters)", "correct_answer": "float" },
+                { "question_id": "u9_b_ex1_q2", "label": "2 (Across)", "prompt_text": "a public celebration that includes people moving down a street (6 letters)", "correct_answer": "parade" },
+                { "question_id": "u9_b_ex1_q3", "label": "3 (Across)", "prompt_text": "a public holiday in the US and in Canada to give thanks to God for the harvest and good health (12 letters)", "correct_answer": "Thanksgiving" },
+                { "question_id": "u9_b_ex1_q4", "label": "4 (Down)", "prompt_text": "a special large meal with very good food (5 letters)", "correct_answer": "feast" },
+                { "question_id": "u9_b_ex1_q5", "label": "5 (Down)", "prompt_text": "a festival in some countries where children dress as ghosts, witches, etc. (9 letters)", "correct_answer": "Halloween" },
+                { "question_id": "u9_b_ex1_q6", "label": "6 (Down)", "prompt_text": "the clothes typical of a particular country (7 letters)", "correct_answer": "costume" }
+              ]
+            },
+            {
+              "exercise_id": "u9_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Match each festival with its activity / activities.",
+              "instruction_vi": "Nối mỗi lễ hội với hoạt động đặc trưng của lễ hội đó.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Christmas", "right_id": "f", "right_text": "People decorate pine trees and give gifts to their family and friends." },
+                { "left_id": "2", "left_text": "Easter", "right_id": "a", "right_text": "Children paint and hunt for eggs." },
+                { "left_id": "3", "left_text": "Halloween", "right_id": "e", "right_text": "People carve pumpkins and eat candy apples." },
+                { "left_id": "4", "left_text": "Thanksgiving", "right_id": "b", "right_text": "People have a feast with turkey." },
+                { "left_id": "5", "left_text": "Cannes Film Festival", "right_id": "d", "right_text": "They give awards to the best films." },
+                { "left_id": "6", "left_text": "Mid-Autumn Festival", "right_id": "c", "right_text": "People eat moon cakes." }
+              ]
+            },
+            {
+              "exercise_id": "u9_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Choose the correct answer A or B.",
+              "instruction_vi": "Chọn đáp án đúng A hoặc B.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u9_b_ex3_q1", "label": "1", "prompt_text": "On New Year's Eve, we go to Hoan Kiem Lake to watch the fireworks ___.", "options": [{ "id": "A", "text": "exhibition" }, { "id": "B", "text": "display" }], "correct_answer": "B" },
+                { "question_id": "u9_b_ex3_q2", "label": "2", "prompt_text": "Look at the dancers. They are performing a Dutch ___.", "options": [{ "id": "A", "text": "folk dance" }, { "id": "B", "text": "folk song" }], "correct_answer": "A" },
+                { "question_id": "u9_b_ex3_q3", "label": "3", "prompt_text": "On ___, children wear costumes and go trick or treating.", "options": [{ "id": "A", "text": "Easter" }, { "id": "B", "text": "Halloween" }], "correct_answer": "B" },
+                { "question_id": "u9_b_ex3_q4", "label": "4", "prompt_text": "Did he get the Best Actor Award at the ___ last year?", "options": [{ "id": "A", "text": "Cannes Film Festival" }, { "id": "B", "text": "Christmas" }], "correct_answer": "A" },
+                { "question_id": "u9_b_ex3_q5", "label": "5", "prompt_text": "She wore a beautiful ___ in the school play.", "options": [{ "id": "A", "text": "clothes" }, { "id": "B", "text": "costume" }], "correct_answer": "B" }
+              ]
+            },
+            {
+              "exercise_id": "u9_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Find a mistake in each sentence and correct it.",
+              "instruction_vi": "Tìm lỗi sai (A, B, hoặc C) trong mỗi câu và sửa lại cho đúng.",
+              "game_mechanic": "error_correction",
+              "questions": [
+                { "question_id": "u9_b_ex4_q1", "label": "1", "sentence": "[Can](A) you [watch](B) folk music performances at the Russian Winter Festival [last year](C)?", "error_option": "A", "correction": "Could / Did" },
+                { "question_id": "u9_b_ex4_q2", "label": "2", "sentence": "Did they [went](A) [to](B) the Tulip Festival [with](C) their family?", "error_option": "A", "correction": "go" },
+                { "question_id": "u9_b_ex4_q3", "label": "3", "sentence": "[Do](A) she [carve](B) pumpkins every year [at](C) Halloween?", "error_option": "A", "correction": "Does" },
+                { "question_id": "u9_b_ex4_q4", "label": "4", "sentence": "Will he [asks](A) his brother [to go](B) to the cinema [with him](C)?", "error_option": "A", "correction": "ask" },
+                { "question_id": "u9_b_ex4_q5", "label": "5", "sentence": "Are they [perform](A) [an](B) Indian folk dance [on the stage](C)?", "error_option": "A", "correction": "performing" }
+              ]
+            },
+            {
+              "exercise_id": "u9_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Change the following sentences into Yes / No questions.",
+              "instruction_vi": "Chuyển các câu kể sau sang câu hỏi Yes / No.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "u9_b_ex5_q1", "label": "1", "original_sentence": "Last year their family went to Da Nang to enjoy the International Fireworks Festival.", "correct_answer": "Did their family go to Da Nang to enjoy the International Fireworks Festival last year?" },
+                { "question_id": "u9_b_ex5_q2", "label": "2", "original_sentence": "They will go to the music festival next week.", "correct_answer": "Will they go to the music festival next week?" },
+                { "question_id": "u9_b_ex5_q3", "label": "3", "original_sentence": "We can design some posters to sell food at the Mid-Autumn Festival.", "correct_answer": "Can we/you design some posters to sell food at the Mid-Autumn Festival?" },
+                { "question_id": "u9_b_ex5_q4", "label": "4", "original_sentence": "My mother usually cooks special food at Tet.", "correct_answer": "Does your mother usually cook special food at Tet?" },
+                { "question_id": "u9_b_ex5_q5", "label": "5", "original_sentence": "People should behave well on the first day of the new year.", "correct_answer": "Should people behave well on the first day of the new year?" },
+                { "question_id": "u9_b_ex5_q6", "label": "6", "original_sentence": "He is singing a song about the beauty of his country.", "correct_answer": "Is he singing a song about the beauty of his country?" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u9_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the correct answer (A or B) to each question below.",
+              "instruction_vi": "Chọn câu trả lời đúng (A hoặc B) cho mỗi câu hỏi.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u9_c_ex1_q1", "label": "1", "prompt_text": "How was the film festival last week?", "options": [{ "id": "A", "text": "It was disappointing." }, { "id": "B", "text": "I went to the cinema last week." }], "correct_answer": "A" },
+                { "question_id": "u9_c_ex1_q2", "label": "2", "prompt_text": "Do you like this performance?", "options": [{ "id": "A", "text": "I'm fine. Thank you." }, { "id": "B", "text": "No. It's awful." }], "correct_answer": "B" },
+                { "question_id": "u9_c_ex1_q3", "label": "3", "prompt_text": "When do Americans celebrate Halloween?", "options": [{ "id": "A", "text": "I don't like it." }, { "id": "B", "text": "On October 31st." }], "correct_answer": "B" },
+                { "question_id": "u9_c_ex1_q4", "label": "4", "prompt_text": "Did he wear a clown costume on Halloween last year?", "options": [{ "id": "A", "text": "Yes, he did." }, { "id": "B", "text": "Yes, he does." }], "correct_answer": "A" },
+                { "question_id": "u9_c_ex1_q5", "label": "5", "prompt_text": "Can you tell me what the Vietnamese do just before Tet?", "options": [{ "id": "A", "text": "Yes, I do." }, { "id": "B", "text": "We clean our houses and make special food." }], "correct_answer": "B" }
+              ]
+            },
+            {
+              "exercise_id": "u9_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Rearrange the sentences to make a complete conversation. Then practise it with a friend.",
+              "instruction_vi": "Sắp xếp các câu (A - J) thành đoạn hội thoại hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "sentences": [
+                { "id": "A", "text": "Is it the festival where people throw tomatoes at one another?" },
+                { "id": "B", "text": "What are you doing, Mai?" },
+                { "id": "C", "text": "Yes, it is." },
+                { "id": "D", "text": "I went to it about two years ago." },
+                { "id": "E", "text": "Really? What was it like?" },
+                { "id": "F", "text": "I hope I can see it someday." },
+                { "id": "G", "text": "It was exciting. We threw tomatoes for about an hour." },
+                { "id": "H", "text": "Did you wear goggles to protect your eyes?" },
+                { "id": "I", "text": "I'm searching for some information about La Tomatina." },
+                { "id": "J", "text": "Yes, I did. Everyone wore goggles." }
+              ],
+              "correct_order": ["B", "I", "A", "C", "D", "E", "G", "H", "J", "F"]
+            },
+            {
+              "exercise_id": "u9_c_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Choose one festival and talk about it. Use the information provided in the tables.",
+              "instruction_vi": "Chọn 1 trong 2 lễ hội (Monkey Buffet hoặc Children's Day) và thuyết trình dựa vào bảng thông tin.",
+              "game_mechanic": "guided_speaking",
+              "sample_answer": "Children's Day is a special festival for children in Viet Nam. It takes place throughout the country on the 1st of June every year. Both adults and children join the festival. On this day, parents often take their children to the park, buy them toys, or give them gifts. Many families eat out and have a cosy picnic together."
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u9_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the correct answer A, B, or C to fill in each blank in the following passage.",
+              "instruction_vi": "Chọn đáp án đúng A, B hoặc C để hoàn thành đoạn văn về Lễ hội Edinburgh.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "The Edinburgh Festival is the biggest arts festival in the world. (1) ___ August, thousands of people come to the city to join the festival. It (2) ___ for three weeks and has a lot of activities. People enjoy music and dance performances in the streets (3) ___ early morning until late at night. They also see artists painting pictures in the streets. One of (4) ___ most interesting parts of the festival is \"Fringe\". Here people enjoy comedy shows by students in small halls and cafés. At this festival, tourists also have a chance to (5) ___ new films, plays and listen to famous musicians playing great music. Although it is the world's largest arts festival, its tickets (6) ___ quite cheap. This is one of the reasons why it attracts so many people every year.",
+              "questions": [
+                { "question_id": "u9_d_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "On" }, { "id": "B", "text": "At" }, { "id": "C", "text": "Every" }], "correct_answer": "C" },
+                { "question_id": "u9_d_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "goes" }, { "id": "B", "text": "lasts" }, { "id": "C", "text": "ends" }], "correct_answer": "B" },
+                { "question_id": "u9_d_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "in" }, { "id": "B", "text": "from" }, { "id": "C", "text": "between" }], "correct_answer": "B" },
+                { "question_id": "u9_d_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "the" }, { "id": "B", "text": "a" }, { "id": "C", "text": "much" }], "correct_answer": "A" },
+                { "question_id": "u9_d_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "learn" }, { "id": "B", "text": "join" }, { "id": "C", "text": "see" }], "correct_answer": "C" },
+                { "question_id": "u9_d_ex1_q6", "label": "6", "options": [{ "id": "A", "text": "are" }, { "id": "B", "text": "be" }, { "id": "C", "text": "will" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "u9_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Fill in each blank with a suitable word.",
+              "instruction_vi": "Điền một từ thích hợp vào mỗi chỗ trống trong đoạn văn về lễ hội Hanukkah.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Hanukkah is the Jewish Festival of Lights. It lasts (1) ___ eight days. People usually celebrate it (2) ___ November or December. People light candles at this festival. They light one (3) ___ every evening. To celebrate the festival, people make special pancakes. They make the (4) ___ with potatoes, onions, eggs, flour and oil. Jam doughnuts (5) ___ also very popular. People (6) ___ their family and friends presents and money at Hanukkah. Adults give (7) ___ chocolate coins. People also give cards (8) ___ others.",
+              "questions": [
+                { "question_id": "u9_d_ex2_q1", "blank_number": 1, "correct_answer": "for" },
+                { "question_id": "u9_d_ex2_q2", "blank_number": 2, "correct_answer": "in" },
+                { "question_id": "u9_d_ex2_q3", "blank_number": 3, "correct_answer": "candle" },
+                { "question_id": "u9_d_ex2_q4", "blank_number": 4, "correct_answer": "pancakes" },
+                { "question_id": "u9_d_ex2_q5", "blank_number": 5, "correct_answer": "are" },
+                { "question_id": "u9_d_ex2_q6", "blank_number": 6, "correct_answer": "give" },
+                { "question_id": "u9_d_ex2_q7", "blank_number": 7, "correct_answer": "children" },
+                { "question_id": "u9_d_ex2_q8", "blank_number": 8, "correct_answer": "to" }
+              ]
+            },
+            {
+              "exercise_id": "u9_d_ex3a",
+              "exercise_number": 3,
+              "sub_part": "a",
+              "instruction_en": "Read the passage about two carnivals and tick (✓) the suitable boxes.",
+              "instruction_vi": "Đọc đoạn văn về hai lễ hội hóa trang (New Orleans và Rio de Janeiro) và đánh dấu vào ô phù hợp.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Carnival is an annual festival in many countries in the world. People celebrate it in different ways. Two of the world's most famous carnivals are held in New Orleans, USA and Rio de Janeiro, Brazil.\nNew Orleans: The carnival in New Orleans lasts for about two weeks. There is a parade every day. People wear special costumes and ride on beautiful floats. They throw small gifts to the crowd. More than one million people join the festival each year.\nRio de Janeiro: The carnival in Rio is the biggest in the world. It lasts for about five days. The Rio Carnival is famous for its samba music. People dress up in special costumes and dance on floats. At the Rio Carnival, tourists enjoy the parades and competitions between samba 'schools' or groups. These schools can spend millions of dollars preparing every year.",
+              "questions": [
+                { "question_id": "u9_d_ex3a_q1", "label": "1", "prompt_text": "lasts for about 14 days", "options": ["New Orleans", "Rio de Janeiro", "Both"], "correct_answer": "New Orleans" },
+                { "question_id": "u9_d_ex3a_q2", "label": "2", "prompt_text": "has people wearing costumes", "options": ["New Orleans", "Rio de Janeiro", "Both"], "correct_answer": "Both" },
+                { "question_id": "u9_d_ex3a_q3", "label": "3", "prompt_text": "has samba competitions", "options": ["New Orleans", "Rio de Janeiro", "Both"], "correct_answer": "Rio de Janeiro" },
+                { "question_id": "u9_d_ex3a_q4", "label": "4", "prompt_text": "is the biggest in the world", "options": ["New Orleans", "Rio de Janeiro", "Both"], "correct_answer": "Rio de Janeiro" }
+              ]
+            },
+            {
+              "exercise_id": "u9_d_ex3b",
+              "exercise_number": 3,
+              "sub_part": "b",
+              "instruction_en": "Give short answers to the following questions.",
+              "instruction_vi": "Trả lời ngắn gọn các câu hỏi sau.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u9_d_ex3b_q1", "label": "1", "prompt_text": "How often do people have carnivals?", "correct_answer": "Every year. / Annually." },
+                { "question_id": "u9_d_ex3b_q2", "label": "2", "prompt_text": "Do people celebrate carnivals in the same way?", "correct_answer": "No, they don't." },
+                { "question_id": "u9_d_ex3b_q3", "label": "3", "prompt_text": "What do people on floats throw to the crowd at the New Orleans Carnival?", "correct_answer": "Small gifts." },
+                { "question_id": "u9_d_ex3b_q4", "label": "4", "prompt_text": "How long does the Rio Carnival last?", "correct_answer": "For about five days." },
+                { "question_id": "u9_d_ex3b_q5", "label": "5", "prompt_text": "How much do samba schools spend preparing?", "correct_answer": "Millions of dollars." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u9_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences, using the words and phrases given. You can change the words and phrases or add necessary words.",
+              "instruction_vi": "Dựng câu hoàn chỉnh từ các từ/cụm từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u9_e_ex1_q1", "label": "1", "prompt_text": "Easter / important / Christian / festival / and / holiday.", "correct_answer": "Easter is an important Christian festival and holiday." },
+                { "question_id": "u9_e_ex1_q2", "label": "2", "prompt_text": "People / celebrate / around / world / between / 22nd March / 25th April.", "correct_answer": "People celebrate it around the world between 22nd March and 25th April." },
+                { "question_id": "u9_e_ex1_q3", "label": "3", "prompt_text": "People / give / chocolate eggs / friends / and / family.", "correct_answer": "People give chocolate eggs to their friends and family." },
+                { "question_id": "u9_e_ex1_q4", "label": "4", "prompt_text": "They / also / organise / egg hunt / children.", "correct_answer": "They also organise egg hunts for children." },
+                { "question_id": "u9_e_ex1_q5", "label": "5", "prompt_text": "People / go / church / and / have / special / family meal.", "correct_answer": "People go to church and have a special family meal." },
+                { "question_id": "u9_e_ex1_q6", "label": "6", "prompt_text": "Each year / shop / sell / million / of / chocolate / Easter bunnies.", "correct_answer": "Each year, shops sell millions of chocolate Easter bunnies." }
+              ]
+            },
+            {
+              "exercise_id": "u9_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Write a short story of about 50 words based on the pictures given.",
+              "instruction_vi": "Viết một câu chuyện ngắn khoảng 50 từ dựa vào 3 bức tranh Tết Trung thu.",
+              "game_mechanic": "guided_writing",
+              "starter": "Last September, Mi and Lan went to the Mid-Autumn Festival at their school.",
+              "sample_answer": "Last September, Mi and Lan went to the Mid-Autumn Festival at their school. They went there by bus in the afternoon. At the festival, they watched an exciting lion dance and saw many colourful lanterns. They also made moon cakes with their classmates and ate them together. They had a lot of fun!"
+            },
+            {
+              "exercise_id": "u9_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Write an email (60 - 80 words) to a friend to tell him / her about a festival you went to.",
+              "instruction_vi": "Viết thư điện tử (60 - 80 từ) kể cho bạn nghe về một lễ hội mà em đã tham gia.",
+              "game_mechanic": "guided_writing",
+              "sample_answer": "Dear Mark,\nHow are you? I'm going to tell you about the Da Nang International Fireworks Festival. I went there with my family last June. People celebrate it to promote tourism and cultural exchange. At the festival, we watched breathtaking fireworks displays along the Han River and enjoyed street music performances. I really loved the festival because the atmosphere was super lively and the fireworks were magical!\nBest wishes,\nLinh"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "test_yourself_03",
+      "unit_number": 0,
+      "unit_title": "TEST YOURSELF 3",
+      "pages": [73, 74, 75, 76],
+      "sections": [
+        {
+          "section_id": "TEST",
+          "section_title": "Comprehensive Test (Units 7 - 9)",
+          "exercises": [
+            {
+              "exercise_id": "ty3_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the word in which the underlined part is pronounced differently. (1.0 pt)",
+              "instruction_vi": "Chọn từ có phần gạch chân phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                { "question_id": "ty3_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "[are]" }, { "id": "B", "text": "squ[are]" }, { "id": "C", "text": "c[are]" }, { "id": "D", "text": "sh[are]" }], "correct_answer": "A", "explanation_vi": "'are' phát âm là /ɑː/, các từ còn lại phát âm là /eə/." },
+                { "question_id": "ty3_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "ob[ey]" }, { "id": "B", "text": "surv[ey]" }, { "id": "C", "text": "k[ey]" }, { "id": "D", "text": "gr[ey]" }], "correct_answer": "C", "explanation_vi": "'key' phát âm là /iː/, các từ còn lại phát âm là /eɪ/." },
+                { "question_id": "ty3_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "f[ear]" }, { "id": "B", "text": "cl[ear]" }, { "id": "C", "text": "h[ear]" }, { "id": "D", "text": "p[ear]" }], "correct_answer": "D", "explanation_vi": "'pear' phát âm là /eə/, các từ còn lại phát âm là /ɪə/." },
+                { "question_id": "ty3_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "l[i]ne" }, { "id": "B", "text": "motorb[i]ke" }, { "id": "C", "text": "discipl[i]ne" }, { "id": "D", "text": "f[i]ne" }], "correct_answer": "C", "explanation_vi": "'discipline' phát âm là /ɪ/, các từ còn lại phát âm là /aɪ/." },
+                { "question_id": "ty3_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "st[a]tion" }, { "id": "B", "text": "p[a]vement" }, { "id": "C", "text": "[a]ble" }, { "id": "D", "text": "[a]nkle" }], "correct_answer": "D", "explanation_vi": "'ankle' phát âm là /æ/, các từ còn lại phát âm là /eɪ/." }
+              ]
+            },
+            {
+              "exercise_id": "ty3_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Find the word with a different stress pattern from the others in each line. (1.0 pt)",
+              "instruction_vi": "Tìm từ có vị trí trọng âm khác với các từ còn lại.",
+              "game_mechanic": "stress_odd_one_out",
+              "questions": [
+                { "question_id": "ty3_ex2_q1", "label": "1", "options": [{ "id": "A", "text": "busy" }, { "id": "B", "text": "noisy" }, { "id": "C", "text": "polite" }, { "id": "D", "text": "happy" }], "correct_answer": "C", "explanation_vi": "'polite' trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "ty3_ex2_q2", "label": "2", "options": [{ "id": "A", "text": "balloon" }, { "id": "B", "text": "station" }, { "id": "C", "text": "corner" }, { "id": "D", "text": "motor" }], "correct_answer": "A", "explanation_vi": "'balloon' trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "ty3_ex2_q3", "label": "3", "options": [{ "id": "A", "text": "pavement" }, { "id": "B", "text": "traffic" }, { "id": "C", "text": "helmet" }, { "id": "D", "text": "success" }], "correct_answer": "D", "explanation_vi": "'success' trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "ty3_ex2_q4", "label": "4", "options": [{ "id": "A", "text": "cycle" }, { "id": "B", "text": "travel" }, { "id": "C", "text": "enter" }, { "id": "D", "text": "enjoy" }], "correct_answer": "D", "explanation_vi": "'enjoy' trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "ty3_ex2_q5", "label": "5", "options": [{ "id": "A", "text": "parade" }, { "id": "B", "text": "zebra" }, { "id": "C", "text": "careful" }, { "id": "D", "text": "costume" }], "correct_answer": "A", "explanation_vi": "'parade' trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." }
+              ]
+            },
+            {
+              "exercise_id": "ty3_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Choose the correct option A, B, or C to complete each sentence. (2.0 pts)",
+              "instruction_vi": "Chọn đáp án đúng A, B hoặc C để hoàn thành câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "ty3_ex3_q1", "label": "1", "prompt_text": "You ___ drive carefully. The street is very crowded now.", "options": [{ "id": "A", "text": "should" }, { "id": "B", "text": "shouldn't" }, { "id": "C", "text": "would" }], "correct_answer": "A" },
+                { "question_id": "ty3_ex3_q2", "label": "2", "prompt_text": "___ down on the way to school?", "options": [{ "id": "A", "text": "Do your bike ever break" }, { "id": "B", "text": "Does your bike ever break" }, { "id": "C", "text": "Does your bike ever breaks" }], "correct_answer": "B" },
+                { "question_id": "ty3_ex3_q3", "label": "3", "prompt_text": "___ it rained, they went to Hoan Kiem Lake to watch the fireworks display.", "options": [{ "id": "A", "text": "However" }, { "id": "B", "text": "If" }, { "id": "C", "text": "Although" }], "correct_answer": "C" },
+                { "question_id": "ty3_ex4", "label": "4", "prompt_text": "You must ___ a helmet when you ride a motorbike.", "options": [{ "id": "A", "text": "take" }, { "id": "B", "text": "wear" }, { "id": "C", "text": "put" }], "correct_answer": "B" },
+                { "question_id": "ty3_ex3_q5", "label": "5", "prompt_text": "You shouldn't allow your kids to watch war films. They're really too ___ for children.", "options": [{ "id": "A", "text": "violent" }, { "id": "B", "text": "confusing" }, { "id": "C", "text": "dull" }], "correct_answer": "A" },
+                { "question_id": "ty3_ex3_q6", "label": "6", "prompt_text": "The group is ___ some traditional Vietnamese dances.", "options": [{ "id": "A", "text": "displaying" }, { "id": "B", "text": "playing" }, { "id": "C", "text": "performing" }], "correct_answer": "C" },
+                { "question_id": "ty3_ex3_q7", "label": "7", "prompt_text": "The ao dai, for both women and men, is the most popular traditional ___ of Viet Nam.", "options": [{ "id": "A", "text": "costume" }, { "id": "B", "text": "cloth" }, { "id": "C", "text": "wear" }], "correct_answer": "A" },
+                { "question_id": "ty3_ex3_q8", "label": "8", "prompt_text": "The road is very busy during ___ hour.", "options": [{ "id": "A", "text": "rushed" }, { "id": "B", "text": "rushing" }, { "id": "C", "text": "rush" }], "correct_answer": "C" },
+                { "question_id": "ty3_ex3_q9", "label": "9", "prompt_text": "They decided to ___ a feast to celebrate the victory.", "options": [{ "id": "A", "text": "take" }, { "id": "B", "text": "have" }, { "id": "C", "text": "make" }], "correct_answer": "B" },
+                { "question_id": "ty3_ex3_q10", "label": "10", "prompt_text": "The film received a lot of positive ___.", "options": [{ "id": "A", "text": "interviews" }, { "id": "B", "text": "opinions" }, { "id": "C", "text": "reviews" }], "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "ty3_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Find one mistake in each of the following sentences and correct it. (1.0 pt)",
+              "instruction_vi": "Tìm một lỗi sai trong mỗi câu dưới đây và sửa lại cho đúng.",
+              "game_mechanic": "error_correction",
+              "questions": [
+                { "question_id": "ty3_ex4_q1", "label": "1", "sentence": "We shouldn't to go swimming right after eating because it is not good for our stomach.", "error_word": "to go", "correction": "go", "explanation_vi": "Sau động từ khuyết thiếu 'shouldn't' dùng động từ nguyên thể không 'to'." },
+                { "question_id": "ty3_ex4_q2", "label": "2", "sentence": "However the Titanic is a very sad film, many people really love it.", "error_word": "However", "correction": "Although / Though", "explanation_vi": "Nối hai mệnh đề tương phản trong cùng 1 câu không có dấu chấm phẩy dùng Although/Though." },
+                { "question_id": "ty3_ex4_q3", "label": "3", "sentence": "Do they held the festival in Ho Chi Minh City every year?", "error_word": "held", "correction": "hold", "explanation_vi": "Sau trợ động từ 'Do' dùng động từ nguyên mẫu 'hold'." },
+                { "question_id": "ty3_ex4_q4", "label": "4", "sentence": "People think that the film's plot is really interested.", "error_word": "interested", "correction": "interesting", "explanation_vi": "Mô tả tính chất của sự vật (the film's plot) phải dùng tính từ đuôi -ing (interesting)." },
+                { "question_id": "ty3_ex4_q5", "label": "5", "sentence": "It took him 20 minutes travelling to the airport.", "error_word": "travelling", "correction": "to travel", "explanation_vi": "Cấu trúc: It takes/took + O + time + to V." }
+              ]
+            },
+            {
+              "exercise_id": "ty3_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Put the following sentences in correct order to make a dialogue. (1.0 pt)",
+              "instruction_vi": "Sắp xếp các câu (A - N) theo đúng thứ tự để tạo thành đoạn hội thoại hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "sentences": [
+                { "id": "A", "text": "Let's see the romantic comedy Crazy Coconut at the Town Cinema instead." },
+                { "id": "B", "text": "It was boring so many people left the cinema early. It's a big disappointment." },
+                { "id": "C", "text": "Julia Roberts and Brad Pitt." },
+                { "id": "D", "text": "But I saw it last week." },
+                { "id": "E", "text": "It shows at 6:45 p.m. and 8:30 p.m." },
+                { "id": "F", "text": "How about going to the cinema tonight, Nick?" },
+                { "id": "G", "text": "The Train to Our Land is on at the Centre Cinema." },
+                { "id": "H", "text": "Let's catch the 8:30. But how can we get to the Town Cinema? It's quite far from here." },
+                { "id": "I", "text": "Really? How was it?" },
+                { "id": "J", "text": "It's about a female professor and a male film star. They have to live together on a deserted island." },
+                { "id": "K", "text": "Who stars in it?" },
+                { "id": "L", "text": "Julia Roberts and Brad Pitt are great. What's it about?" },
+                { "id": "M", "text": "That's a great idea! What shall we see?" },
+                { "id": "N", "text": "Sounds good. Let's see it. What time does it start?" }
+              ],
+              "correct_order": ["F", "M", "G", "D", "I", "B", "A", "K", "C", "L", "J", "N", "E", "H"]
+            },
+            {
+              "exercise_id": "ty3_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Read the text and choose the correct answer A, B, or C for each of the gaps. (1.0 pt)",
+              "instruction_vi": "Đọc đoạn văn và chọn đáp án đúng A, B hoặc C cho mỗi chỗ trống.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "The French call Shrove Tuesday Mardi Gras, which means Fat Tuesday, (1) ___ it was the last night for them to eat meat and fatty food before the festival of Lent started. To do this, they made crepes - thin pancakes. Today they still celebrate Mardi Gras by eating crepes.\nIn Italy, (2) ___ day is called Carnevale, which means goodbye to meat and gives us the word Carnival. People (3) ___ fritters (special fried pastries), and in Naples they have a pasta dish called Grande Lasagne di Carnevale.\nIn New Orleans, USA, the whole carnival season is called Mardi Gras, because it ends (4) ___ Shrove Tuesday - but it starts on 6 January! There are fancy-dress parties, street parades and food. (5) ___, everyone eats King Cakes, which are round cakes covered in purple, green and gold sugar.",
+              "questions": [
+                { "question_id": "ty3_ex6_q1", "label": "1", "options": [{ "id": "A", "text": "because" }, { "id": "B", "text": "but" }, { "id": "C", "text": "though" }], "correct_answer": "A" },
+                { "question_id": "ty3_ex6_q2", "label": "2", "options": [{ "id": "A", "text": "that" }, { "id": "B", "text": "this" }, { "id": "C", "text": "a" }], "correct_answer": "B" },
+                { "question_id": "ty3_ex6_q3", "label": "3", "options": [{ "id": "A", "text": "drink" }, { "id": "B", "text": "use" }, { "id": "C", "text": "eat" }], "correct_answer": "C" },
+                { "question_id": "ty3_ex6_q4", "label": "4", "options": [{ "id": "A", "text": "at" }, { "id": "B", "text": "on" }, { "id": "C", "text": "in" }], "correct_answer": "B" },
+                { "question_id": "ty3_ex6_q5", "label": "5", "options": [{ "id": "A", "text": "Tradition" }, { "id": "B", "text": "Traditional" }, { "id": "C", "text": "Traditionally" }], "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "ty3_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Read the text and choose the correct answer A, B, or C to each of the questions. (1.0 pt)",
+              "instruction_vi": "Đọc văn bản 'How to Avoid a Traffic Jam' và chọn đáp án đúng A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "How to Avoid a Traffic Jam\nIt is common to get stuck in traffic jams in big cities, so here are some tips to help you avoid them.\nFirstly, avoid travelling during rush hour. You should know when rush hour takes place in your city then avoid it.\nSecondly, learn other routes to get to your destination. You should use other routes that will take you to your destination. Sometimes you simply cannot avoid travelling during rush hour, but find new routes online to avoid the overcrowded roads.\nThirdly, listen to the radio for traffic alerts and updates. You never know when an accident or roadworks may delay you. If you hear about a possible interruption, choose a different route.\nFinally, use public transportation when possible. If more people use public transportation, there will be less traffic on the roads. Public transport can not only save you money and time, but it can also help reduce air pollution.",
+              "questions": [
+                { "question_id": "ty3_ex7_q1", "label": "1", "prompt_text": "Learning when rush hour takes place can help you ___.", "options": [{ "id": "A", "text": "avoid travelling during it" }, { "id": "B", "text": "choose the shortest route" }, { "id": "C", "text": "know about interruptions" }], "correct_answer": "A" },
+                { "question_id": "ty3_ex7_q2", "label": "2", "prompt_text": "If you travel to the same destination every day, it is necessary for you to ___.", "options": [{ "id": "A", "text": "learn to take different routes" }, { "id": "B", "text": "use only public transportation" }, { "id": "C", "text": "wait until there are no accidents" }], "correct_answer": "A" },
+                { "question_id": "ty3_ex7_q3", "label": "3", "prompt_text": "Public transportation may ___.", "options": [{ "id": "A", "text": "be slower than taking your car" }, { "id": "B", "text": "reduce the number of traffic jams" }, { "id": "C", "text": "cost more than using individual vehicles" }], "correct_answer": "B" },
+                { "question_id": "ty3_ex7_q4", "label": "4", "prompt_text": "The word \"it\" in the text refers to ___.", "options": [{ "id": "A", "text": "money" }, { "id": "B", "text": "traffic" }, { "id": "C", "text": "public transport" }], "correct_answer": "C" },
+                { "question_id": "ty3_ex7_q5", "label": "5", "prompt_text": "Which of the following is NOT true according to the text?", "options": [{ "id": "A", "text": "You can always avoid travelling during the rush hour." }, { "id": "B", "text": "Public transport may help reduce air pollution." }, { "id": "C", "text": "You never know when an accident may delay you." }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "ty3_ex8",
+              "exercise_number": 8,
+              "instruction_en": "Rewrite the sentences, using the words given. (2.0 pts)",
+              "instruction_vi": "Viết lại các câu sau sử dụng từ cho sẵn trong ngoặc.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "ty3_ex8_q1", "label": "1", "original_sentence": "The distance from Vinh City to Ha Tinh City is about 50 km.", "keyword": "IT", "correct_answer": "It is about 50 km from Vinh City to Ha Tinh City." },
+                { "question_id": "ty3_ex8_q2", "label": "2", "original_sentence": "She is so young, but she always gives an excellent performance.", "keyword": "ALTHOUGH", "correct_answer": "Although she is so young, she always gives an excellent performance." },
+                { "question_id": "ty3_ex8_q3", "label": "3", "original_sentence": "His performance as King Lear was very disappointing.", "keyword": "DISAPPOINTMENT", "correct_answer": "His performance as King Lear was a big disappointment." },
+                { "question_id": "ty3_ex8_q4", "label": "4", "original_sentence": "What's the distance between Ho Chi Minh City and Phu Quoc Island?", "keyword": "FAR", "correct_answer": "How far is it from Ho Chi Minh City to Phu Quoc Island?" },
+                { "question_id": "ty3_ex8_q5", "label": "5", "original_sentence": "I spend 30 minutes travelling to school by bicycle every morning.", "keyword": "TAKES", "correct_answer": "It takes me 30 minutes to travel to school by bicycle every morning." }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

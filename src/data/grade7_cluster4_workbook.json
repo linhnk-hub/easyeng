@@ -1,0 +1,590 @@
+{
+  "book_title": "Tiếng Anh 7 - Sách bài tập (Global Success)",
+  "module_id": "hoc_phan_4",
+  "module_name": "Học phần 4: Units 10 - 12 & Test Yourself 4",
+  "units": [
+    {
+      "unit_id": "unit_10",
+      "unit_number": 10,
+      "unit_title": "ENERGY SOURCES",
+      "pages": [77, 78, 79, 80, 81, 82, 83],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u10_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the word which has a different stress. Say them aloud.",
+              "instruction_vi": "Tìm từ có vị trí trọng âm khác với các từ còn lại.",
+              "game_mechanic": "stress_odd_one_out",
+              "questions": [
+                {
+                  "question_id": "u10_a_ex1_q1",
+                  "label": "1",
+                  "options": [
+                    { "id": "A", "text": "energy" },
+                    { "id": "B", "text": "plentiful" },
+                    { "id": "C", "text": "another" },
+                    { "id": "D", "text": "dangerous" }
+                  ],
+                  "correct_answer": "C",
+                  "explanation_vi": "'another' (ə'nʌðə) có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1."
+                },
+                {
+                  "question_id": "u10_a_ex1_q2",
+                  "label": "2",
+                  "options": [
+                    { "id": "A", "text": "easily" },
+                    { "id": "B", "text": "consumption" },
+                    { "id": "C", "text": "government" },
+                    { "id": "D", "text": "negative" }
+                  ],
+                  "correct_answer": "B",
+                  "explanation_vi": "'consumption' (kən'sʌmpʃn) có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1."
+                },
+                {
+                  "question_id": "u10_a_ex1_q3",
+                  "label": "3",
+                  "options": [
+                    { "id": "A", "text": "syllables" },
+                    { "id": "B", "text": "expensive" },
+                    { "id": "C", "text": "abundant" },
+                    { "id": "D", "text": "convenient" }
+                  ],
+                  "correct_answer": "A",
+                  "explanation_vi": "'syllables' ('sɪləblz) có trọng âm rơi vào âm tiết 1, các từ còn lại rơi vào âm tiết 2."
+                },
+                {
+                  "question_id": "u10_a_ex1_q4",
+                  "label": "4",
+                  "options": [
+                    { "id": "A", "text": "expensive" },
+                    { "id": "B", "text": "advantage" },
+                    { "id": "C", "text": "enormous" },
+                    { "id": "D", "text": "distances" }
+                  ],
+                  "correct_answer": "D",
+                  "explanation_vi": "'distances' ('dɪstənsɪz) có trọng âm rơi vào âm tiết 1, các từ còn lại rơi vào âm tiết 2."
+                },
+                {
+                  "question_id": "u10_a_ex1_q5",
+                  "label": "5",
+                  "options": [
+                    { "id": "A", "text": "attention" },
+                    { "id": "B", "text": "holiday" },
+                    { "id": "C", "text": "pollution" },
+                    { "id": "D", "text": "effective" }
+                  ],
+                  "correct_answer": "B",
+                  "explanation_vi": "'holiday' ('hɒlədeɪ) có trọng âm rơi vào âm tiết 1, các từ còn lại rơi vào âm tiết 2."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u10_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read the following sentences and mark (') the stressed syllable in the underlined words.",
+              "instruction_vi": "Đánh dấu trọng âm (') cho các từ gạch chân trong các câu sau.",
+              "game_mechanic": "stress_select",
+              "questions": [
+                {
+                  "question_id": "u10_a_ex2_q1",
+                  "label": "1",
+                  "sentence": "Solar [energy] is [renewable] and [abundant].",
+                  "stressed_words": ["'energy", "re'newable", "a'bundant"]
+                },
+                {
+                  "question_id": "u10_a_ex2_q2",
+                  "label": "2",
+                  "sentence": "The [government] is looking for [effective] sources of [energy] to replace coal.",
+                  "stressed_words": ["'government", "ef'fective", "'energy"]
+                },
+                {
+                  "question_id": "u10_a_ex2_q3",
+                  "label": "3",
+                  "sentence": "Using coal is [polluting] the [environment].",
+                  "stressed_words": ["pol'luting", "en'vironment"]
+                },
+                {
+                  "question_id": "u10_a_ex2_q4",
+                  "label": "4",
+                  "sentence": "There are three [syllables] in the word \"[exercise]\".",
+                  "stressed_words": ["'syllables", "'exercise"]
+                },
+                {
+                  "question_id": "u10_a_ex2_q5",
+                  "label": "5",
+                  "sentence": "I think [nuclear] power is not only [expensive] but also [dangerous] to our [environment].",
+                  "stressed_words": ["'nuclear", "ex'pensive", "'dangerous", "en'vironment"]
+                },
+                {
+                  "question_id": "u10_a_ex2_q6",
+                  "label": "6",
+                  "sentence": "They are [reducing] [energy] [consumption] as much as [possible].",
+                  "stressed_words": ["re'ducing", "'energy", "con'sumption", "'possible"]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u10_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete the sentences with the phrases in the box. There is one extra phrase.",
+              "instruction_vi": "Hoàn thành các câu với các cụm từ trong khung (có 1 cụm từ dư).",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "electrical appliances" },
+                { "id": "b", "text": "low energy light bulbs" },
+                { "id": "c", "text": "solar panels" },
+                { "id": "d", "text": "new source of energy" },
+                { "id": "e", "text": "non-renewable energy sources" },
+                { "id": "f", "text": "plastic bottles" },
+                { "id": "g", "text": "the environment" }
+              ],
+              "questions": [
+                { "question_id": "u10_b_ex1_q1", "label": "1", "prompt_text": "We can protect ___ by reducing our use of coal and gas.", "correct_answer": "the environment", "matched_option_id": "g" },
+                { "question_id": "u10_b_ex1_q2", "label": "2", "prompt_text": "The workers are putting ___ on the roof of my house.", "correct_answer": "solar panels", "matched_option_id": "c" },
+                { "question_id": "u10_b_ex1_q3", "label": "3", "prompt_text": "We are putting the ___ in the kitchen tomorrow.", "correct_answer": "low energy light bulbs", "matched_option_id": "b" },
+                { "question_id": "u10_b_ex1_q4", "label": "4", "prompt_text": "She turns off ___ when not using them.", "correct_answer": "electrical appliances", "matched_option_id": "a" },
+                { "question_id": "u10_b_ex1_q5", "label": "5", "prompt_text": "Do they recycle ___?", "correct_answer": "plastic bottles", "matched_option_id": "f" },
+                { "question_id": "u10_b_ex1_q6", "label": "6", "prompt_text": "They are looking for a ___ now.", "correct_answer": "new source of energy", "matched_option_id": "d" }
+              ]
+            },
+            {
+              "exercise_id": "u10_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Do the crossword puzzle and complete the sentences.",
+              "instruction_vi": "Giải ô chữ và hoàn thành các câu bên dưới.",
+              "game_mechanic": "crossword",
+              "questions": [
+                { "question_id": "u10_b_ex2_q1", "label": "1 (Across)", "prompt_text": "Solar energy is ___ and it can be replaced easily. (pl_n_____)", "correct_answer": "plentiful" },
+                { "question_id": "u10_b_ex2_q2", "label": "2 (Across)", "prompt_text": "Hydro energy is ___ because it requires dams. (exp_n____)", "correct_answer": "expensive" },
+                { "question_id": "u10_b_ex2_q3", "label": "3 (Across)", "prompt_text": "Coal, oil and natural gas are non-renewable energy sources. Burning them is ___ to the environment. (har____)", "correct_answer": "harmful" },
+                { "question_id": "u10_b_ex2_q4", "label": "4 (Down)", "prompt_text": "The alternative sources of energy like the sun and wind are not only plentiful but also ___ and safe to use. (cl___)", "correct_answer": "clean" },
+                { "question_id": "u10_b_ex2_q5", "label": "5 (Down)", "prompt_text": "Wind energy is convenient and ___. (abun____)", "correct_answer": "abundant" },
+                { "question_id": "u10_b_ex2_q6", "label": "6 (Down)", "prompt_text": "Coal is ___ and it can be replaced by renewable sources. (li_i___)", "correct_answer": "limited" },
+                { "question_id": "u10_b_ex2_q7", "label": "7 (Down)", "prompt_text": "For many people living in rural areas, biogas is a ___ source of energy. (ch___)", "correct_answer": "cheap" },
+                { "question_id": "u10_b_ex2_q8", "label": "8 (Down)", "prompt_text": "Nuclear energy can provide enough electricity for the world's needs, but it is ___. (dan______)", "correct_answer": "dangerous" }
+              ]
+            },
+            {
+              "exercise_id": "u10_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Complete the sentences, using the verbs in brackets in the present continuous.",
+              "instruction_vi": "Hoàn thành các câu sử dụng động từ trong ngoặc ở thì hiện tại tiếp diễn.",
+              "game_mechanic": "verb_conjugation",
+              "questions": [
+                { "question_id": "u10_b_ex3_q1", "label": "1", "prompt_text": "The boys (not do) ___ their homework at the moment. They (watch) ___ TV instead.", "correct_answer": "aren't doing; are watching" },
+                { "question_id": "u10_b_ex3_q2", "label": "2", "prompt_text": "Mai (read) ___ about renewable energy, and Nam (do) ___ a project on our local environment.", "correct_answer": "is reading; is doing" },
+                { "question_id": "u10_b_ex3_q3", "label": "3", "prompt_text": "The music (get) ___ louder and louder. Many people (put) ___ their hands over their ears.", "correct_answer": "is getting; are putting" },
+                { "question_id": "u10_b_ex3_q4", "label": "4", "prompt_text": "Her mother (not have) ___ a nap now. She (water) ___ the plants.", "correct_answer": "isn't having; is watering" },
+                { "question_id": "u10_b_ex3_q5", "label": "5", "prompt_text": "My father (install) ___ a biogas cooker in the kitchen, and the workers (put) ___ solar panels on the roof of our house.", "correct_answer": "is installing; are putting" }
+              ]
+            },
+            {
+              "exercise_id": "u10_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Make sentences, using the words and phrases below to help you. You can change the words / phrases or add necessary words.",
+              "instruction_vi": "Dựng câu hoàn chỉnh ở thì hiện tại tiếp diễn từ các từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u10_b_ex4_q1", "label": "1", "prompt_text": "The teacher / give a talk / renewable energy / now.", "correct_answer": "The teacher is giving a talk on renewable energy now." },
+                { "question_id": "u10_b_ex4_q2", "label": "2", "prompt_text": "The workers / build / huge hydro power station / this year.", "correct_answer": "The workers are building a huge hydro power station this year." },
+                { "question_id": "u10_b_ex4_q3", "label": "3", "prompt_text": "The students / not study Unit 10 / at the moment.", "correct_answer": "The students are not studying Unit 10 at the moment." },
+                { "question_id": "u10_b_ex4_q4", "label": "4", "prompt_text": "Nowadays, people in rural areas / use energy from the sun.", "correct_answer": "Nowadays, people in rural areas are using energy from the sun." },
+                { "question_id": "u10_b_ex4_q5", "label": "5", "prompt_text": "The government / increase taxes on electricity / save energy.", "correct_answer": "The government is increasing taxes on electricity to save energy." },
+                { "question_id": "u10_b_ex4_q6", "label": "6", "prompt_text": "We / reduce the use / nuclear energy / nowadays.", "correct_answer": "We are reducing the use of nuclear energy nowadays." }
+              ]
+            },
+            {
+              "exercise_id": "u10_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Complete the sentences, using the present simple or present continuous.",
+              "instruction_vi": "Chia động từ trong ngoặc ở thì hiện tại đơn hoặc hiện tại tiếp diễn.",
+              "game_mechanic": "verb_conjugation",
+              "questions": [
+                { "question_id": "u10_b_ex5_q1", "label": "1", "prompt_text": "Lan always (call) ___ me when I (do) ___ my homework.", "correct_answer": "calls; am doing" },
+                { "question_id": "u10_b_ex5_q2", "label": "2", "prompt_text": "The workers (put) ___ the solar panels on the hill when it suddenly (rain) ___.", "correct_answer": "are putting; rains" },
+                { "question_id": "u10_b_ex5_q3", "label": "3", "prompt_text": "While we (look) ___ for information about energy sources, the electricity (go) ___ out.", "correct_answer": "are looking; goes" },
+                { "question_id": "u10_b_ex5_q4", "label": "4", "prompt_text": "I often (play) ___ the piano in the evening, but tonight I (watch) ___ TV.", "correct_answer": "play; am watching" },
+                { "question_id": "u10_b_ex5_q5", "label": "5", "prompt_text": "Normally my father (water) ___ the vegetables in the garden, but today he (cook) ___ in the kitchen.", "correct_answer": "waters; is cooking" },
+                { "question_id": "u10_b_ex5_q6", "label": "6", "prompt_text": "They (have) ___ a lot of work to do, so they (not go) ___ to town tonight.", "correct_answer": "have; aren't going" },
+                { "question_id": "u10_b_ex5_q7", "label": "7", "prompt_text": "He usually (come) ___ back home at one o'clock, but today he (work) ___ late.", "correct_answer": "comes; is working" }
+              ]
+            },
+            {
+              "exercise_id": "u10_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Put the verbs in brackets into the present simple or present continuous.",
+              "instruction_vi": "Chia động từ trong đoạn văn ở thì hiện tại đơn hoặc hiện tại tiếp diễn.",
+              "game_mechanic": "verb_conjugation",
+              "passage_text": "My parents work at a big hydro power station. My mother (1. work) ___ in the design section and my father (2. work) ___ in the sales section. He often (3. go) ___ abroad on business. At the moment, he (4. travel) ___ round America, and next month he (5. meet) ___ a customer in Canada. He (6. like) ___ travelling and (7. enjoy) ___ his present trip, but he always (8. feel) ___ happy to get back home.",
+              "questions": [
+                { "question_id": "u10_b_ex6_q1", "blank_number": 1, "base_verb": "work", "correct_answer": "works" },
+                { "question_id": "u10_b_ex6_q2", "blank_number": 2, "base_verb": "work", "correct_answer": "works" },
+                { "question_id": "u10_b_ex6_q3", "blank_number": 3, "base_verb": "go", "correct_answer": "goes" },
+                { "question_id": "u10_b_ex6_q4", "blank_number": 4, "base_verb": "travel", "correct_answer": "is travelling" },
+                { "question_id": "u10_b_ex6_q5", "blank_number": 5, "base_verb": "meet", "correct_answer": "is meeting" },
+                { "question_id": "u10_b_ex6_q6", "blank_number": 6, "base_verb": "like", "correct_answer": "likes" },
+                { "question_id": "u10_b_ex6_q7", "blank_number": 7, "base_verb": "enjoy", "correct_answer": "is enjoying" },
+                { "question_id": "u10_b_ex6_q8", "blank_number": 8, "base_verb": "feel", "correct_answer": "feels" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u10_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match the questions with the answers. Then say them aloud.",
+              "instruction_vi": "Nối các câu hỏi (1 - 5) với câu trả lời tương ứng (a - e).",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What does energy mean?", "right_id": "d", "right_text": "It's power that can provide light, heat or electricity." },
+                { "left_id": "2", "left_text": "What does solar energy mean?", "right_id": "e", "right_text": "It's energy that comes from the sun." },
+                { "left_id": "3", "left_text": "What does hydro energy mean?", "right_id": "a", "right_text": "It's energy that comes from water." },
+                { "left_id": "4", "left_text": "What does a three-syllable word mean?", "right_id": "c", "right_text": "It's the word that has three syllables." },
+                { "left_id": "5", "left_text": "What does a non-renewable source mean?", "right_id": "b", "right_text": "It's a source that we cannot replace after we use it." }
+              ]
+            },
+            {
+              "exercise_id": "u10_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Mi and Tony are talking about energy sources. Choose the sentences (a - e) to fill in the gaps (1 - 5) of the conversation.",
+              "instruction_vi": "Chọn các câu (a - e) để hoàn thành đoạn hội thoại giữa Mi và Tony.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "What type of energy do you think we will use in the future?" },
+                { "id": "b", "text": "Because it doesn't cause pollution." },
+                { "id": "c", "text": "Solar and wind energy." },
+                { "id": "d", "text": "Why do you like solar energy?" },
+                { "id": "e", "text": "I think we will use renewable sources." }
+              ],
+              "dialogue_lines": [
+                "Mi: (1) ___",
+                "Tony: (2) ___",
+                "Mi: Which ones?",
+                "Tony: (3) ___",
+                "Mi: (4) ___",
+                "Tony: (5) ___"
+              ],
+              "questions": [
+                { "question_id": "u10_c_ex2_q1", "blank_number": 1, "correct_answer": "What type of energy do you think we will use in the future?" },
+                { "question_id": "u10_c_ex2_q2", "blank_number": 2, "correct_answer": "I think we will use renewable sources." },
+                { "question_id": "u10_c_ex2_q3", "blank_number": 3, "correct_answer": "Solar and wind energy." },
+                { "question_id": "u10_c_ex2_q4", "blank_number": 4, "correct_answer": "Why do you like solar energy?" },
+                { "question_id": "u10_c_ex2_q5", "blank_number": 5, "correct_answer": "Because it doesn't cause pollution." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u10_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the passage about renewable energy and choose the best answer A, B, or C.",
+              "instruction_vi": "Đọc đoạn văn về năng lượng tái tạo và chọn câu trả lời đúng.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Renewable energy is energy that is generated from natural resources such as sunlight, wind, rain, tides, and geothermal heat. These resources are renewable because they are naturally replenished. Solar energy is one of the most popular renewable energy sources today. Solar panels can convert sunlight into electricity cleanly and quietly. Wind energy is another common source; wind turbines use the power of the wind to produce clean electricity without producing greenhouse gases.",
+              "questions": [
+                { "question_id": "u10_d_ex1_q1", "label": "1", "prompt_text": "Renewable energy comes from ___.", "options": [{ "id": "A", "text": "natural resources" }, { "id": "B", "text": "coal and oil" }, { "id": "C", "text": "gas and diesel" }], "correct_answer": "A" },
+                { "question_id": "u10_d_ex1_q2", "label": "2", "prompt_text": "Solar panels convert sunlight into ___.", "options": [{ "id": "A", "text": "oil" }, { "id": "B", "text": "electricity" }, { "id": "C", "text": "gas" }], "correct_answer": "B" },
+                { "question_id": "u10_d_ex1_q3", "label": "3", "prompt_text": "Wind turbines produce electricity without ___.", "options": [{ "id": "A", "text": "wind" }, { "id": "B", "text": "greenhouse gases" }, { "id": "C", "text": "sunlight" }], "correct_answer": "B" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u10_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write full sentences to give advice on saving energy at home.",
+              "instruction_vi": "Viết câu hoàn chỉnh để đưa ra lời khuyên tiết kiệm năng lượng tại nhà.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u10_e_ex1_q1", "label": "1", "prompt_text": "turn off / lights / when / leave / room", "correct_answer": "Turn off the lights when leaving the room." },
+                { "question_id": "u10_e_ex1_q2", "label": "2", "prompt_text": "use / low energy light bulbs / instead of / ordinary bulbs", "correct_answer": "Use low energy light bulbs instead of ordinary bulbs." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_11",
+      "unit_number": 11,
+      "unit_title": "TRAVELLING IN THE FUTURE",
+      "pages": [84, 85, 86, 87, 88, 89],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u11_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the word whose underlined part is pronounced differently.",
+              "instruction_vi": "Chọn từ có phần gạch chân phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                { "question_id": "u11_a_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "dr[i]ve" }, { "id": "B", "text": "fl[i]ght" }, { "id": "C", "text": "veh[i]cle" }, { "id": "D", "text": "sk[y]" }], "correct_answer": "C", "explanation_vi": "'vehicle' phát âm là /ɪ/, các từ còn lại phát âm là /aɪ/." },
+                { "question_id": "u11_a_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "f[u]ture" }, { "id": "B", "text": "t[u]be" }, { "id": "C", "text": "p[u]t" }, { "id": "D", "text": "m[u]sic" }], "correct_answer": "C", "explanation_vi": "'put' phát âm là /ʊ/, các từ còn lại phát âm là /juː/." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u11_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match the future means of transport with their descriptions.",
+              "instruction_vi": "Nối các phương tiện giao thông tương lai với mô tả tương ứng.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "flying car", "right_id": "c", "right_text": "a vehicle that can both drive on roads and fly in the air" },
+                { "left_id": "2", "left_text": "teleporter", "right_id": "a", "right_text": "an imaginary machine that moves people instantly from one place to another" },
+                { "left_id": "3", "left_text": "solowheel", "right_id": "b", "right_text": "a self-balancing electric unicycle that is compact and eco-friendly" }
+              ]
+            },
+            {
+              "exercise_id": "u11_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Complete sentences with possessive pronouns (mine, yours, his, hers, ours, theirs).",
+              "instruction_vi": "Hoàn thành câu với đại từ sở hữu.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u11_b_ex2_q1", "label": "1", "prompt_text": "This is my bicycle. That electric scooter over there is ___ (your).", "correct_answer": "yours" },
+                { "question_id": "u11_b_ex2_q2", "label": "2", "prompt_text": "My car runs on electricity, while ___ (her) is solar-powered.", "correct_answer": "hers" },
+                { "question_id": "u11_b_ex2_q3", "label": "3", "prompt_text": "Their city has driverless buses, but ___ (our) doesn't have them yet.", "correct_answer": "ours" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u11_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the best response to express future prediction.",
+              "instruction_vi": "Chọn câu trả lời phù hợp nhất dự đoán tương lai.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u11_c_ex1_q1", "label": "1", "prompt_text": "Do you think we will have flying cars by 2050?", "options": [{ "id": "A", "text": "Yes, I think so. It will reduce traffic jams." }, { "id": "B", "text": "No, I am riding a bicycle now." }], "correct_answer": "A" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u11_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the text about Hyperloop and decide if the statements are True or False.",
+              "instruction_vi": "Đọc bài viết về Hyperloop và chọn True (Đúng) hoặc False (Sai).",
+              "game_mechanic": "true_false",
+              "reading_passage": "Hyperloop is a proposed high-speed transportation system. Passengers travel in pods inside low-pressure vacuum tubes. Because there is very little air resistance and friction, the pod can travel at speeds of over 1,000 km/h, which is faster than an airplane.",
+              "questions": [
+                { "question_id": "u11_d_ex1_q1", "label": "1", "prompt_text": "Hyperloop travels inside low-pressure vacuum tubes.", "correct_answer": true },
+                { "question_id": "u11_d_ex1_q2", "label": "2", "prompt_text": "Hyperloop is slower than an airplane.", "correct_answer": false, "explanation_vi": "Hyperloop có thể đạt tốc độ hơn 1.000 km/h, nhanh hơn cả máy bay." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u11_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write complete sentences using will / won't.",
+              "instruction_vi": "Viết câu hoàn chỉnh với will / won't.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u11_e_ex1_q1", "label": "1", "prompt_text": "Driverless cars / be / common / in the future.", "correct_answer": "Driverless cars will be common in the future." },
+                { "question_id": "u11_e_ex1_q2", "label": "2", "prompt_text": "People / not use / fossil fuels / for transport / soon.", "correct_answer": "People will not use fossil fuels for transport soon." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_12",
+      "unit_number": 12,
+      "unit_title": "ENGLISH-SPEAKING COUNTRIES",
+      "pages": [90, 91, 92, 93, 94, 95],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u12_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the word with a different stress pattern.",
+              "instruction_vi": "Tìm từ có vị trí trọng âm khác với các từ còn lại.",
+              "game_mechanic": "stress_odd_one_out",
+              "questions": [
+                { "question_id": "u12_a_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "country" }, { "id": "B", "text": "island" }, { "id": "C", "text": "castle" }, { "id": "D", "text": "attract" }], "correct_answer": "D", "explanation_vi": "'attract' có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "u12_a_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "capital" }, { "id": "B", "text": "landscape" }, { "id": "C", "text": "unique" }, { "id": "D", "text": "native" }], "correct_answer": "C", "explanation_vi": "'unique' có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u12_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match each country with its capital city and famous landmark.",
+              "instruction_vi": "Nối mỗi quốc gia nói tiếng Anh với thủ đô và địa danh nổi tiếng.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Australia", "right_id": "c", "right_text": "Canberra (Sydney Opera House)" },
+                { "left_id": "2", "left_text": "The United Kingdom", "right_id": "a", "right_text": "London (Big Ben & Buckingham Palace)" },
+                { "left_id": "3", "left_text": "The USA", "right_id": "b", "right_text": "Washington, D.C. (Statue of Liberty)" },
+                { "left_id": "4", "left_text": "New Zealand", "right_id": "d", "right_text": "Wellington (Sky Tower in Auckland)" }
+              ]
+            },
+            {
+              "exercise_id": "u12_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Complete the sentences with articles a, an, the or zero article (x).",
+              "instruction_vi": "Điền mạo từ thích hợp (a, an, the) hoặc không điền (x).",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u12_b_ex2_q1", "label": "1", "prompt_text": "Canberra is ___ capital of Australia.", "options": ["the", "a", "an", "x"], "correct_answer": "the" },
+                { "question_id": "u12_b_ex2_q2", "label": "2", "prompt_text": "We went penguin watching on ___ Phillip Island.", "options": ["x", "the", "a", "an"], "correct_answer": "x" },
+                { "question_id": "u12_b_ex2_q3", "label": "3", "prompt_text": "The Statue of Liberty is in ___ USA.", "options": ["the", "a", "an", "x"], "correct_answer": "the" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u12_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the best question to ask about an English-speaking country.",
+              "instruction_vi": "Chọn câu hỏi phù hợp nhất để hỏi về một quốc gia nói tiếng Anh.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u12_c_ex1_q1", "label": "1", "prompt_text": "- \"___?\"\n- \"It's Canberra.\"", "options": [{ "id": "A", "text": "What is the capital of Australia?" }, { "id": "B", "text": "Where is Australia located?" }, { "id": "C", "text": "How large is Australia?" }], "correct_answer": "A" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u12_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the text about New Zealand and answer the questions.",
+              "instruction_vi": "Đọc đoạn văn về New Zealand và trả lời câu hỏi.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "New Zealand is an island country located in the southwestern Pacific Ocean. It consists of two main landmasses: the North Island and the South Island. The Maori people were the first to arrive in New Zealand. The country is world-famous for its stunning landscapes, clean environment, and rich wildlife, including the kiwi bird.",
+              "questions": [
+                { "question_id": "u12_d_ex1_q1", "label": "1", "prompt_text": "Where is New Zealand located?", "options": [{ "id": "A", "text": "In the southwestern Pacific Ocean" }, { "id": "B", "text": "In the Atlantic Ocean" }, { "id": "C", "text": "In the Mediterranean Sea" }], "correct_answer": "A" },
+                { "question_id": "u12_d_ex1_q2", "label": "2", "prompt_text": "Who were the first people to arrive in New Zealand?", "options": [{ "id": "A", "text": "The British" }, { "id": "B", "text": "The Maori" }, { "id": "C", "text": "The Dutch" }], "correct_answer": "B" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u12_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write full sentences about Scotland using the prompts.",
+              "instruction_vi": "Viết câu hoàn chỉnh về Scotland từ các từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u12_e_ex1_q1", "label": "1", "prompt_text": "Scotland / be / famous / for / ancient castles / and / bagpipes.", "correct_answer": "Scotland is famous for ancient castles and bagpipes." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "test_yourself_04",
+      "unit_number": 0,
+      "unit_title": "TEST YOURSELF 4",
+      "pages": [96, 97, 98],
+      "sections": [
+        {
+          "section_id": "TEST",
+          "section_title": "Comprehensive Test (Units 10 - 12)",
+          "exercises": [
+            {
+              "exercise_id": "ty4_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the word with a different stress pattern from the others.",
+              "instruction_vi": "Chọn từ có vị trí trọng âm khác với các từ còn lại.",
+              "game_mechanic": "stress_odd_one_out",
+              "questions": [
+                { "question_id": "ty4_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "energy" }, { "id": "B", "text": "government" }, { "id": "C", "text": "polluting" }, { "id": "D", "text": "dangerous" }], "correct_answer": "C", "explanation_vi": "'polluting' có trọng âm rơi vào âm tiết 2, các từ còn lại rơi vào âm tiết 1." },
+                { "question_id": "ty4_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "renewable" }, { "id": "B", "text": "expensive" }, { "id": "C", "text": "abundant" }, { "id": "D", "text": "holiday" }], "correct_answer": "D", "explanation_vi": "'holiday' có trọng âm rơi vào âm tiết 1, các từ còn lại rơi vào âm tiết 2." }
+              ]
+            },
+            {
+              "exercise_id": "ty4_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Choose the correct answer A, B, C, or D.",
+              "instruction_vi": "Chọn đáp án đúng A, B, C hoặc D.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "ty4_ex2_q1", "label": "1", "prompt_text": "Solar energy is renewable and ___ to the environment.", "options": [{ "id": "A", "text": "friendly" }, { "id": "B", "text": "harmful" }, { "id": "C", "text": "polluted" }, { "id": "D", "text": "dangerous" }], "correct_answer": "A" },
+                { "question_id": "ty4_ex2_q2", "label": "2", "prompt_text": "This bicycle is mine and that one is ___.", "options": [{ "id": "A", "text": "her" }, { "id": "B", "text": "hers" }, { "id": "C", "text": "she" }, { "id": "D", "text": "herself" }], "correct_answer": "B" },
+                { "question_id": "ty4_ex2_q3", "label": "3", "prompt_text": "They are installing solar ___ on the roof to save electricity.", "options": [{ "id": "A", "text": "panels" }, { "id": "B", "text": "bulbs" }, { "id": "C", "text": "fans" }, { "id": "D", "text": "gates" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "ty4_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Rewrite the following sentences without changing their meaning.",
+              "instruction_vi": "Viết lại câu sao cho nghĩa không đổi.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "ty4_ex3_q1", "label": "1", "original_sentence": "This is her new electric bike.", "starter": "This new electric bike is", "correct_answer": "This new electric bike is hers." },
+                { "question_id": "ty4_ex3_q2", "label": "2", "original_sentence": "We will probably travel by flying car in the future.", "starter": "It is likely that we will", "correct_answer": "It is likely that we will travel by flying car in the future." }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

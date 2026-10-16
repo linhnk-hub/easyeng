@@ -3,6 +3,10 @@ import grade4Cluster1Data from '../data/grade4_cluster1_workbook.json';
 import grade4Cluster2Data from '../data/grade4_cluster2_workbook.json';
 import grade4Cluster3Data from '../data/grade4_cluster3_workbook.json';
 import grade4Cluster4Data from '../data/grade4_cluster4_workbook.json';
+import grade7Cluster1Data from '../data/grade7_cluster1_workbook.json';
+import grade7Cluster2Data from '../data/grade7_cluster2_workbook.json';
+import grade7Cluster3Data from '../data/grade7_cluster3_workbook.json';
+import grade7Cluster4Data from '../data/grade7_cluster4_workbook.json';
 
 const COMMON_DISTRACTORS = [
   'Australia', 'Britain', 'America', 'Viet Nam', 'Malaysia', 'Singapore', 'Thailand', 'Japan',
@@ -260,7 +264,7 @@ export function parseExerciseJson(
     }
 
     let detectedTitle = `Học phần bài tập ${clusterNumber}`;
-    let detectedDescription = `Bộ câu hỏi bài tập trích xuất từ tài liệu PDF - Lớp ${grade}`;
+    let detectedDescription = '';
     let rawItems: any[] = [];
 
     if (Array.isArray(parsed)) {
@@ -388,7 +392,7 @@ export function createEmptyCluster(clusterNumber: number, grade: number, rawJson
     id: `cluster_grade${grade}_${clusterNumber}`,
     clusterNumber,
     title: `Học phần bài tập ${clusterNumber}`,
-    description: `Bộ bài tập rèn luyện kỹ năng - Lớp ${grade}`,
+    description: '',
     grade,
     questions: [],
     itemsCount: 0,
@@ -401,135 +405,42 @@ export function createEmptyCluster(clusterNumber: number, grade: number, rawJson
  * Creates default initial clusters (học phần) for a given grade.
  * For Grade 4, all 4 clusters are populated with the official Global Success workbooks (833 questions total).
  */
+/**
+ * Checks whether a cluster list contains the official full workbook data
+ */
+export function isOfficialGradeWorkbook(grade: number, clusters: ExerciseCluster[]): boolean {
+  if (grade !== 4 && grade !== 7) return false;
+  if (!Array.isArray(clusters) || clusters.length < 4) return false;
+  const totalQuestions = clusters.reduce((acc, c) => acc + (c.questions?.length || 0), 0);
+  return totalQuestions >= 200;
+}
+
+/**
+ * Creates default initial clusters (học phần) for a given grade.
+ * - Grade 4: 4 official Global Success workbooks (833 questions).
+ * - Grade 7: 4 official Global Success workbooks (910 questions).
+ * - Other grades: Returns [] (empty) so the UI displays the empty state "Chưa có dữ liệu bài tập".
+ */
 export function createDefaultClusters(grade: number, count: number = 4): ExerciseCluster[] {
-  const clusters: ExerciseCluster[] = [];
-
-  for (let i = 1; i <= count; i++) {
-    if (grade === 4) {
-      if (i === 1) {
-        clusters.push(parseWorkbookCluster(grade4Cluster1Data, 1, 4));
-        continue;
-      }
-      if (i === 2) {
-        clusters.push(parseWorkbookCluster(grade4Cluster2Data, 2, 4));
-        continue;
-      }
-      if (i === 3) {
-        clusters.push(parseWorkbookCluster(grade4Cluster3Data, 3, 4));
-        continue;
-      }
-      if (i === 4) {
-        clusters.push(parseWorkbookCluster(grade4Cluster4Data, 4, 4));
-        continue;
-      }
-    }
-
-    const sampleClusterConfigs = [
-      {
-        title: `Học phần ${i}: Unit 1 - Unit 5`,
-        desc: `Rèn luyện ngữ pháp, từ vựng và kỹ năng trắc nghiệm các bài học đầu năm học - Lớp ${grade}.`,
-        samples: [
-          {
-            question: 'Choose the correct word: "Where _____ you from?" - "I am from Vietnam."',
-            options: ['A. is', 'B. are', 'C. am', 'D. be'],
-            answerIndex: 1,
-            explanation: 'Với chủ ngữ "you", ta sử dụng to-be là "are".'
-          },
-          {
-            question: 'What is your favourite subject?',
-            options: ['A. I like English', 'B. I am nine years old', 'C. It is on Monday', 'D. She is a pupil'],
-            answerIndex: 0,
-            explanation: 'Hỏi về môn học yêu thích (favourite subject) -> chọn câu trả lời liên quan môn học (English).'
-          },
-          {
-            question: 'Which word means "trường học" in English?',
-            options: ['A. Hospital', 'B. School', 'C. Park', 'D. Cinema'],
-            answerIndex: 1,
-            explanation: '"School" có nghĩa là trường học.'
-          }
-        ]
-      },
-      {
-        title: `Học phần ${i}: Unit 6 - Unit 10`,
-        desc: `Luyện tập các chủ đề hoạt động hằng ngày, thời gian và sở thích - Lớp ${grade}.`,
-        samples: [
-          {
-            question: 'What time is it? - It is _____ o\'clock in the morning.',
-            options: ['A. seven', 'B. clock', 'C. breakfast', 'D. at'],
-            answerIndex: 0,
-            explanation: '"It is seven o\'clock" = Bây giờ là 7 giờ.'
-          },
-          {
-            question: 'What do you do on Sundays?',
-            options: ['A. I am fine', 'B. I visit my grandparents', 'C. It is Sunday', 'D. Yes, I do'],
-            answerIndex: 1,
-            explanation: 'Hỏi về hoạt động làm vào ngày Chủ Nhật: "I visit my grandparents" (Tôi thăm ông bà).'
-          }
-        ]
-      },
-      {
-        title: `Học phần ${i}: Unit 11 - Unit 15`,
-        desc: `Nâng cao kỹ năng từ vựng về thức ăn, đồ uống, nghề nghiệp và địa điểm - Lớp ${grade}.`,
-        samples: [
-          {
-            question: 'What would you like to drink? - "I\'d like some _____, please."',
-            options: ['A. bread', 'B. orange juice', 'C. chicken', 'D. rice'],
-            answerIndex: 1,
-            explanation: 'Hỏi về đồ uống (to drink) -> chọn "orange juice" (nước cam).'
-          },
-          {
-            question: 'Where does a doctor work?',
-            options: ['A. In a factory', 'B. In a school', 'C. In a hospital', 'D. In a field'],
-            answerIndex: 2,
-            explanation: 'Bác sĩ làm việc trong bệnh viện (hospital).'
-          }
-        ]
-      },
-      {
-        title: `Học phần ${i}: Unit 16 - Unit 20`,
-        desc: `Tổng hợp ôn tập cuối kỳ, các chủ đề phương tiện, chuyến đi và thời tiết - Lớp ${grade}.`,
-        samples: [
-          {
-            question: 'How was your trip to Ha Long Bay? - "It was _____!"',
-            options: ['A. wonderful', 'B. yesterday', 'C. by coach', 'D. with friends'],
-            answerIndex: 0,
-            explanation: 'Hỏi chuyến đi như thế nào (How was your trip?) -> "It was wonderful" (Nó rất tuyệt vời).'
-          },
-          {
-            question: 'What will the weather be like tomorrow?',
-            options: ['A. It was sunny', 'B. It is cold today', 'C. It will be hot and sunny', 'D. I like summer'],
-            answerIndex: 2,
-            explanation: 'Câu hỏi về tương lai "will ... be like" -> trả lời "It will be hot and sunny".'
-          }
-        ]
-      }
-    ];
-
-    const config = sampleClusterConfigs[(i - 1) % sampleClusterConfigs.length];
-    const questions: ExerciseQuestion[] = (config.samples || []).map((s, idx) => ({
-      id: `q_${grade}_${i}_${idx + 1}`,
-      question: s.question,
-      options: s.options,
-      answerIndex: s.answerIndex,
-      explanation: s.explanation,
-      type: 'quiz',
-      category: `Học phần ${i}`
-    }));
-
-    const cluster: ExerciseCluster = {
-      id: `cluster_grade${grade}_${i}`,
-      clusterNumber: i,
-      title: config.title,
-      description: config.desc,
-      grade,
-      questions,
-      itemsCount: questions.length,
-      rawJson: JSON.stringify(questions, null, 2),
-      updatedAt: new Date().toISOString()
-    };
-
-    clusters.push(cluster);
+  if (grade === 4) {
+    return [
+      parseWorkbookCluster(grade4Cluster1Data, 1, 4),
+      parseWorkbookCluster(grade4Cluster2Data, 2, 4),
+      parseWorkbookCluster(grade4Cluster3Data, 3, 4),
+      parseWorkbookCluster(grade4Cluster4Data, 4, 4)
+    ].slice(0, count);
   }
 
-  return clusters;
+  if (grade === 7) {
+    return [
+      parseWorkbookCluster(grade7Cluster1Data, 1, 7),
+      parseWorkbookCluster(grade7Cluster2Data, 2, 7),
+      parseWorkbookCluster(grade7Cluster3Data, 3, 7),
+      parseWorkbookCluster(grade7Cluster4Data, 4, 7)
+    ].slice(0, count);
+  }
+
+  // Nếu chưa có bài tập cho lớp này, trả về danh sách rỗng để hiển thị thông báo chưa có dữ liệu
+  return [];
 }
+

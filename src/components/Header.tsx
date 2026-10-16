@@ -119,6 +119,18 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Controls: Profile & Exit */}
         <div className="flex items-center gap-1.5 sm:gap-2">
+          {/* Nút Cài đặt Logo & Quản lý ngay kế bên tài khoản & avatar */}
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              onOpenAdminManager();
+            }}
+            className="h-9 w-9 sm:h-10 sm:w-10 flex items-center justify-center rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-800 hover:text-amber-900 border border-amber-200 hover:border-amber-400 transition cursor-pointer active:scale-95 shadow-xs shrink-0"
+            title="Cài đặt Logo & Quản lý hệ thống"
+          >
+            <Settings className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-amber-700" />
+          </button>
+
           {/* Avatar Profile */}
           <button
             onClick={() => {

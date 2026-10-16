@@ -10,10 +10,32 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="preload" as="image" href="/app-logo.png" />
     <script>
       (function() {
         try {
+          // Detect page reload (F5 / browser refresh)
+          var isReload = false;
+          var perf = window.performance;
+          if (perf) {
+            if (perf.getEntriesByType) {
+              var nav = perf.getEntriesByType('navigation');
+              if (nav && nav.length > 0 && nav[0].type === 'reload') isReload = true;
+            }
+            if (!isReload && perf.navigation && perf.navigation.type === 1) {
+              isReload = true;
+            }
+          }
+          if (isReload) {
+            // Tự động clear cache bài tập trên mỗi lần tải lại trang (F5) để luôn nạp bộ dữ liệu bài tập chuẩn mới nhất
+            localStorage.removeItem('easyeng_grade_exercises_v3');
+            localStorage.removeItem('easyeng_grade_exercises_v2');
+            localStorage.removeItem('easyeng_grade_exercises');
+          }
+
           var logo = localStorage.getItem('easyeng_custom_logo');
           if (!logo) {
             localStorage.setItem('easyeng_custom_logo', '/app-logo.png');

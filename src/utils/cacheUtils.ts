@@ -109,3 +109,59 @@ export async function clearAppCache(options: ClearCacheOptions = {}): Promise<Cl
     allDataReset
   };
 }
+
+/**
+ * Tự động clear cache mỗi khi tải lại trang (F5 / reload)
+ */
+export async function autoClearCacheOnReload(): Promise<void> {
+  if (typeof window === 'undefined') return;
+
+  let isReload = false;
+  try {
+    const navEntries = performance.getEntriesByType('navigation');
+    if (navEntries.length > 0) {
+      isReload = (navEntries[0] as PerformanceNavigationTiming).type === 'reload';
+    }
+    if (!isReload && (performance as any)?.navigation?.type === 1) {
+      isReload = true;
+    }
+  } catch {}
+
+  if (isReload) {
+    try {
+      if ('caches' in window) {
+        const cacheNames = await window.caches.keys();
+        await Promise.all(cacheNames.map(name => window.caches.delete(name)));
+      }
+      window.sessionStorage.clear();
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      console.info('⚡ [EasyEng] Đã tự động xóa sạch bộ nhớ đệm (cache) khi tải lại trang (F5).');
+    } catch (e) {
+      console.warn('Lỗi khi tự động dọn dẹp cache:', e);
+    }
+  }
+}
+
+/**
+ * Khởi tạo trình lắng nghe dọn cache khi nhấn F5 hoặc tải lại trang
+ */
+export function initAutoClearCacheListeners(): void {
+  if (typeof window === 'undefined') return;
+
+  // Chạy dọn cache nếu lần tải này do reload (F5)
+  autoClearCacheOnReload();
+
+  // Bắt phím F5 hoặc Ctrl+R để xóa cache ngay trước khi reload
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && (e.key === 'r' || e.key === 'R'))) {
+      try {
+        if ('caches' in window) {
+          window.caches.keys().then(names => names.forEach(n => window.caches.delete(n)));
+        }
+        window.sessionStorage.clear();
+      } catch {}
+    }
+  });
+}

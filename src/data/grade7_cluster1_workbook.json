@@ -1,0 +1,1351 @@
+{
+  "book_title": "Tiếng Anh 7 - Sách bài tập (Global Success)",
+  "module_id": "hoc_phan_1",
+  "module_name": "Học phần 1: Units 1 - 3 & Test Yourself 1",
+  "units": [
+    {
+      "unit_id": "unit_01",
+      "unit_number": 1,
+      "unit_title": "HOBBIES",
+      "pages": [3, 4, 5, 6, 7, 8, 9],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u1_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write a word under each picture. Then put the words in the correct column.",
+              "instruction_vi": "Viết từ dưới mỗi bức tranh. Sau đó xếp các từ vào cột phát âm đúng (/ə/ hoặc /ɜː/).",
+              "game_mechanic": "fill_and_sort_phonetics",
+              "columns": ["/ə/", "/ɜː/"],
+              "questions": [
+                { "question_id": "u1_a_ex1_q1", "label": "1", "image_description": "Chiếc áo sơ mi dài tay.", "correct_word": "shirt", "correct_column": "/ɜː/" },
+                { "question_id": "u1_a_ex1_q2", "label": "2", "image_description": "Hòn đảo nhỏ có cây dừa giữa biển.", "correct_word": "island", "correct_column": "/ə/" },
+                { "question_id": "u1_a_ex1_q3", "label": "3", "image_description": "Cung điện nguy nga.", "correct_word": "palace", "correct_column": "/ə/" },
+                { "question_id": "u1_a_ex1_q4", "label": "4", "image_description": "Hành tinh Trái Đất.", "correct_word": "Earth", "correct_column": "/ɜː/" },
+                { "question_id": "u1_a_ex1_q5", "label": "5", "image_description": "Chiếc la bàn.", "correct_word": "compass", "correct_column": "/ə/" },
+                { "question_id": "u1_a_ex1_q6", "label": "6", "image_description": "Hình tròn màu xám.", "correct_word": "circle", "correct_column": "/ɜː/" },
+                { "question_id": "u1_a_ex1_q7", "label": "7", "image_description": "Sa mạc cát nắng nóng.", "correct_word": "desert", "correct_column": "/ə/" },
+                { "question_id": "u1_a_ex1_q8", "label": "8", "image_description": "Người công nhân đội mũ bảo hộ trong nhà máy.", "correct_word": "worker", "correct_column": "/ɜː/" }
+              ]
+            },
+            {
+              "exercise_id": "u1_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Choose the word in which the underlined part is pronounced differently.",
+              "instruction_vi": "Chọn từ có phần gạch chân được phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                {
+                  "question_id": "u1_a_ex2_q1",
+                  "label": "1",
+                  "options": [
+                    { "id": "A", "text": "[a]way" },
+                    { "id": "B", "text": "[a]round" },
+                    { "id": "C", "text": "cl[a]ssmate" }
+                  ],
+                  "correct_answer": "C",
+                  "explanation_vi": "'classmate' có chữ 'a' phát âm là /ɑː/, còn 'away' và 'around' phát âm là /ə/."
+                },
+                {
+                  "question_id": "u1_a_ex2_q2",
+                  "label": "2",
+                  "options": [
+                    { "id": "A", "text": "[u]mbrella" },
+                    { "id": "B", "text": "foc[u]s" },
+                    { "id": "C", "text": "[u]nder" }
+                  ],
+                  "correct_answer": "B",
+                  "explanation_vi": "'focus' phát âm là /ə/, còn 'umbrella' và 'under' phát âm là /ʌ/."
+                },
+                {
+                  "question_id": "u1_a_ex2_q3",
+                  "label": "3",
+                  "options": [
+                    { "id": "A", "text": "clev[er]" },
+                    { "id": "B", "text": "t[er]m" },
+                    { "id": "C", "text": "g[er]m" }
+                  ],
+                  "correct_answer": "A",
+                  "explanation_vi": "'clever' phát âm là /ə/, còn 'term' và 'germ' phát âm là /ɜː/."
+                },
+                {
+                  "question_id": "u1_a_ex2_q4",
+                  "label": "4",
+                  "options": [
+                    { "id": "A", "text": "pr[o]nounce" },
+                    { "id": "B", "text": "d[o]ctor" },
+                    { "id": "C", "text": "c[o]llection" }
+                  ],
+                  "correct_answer": "B",
+                  "explanation_vi": "'doctor' chữ 'o' đầu phát âm là /ɒ/, còn 'pronounce' và 'collection' phát âm là /ə/."
+                },
+                {
+                  "question_id": "u1_a_ex2_q5",
+                  "label": "5",
+                  "options": [
+                    { "id": "A", "text": "s[ur]prise" },
+                    { "id": "B", "text": "Th[ur]sday" },
+                    { "id": "C", "text": "h[ur]t" }
+                  ],
+                  "correct_answer": "A",
+                  "explanation_vi": "'surprise' phát âm là /ə/, còn 'Thursday' và 'hurt' phát âm là /ɜː/."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u1_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Look at the pictures and find the words in the puzzle. The words can go across or down.",
+              "instruction_vi": "Nhìn tranh và tìm 8 từ chỉ sở thích/đồ vật trong bảng chữ cái (ngang hoặc dọc).",
+              "game_mechanic": "word_search_puzzle",
+              "grid": [
+                "FVAYMAQLBM",
+                "LFOOTBALLO",
+                "OYMGPFGJCD",
+                "WJIALLYPDE",
+                "EWNTGAMESL",
+                "RSWIMMINGS",
+                "SLAFWZTUTJ",
+                "NVDOLLSHOU",
+                "BCAMPINGYD",
+                "UYIQHIMKSO"
+              ],
+              "target_words": [
+                { "word": "FOOTBALL", "direction": "across", "image_description": "Quả bóng đá" },
+                { "word": "GAMES", "direction": "across", "image_description": "Tay cầm chơi game" },
+                { "word": "SWIMMING", "direction": "across", "image_description": "Người đang bơi" },
+                { "word": "DOLLS", "direction": "across", "image_description": "Búp bê" },
+                { "word": "CAMPING", "direction": "across", "image_description": "Lều cắm trại" },
+                { "word": "FLOWERS", "direction": "down", "image_description": "Những bông hoa" },
+                { "word": "MODELS", "direction": "down", "image_description": "Mô hình máy bay" },
+                { "word": "JUDO", "direction": "down", "image_description": "Hai võ sĩ tập võ Judo" }
+              ]
+            },
+            {
+              "exercise_id": "u1_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Complete the table with the words from 1. One word can go with more than one verb. Then add ONE more word to each list.",
+              "instruction_vi": "Hoàn thành bảng bằng các từ ở Bài 1 tương ứng với từng động từ, sau đó thêm 1 từ mới vào mỗi nhóm.",
+              "game_mechanic": "category_sorting",
+              "questions": [
+                { "verb": "make", "words_from_ex1": ["models", "flowers", "dolls"], "suggested_extra_word": "paper animals" },
+                { "verb": "do", "words_from_ex1": ["judo"], "suggested_extra_word": "yoga / karate" },
+                { "verb": "collect", "words_from_ex1": ["dolls", "models"], "suggested_extra_word": "toys / books / stamps" },
+                { "verb": "go", "words_from_ex1": ["swimming", "camping"], "suggested_extra_word": "cycling / jogging" },
+                { "verb": "play", "words_from_ex1": ["football", "games"], "suggested_extra_word": "volleyball / badminton" }
+              ]
+            },
+            {
+              "exercise_id": "u1_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Look at the pictures and complete the sentences.",
+              "instruction_vi": "Nhìn tranh và hoàn thành các câu sau (dùng V-ing).",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u1_b_ex3_q1", "label": "1", "prompt_text": "She enjoys ___.", "image_description": "Cô gái đang nấu ăn trong bếp.", "correct_answer": "cooking" },
+                { "question_id": "u1_b_ex3_q2", "label": "2", "prompt_text": "They like ___.", "image_description": "Các bạn nhỏ đang tập thể dục ngoài trời.", "correct_answer": "doing exercise" },
+                { "question_id": "u1_b_ex3_q3", "label": "3", "prompt_text": "My sister loves ___.", "image_description": "Bé gái đang nằm ngắm ngôi nhà búp bê nhiều tầng.", "correct_answer": "building dollhouses" },
+                { "question_id": "u1_b_ex3_q4", "label": "4", "prompt_text": "My brother hates ___.", "image_description": "Cậu bé cầm kính lúp soi bộ sưu tập tem.", "correct_answer": "collecting stamps" },
+                { "question_id": "u1_b_ex3_q5", "label": "5", "prompt_text": "My uncle doesn't like ___.", "image_description": "Người đàn ông cầm micro hát.", "correct_answer": "singing" }
+              ]
+            },
+            {
+              "exercise_id": "u1_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Choose the correct answer A, B, or C.",
+              "instruction_vi": "Chọn đáp án đúng A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u1_b_ex4_q1",
+                  "label": "1",
+                  "prompt_text": "When water ___, it ___ from a liquid to a gas.",
+                  "options": [
+                    { "id": "A", "text": "boil; changes" },
+                    { "id": "B", "text": "boils; change" },
+                    { "id": "C", "text": "boils; changes" }
+                  ],
+                  "correct_answer": "C",
+                  "explanation_vi": "Diễn tả sự thật hiển nhiên dùng thì hiện tại đơn, chủ ngữ 'water' và 'it' đều là số ít nên thêm -s."
+                },
+                {
+                  "question_id": "u1_b_ex4_q2",
+                  "label": "2",
+                  "prompt_text": "My father ___ his hobby with me. He teaches me how to grow and take care of the flowers in our garden on Sundays.",
+                  "options": [
+                    { "id": "A", "text": "share" },
+                    { "id": "B", "text": "shares" },
+                    { "id": "C", "text": "sharing" }
+                  ],
+                  "correct_answer": "B"
+                },
+                {
+                  "question_id": "u1_b_ex4_q3",
+                  "label": "3",
+                  "prompt_text": "___ your mother ___ doing yoga?",
+                  "options": [
+                    { "id": "A", "text": "Do; enjoy" },
+                    { "id": "B", "text": "Does; enjoys" },
+                    { "id": "C", "text": "Does; enjoy" }
+                  ],
+                  "correct_answer": "C"
+                },
+                {
+                  "question_id": "u1_b_ex4_q4",
+                  "label": "4",
+                  "prompt_text": "My cooking lesson ___ at 9 a.m. every Saturday.",
+                  "options": [
+                    { "id": "A", "text": "starts" },
+                    { "id": "B", "text": "start" },
+                    { "id": "C", "text": "is starting" }
+                  ],
+                  "correct_answer": "A"
+                },
+                {
+                  "question_id": "u1_b_ex4_q5",
+                  "label": "5",
+                  "prompt_text": "My parents ___ jogging every day. They only do it three times a week.",
+                  "options": [
+                    { "id": "A", "text": "go" },
+                    { "id": "B", "text": "don't go" },
+                    { "id": "C", "text": "doesn't go" }
+                  ],
+                  "correct_answer": "B"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u1_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Fill in each blank with the correct form of the verb in brackets. Use the present simple or present continuous.",
+              "instruction_vi": "Chia dạng đúng của động từ trong ngoặc ở thì hiện tại đơn hoặc hiện tại tiếp diễn.",
+              "game_mechanic": "verb_conjugation",
+              "passage_text": "My cousin, Mi, (1. love) ___ cooking. She (2. not go) ___ to any cooking class. She (3. learn) ___ to cook from her mum, and sometimes she (4. get) ___ recipes from the Internet. She (5. share) ___ this hobby with her sister. I (6. enjoy) ___ cooking too, so Mi and I usually (7. make) ___ pizza together when we (8. meet) ___ at the weekend.",
+              "questions": [
+                { "question_id": "u1_b_ex5_q1", "blank_number": 1, "base_verb": "love", "correct_answer": "loves" },
+                { "question_id": "u1_b_ex5_q2", "blank_number": 2, "base_verb": "not go", "correct_answer": "doesn't go" },
+                { "question_id": "u1_b_ex5_q3", "blank_number": 3, "base_verb": "learn", "correct_answer": "learns" },
+                { "question_id": "u1_b_ex5_q4", "blank_number": 4, "base_verb": "get", "correct_answer": "gets" },
+                { "question_id": "u1_b_ex5_q5", "blank_number": 5, "base_verb": "share", "correct_answer": "shares" },
+                { "question_id": "u1_b_ex5_q6", "blank_number": 6, "base_verb": "enjoy", "correct_answer": "enjoy" },
+                { "question_id": "u1_b_ex5_q7", "blank_number": 7, "base_verb": "make", "correct_answer": "make" },
+                { "question_id": "u1_b_ex5_q8", "blank_number": 8, "base_verb": "meet", "correct_answer": "meet" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u1_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the best answer to each question below.",
+              "instruction_vi": "Chọn câu trả lời phù hợp nhất cho mỗi câu hỏi dưới đây.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u1_c_ex1_q1",
+                  "label": "1",
+                  "prompt_text": "Do you enjoy collecting teddy bears?",
+                  "options": [
+                    { "id": "A", "text": "Yes, I do it every day." },
+                    { "id": "B", "text": "Yes, very much." }
+                  ],
+                  "correct_answer": "B"
+                },
+                {
+                  "question_id": "u1_c_ex1_q2",
+                  "label": "2",
+                  "prompt_text": "What do you like doing in your free time?",
+                  "options": [
+                    { "id": "A", "text": "I usually have lunch at 12." },
+                    { "id": "B", "text": "I like building dollhouses." }
+                  ],
+                  "correct_answer": "B"
+                },
+                {
+                  "question_id": "u1_c_ex1_q3",
+                  "label": "3",
+                  "prompt_text": "Do you like making models?",
+                  "options": [
+                    { "id": "A", "text": "No, I don't. But my brother loves it." },
+                    { "id": "B", "text": "No, I make paper flowers every day." }
+                  ],
+                  "correct_answer": "A"
+                },
+                {
+                  "question_id": "u1_c_ex1_q4",
+                  "label": "4",
+                  "prompt_text": "What does your brother like doing?",
+                  "options": [
+                    { "id": "A", "text": "He enjoys doing yoga a lot." },
+                    { "id": "B", "text": "He goes to school at 7 a.m." }
+                  ],
+                  "correct_answer": "A"
+                },
+                {
+                  "question_id": "u1_c_ex1_q5",
+                  "label": "5",
+                  "prompt_text": "Does your sister cook with you?",
+                  "options": [
+                    { "id": "A", "text": "Yes, she loves singing." },
+                    { "id": "B", "text": "Yes, she and I cook together in the evening." }
+                  ],
+                  "correct_answer": "B"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u1_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Mi and Elena meet for the first time. Choose a - e to complete their conversation. Then practise it with a friend.",
+              "instruction_vi": "Chọn câu a - e để hoàn thành đoạn hội thoại giữa Mi và Elena.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "a", "text": "I don't think it's difficult. Just listen to music and move your body." },
+                { "id": "b", "text": "I love dancing." },
+                { "id": "c", "text": "Yes, my sister loves it, too. Do you like dancing, Mi?" },
+                { "id": "d", "text": "Yes, I have dancing lessons twice a week." },
+                { "id": "e", "text": "I dance every day." }
+              ],
+              "dialogue_lines": [
+                "Mi: Elena, what's your hobby?",
+                "Elena: (1) ___",
+                "Mi: How often do you dance?",
+                "Elena: (2) ___",
+                "Mi: Do you go to dancing classes?",
+                "Elena: (3) ___",
+                "Mi: Is it difficult to dance?",
+                "Elena: (4) ___",
+                "Mi: Do you do this hobby with anyone?",
+                "Elena: (5) ___",
+                "Mi: No, I don't, but I love singing."
+              ],
+              "questions": [
+                { "question_id": "u1_c_ex2_q1", "blank_number": 1, "correct_answer": "b" },
+                { "question_id": "u1_c_ex2_q2", "blank_number": 2, "correct_answer": "e" },
+                { "question_id": "u1_c_ex2_q3", "blank_number": 3, "correct_answer": "d" },
+                { "question_id": "u1_c_ex2_q4", "blank_number": 4, "correct_answer": "a" },
+                { "question_id": "u1_c_ex2_q5", "blank_number": 5, "correct_answer": "c" }
+              ]
+            },
+            {
+              "exercise_id": "u1_c_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Make a similar conversation. Use the information given below.",
+              "instruction_vi": "Tạo một đoạn hội thoại tương tự dựa vào thông tin cho sẵn.",
+              "game_mechanic": "guided_speaking",
+              "cues": [
+                "Hobby: drawing",
+                "Frequency: every day",
+                "Drawing class: once a week, on Sunday mornings",
+                "Person you do the hobby with: father",
+                "Easy or difficult: easy"
+              ],
+              "sample_answer": "A: What's your hobby?\nB: I love drawing.\nA: How often do you draw?\nB: I draw every day.\nA: Do you go to drawing classes?\nB: Yes, I have a drawing class once a week, on Sunday mornings.\nA: Is it difficult to draw?\nB: No, it's quite easy.\nA: Do you do this hobby with anyone?\nB: Yes, I draw with my father."
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u1_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Fill in each blank with a suitable word from the box.",
+              "instruction_vi": "Điền vào mỗi chỗ trống một từ thích hợp trong khung.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["like", "having", "your", "sending", "usually", "photo"],
+              "reading_passage": "Dear Jane,\nI'm so happy to read your email. I like (1) ___ a pen pal in Australia because I love your country!\nThank you for sending me a (2) ___ of your family. Can you tell me more about your family members? What do you (3) ___ doing together? I like watching films with my family. We (4) ___ watch many different kinds of films. Once, we watched a film about Australia, and I found it very interesting.\nI'm (5) ___ you a photo of my family.\nI can't wait to read (6) ___ next email!\nBest wishes,\nMi",
+              "questions": [
+                { "question_id": "u1_d_ex1_q1", "blank_number": 1, "correct_answer": "having" },
+                { "question_id": "u1_d_ex1_q2", "blank_number": 2, "correct_answer": "photo" },
+                { "question_id": "u1_d_ex1_q3", "blank_number": 3, "correct_answer": "like" },
+                { "question_id": "u1_d_ex1_q4", "blank_number": 4, "correct_answer": "usually" },
+                { "question_id": "u1_d_ex1_q5", "blank_number": 5, "correct_answer": "sending" },
+                { "question_id": "u1_d_ex1_q6", "blank_number": 6, "correct_answer": "your" }
+              ]
+            },
+            {
+              "exercise_id": "u1_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Choose the correct answer A, B, or C to fill in each blank in the following passage.",
+              "instruction_vi": "Chọn đáp án đúng A, B hoặc C để điền vào mỗi chỗ trống trong đoạn văn.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Mark has a lot of hobbies and interests. He usually (1) ___ up early, so he can jog before school. After school, Mark often (2) ___ a horse at the riding club near his home. Sometimes he goes riding on Sunday afternoons. He also (3) ___ music. He goes to choir practice on Wednesday and Saturday evenings. (4) ___ Saturday mornings, he usually waters the plants and trees in the garden with his mum. He seldom watches TV because he likes doing things (5) ___. He has a lot of friends and he (6) ___ football with them twice a week. He's a happy boy!",
+              "questions": [
+                { "question_id": "u1_d_ex2_q1", "label": "1", "options": [{ "id": "A", "text": "gets" }, { "id": "B", "text": "stays" }, { "id": "C", "text": "does" }], "correct_answer": "A" },
+                { "question_id": "u1_d_ex2_q2", "label": "2", "options": [{ "id": "A", "text": "cycles" }, { "id": "B", "text": "drives" }, { "id": "C", "text": "rides" }], "correct_answer": "C" },
+                { "question_id": "u1_d_ex2_q3", "label": "3", "options": [{ "id": "A", "text": "makes" }, { "id": "B", "text": "loves" }, { "id": "C", "text": "does" }], "correct_answer": "B" },
+                { "question_id": "u1_d_ex2_q4", "label": "4", "options": [{ "id": "A", "text": "On" }, { "id": "B", "text": "In" }, { "id": "C", "text": "At" }], "correct_answer": "A" },
+                { "question_id": "u1_d_ex2_q5", "label": "5", "options": [{ "id": "A", "text": "inside" }, { "id": "B", "text": "behind" }, { "id": "C", "text": "outside" }], "correct_answer": "C" },
+                { "question_id": "u1_d_ex2_q6", "label": "6", "options": [{ "id": "A", "text": "is playing" }, { "id": "B", "text": "plays" }, { "id": "C", "text": "play" }], "correct_answer": "B" }
+              ]
+            },
+            {
+              "exercise_id": "u1_d_ex3a",
+              "exercise_number": 3,
+              "sub_part": "a",
+              "instruction_en": "Read the passage and match each word in A with its meaning in B.",
+              "instruction_vi": "Đọc đoạn văn và nối từ ở cột A với nghĩa tương ứng ở cột B.",
+              "game_mechanic": "matching",
+              "reading_passage": "Do you have any hobbies? If you don't, please start one because having a hobby is very beneficial. Firstly, a hobby gives you something fun to do during your leisure time, especially during pandemics. During the Covid-19 lockdown, my family reads books and watches films together. This makes us feel better when we have to stay at home. Secondly, a hobby makes you a more interesting person. If you have a lot of experience and skills, you can share them with others. I love travelling, and I usually share my experiences with my classmates. This way, I have more friends. Now we have a travel group in our class. Last but not least, a hobby can help you develop new skills. If you spend a lot of time on your hobby, your skills will improve. My sister loves sewing. After sewing for two years, she can now sew beautiful doll clothes. Those are the reasons why you should have hobbies.",
+              "pairs": [
+                { "left_id": "1", "left_text": "beneficial", "right_id": "b", "right_text": "helpful or useful" },
+                { "left_id": "2", "left_text": "pandemics", "right_id": "d", "right_text": "diseases throughout the whole country or the whole world" },
+                { "left_id": "3", "left_text": "lockdown", "right_id": "a", "right_text": "an emergency situation when people have to stay at home" },
+                { "left_id": "4", "left_text": "experiences", "right_id": "e", "right_text": "things that happen to you and affect your life" },
+                { "left_id": "5", "left_text": "improve", "right_id": "c", "right_text": "become better" }
+              ]
+            },
+            {
+              "exercise_id": "u1_d_ex3b",
+              "exercise_number": 3,
+              "sub_part": "b",
+              "instruction_en": "Write T (True), F (False), or NI (No Information) at the end of each sentence.",
+              "instruction_vi": "Viết T (Đúng), F (Sai), hoặc NI (Không có thông tin) ở cuối mỗi câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u1_d_ex3b_q1", "label": "1", "prompt_text": "During the lockdown, the author's family reads books and watches the news together.", "options": ["T", "F", "NI"], "correct_answer": "F", "explanation_vi": "Gia đình tác giả đọc sách và xem phim (watches films), không phải xem thời sự (watches the news)." },
+                { "question_id": "u1_d_ex3b_q2", "label": "2", "prompt_text": "Travelling helps the author have more friends.", "options": ["T", "F", "NI"], "correct_answer": "T" },
+                { "question_id": "u1_d_ex3b_q3", "label": "3", "prompt_text": "There is a dancing club in the author's school.", "options": ["T", "F", "NI"], "correct_answer": "NI", "explanation_vi": "Bài đọc chỉ nhắc đến nhóm du lịch trong lớp (travel group), không có thông tin về câu lạc bộ khiêu vũ." },
+                { "question_id": "u1_d_ex3b_q4", "label": "4", "prompt_text": "Hobbies can help a person develop new skills.", "options": ["T", "F", "NI"], "correct_answer": "T" },
+                { "question_id": "u1_d_ex3b_q5", "label": "5", "prompt_text": "The author's sister sews clothes for her family members.", "options": ["T", "F", "NI"], "correct_answer": "F", "explanation_vi": "Chị/em gái tác giả may quần áo cho búp bê (sew beautiful doll clothes), không phải cho các thành viên gia đình." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u1_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences, using the words and phrases below to help you. You can change the words / phrases or add necessary words.",
+              "instruction_vi": "Dựng câu hoàn chỉnh từ các từ/cụm từ gợi ý (có thể biến đổi từ hoặc thêm từ cần thiết).",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u1_e_ex1_q1", "label": "1", "prompt_text": "I / like / garden / because / I / love / plants / flowers.", "correct_answer": "I like gardening because I love plants and flowers." },
+                { "question_id": "u1_e_ex1_q2", "label": "2", "prompt_text": "My sister / not like / horse riding / because / she / afraid of / horses.", "correct_answer": "My sister doesn't like horse riding because she's afraid of horses." },
+                { "question_id": "u1_e_ex1_q3", "label": "3", "prompt_text": "Make / models / develop / your / creativity.", "correct_answer": "Making models develops your creativity." },
+                { "question_id": "u1_e_ex1_q4", "label": "4", "prompt_text": "Collect / stamps / help / you / be / more / patient.", "correct_answer": "Collecting stamps helps you be more patient." },
+                { "question_id": "u1_e_ex1_q5", "label": "5", "prompt_text": "Jog / make / you / strong / and / reduce / stress.", "correct_answer": "Jogging makes you strong and reduces your stress." }
+              ]
+            },
+            {
+              "exercise_id": "u1_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Do you like the activities in the pictures below? Write true sentences about yourself. Remember to use verbs of liking / disliking + V-ing. Add one reason for each activity.",
+              "instruction_vi": "Viết câu về bản thân đối với 5 hoạt động trong tranh (dùng động từ chỉ sự yêu/ghét + V-ing và nêu lý do).",
+              "game_mechanic": "guided_writing",
+              "questions": [
+                { "question_id": "u1_e_ex2_q1", "label": "1", "image_description": "Cưỡi ngựa (horse riding).", "sample_answer": "I love horse riding because I love horses." },
+                { "question_id": "u1_e_ex2_q2", "label": "2", "image_description": "Làm mô hình máy bay (making models).", "sample_answer": "I like making models because it develops my creativity." },
+                { "question_id": "u1_e_ex2_q3", "label": "3", "image_description": "Làm vườn / trồng cây (gardening).", "sample_answer": "I enjoy gardening because it helps me relax outdoors." },
+                { "question_id": "u1_e_ex2_q4", "label": "4", "image_description": "Đá bóng (playing football).", "sample_answer": "I love playing football because it makes me strong and healthy." },
+                { "question_id": "u1_e_ex2_q5", "label": "5", "image_description": "Đọc sách (reading books).", "sample_answer": "I like reading books because I can learn many interesting things." }
+              ]
+            },
+            {
+              "exercise_id": "u1_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Think about your dad / mum and his / her hobby. Fill in the word web. Then write a short paragraph of about 70 words about your dad's / mum's hobby.",
+              "instruction_vi": "Điền sơ đồ tư duy và viết đoạn văn khoảng 70 từ về sở thích của bố hoặc mẹ em.",
+              "game_mechanic": "guided_writing",
+              "cues": [
+                "1. His / Her hobby is: ...",
+                "2. He / She started the hobby: ... ago",
+                "3. He / She shares the hobby with: ...",
+                "4. To do this hobby, he / she needs: ...",
+                "5. Benefits: ..."
+              ],
+              "sample_answer": "My mum's favourite hobby is gardening. She started this hobby five years ago. She spends an hour every day taking care of the plants and flowers in our small garden. She often shares this hobby with me at the weekend. To do this hobby, she only needs some seeds, soil, a watering can, and gardening gloves. Gardening is very beneficial because it helps her reduce stress after work and makes our house greener and more beautiful."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_02",
+      "unit_number": 2,
+      "unit_title": "HEALTHY LIVING",
+      "pages": [10, 11, 12, 13, 14, 15],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u2_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Circle the word with the underlined part pronounced differently. Then practise saying them aloud.",
+              "instruction_vi": "Khoanh tròn từ có phần gạch chân phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                {
+                  "question_id": "u2_a_ex1_q1",
+                  "label": "1",
+                  "options": [{ "id": "A", "text": "cou[gh]" }, { "id": "B", "text": "enou[gh]" }, { "id": "C", "text": "throu[gh]" }, { "id": "D", "text": "lau[gh]" }],
+                  "correct_answer": "C",
+                  "explanation_vi": "'through' có 'gh' câm, các từ còn lại phát âm là /f/."
+                },
+                {
+                  "question_id": "u2_a_ex1_q2",
+                  "label": "2",
+                  "options": [{ "id": "A", "text": "dol[ph]in" }, { "id": "B", "text": "u[ph]ill" }, { "id": "C", "text": "ear[ph]one" }, { "id": "D", "text": "al[ph]abet" }],
+                  "correct_answer": "B",
+                  "explanation_vi": "'uphill' tách âm /p/ và /h/ (/ˌʌpˈhɪl/), các từ còn lại 'ph' phát âm là /f/."
+                },
+                {
+                  "question_id": "u2_a_ex1_q3",
+                  "label": "3",
+                  "options": [{ "id": "A", "text": "ni[gh]t" }, { "id": "B", "text": "tou[gh]" }, { "id": "C", "text": "fli[gh]t" }, { "id": "D", "text": "hi[gh]" }],
+                  "correct_answer": "B",
+                  "explanation_vi": "'tough' có 'gh' phát âm là /f/, các từ còn lại 'gh' là âm câm."
+                },
+                {
+                  "question_id": "u2_a_ex1_q4",
+                  "label": "4",
+                  "options": [{ "id": "A", "text": "[a]te" }, { "id": "B", "text": "[a]bout" }, { "id": "C", "text": "[a]mazing" }, { "id": "D", "text": "[a]bove" }],
+                  "correct_answer": "A",
+                  "explanation_vi": "'ate' phát âm là /eɪ/, các từ còn lại phát âm là /ə/."
+                },
+                {
+                  "question_id": "u2_a_ex1_q5",
+                  "label": "5",
+                  "options": [{ "id": "A", "text": "l[ear]n" }, { "id": "B", "text": "[ear]ly" }, { "id": "C", "text": "[ear]th" }, { "id": "D", "text": "h[ear]" }],
+                  "correct_answer": "D",
+                  "explanation_vi": "'hear' phát âm là /ɪə/, các từ còn lại phát âm là /ɜː/."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u2_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Say the sentences aloud, paying attention to the underlined words containing the sounds /f/ and /v/.",
+              "instruction_vi": "Đọc to các câu sau, chú ý các từ gạch chân chứa âm /f/ và /v/.",
+              "game_mechanic": "listen_and_repeat",
+              "questions": [
+                { "question_id": "u2_a_ex2_q1", "label": "1", "prompt_text": "What is the benefit of playing volleyball?" },
+                { "question_id": "u2_a_ex2_q2", "label": "2", "prompt_text": "Eat more fruit and vegetables." },
+                { "question_id": "u2_a_ex2_q3", "label": "3", "prompt_text": "Fruit contains a lot of vitamins." },
+                { "question_id": "u2_a_ex2_q4", "label": "4", "prompt_text": "Laughter and love are good for your health." },
+                { "question_id": "u2_a_ex2_q5", "label": "5", "prompt_text": "We should do more physical activities." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u2_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write a word or phrase from the box under its correct picture.",
+              "instruction_vi": "Viết từ hoặc cụm từ trong khung dưới bức tranh đúng.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["rubbish", "snack", "fast food", "house cleaning", "fresh vegetables", "outdoor activity"],
+              "questions": [
+                { "question_id": "u2_b_ex1_q1", "label": "1", "image_description": "Đĩa bánh quy và hạt ăn vặt.", "correct_answer": "snack" },
+                { "question_id": "u2_b_ex1_q2", "label": "2", "image_description": "Người đang hút bụi dọn dẹp phòng khách.", "correct_answer": "house cleaning" },
+                { "question_id": "u2_b_ex1_q3", "label": "3", "image_description": "Thùng rác đầy rác thải.", "correct_answer": "rubbish" },
+                { "question_id": "u2_b_ex1_q4", "label": "4", "image_description": "Rổ rau củ quả tươi.", "correct_answer": "fresh vegetables" },
+                { "question_id": "u2_b_ex1_q5", "label": "5", "image_description": "Các bạn nhỏ đang chạy nhảy chơi đùa trên bãi cỏ ngoài trời.", "correct_answer": "outdoor activity" },
+                { "question_id": "u2_b_ex1_q6", "label": "6", "image_description": "Bánh mì kẹp hamburger, khoai tây chiên và nước ngọt.", "correct_answer": "fast food" }
+              ]
+            },
+            {
+              "exercise_id": "u2_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Add three more words or phrases to each group.",
+              "instruction_vi": "Thêm 3 từ hoặc cụm từ vào mỗi nhóm.",
+              "game_mechanic": "category_sorting",
+              "questions": [
+                { "group": "1. Fruit and vegetables", "example": "pumpkin", "suggested_answers": ["carrot", "tomato", "cauliflower", "cucumber"] },
+                { "group": "2. Healthy activities", "example": "brushing your teeth", "suggested_answers": ["sleeping 7 - 8 hours a day", "eating healthy food", "doing sport"] },
+                { "group": "3. Unhealthy activities", "example": "eating a lot of salty snacks", "suggested_answers": ["going to bed late", "eating a lot of fast food", "drinking soft drinks every day"] },
+                { "group": "4. Health problems", "example": "flu", "suggested_answers": ["acne", "chapped lips", "sunburn", "headaches"] }
+              ]
+            },
+            {
+              "exercise_id": "u2_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Complete the sentences with the words and phrases below.",
+              "instruction_vi": "Hoàn thành các câu với các từ và cụm từ cho sẵn.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["tofu", "fit", "chapped lips", "weight", "harms", "bins"],
+              "questions": [
+                { "question_id": "u2_b_ex3_q1", "label": "1", "prompt_text": "Doing housework is a kind of exercise. It helps keep you ___.", "correct_answer": "fit" },
+                { "question_id": "u2_b_ex3_q2", "label": "2", "prompt_text": "Some of a vegetarian's main foods are ___ and vegetables.", "correct_answer": "tofu" },
+                { "question_id": "u2_b_ex3_q3", "label": "3", "prompt_text": "Physical activities like running help you lose ___.", "correct_answer": "weight" },
+                { "question_id": "u2_b_ex3_q4", "label": "4", "prompt_text": "There should be more ___ in public places.", "correct_answer": "bins" },
+                { "question_id": "u2_b_ex3_q5", "label": "5", "prompt_text": "Reading in dim light ___ your eyes.", "correct_answer": "harms" },
+                { "question_id": "u2_b_ex3_q6", "label": "6", "prompt_text": "Cold weather causes ___ and skin.", "correct_answer": "chapped lips" }
+              ]
+            },
+            {
+              "exercise_id": "u2_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Write a correct word or phrase that describes each group of words.",
+              "instruction_vi": "Viết từ hoặc cụm từ trong khung mô tả đúng từng nhóm từ khóa.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["taking a bath", "soft drinks", "house cleaning", "acne", "cycling", "fast food"],
+              "questions": [
+                { "question_id": "u2_b_ex4_q1", "label": "1", "prompt_text": "fried chicken and chips, chain restaurants, popular", "correct_answer": "fast food" },
+                { "question_id": "u2_b_ex4_q2", "label": "2", "prompt_text": "bike, helmet, shoes, path", "correct_answer": "cycling" },
+                { "question_id": "u2_b_ex4_q3", "label": "3", "prompt_text": "sweetened drinks with a lot of gas", "correct_answer": "soft drinks" },
+                { "question_id": "u2_b_ex4_q4", "label": "4", "prompt_text": "black and white pimples on your body, especially on your face", "correct_answer": "acne" },
+                { "question_id": "u2_b_ex4_q5", "label": "5", "prompt_text": "dustpan, broom, water, floor cleaner", "correct_answer": "house cleaning" }
+              ]
+            },
+            {
+              "exercise_id": "u2_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Rearrange the words and phrases to make simple sentences.",
+              "instruction_vi": "Sắp xếp các từ và cụm từ thành câu đơn hoàn chỉnh.",
+              "game_mechanic": "sentence_reorder",
+              "questions": [
+                { "question_id": "u2_b_ex5_q1", "label": "1", "shuffled_parts": ["a lot of", "We", "to prevent", "garlic", "eat", "the flu"], "punctuation": ".", "correct_answer": "We eat a lot of garlic to prevent the flu." },
+                { "question_id": "u2_b_ex5_q2", "label": "2", "shuffled_parts": ["do not", "have much stress", "in the countryside", "People"], "punctuation": ".", "correct_answer": "People in the countryside do not have much stress." },
+                { "question_id": "u2_b_ex5_q3", "label": "3", "shuffled_parts": ["your", "eyedrops", "tired eyes", "You", "for", "can use"], "punctuation": ".", "correct_answer": "You can use eyedrops for your tired eyes." },
+                { "question_id": "u2_b_ex5_q4", "label": "4", "shuffled_parts": ["my country", "Green tea", "in", "a popular drink", "is"], "punctuation": ".", "correct_answer": "Green tea is a popular drink in my country." },
+                { "question_id": "u2_b_ex5_q5", "label": "5", "shuffled_parts": ["keep you", "and active", "Physical activities", "strong", "help"], "punctuation": ".", "correct_answer": "Physical activities help keep you strong and active." }
+              ]
+            },
+            {
+              "exercise_id": "u2_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Read and decide if the underlined parts are the subject (S), verb (V), object (O), or adverb (ADV) of the sentences.",
+              "instruction_vi": "Xác định các thành phần gạch chân trong câu là Chủ ngữ (S), Động từ (V), Tân ngữ (O) hay Trạng ngữ (ADV).",
+              "game_mechanic": "grammar_tagging",
+              "questions": [
+                {
+                  "question_id": "u2_b_ex6_q1",
+                  "label": "1",
+                  "sentence": "She washes her face twice a day.",
+                  "segments": [
+                    { "text": "She", "role": "S" },
+                    { "text": "washes", "role": "V" },
+                    { "text": "her face", "role": "O" },
+                    { "text": "twice a day", "role": "ADV" }
+                  ]
+                },
+                {
+                  "question_id": "u2_b_ex6_q2",
+                  "label": "2",
+                  "sentence": "Asian diets contain a lot of vegetables.",
+                  "segments": [
+                    { "text": "Asian diets", "role": "S" },
+                    { "text": "contain", "role": "V" },
+                    { "text": "a lot of vegetables", "role": "O" }
+                  ]
+                },
+                {
+                  "question_id": "u2_b_ex6_q3",
+                  "label": "3",
+                  "sentence": "My sister uses a lot of suncream in summer.",
+                  "segments": [
+                    { "text": "My sister", "role": "S" },
+                    { "text": "uses", "role": "V" },
+                    { "text": "a lot of suncream", "role": "O" },
+                    { "text": "in summer", "role": "ADV" }
+                  ]
+                },
+                {
+                  "question_id": "u2_b_ex6_q4",
+                  "label": "4",
+                  "sentence": "He likes cycling in the park.",
+                  "segments": [
+                    { "text": "He", "role": "S" },
+                    { "text": "likes", "role": "V" },
+                    { "text": "cycling", "role": "O" },
+                    { "text": "in the park", "role": "ADV" }
+                  ]
+                },
+                {
+                  "question_id": "u2_b_ex6_q5",
+                  "label": "5",
+                  "sentence": "My mother cooks food with very little cooking oil.",
+                  "segments": [
+                    { "text": "My mother", "role": "S" },
+                    { "text": "cooks", "role": "V" },
+                    { "text": "food", "role": "O" },
+                    { "text": "with very little cooking oil", "role": "ADV" }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u2_c_ex1_2",
+              "exercise_number": 1,
+              "instruction_en": "Discuss the tips below. Tick (✓) the tips you think are good for your health and cross (✗) the ones that are not, and give reasons.",
+              "instruction_vi": "Đánh dấu (✓) vào các mẹo tốt cho sức khỏe và (✗) vào các mẹo không tốt, kèm theo lý do.",
+              "game_mechanic": "true_false",
+              "questions": [
+                { "question_id": "u2_c_ex1_q1", "label": "1", "prompt_text": "Don't hate people.", "correct_answer": true, "explanation_vi": "Because hating makes you tired." },
+                { "question_id": "u2_c_ex1_q2", "label": "2", "prompt_text": "Skip breakfast to lose weight.", "correct_answer": false, "explanation_vi": "Breakfast is important for a day's work. Skipping it doesn't help you lose weight." },
+                { "question_id": "u2_c_ex1_q3", "label": "3", "prompt_text": "Exercise every day.", "correct_answer": true, "explanation_vi": "Exercising makes people fit and strong." },
+                { "question_id": "u2_c_ex1_q4", "label": "4", "prompt_text": "Eat until you feel 100% full.", "correct_answer": false, "explanation_vi": "Eat until you feel 80% full or you will feel tired." },
+                { "question_id": "u2_c_ex1_q5", "label": "5", "prompt_text": "Take a bath once a day.", "correct_answer": true, "explanation_vi": "To keep clean." },
+                { "question_id": "u2_c_ex1_q6", "label": "6", "prompt_text": "Have a balanced diet for a long life.", "correct_answer": true, "explanation_vi": "A balanced diet provides us with enough vitamins and minerals." },
+                { "question_id": "u2_c_ex1_q7", "label": "7", "prompt_text": "Change your pillow cover once a month.", "correct_answer": false, "explanation_vi": "You should do it once a week to avoid acne and bacteria." },
+                { "question_id": "u2_c_ex1_q8", "label": "8", "prompt_text": "Keep warm in winter.", "correct_answer": true, "explanation_vi": "To keep you from catching flu or cold." }
+              ]
+            },
+            {
+              "exercise_id": "u2_c_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Work in groups. Discuss and take notes of three things you can do to keep your house clean.",
+              "instruction_vi": "Ghi chú 3 việc em có thể làm để giữ nhà cửa sạch sẽ.",
+              "game_mechanic": "guided_speaking",
+              "sample_answer": "1. Vacuum and mop the floor every day.\n2. Open the windows to let fresh air and sunlight in.\n3. Take out the rubbish every evening and keep the kitchen tidy."
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u2_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the health tips and complete each statement (1 - 6) with one word from the text.",
+              "instruction_vi": "Đọc các lời khuyên sức khỏe và điền 1 từ trong bài vào mỗi câu (1 - 6).",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "HEALTH TIPS\na. Eat less salt and sugar. They put us at the risk of heart disease.\nb. Drink enough water, about one and a half litres a day. Make sure that the water you are drinking is safe. Unsafe water can lead to many kinds of diseases.\nc. Do more physical activities like sport and housework. It helps keep you fit and active.\nd. Reduce sitting and screen time. Stand up every hour and do some simple exercise or walk around. Exercise your eyes too.\ne. Get seven to eight hours of good sleep each night. This helps both your mind and body work well.\nf. Handwash regularly with soap and water. Clean hands help prevent the spread of some diseases.",
+              "questions": [
+                { "question_id": "u2_d_ex1_q1", "label": "1", "prompt_text": "Eating a lot of salt or sugar can lead to ___ disease.", "correct_answer": "heart" },
+                { "question_id": "u2_d_ex1_q2", "label": "2", "prompt_text": "Drink only ___ water.", "correct_answer": "safe" },
+                { "question_id": "u2_d_ex1_q3", "label": "3", "prompt_text": "Doing housework is also a type of ___ activity.", "correct_answer": "physical" },
+                { "question_id": "u2_d_ex1_q4", "label": "4", "prompt_text": "Stand up every hour and do some ___ to reduce sitting time.", "correct_answer": "exercise" },
+                { "question_id": "u2_d_ex1_q5", "label": "5", "prompt_text": "Your mind works well if you get enough good ___.", "correct_answer": "sleep" },
+                { "question_id": "u2_d_ex1_q6", "label": "6", "prompt_text": "___ regularly to prevent some diseases.", "correct_answer": "Handwash" }
+              ]
+            },
+            {
+              "exercise_id": "u2_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Choose the correct answer A, B, or C to fill in each blank in the following passage.",
+              "instruction_vi": "Chọn đáp án đúng A, B hoặc C để điền vào đoạn văn.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "My grandparents live in the countryside, and they have a big garden. They spend a lot of time working in it. When I visit them in summer, I often join them in the garden, and they teach me a lot of things about (1) ___.\nVegetables come in different shapes, sizes, and (2) ___. They also grow differently as well. Carrots and potatoes grow (3) ___ the ground. We can't see them. Some kinds of beans (4) ___ a high net to grow. Cabbages and cauliflower grow above the ground. My grandfather says that coloured vegetables are very good for health (5) ___ they provide a lot of natural vitamins. White cauliflower is (6) ___ in vitamin C. Orange carrots and red tomatoes contain vitamin A. (7) ___ have vitamins A, B, C, and E. My grandfather also says that gardening is a good way of (8) ___. It helps him keep fit and strong.",
+              "questions": [
+                { "question_id": "u2_d_ex2_q1", "label": "1", "options": [{ "id": "A", "text": "health" }, { "id": "B", "text": "vegetables" }, { "id": "C", "text": "exercise" }], "correct_answer": "B" },
+                { "question_id": "u2_d_ex2_q2", "label": "2", "options": [{ "id": "A", "text": "colours" }, { "id": "B", "text": "prices" }, { "id": "C", "text": "weight" }], "correct_answer": "A" },
+                { "question_id": "u2_d_ex2_q3", "label": "3", "options": [{ "id": "A", "text": "above" }, { "id": "B", "text": "on" }, { "id": "C", "text": "under" }], "correct_answer": "C" },
+                { "question_id": "u2_d_ex2_q4", "label": "4", "options": [{ "id": "A", "text": "need" }, { "id": "B", "text": "provide" }, { "id": "C", "text": "have" }], "correct_answer": "A" },
+                { "question_id": "u2_d_ex2_q5", "label": "5", "options": [{ "id": "A", "text": "and" }, { "id": "B", "text": "because" }, { "id": "C", "text": "so" }], "correct_answer": "B" },
+                { "question_id": "u2_d_ex2_q6", "label": "6", "options": [{ "id": "A", "text": "rich" }, { "id": "B", "text": "poor" }, { "id": "C", "text": "low" }], "correct_answer": "A" },
+                { "question_id": "u2_d_ex2_q7", "label": "7", "options": [{ "id": "A", "text": "Chicken" }, { "id": "B", "text": "Fish" }, { "id": "C", "text": "Pumpkins" }], "correct_answer": "C" },
+                { "question_id": "u2_d_ex2_q8", "label": "8", "options": [{ "id": "A", "text": "resting" }, { "id": "B", "text": "relaxing" }, { "id": "C", "text": "exercising" }], "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "u2_d_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read the passage and choose the correct answer A, B, or C.",
+              "instruction_vi": "Đọc đoạn văn và chọn đáp án đúng A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "In 2019, Spain was the healthiest country in the world. The secret is their Mediterranean diet. This diet focuses on healthy fats and proteins. This includes cold tomato soup, plenty of seafood (especially fish), and veggies. Spanish people say that they have some of the most delicious salads in the world. Due to the Mediterranean diet, the Spanish suffer from fewer diseases than the rest of the world.\nPhysical health is important, but mental health is important too. Eight out of ten Spanish people are happy. Why? A major reason is the weather. Spain has beautiful weather all year round. Another reason is that Spain is home to a lively and relaxing culture. The Spanish enjoy the simple pleasures of life.",
+              "questions": [
+                { "question_id": "u2_d_ex3_q1", "label": "1", "prompt_text": "In 2019, Spain was number ___ in health.", "options": [{ "id": "A", "text": "one" }, { "id": "B", "text": "two" }, { "id": "C", "text": "ten" }], "correct_answer": "A" },
+                { "question_id": "u2_d_ex3_q2", "label": "2", "prompt_text": "The Mediterranean diet includes ___.", "options": [{ "id": "A", "text": "lots of vegetables" }, { "id": "B", "text": "red meat" }, { "id": "C", "text": "potato soup" }], "correct_answer": "A" },
+                { "question_id": "u2_d_ex3_q3", "label": "3", "prompt_text": "Spanish people ___.", "options": [{ "id": "A", "text": "have more diseases than the rest of the world" }, { "id": "B", "text": "have fewer diseases than the rest of the world" }, { "id": "C", "text": "do not have diseases" }], "correct_answer": "B" },
+                { "question_id": "u2_d_ex3_q4", "label": "4", "prompt_text": "Beautiful ___ makes the Spanish happy.", "options": [{ "id": "A", "text": "beaches" }, { "id": "B", "text": "houses" }, { "id": "C", "text": "weather" }], "correct_answer": "C" },
+                { "question_id": "u2_d_ex3_q5", "label": "5", "prompt_text": "The Spanish enjoy ___.", "options": [{ "id": "A", "text": "good food" }, { "id": "B", "text": "simple pleasures" }, { "id": "C", "text": "good education" }], "correct_answer": "B" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u2_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write complete sentences from the prompts.",
+              "instruction_vi": "Viết câu hoàn chỉnh từ các từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u2_e_ex1_q1", "label": "1", "prompt_text": "Please / eye exercises / keep / eyes / getting dry.", "correct_answer": "Please do eye exercises to keep your eyes from getting dry." },
+                { "question_id": "u2_e_ex1_q2", "label": "2", "prompt_text": "People / Iceland / eat / lot / fresh fish.", "correct_answer": "People in Iceland eat a lot of fresh fish." },
+                { "question_id": "u2_e_ex1_q3", "label": "3", "prompt_text": "Air pollution / be / really harmful / our health.", "correct_answer": "Air pollution is really harmful to our health." },
+                { "question_id": "u2_e_ex1_q4", "label": "4", "prompt_text": "Going to bed / getting up / early / be / good / your health.", "correct_answer": "Going to bed and getting up early are good for your health." },
+                { "question_id": "u2_e_ex1_q5", "label": "5", "prompt_text": "Healthy food / love / laughter / bring / healthy life.", "correct_answer": "Healthy food, love, and laughter bring a healthy life." }
+              ]
+            },
+            {
+              "exercise_id": "u2_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Write a reason for each tip.",
+              "instruction_vi": "Viết một lý do cho mỗi lời khuyên dưới đây.",
+              "game_mechanic": "guided_writing",
+              "questions": [
+                { "question_id": "u2_e_ex2_q1", "label": "1", "prompt_text": "Do more physical activities.", "sample_answer": "To keep you fit. / You'll stay strong." },
+                { "question_id": "u2_e_ex2_q2", "label": "2", "prompt_text": "Eat a lot of red fruit and vegetables.", "sample_answer": "They are good for your eyes. / They provide vitamin A which is good for your eyes." },
+                { "question_id": "u2_e_ex2_q3", "label": "3", "prompt_text": "Use eyedrops when you are doing a lot of reading.", "sample_answer": "To keep your eyes from getting tired or dry." },
+                { "question_id": "u2_e_ex2_q4", "label": "4", "prompt_text": "Keep your house clean.", "sample_answer": "To prevent diseases. / To reduce the number of flies and mosquitoes." },
+                { "question_id": "u2_e_ex2_q5", "label": "5", "prompt_text": "Laugh more and stay relaxed.", "sample_answer": "You'll feel happy, and you'll make people around you happy, too." }
+              ]
+            },
+            {
+              "exercise_id": "u2_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Tick (✓) five things you think you need to do every day to have a healthy life. Then write a short passage of about 70 words about it.",
+              "instruction_vi": "Đánh dấu (✓) 5 việc cần làm mỗi ngày để có lối sống lành mạnh và viết đoạn văn khoảng 70 từ.",
+              "game_mechanic": "guided_writing",
+              "options": ["take a bath", "do exercise", "sleep 7 - 8 hours / day", "eat breakfast", "chat with friends", "clean your house", "eat a lot of meat and snacks"],
+              "selected_healthy_habits": ["take a bath", "do exercise", "sleep 7 - 8 hours / day", "eat breakfast", "clean your house"],
+              "sample_answer": "There are things I think I need to do every day to have a healthy life. First, I need to take a bath after getting up. It helps me have a fresh start. Second, I should never skip breakfast. I need to eat after a long night. During the day, I also need to spend some time exercising and cleaning my house. They are both good for my health. Finally, I need seven to eight hours of sleep a day. If not, I will feel tired and sleepy the next day."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_03",
+      "unit_number": 3,
+      "unit_title": "COMMUNITY SERVICE",
+      "pages": [16, 17, 18, 19, 20, 21, 22, 23],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u3_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the word in which the underlined part is pronounced differently. Say the words aloud.",
+              "instruction_vi": "Chọn từ có phần đuôi -ed gạch chân được phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                {
+                  "question_id": "u3_a_ex1_q1",
+                  "label": "1",
+                  "options": [{ "id": "A", "text": "start[ed]" }, { "id": "B", "text": "wash[ed]" }, { "id": "C", "text": "want[ed]" }, { "id": "D", "text": "visit[ed]" }],
+                  "correct_answer": "B",
+                  "explanation_vi": "'washed' phát âm là /t/, các từ còn lại phát âm là /ɪd/."
+                },
+                {
+                  "question_id": "u3_a_ex1_q2",
+                  "label": "2",
+                  "options": [{ "id": "A", "text": "play[ed]" }, { "id": "B", "text": "stopp[ed]" }, { "id": "C", "text": "book[ed]" }, { "id": "D", "text": "pass[ed]" }],
+                  "correct_answer": "A",
+                  "explanation_vi": "'played' phát âm là /d/, các từ còn lại phát âm là /t/."
+                },
+                {
+                  "question_id": "u3_a_ex1_q3",
+                  "label": "3",
+                  "options": [{ "id": "A", "text": "need[ed]" }, { "id": "B", "text": "decid[ed]" }, { "id": "C", "text": "start[ed]" }, { "id": "D", "text": "cook[ed]" }],
+                  "correct_answer": "D",
+                  "explanation_vi": "'cooked' phát âm là /t/, các từ còn lại phát âm là /ɪd/."
+                },
+                {
+                  "question_id": "u3_a_ex1_q4",
+                  "label": "4",
+                  "options": [{ "id": "A", "text": "enjoy[ed]" }, { "id": "B", "text": "call[ed]" }, { "id": "C", "text": "laugh[ed]" }, { "id": "D", "text": "water[ed]" }],
+                  "correct_answer": "C",
+                  "explanation_vi": "'laughed' phát âm là /t/, các từ còn lại phát âm là /d/."
+                },
+                {
+                  "question_id": "u3_a_ex1_q5",
+                  "label": "5",
+                  "options": [{ "id": "A", "text": "watch[ed]" }, { "id": "B", "text": "look[ed]" }, { "id": "C", "text": "listen[ed]" }, { "id": "D", "text": "talk[ed]" }],
+                  "correct_answer": "C",
+                  "explanation_vi": "'listened' phát âm là /d/, các từ còn lại phát âm là /t/."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u3_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look at the verbs in past form with -ed in the dialogue. Categorize them into ending sounds /t/, /d/, and /ɪd/.",
+              "instruction_vi": "Tìm các động từ quá khứ có đuôi -ed trong đoạn hội thoại và phân loại vào 3 nhóm âm cuối /t/, /d/, và /ɪd/.",
+              "game_mechanic": "category_sorting",
+              "dialogue_text": "Mark: ... So, what did you do last weekend?\nLan: I joined my friends in doing some volunteer activities at my school.\nMark: What did you do?\nLan: We planted new trees and watered the vegetables in the school garden.\nMark: That's great. When did you start doing these activities?\nLan: We started these activities three years ago. How about you? What did you do?\nMark: Me? I stayed at home. My brother and I listened to some music and watched some movies.\nLan: That sounds interesting!\nMark: Yes. That was on Saturday. On Sunday, we played board games and enjoyed some food that mum cooked.",
+              "categories": [
+                { "sound": "/t/ (Single-underline)", "words": ["watched", "cooked"] },
+                { "sound": "/d/ (Double-underline)", "words": ["joined", "watered", "stayed", "listened", "played", "enjoyed"] },
+                { "sound": "/ɪd/ (Triple-underline)", "words": ["planted", "started"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u3_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "What activities are they doing? Choose the correct answer.",
+              "instruction_vi": "Họ đang làm hoạt động gì? Chọn đáp án đúng theo tranh.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                {
+                  "question_id": "u3_b_ex1_q1",
+                  "label": "1",
+                  "image_description": "Các bạn học sinh đeo găng tay nhặt rác trong công viên.",
+                  "options": [{ "id": "A", "text": "collecting rubbish" }, { "id": "B", "text": "planting trees" }, { "id": "C", "text": "recycling bottles" }],
+                  "correct_answer": "A"
+                },
+                {
+                  "question_id": "u3_b_ex1_q2",
+                  "label": "2",
+                  "image_description": "Các bạn nhỏ đang trồng cây non.",
+                  "options": [{ "id": "A", "text": "cleaning the playground" }, { "id": "B", "text": "growing vegetables" }, { "id": "C", "text": "planting trees" }],
+                  "correct_answer": "C"
+                },
+                {
+                  "question_id": "u3_b_ex1_q3",
+                  "label": "3",
+                  "image_description": "Các tình nguyện viên mang đồ đến giúp đỡ các cụ già.",
+                  "options": [{ "id": "A", "text": "helping homeless children" }, { "id": "B", "text": "singing for old people" }, { "id": "C", "text": "helping old people" }],
+                  "correct_answer": "C"
+                },
+                {
+                  "question_id": "u3_b_ex1_q4",
+                  "label": "4",
+                  "image_description": "Phát suất ăn miễn phí cho người nghèo.",
+                  "options": [{ "id": "A", "text": "donating books to children" }, { "id": "B", "text": "giving food to poor people" }, { "id": "C", "text": "helping young people" }],
+                  "correct_answer": "B"
+                },
+                {
+                  "question_id": "u3_b_ex1_q5",
+                  "label": "5",
+                  "image_description": "Dạy học ngoài trời dưới gốc cây cho trẻ em đường phố.",
+                  "options": [{ "id": "A", "text": "tutoring street children" }, { "id": "B", "text": "giving food to street children" }, { "id": "C", "text": "donating books to children" }],
+                  "correct_answer": "A"
+                }
+              ]
+            },
+            {
+              "exercise_id": "u3_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Match the verbs in A with the words or phrases in B.",
+              "instruction_vi": "Nối động từ ở cột A với từ/cụm từ ở cột B.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "plant", "right_id": "f", "right_text": "trees" },
+                { "left_id": "2", "left_text": "clean up", "right_id": "d", "right_text": "dirty streets" },
+                { "left_id": "3", "left_text": "donate", "right_id": "e", "right_text": "food and clothes" },
+                { "left_id": "4", "left_text": "recycle", "right_id": "c", "right_text": "used bottles" },
+                { "left_id": "5", "left_text": "help", "right_id": "b", "right_text": "old people" },
+                { "left_id": "6", "left_text": "exchange", "right_id": "a", "right_text": "used paper for notebooks" }
+              ]
+            },
+            {
+              "exercise_id": "u3_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Use the phrases in 2 to complete the following sentences.",
+              "instruction_vi": "Sử dụng các cụm từ vừa nối ở Bài 2 để hoàn thành các câu sau.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u3_b_ex3_q1", "label": "1", "prompt_text": "They often ___ and give the notebooks to poor children.", "correct_answer": "exchange used paper for notebooks" },
+                { "question_id": "u3_b_ex3_q2", "label": "2", "prompt_text": "Every weekend, we come to ___ do the cooking. We also read to them.", "correct_answer": "help old people" },
+                { "question_id": "u3_b_ex3_q3", "label": "3", "prompt_text": "The school encourages students to ___. They turn the plastic bottles into hundreds of pretty vases and toys.", "correct_answer": "recycle used bottles" },
+                { "question_id": "u3_b_ex4_q4", "label": "4", "prompt_text": "Our school's students ___ every weekend. The streets now look cleaner.", "correct_answer": "clean up dirty streets" },
+                { "question_id": "u3_b_ex3_q5", "label": "5", "prompt_text": "Our group often visits villages and ___ to the poor children there.", "correct_answer": "donates food and clothes" },
+                { "question_id": "u3_b_ex3_q6", "label": "6", "prompt_text": "I work in the Green Neighbourhood project. We often ___ in our neighbourhood.", "correct_answer": "plant trees" }
+              ]
+            },
+            {
+              "exercise_id": "u3_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Complete the sentences with the right forms of the verbs in brackets.",
+              "instruction_vi": "Chia dạng đúng của động từ trong ngoặc (Hiện tại đơn hoặc Quá khứ đơn).",
+              "game_mechanic": "verb_conjugation",
+              "questions": [
+                { "question_id": "u3_b_ex4_q1", "label": "1", "prompt_text": "We often (donate) ___ vegetables to a nursery school in the village.", "correct_answer": "donate" },
+                { "question_id": "u3_b_ex4_q2", "label": "2", "prompt_text": "Last summer, we (start) ___ a Paper-Notebook Exchange programme. Now we have 20 members.", "correct_answer": "started" },
+                { "question_id": "u3_b_ex4_q3", "label": "3", "prompt_text": "I (tutor) ___ a primary school student every Thursday. He really likes English now.", "correct_answer": "tutor" },
+                { "question_id": "u3_b_ex4_q4", "label": "4", "prompt_text": "Our club members (give) ___ young people advice when they need it.", "correct_answer": "give" },
+                { "question_id": "u3_b_ex4_q5", "label": "5", "prompt_text": "I (become) ___ a member of Green School Club last year.", "correct_answer": "became" },
+                { "question_id": "u3_b_ex4_q6", "label": "6", "prompt_text": "We often (write) ___ letters to children in orphanages. Last Tet holiday, we (give) ___ them banh chung.", "correct_answer": "write; gave" }
+              ]
+            },
+            {
+              "exercise_id": "u3_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Complete the passage using the correct forms of the verbs in brackets.",
+              "instruction_vi": "Hoàn thành đoạn văn bằng dạng đúng của động từ trong ngoặc.",
+              "game_mechanic": "verb_conjugation",
+              "passage_text": "Last summer, our school started a community service project. Our teachers (1. make) ___ a list of activities and (2. give) ___ it to each class. We could (3. choose) ___ the activities we wanted to join. I (4. choose) ___ to help the elderly in the village nursing home. We (5. see) ___ them once a week, (6. dance) ___ and (7. sing) ___ for them. My friends (8. join) ___ other activities like clean-up or gardening activities. We (9. be) ___ very happy. We all (10. plan) ___ to join other community activities this summer.",
+              "questions": [
+                { "question_id": "u3_b_ex5_q1", "blank_number": 1, "base_verb": "make", "correct_answer": "made" },
+                { "question_id": "u3_b_ex5_q2", "blank_number": 2, "base_verb": "give", "correct_answer": "gave" },
+                { "question_id": "u3_b_ex5_q3", "blank_number": 3, "base_verb": "choose", "correct_answer": "choose" },
+                { "question_id": "u3_b_ex5_q4", "blank_number": 4, "base_verb": "choose", "correct_answer": "chose" },
+                { "question_id": "u3_b_ex5_q5", "blank_number": 5, "base_verb": "see", "correct_answer": "saw" },
+                { "question_id": "u3_b_ex5_q6", "blank_number": 6, "base_verb": "dance", "correct_answer": "danced" },
+                { "question_id": "u3_b_ex5_q7", "blank_number": 7, "base_verb": "sing", "correct_answer": "sang" },
+                { "question_id": "u3_b_ex5_q8", "blank_number": 8, "base_verb": "join", "correct_answer": "joined" },
+                { "question_id": "u3_b_ex5_q9", "blank_number": 9, "base_verb": "be", "correct_answer": "were" },
+                { "question_id": "u3_b_ex5_q10", "blank_number": 10, "base_verb": "plan", "correct_answer": "plan" }
+              ]
+            },
+            {
+              "exercise_id": "u3_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Complete the following conversation with the sentences A - F. Then practise it in pairs.",
+              "instruction_vi": "Hoàn thành đoạn hội thoại với các câu A - F.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "A", "text": "We took a lot of photos together." },
+                { "id": "B", "text": "When did you go there?" },
+                { "id": "C", "text": "Certainly. They took us to their rooms." },
+                { "id": "D", "text": "Do you want to see them again?" },
+                { "id": "E", "text": "What did you do there?" },
+                { "id": "F", "text": "Did they show you where they studied?" }
+              ],
+              "dialogue_lines": [
+                "Linh: What was your most interesting trip last year?",
+                "Nam: It was the trip to an orphanage in the countryside.",
+                "Linh: (1) ___",
+                "Nam: We went there last July.",
+                "Linh: (2) ___",
+                "Nam: We gave the children books and clothing. We also talked a lot about their studies and life there.",
+                "Linh: (3) ___",
+                "Nam: Yes. They showed us their classrooms and library.",
+                "Linh: Did you see where they live?",
+                "Nam: (4) ___",
+                "Linh: Did you take any photos?",
+                "Nam: Sure. (5) ___",
+                "Linh: (6) ___",
+                "Nam: We plan to go back next summer."
+              ],
+              "questions": [
+                { "question_id": "u3_b_ex6_q1", "blank_number": 1, "correct_answer": "B" },
+                { "question_id": "u3_b_ex6_q2", "blank_number": 2, "correct_answer": "E" },
+                { "question_id": "u3_b_ex6_q3", "blank_number": 3, "correct_answer": "F" },
+                { "question_id": "u3_b_ex6_q4", "blank_number": 4, "correct_answer": "C" },
+                { "question_id": "u3_b_ex6_q5", "blank_number": 5, "correct_answer": "A" },
+                { "question_id": "u3_b_ex6_q6", "blank_number": 6, "correct_answer": "D" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u3_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Work in pairs. Compliment your partner on his / her volunteer activities as the example.",
+              "instruction_vi": "Thực hành khen ngợi các hoạt động tình nguyện của bạn theo mẫu.",
+              "game_mechanic": "guided_speaking",
+              "cues": [
+                "1. Mi cooks for the elderly.",
+                "2. Phong and his friends collect litter around their neighbourhood.",
+                "3. Minh tutors street children."
+              ],
+              "sample_answer": "A: Do you take part in any community activities, Mi?\nB: Yes, I cook for the elderly at a nursing home.\nA: Wonderful! Sounds like great work!"
+            },
+            {
+              "exercise_id": "u3_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read the fact sheets about some students. Then discuss which of the community activities below each of them should join.",
+              "instruction_vi": "Đọc thông tin về 4 học sinh và ghép mỗi bạn với hoạt động cộng đồng phù hợp nhất.",
+              "game_mechanic": "matching",
+              "student_profiles": [
+                "Mai is 12. She loves dogs and cats. She is patient and caring.",
+                "Lan is 13. She is patient and loves children. She is good at English and science. She is a loving girl.",
+                "Minh is active. He loves nature. He likes being outdoors. He knows a lot about different kinds of trees.",
+                "Nick is active and very tidy. He doesn't like staying in one place. He likes to work with different people, and he cares a lot about the environment."
+              ],
+              "pairs": [
+                { "left_id": "1", "left_text": "1. planting trees", "right_id": "Minh", "right_text": "Minh (loves nature, knows about trees)" },
+                { "left_id": "2", "left_text": "2. tutoring primary children", "right_id": "Lan", "right_text": "Lan (loves children, good at English and science)" },
+                { "left_id": "3", "left_text": "3. cleaning up the neighbourhood", "right_id": "Nick", "right_text": "Nick (active, tidy, cares about the environment)" },
+                { "left_id": "4", "left_text": "4. taking care of animals", "right_id": "Mai", "right_text": "Mai (loves dogs and cats, patient and caring)" }
+              ]
+            },
+            {
+              "exercise_id": "u3_c_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Match the community activities with the benefits.",
+              "instruction_vi": "Nối các hoạt động cộng đồng với lợi ích tương ứng.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "taking care of pets", "right_id": "C", "right_text": "You learn about responsibility. You learn how to take care of animals." },
+                { "left_id": "2", "left_text": "tutoring primary students", "right_id": "A", "right_text": "Children get help in their studies. You can help children improve their English and knowledge of other subjects." },
+                { "left_id": "3", "left_text": "donating food to street children", "right_id": "D", "right_text": "You can help children have a better life. You learn how to share." },
+                { "left_id": "4", "left_text": "collecting books for the community library", "right_id": "B", "right_text": "Local children get more books to read. Poor children can read books for free." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u3_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose the correct word (A, B, or C) to fill in each blank in the following passage.",
+              "instruction_vi": "Chọn từ đúng (A, B hoặc C) để điền vào đoạn văn.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "My school has a number of volunteer activities every summer. The activities include donating books to village children, (1) ___ kids in the neighbourhood, teaching English to primary students, reading books or cooking food for the (2) ___. Our school started this programme five years ago. Every student can join one or two activities. In the beginning, we thought about (3) ___ we should join in these activities. We then thought about what (4) ___ we wanted to do. Those who like reading could choose to collect and donate (5) ___. Those who are good at English could (6) ___ primary students. Finally, we signed up for the activities we chose. Our teachers often encourage us to (7) ___ committed. They also help us when we need it. We have a lot of fun and learn many things from (8) ___ the activities.",
+              "questions": [
+                { "question_id": "u3_d_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "tutor" }, { "id": "B", "text": "tutored" }, { "id": "C", "text": "tutoring" }], "correct_answer": "C" },
+                { "question_id": "u3_d_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "rich" }, { "id": "B", "text": "needy" }, { "id": "C", "text": "young" }], "correct_answer": "B" },
+                { "question_id": "u3_d_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "what" }, { "id": "B", "text": "when" }, { "id": "C", "text": "why" }], "correct_answer": "C" },
+                { "question_id": "u3_d_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "activities" }, { "id": "B", "text": "jobs" }, { "id": "C", "text": "work" }], "correct_answer": "A" },
+                { "question_id": "u3_d_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "clothes" }, { "id": "B", "text": "books" }, { "id": "C", "text": "vegetables" }], "correct_answer": "B" },
+                { "question_id": "u3_d_ex1_q6", "label": "6", "options": [{ "id": "A", "text": "learn" }, { "id": "B", "text": "talk" }, { "id": "C", "text": "tutor" }], "correct_answer": "C" },
+                { "question_id": "u3_d_ex1_q7", "label": "7", "options": [{ "id": "A", "text": "live" }, { "id": "B", "text": "stay" }, { "id": "C", "text": "work" }], "correct_answer": "B" },
+                { "question_id": "u3_d_ex1_q8", "label": "8", "options": [{ "id": "A", "text": "doing" }, { "id": "B", "text": "working" }, { "id": "C", "text": "playing" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "u3_d_ex2a",
+              "exercise_number": 2,
+              "sub_part": "a",
+              "instruction_en": "Read the text and match each word or phrase highlighted in the text with its meaning.",
+              "instruction_vi": "Đọc văn bản và nối mỗi từ/cụm từ in đậm với nghĩa tương ứng.",
+              "game_mechanic": "matching",
+              "reading_passage": "People first used the word 'volunteer' in 1795, but in England there were at least 500 volunteer hospitals long before that. The YMCA in London became the first volunteering organisation in 1844. It provided help to needy people and held classes to help people develop skills. The Red Cross became the first international charity organisation in 1863. Volunteer work is becoming more and more popular in the world. For example, in the USA, about one-fifth of the population does volunteer work. In Europe, thousands of volunteer programmes are run in different countries.\nEveryone can do volunteer work to help their community. Volunteer activities include donating food and clothes, joining clean-up projects, tutoring children, protecting wild animals, etc. Volunteers work not for money but to help people in need and to connect with others.",
+              "pairs": [
+                { "left_id": "1", "left_text": "needy people", "right_id": "c", "right_text": "people who need help, poor people" },
+                { "left_id": "2", "left_text": "charity organisation", "right_id": "b", "right_text": "an organisation for helping people in need" },
+                { "left_id": "3", "left_text": "popular", "right_id": "e", "right_text": "liked or enjoyed by a large number of people" },
+                { "left_id": "4", "left_text": "community", "right_id": "d", "right_text": "a group of people living in a place" },
+                { "left_id": "5", "left_text": "connect", "right_id": "a", "right_text": "to link, join things or people together" }
+              ]
+            },
+            {
+              "exercise_id": "u3_d_ex2b",
+              "exercise_number": 2,
+              "sub_part": "b",
+              "instruction_en": "Tick (✓) T (True) or F (False).",
+              "instruction_vi": "Đánh dấu T (Đúng) hoặc F (Sai).",
+              "game_mechanic": "true_false",
+              "questions": [
+                { "question_id": "u3_d_ex2b_q1", "label": "1", "prompt_text": "People first used the word 'volunteer' in the 18th century.", "correct_answer": true, "explanation_vi": "Năm 1795 thuộc thế kỷ 18 (T)." },
+                { "question_id": "u3_d_ex2b_q2", "label": "2", "prompt_text": "The YMCA held classes that taught people skills.", "correct_answer": true },
+                { "question_id": "u3_d_ex2b_q3", "label": "3", "prompt_text": "The Red Cross is an American charity organisation.", "correct_answer": false, "explanation_vi": "Hội Chữ thập đỏ là tổ chức từ thiện quốc tế (international charity organisation), không phải chỉ của Mỹ (F)." },
+                { "question_id": "u3_d_ex2b_q4", "label": "4", "prompt_text": "Volunteers work to help and connect with others.", "correct_answer": true },
+                { "question_id": "u3_d_ex2b_q5", "label": "5", "prompt_text": "One example of volunteer work is donating clothes.", "correct_answer": true }
+              ]
+            },
+            {
+              "exercise_id": "u3_d_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read the passage and answer the questions by circling A, B, or C.",
+              "instruction_vi": "Đọc đoạn văn và khoanh tròn đáp án đúng A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Choosing to volunteer takes up some of your time. Some people say that they do not have time to help others, so they don't volunteer. But scientists say giving time to help others benefits us.\nThe first benefit of volunteering is that it helps us learn to be flexible. Volunteers have to be ready for changes and stay flexible when solving problems. Second, volunteering can improve our health because it requires us to be active. A report found that Americans who volunteer 100 hours or more a year are the healthiest people in the country. Third, volunteers have opportunities to develop more relationships. They often work in teams, and team members get to know each other and sometimes even become friends. Moreover, volunteers often help needy people, so they may feel thankful for what they have. For these reasons, volunteers are generally positive and are less likely to become depressed.\nSo if you have not joined a volunteer activity yet, think about it. You are likely to benefit from doing so.",
+              "questions": [
+                { "question_id": "u3_d_ex3_q1", "label": "1", "prompt_text": "What is the main idea of the passage?", "options": [{ "id": "A", "text": "There are different types of volunteer activities." }, { "id": "B", "text": "What to expect when you do volunteer work." }, { "id": "C", "text": "There are some good reasons why you should do volunteer work." }], "correct_answer": "C" },
+                { "question_id": "u3_d_ex3_q2", "label": "2", "prompt_text": "Which is NOT true about volunteers?", "options": [{ "id": "A", "text": "They are the strongest and most active." }, { "id": "B", "text": "They are flexible thinkers." }, { "id": "C", "text": "They are generally more positive." }], "correct_answer": "A" },
+                { "question_id": "u3_d_ex3_q3", "label": "3", "prompt_text": "Which is a benefit of doing volunteer work?", "options": [{ "id": "A", "text": "You will have a happier family." }, { "id": "B", "text": "You can have more friends." }, { "id": "C", "text": "You will never feel unhappy." }], "correct_answer": "B" },
+                { "question_id": "u3_d_ex3_q4", "label": "4", "prompt_text": "Why are volunteers often more positive?", "options": [{ "id": "A", "text": "They are the healthiest people in the country." }, { "id": "B", "text": "They stay active." }, { "id": "C", "text": "They often feel they are luckier than others." }], "correct_answer": "C" },
+                { "question_id": "u3_d_ex3_q5", "label": "5", "prompt_text": "How many benefits are mentioned in the passage?", "options": [{ "id": "A", "text": "Two." }, { "id": "B", "text": "Three." }, { "id": "C", "text": "Four." }], "correct_answer": "C" },
+                { "question_id": "u3_d_ex3_q6", "label": "6", "prompt_text": "What is the purpose of the passage?", "options": [{ "id": "A", "text": "To tell people not to join volunteer activities if they don't have the time." }, { "id": "B", "text": "To encourage people to do some volunteer activities." }, { "id": "C", "text": "To explain the steps you should follow when you join volunteer activities." }], "correct_answer": "B" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u3_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Make sentences using the words and phrases below to help you. Remember to change the forms of some words.",
+              "instruction_vi": "Dựng câu hoàn chỉnh từ các từ và cụm từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u3_e_ex1_q1", "label": "1", "prompt_text": "Minh / find / volunteer activities / interesting / can meet / new people.", "correct_answer": "Minh finds volunteer activities interesting because he can meet new people." },
+                { "question_id": "u3_e_ex1_q2", "label": "2", "prompt_text": "We / join / community activities / help / needy / last summer.", "correct_answer": "We joined community activities to help the needy last summer." },
+                { "question_id": "u3_e_ex1_q3", "label": "3", "prompt_text": "We / learn / teamwork skills / when / join / some / clean-up activity / last summer.", "correct_answer": "We learnt teamwork skills when we joined some clean-up activities last summer." },
+                { "question_id": "u3_e_ex1_q4", "label": "4", "prompt_text": "If you / love / nature / can / join / our Green Neighbourhood project.", "correct_answer": "If you love nature, you can join our Green Neighbourhood project." },
+                { "question_id": "u3_e_ex1_q5", "label": "5", "prompt_text": "I / join / recycling project / because / want / help / protect the environment.", "correct_answer": "I will join the recycling project because I want to help protect the environment." },
+                { "question_id": "u3_e_ex1_q6", "label": "6", "prompt_text": "You / need / patient and caring / when / take care / pets.", "correct_answer": "You need to be patient and caring when you take care of pets." }
+              ]
+            },
+            {
+              "exercise_id": "u3_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Rewrite the following sentences so that their meaning stays the same. Use the given words.",
+              "instruction_vi": "Viết lại các câu sau sao cho nghĩa không đổi, sử dụng từ trong ngoặc.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "u3_e_ex2_q1", "label": "1", "original_sentence": "My school may hold some volunteer activities. I am thinking about joining the animal care project.", "keyword": "IF", "starter": "I", "correct_answer": "I will join the animal care project if my school holds some volunteer activities." },
+                { "question_id": "u3_e_ex2_q2", "label": "2", "original_sentence": "Raising funds for poor children is one thing you may do.", "keyword": "MIGHT", "starter": "You", "correct_answer": "You might raise funds for poor children." },
+                { "question_id": "u3_e_ex2_q3", "label": "3", "original_sentence": "She doesn't join any volunteer activities. She says she is busy.", "keyword": "BECAUSE", "starter": "She", "correct_answer": "She doesn't join any volunteer activities because she is busy." },
+                { "question_id": "u3_e_ex2_q4", "label": "4", "original_sentence": "My parents often go to villages to do charity work. I go with them.", "keyword": "AND", "starter": "My parents", "correct_answer": "My parents often go to villages to do charity work, and I go with them." },
+                { "question_id": "u3_e_ex2_q5", "label": "5", "original_sentence": "There are more and more volunteer organisations in the country.", "keyword": "INCREASING", "starter": "The", "correct_answer": "The number of volunteer organisations in the country is increasing." }
+              ]
+            },
+            {
+              "exercise_id": "u3_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Write a letter to your friend to tell him or her about the volunteer activities you did last year and how you felt about them.",
+              "instruction_vi": "Viết một bức thư cho bạn kể về các hoạt động tình nguyện em đã làm năm ngoái và cảm nhận của em.",
+              "game_mechanic": "guided_writing",
+              "template_text": "Dear Tom,\nHow are you doing? Did you do anything interesting last summer? I joined a school club and did some volunteer activities. I ...\nWrite to me soon and tell me about your summer activities.\nBest,\nMai",
+              "sample_answer": "Dear Tom,\nHow are you doing? Did you do anything interesting last summer? I joined a school club and did some volunteer activities. I collected used books and clothes with my classmates, and we donated them to poor children in a mountainous village. We also planted trees in the school garden and cleaned up the streets in our neighbourhood. I felt very happy and proud because I could help people in need and make our community cleaner.\nWrite to me soon and tell me about your summer activities.\nBest,\nMai"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "test_yourself_01",
+      "unit_number": 0,
+      "unit_title": "TEST YOURSELF 1",
+      "pages": [24, 25, 26, 27],
+      "sections": [
+        {
+          "section_id": "TEST",
+          "section_title": "Comprehensive Test (Units 1 - 3)",
+          "exercises": [
+            {
+              "exercise_id": "ty1_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the word which has a different sound in the part underlined. (1.0 pt)",
+              "instruction_vi": "Tìm từ có phần gạch chân phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                { "question_id": "ty1_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "orph[a]nage" }, { "id": "B", "text": "p[a]tient" }, { "id": "C", "text": "[a]gree" }, { "id": "D", "text": "[a]bout" }], "correct_answer": "B", "explanation_vi": "'patient' phát âm là /eɪ/, các từ còn lại phát âm là /ə/." },
+                { "question_id": "ty1_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "v[er]b" }, { "id": "B", "text": "h[er]b" }, { "id": "C", "text": "nev[er]" }, { "id": "D", "text": "p[er]son" }], "correct_answer": "C", "explanation_vi": "'never' phát âm là /ə/, các từ còn lại phát âm là /ɜː/." },
+                { "question_id": "ty1_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "lea[f]" }, { "id": "B", "text": "[f]avourite" }, { "id": "C", "text": "[f]arm" }, { "id": "D", "text": "o[f]" }], "correct_answer": "D", "explanation_vi": "'of' phát âm là /v/, các từ còn lại phát âm là /f/." },
+                { "question_id": "ty1_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "decid[ed]" }, { "id": "B", "text": "work[ed]" }, { "id": "C", "text": "watch[ed]" }, { "id": "D", "text": "clapp[ed]" }], "correct_answer": "A", "explanation_vi": "'decided' phát âm là /ɪd/, các từ còn lại phát âm là /t/." },
+                { "question_id": "ty1_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "listen[ed]" }, { "id": "B", "text": "litter[ed]" }, { "id": "C", "text": "pick[ed]" }, { "id": "D", "text": "exchang[ed]" }], "correct_answer": "C", "explanation_vi": "'picked' phát âm là /t/, các từ còn lại phát âm là /d/." }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Fill in each blank with a suitable word. The first letter of the word has been provided. (1.0 pt)",
+              "instruction_vi": "Điền từ thích hợp vào chỗ trống với chữ cái đầu tiên đã cho sẵn.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "ty1_ex2_q1", "label": "1", "prompt_text": "When you go to the beach, bring some s___ because you may get s___.", "correct_answer": "suncream; sunburn" },
+                { "question_id": "ty1_ex2_q2", "label": "2", "prompt_text": "I don't know why I have chapped l___ and red s___.", "correct_answer": "lips; spots" },
+                { "question_id": "ty1_ex2_q3", "label": "3", "prompt_text": "My younger sister likes building d___, and my younger brother likes making m___.", "correct_answer": "dollhouses; models" },
+                { "question_id": "ty1_ex2_q4", "label": "4", "prompt_text": "My friends and I usually d___ books and t___ homeless children.", "correct_answer": "donate; teach / tutor" },
+                { "question_id": "ty1_ex2_q5", "label": "5", "prompt_text": "To make our school greener, we p___ trees and pick up l___ in the schoolyard.", "correct_answer": "plant; litter" }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Complete each sentence below by filling in each blank with the correct form of the word provided. (1.0 pt)",
+              "instruction_vi": "Điền dạng đúng của từ trong ngoặc vào chỗ trống.",
+              "game_mechanic": "word_formation",
+              "questions": [
+                { "question_id": "ty1_ex3_q1", "label": "1", "prompt_text": "My dad enjoys ___ stamps, and he has a big stamp collection. (COLLECT)", "base_word": "COLLECT", "correct_answer": "collecting" },
+                { "question_id": "ty1_ex3_q2", "label": "2", "prompt_text": "Having a pet helps children take on more ___. (RESPONSIBLE)", "base_word": "RESPONSIBLE", "correct_answer": "responsibility" },
+                { "question_id": "ty1_ex3_q3", "label": "3", "prompt_text": "___ vegetables are very good for your health. (COLOUR)", "base_word": "COLOUR", "correct_answer": "Coloured" },
+                { "question_id": "ty1_ex3_q4", "label": "4", "prompt_text": "Did you read books to the ___ in the nursing home last Sunday? (ELDER)", "base_word": "ELDER", "correct_answer": "elderly" },
+                { "question_id": "ty1_ex3_q5", "label": "5", "prompt_text": "At this school fair, you can exchange ___ paper for notebooks. (USE)", "base_word": "USE", "correct_answer": "used" }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Choose the best answer A, B, C, or D. (1.0 pt)",
+              "instruction_vi": "Chọn đáp án đúng nhất A, B, C hoặc D.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "ty1_ex4_q1", "label": "1", "prompt_text": "Mi ___ playing computer games because it's not good for her eyes.", "options": [{ "id": "A", "text": "likes" }, { "id": "B", "text": "loves" }, { "id": "C", "text": "hates" }, { "id": "D", "text": "enjoys" }], "correct_answer": "C" },
+                { "question_id": "ty1_ex4_q2", "label": "2", "prompt_text": "- ___ you have breakfast every morning?\n- Yes, I do, but my sister ___.", "options": [{ "id": "A", "text": "Are; isn't" }, { "id": "B", "text": "Do; don't" }, { "id": "C", "text": "Are; does" }, { "id": "D", "text": "Do; doesn't" }], "correct_answer": "D" },
+                { "question_id": "ty1_ex4_q3", "label": "3", "prompt_text": "She ___ tired, so she ___ to the nursing home last week.", "options": [{ "id": "A", "text": "is; doesn't go" }, { "id": "B", "text": "was; didn't go" }, { "id": "C", "text": "is; didn't go" }, { "id": "D", "text": "was; didn't went" }], "correct_answer": "B" },
+                { "question_id": "ty1_ex4_q4", "label": "4", "prompt_text": "- What ___ your mother ___ to keep fit?\n- She ___ jogging.", "options": [{ "id": "A", "text": "do; do; goes" }, { "id": "B", "text": "do; does; go" }, { "id": "C", "text": "does; do; goes" }, { "id": "D", "text": "does; does; goes" }], "correct_answer": "C" },
+                { "question_id": "ty1_ex4_q5", "label": "5", "prompt_text": "- ___ you ___ the football match yesterday?\n- Yes, I ___.", "options": [{ "id": "A", "text": "Did; enjoy; did" }, { "id": "B", "text": "Did; enjoyed; did" }, { "id": "C", "text": "Do; enjoy; do" }, { "id": "D", "text": "Do; enjoyed; do" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Fill in each blank with the correct form of the verb in brackets. (2.0 pts)",
+              "instruction_vi": "Chia dạng đúng của động từ trong ngoặc.",
+              "game_mechanic": "verb_conjugation",
+              "questions": [
+                { "question_id": "ty1_ex5_q1", "label": "1", "prompt_text": "- ___ your brother (love) ___ making models?\n- No, he (not do) ___.", "correct_answer": "Does ... love; doesn't" },
+                { "question_id": "ty1_ex5_q2", "label": "2", "prompt_text": "The moon (move) ___ around its axis in 24 hours, but it (revolve) ___ around the earth in one year.", "correct_answer": "moves; revolves" },
+                { "question_id": "ty1_ex5_q3", "label": "3", "prompt_text": "I (get up) ___ at 7 a.m. every Sunday because my drawing lesson (start) ___ at 8 a.m.", "correct_answer": "get up; starts" },
+                { "question_id": "ty1_ex5_q4", "label": "4", "prompt_text": "- What ___ you (do) ___ last weekend?\n- I (go) ___ to the SOS Children's Village to tutor the children there.", "correct_answer": "did ... do; went" },
+                { "question_id": "ty1_ex5_q5", "label": "5", "prompt_text": "Yesterday we (listen) ___ to an interesting lecture about coloured vegetables in our cooking class, and then we (make) ___ a salad.", "correct_answer": "listened; made" }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Fill in each blank in the following email with a suitable word. (1.0 pt)",
+              "instruction_vi": "Điền một từ thích hợp vào mỗi chỗ trống trong bức thư điện tử sau.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Dear Anna,\nThanks for your email. Now I'll tell you about my favourite (1) ___. I have some hobbies, but my favourite is making greeting cards. I (2) ___ this hobby two years ago. Now I can make different kinds of cards (3) ___ my family, teachers, and friends. It's an easy hobby. I just need some coloured paper, coloured pencils, and some glue. Making cards (4) ___ me more patient and creative. I enjoy it so much.\nI'm sending you a card next week (5) ___ your birthday. I hope you'll like it.\nLove,\nMi",
+              "questions": [
+                { "question_id": "ty1_ex6_q1", "blank_number": 1, "correct_answer": "hobby" },
+                { "question_id": "ty1_ex6_q2", "blank_number": 2, "correct_answer": "started" },
+                { "question_id": "ty1_ex6_q3", "blank_number": 3, "correct_answer": "for" },
+                { "question_id": "ty1_ex6_q4", "blank_number": 4, "correct_answer": "makes" },
+                { "question_id": "ty1_ex6_q5", "blank_number": 5, "correct_answer": "on" }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Read the text and tick (✓) the appropriate boxes. (1.0 pt)",
+              "instruction_vi": "Đọc thông báo tuyển tình nguyện viên và đánh dấu (✓) vào dự án tương ứng (GC project hoặc NH project).",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "STUDENT VOLUNTEERS NEEDED!\nWe are looking for some student volunteers for our school projects.\n1. Helping the elderly at the Good Care Nursing Home (GC project)\nEvery Saturday morning, we go to the Good Care Nursing Home in our neighbourhood. Here are the things we do:\n- read books to the elderly\n- talk with the elderly\n- water flowers and vegetables in the garden\n2. Helping children at the New Hope Centre (NH project)\nEvery Sunday morning, we help the children at the New Hope Centre. Volunteers can:\n- tutor small children in maths, literature, or English\n- organise games for them\n- plant vegetables in the garden",
+              "questions": [
+                { "question_id": "ty1_ex7_q1", "label": "1", "prompt_text": "do activities on Sunday mornings", "options": ["GC project", "NH project"], "correct_answer": "NH project" },
+                { "question_id": "ty1_ex7_q2", "label": "2", "prompt_text": "water flowers", "options": ["GC project", "NH project"], "correct_answer": "GC project" },
+                { "question_id": "ty1_ex7_q3", "label": "3", "prompt_text": "read books", "options": ["GC project", "NH project"], "correct_answer": "GC project" },
+                { "question_id": "ty1_ex7_q4", "label": "4", "prompt_text": "help with school subjects", "options": ["GC project", "NH project"], "correct_answer": "NH project" },
+                { "question_id": "ty1_ex7_q5", "label": "5", "prompt_text": "talk with people", "options": ["GC project", "NH project"], "correct_answer": "GC project" }
+              ]
+            },
+            {
+              "exercise_id": "ty1_ex8",
+              "exercise_number": 8,
+              "instruction_en": "Write full sentences using the suggested words and phrases. You can add some words or make changes to the given words and phrases. (2.0 pts)",
+              "instruction_vi": "Viết câu hoàn chỉnh từ các từ/cụm từ gợi ý.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "ty1_ex8_q1", "label": "1", "prompt_text": "Here / be / some / tips / help / you / keep fit.", "correct_answer": "Here are some tips to help you keep fit." },
+                { "question_id": "ty1_ex8_q2", "label": "2", "prompt_text": "Exercise / daily / at least / an hour.", "correct_answer": "Exercise daily for at least an hour." },
+                { "question_id": "ty1_ex8_q3", "label": "3", "prompt_text": "You / can / ride / bike / run / or / go / swim.", "correct_answer": "You can ride a bike, run, or go swimming." },
+                { "question_id": "ty1_ex8_q4", "label": "4", "prompt_text": "Eat / right / foods / drink / enough / water.", "correct_answer": "Eat the right foods and drink enough water." },
+                { "question_id": "ty1_ex8_q5", "label": "5", "prompt_text": "You / should / eat / colour / vegetables / and / lean meat.", "correct_answer": "You should eat coloured vegetables and lean meat." },
+                { "question_id": "ty1_ex8_q6", "label": "6", "prompt_text": "Avoid / eat / much / fast food / and / sugar.", "correct_answer": "Avoid eating too much fast food and sugar." },
+                { "question_id": "ty1_ex8_q7", "label": "7", "prompt_text": "Get / enough / sleep / night / be / good / for / you.", "correct_answer": "Getting enough sleep at night is good for you." },
+                { "question_id": "ty1_ex8_q8", "label": "8", "prompt_text": "Six / to / eight / hour / of sleep / can / help / body / recharge.", "correct_answer": "Six to eight hours of sleep can help your body recharge." },
+                { "question_id": "ty1_ex8_q9", "label": "9", "prompt_text": "Stay / motivated / be / good / you / as well.", "correct_answer": "Staying motivated is good for you as well." },
+                { "question_id": "ty1_ex8_q10", "label": "10", "prompt_text": "This / help / you / be / happy / positive.", "correct_answer": "This helps you be happy and positive." }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

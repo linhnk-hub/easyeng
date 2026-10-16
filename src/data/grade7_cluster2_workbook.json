@@ -1,0 +1,1132 @@
+{
+  "book_title": "Tiếng Anh 7 - Sách bài tập (Global Success)",
+  "module_id": "hoc_phan_2",
+  "module_name": "Học phần 2: Units 4 - 6 & Test Yourself 2",
+  "units": [
+    {
+      "unit_id": "unit_04",
+      "unit_number": 4,
+      "unit_title": "MUSIC AND ARTS",
+      "pages": [28, 29, 30, 31, 32, 33, 34],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u4_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the word which is pronounced differently in the part underlined.",
+              "instruction_vi": "Tìm từ có phần gạch chân được phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                {
+                  "question_id": "u4_a_ex1_q1",
+                  "label": "1",
+                  "options": [
+                    { "id": "A", "text": "[s]unburnt" },
+                    { "id": "B", "text": "[s]culpture" },
+                    { "id": "C", "text": "[s]ervice" },
+                    { "id": "D", "text": "[s]ugar" }
+                  ],
+                  "correct_answer": "D",
+                  "explanation_vi": "'sugar' có chữ 's' phát âm là /ʃ/, các từ còn lại phát âm là /s/."
+                },
+                {
+                  "question_id": "u4_a_ex1_q2",
+                  "label": "2",
+                  "options": [
+                    { "id": "A", "text": "mea[s]ure" },
+                    { "id": "B", "text": "plea[s]ure" },
+                    { "id": "C", "text": "conclu[s]ion" },
+                    { "id": "D", "text": "pen[s]ion" }
+                  ],
+                  "correct_answer": "D",
+                  "explanation_vi": "'pension' phát âm là /ʃ/, các từ còn lại phát âm là /ʒ/."
+                },
+                {
+                  "question_id": "u4_a_ex1_q3",
+                  "label": "3",
+                  "options": [
+                    { "id": "A", "text": "deli[c]ious" },
+                    { "id": "B", "text": "spe[c]ial" },
+                    { "id": "C", "text": "con[c]entrate" },
+                    { "id": "D", "text": "musi[c]ian" }
+                  ],
+                  "correct_answer": "C",
+                  "explanation_vi": "'concentrate' phát âm là /s/, các từ còn lại phát âm là /ʃ/."
+                },
+                {
+                  "question_id": "u4_a_ex1_q4",
+                  "label": "4",
+                  "options": [
+                    { "id": "A", "text": "u[s]ually" },
+                    { "id": "B", "text": "compo[s]er" },
+                    { "id": "C", "text": "lei[s]ure" },
+                    { "id": "D", "text": "ver[s]ion" }
+                  ],
+                  "correct_answer": "B",
+                  "explanation_vi": "'composer' phát âm là /z/, các từ còn lại phát âm là /ʒ/."
+                },
+                {
+                  "question_id": "u4_a_ex1_q5",
+                  "label": "5",
+                  "options": [
+                    { "id": "A", "text": "pre[f]er" },
+                    { "id": "B", "text": "per[f]orm" },
+                    { "id": "C", "text": "pain[t]er" },
+                    { "id": "D", "text": "con[c]ert" }
+                  ],
+                  "correct_answer": "A",
+                  "explanation_vi": "Theo đáp án chuẩn (Keys): A (prefer có âm /ɜː/ ở âm tiết nhận trọng âm, trong khi perform, painter, concert chứa âm /ə/)."
+                }
+              ]
+            },
+            {
+              "exercise_id": "u4_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Single-underline the words having the sound /ʃ/ and double-underline the words having the sound /ʒ/ in the following sentences. Then read them aloud.",
+              "instruction_vi": "Phân loại các từ chứa âm /ʃ/ (gạch chân 1 nét) và âm /ʒ/ (gạch chân 2 nét) trong 5 câu sau.",
+              "game_mechanic": "category_sorting",
+              "sentences": [
+                "1. She likes to listen to country music in her leisure time.",
+                "2. There is a live show of rock on television now.",
+                "3. The children are watching Treasure Island in their room.",
+                "4. The new washing machine looks unusual.",
+                "5. It is a pleasure to go fishing at the weekend."
+              ],
+              "categories": [
+                { "sound": "/ʃ/ (Single-underline)", "words": ["She", "show", "washing", "machine", "fishing"] },
+                { "sound": "/ʒ/ (Double-underline)", "words": ["leisure", "television", "Treasure", "unusual", "pleasure"] }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u4_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the following words in the puzzle.",
+              "instruction_vi": "Tìm 10 từ vựng chủ đề Âm nhạc & Nghệ thuật trong bảng chữ cái.",
+              "game_mechanic": "word_search_puzzle",
+              "grid": [
+                "WAGALLERYB",
+                "MDRFPUPPET",
+                "UCCTRPIANO",
+                "SAOGIHELPR",
+                "IMNAQSTZEW",
+                "CECCBCTGFG",
+                "IRETHJNKLN",
+                "AAROTIOYQX",
+                "NSTRSMNVTZ",
+                "INSTRUMENT"
+              ],
+              "target_words": ["singer", "camera", "piano", "actor", "gallery", "puppet", "instrument", "artist", "musician", "concert"]
+            },
+            {
+              "exercise_id": "u4_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Fill in each gap with a word or a phrase from the box.",
+              "instruction_vi": "Điền vào mỗi chỗ trống một từ hoặc cụm từ trong khung.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["musical instruments", "prefer", "artistic", "art museum", "folk music", "rock music"],
+              "questions": [
+                { "question_id": "u4_b_ex2_q1", "label": "1", "prompt_text": "I've heard that the ___ in Pho Duc Chinh Street, Ho Chi Minh City is a very interesting one.", "correct_answer": "art museum" },
+                { "question_id": "u4_b_ex2_q2", "label": "2", "prompt_text": "Many teenagers prefer ___ because it is lively and exciting.", "correct_answer": "rock music" },
+                { "question_id": "u4_b_ex2_q3", "label": "3", "prompt_text": "- Do you like ___?\n- Yes. It's traditional and emotional.", "correct_answer": "folk music" },
+                { "question_id": "u4_b_ex2_q4", "label": "4", "prompt_text": "Which do you ___: watching pop music in person or live on TV?", "correct_answer": "prefer" },
+                { "question_id": "u4_b_ex2_q5", "label": "5", "prompt_text": "Traditional ___ of Viet Nam include the flute, the monochord (Dan Bau), the T'rung, drums, and others.", "correct_answer": "musical instruments" },
+                { "question_id": "u4_b_ex2_q6", "label": "6", "prompt_text": "I'm not as ___ as my brother. He plays the guitar very well.", "correct_answer": "artistic" }
+              ]
+            },
+            {
+              "exercise_id": "u4_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Match the famous people in A with their occupations in B.",
+              "instruction_vi": "Nối tên những người nổi tiếng ở cột A với nghề nghiệp của họ ở cột B.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "Nguyen Du", "right_id": "d", "right_text": "poet" },
+                { "left_id": "2", "left_text": "Bui Xuan Phai", "right_id": "a", "right_text": "painter" },
+                { "left_id": "3", "left_text": "Thanh Hoa", "right_id": "b", "right_text": "singer" },
+                { "left_id": "4", "left_text": "Pham Tuyen", "right_id": "e", "right_text": "composer" },
+                { "left_id": "5", "left_text": "Tom Cruise", "right_id": "c", "right_text": "actor" }
+              ]
+            },
+            {
+              "exercise_id": "u4_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Choose the correct answer A, B, C, or D to complete each of the sentences.",
+              "instruction_vi": "Chọn đáp án đúng A, B, C hoặc D để hoàn thành câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u4_b_ex4_q1", "label": "1", "prompt_text": "My uncle's house is full of interesting pieces of art. It's ___ a museum.", "options": [{ "id": "A", "text": "similar" }, { "id": "B", "text": "like" }, { "id": "C", "text": "as" }, { "id": "D", "text": "than" }], "correct_answer": "B" },
+                { "question_id": "u4_b_ex4_q2", "label": "2", "prompt_text": "This film is not ___ the original story.", "options": [{ "id": "A", "text": "as interesting as" }, { "id": "B", "text": "as interesting than" }, { "id": "C", "text": "more interesting like" }, { "id": "D", "text": "as interesting like" }], "correct_answer": "A" },
+                { "question_id": "u4_b_ex4_q3", "label": "3", "prompt_text": "The audience ___ wildly when the band appeared on stage.", "options": [{ "id": "A", "text": "smiled" }, { "id": "B", "text": "sounded" }, { "id": "C", "text": "applauded" }, { "id": "D", "text": "cried" }], "correct_answer": "C" },
+                { "question_id": "u4_b_ex4_q4", "label": "4", "prompt_text": "To ___ successfully, they have to practise the play many times.", "options": [{ "id": "A", "text": "perform" }, { "id": "B", "text": "play" }, { "id": "C", "text": "sing" }, { "id": "D", "text": "dance" }], "correct_answer": "A" },
+                { "question_id": "u4_b_ex4_q5", "label": "5", "prompt_text": "Turn the TV off. The show is ___.", "options": [{ "id": "A", "text": "exciting" }, { "id": "B", "text": "peaceful" }, { "id": "C", "text": "tiring" }, { "id": "D", "text": "boring" }], "correct_answer": "D" },
+                { "question_id": "u4_b_ex4_q6", "label": "6", "prompt_text": "Mozart was one of the most famous ___ of classical music.", "options": [{ "id": "A", "text": "actors" }, { "id": "B", "text": "composers" }, { "id": "C", "text": "artists" }, { "id": "D", "text": "makers" }], "correct_answer": "B" },
+                { "question_id": "u4_b_ex4_q7", "label": "7", "prompt_text": "- Did you enjoy the play?\n- Yes. It was ___ from the previous version.", "options": [{ "id": "A", "text": "like" }, { "id": "B", "text": "similar" }, { "id": "C", "text": "different" }, { "id": "D", "text": "same" }], "correct_answer": "C" },
+                { "question_id": "u4_b_ex4_q8", "label": "8", "prompt_text": "Because I was sitting in the back row of the theatre, I couldn't see the ___.", "options": [{ "id": "A", "text": "painters" }, { "id": "B", "text": "musicians" }, { "id": "C", "text": "composers" }, { "id": "D", "text": "writers" }], "correct_answer": "B" }
+              ]
+            },
+            {
+              "exercise_id": "u4_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Complete the following sentences by filling in each gap with a word.",
+              "instruction_vi": "Hoàn thành các câu sau bằng cách điền một từ thích hợp vào chỗ trống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u4_b_ex5_q1", "label": "1", "prompt_text": "The leading ___ had to change her costume more than 10 times during the play.", "correct_answer": ["actress", "performer"] },
+                { "question_id": "u4_b_ex5_q2", "label": "2", "prompt_text": "My sister's personality is very different ___ mine.", "correct_answer": "from" },
+                { "question_id": "u4_b_ex5_q3", "label": "3", "prompt_text": "- Do you know who ___ The Last Supper?\n- Yes. It's Leonardo da Vinci.", "correct_answer": "painted" },
+                { "question_id": "u4_b_ex5_q4", "label": "4", "prompt_text": "Her ___ talent showed itself at an early age in her drawings of animals, which were wonderful for a child of 6.", "correct_answer": "artistic" },
+                { "question_id": "u4_b_ex5_q5", "label": "5", "prompt_text": "The children assembled on stage to ___ the national anthem.", "correct_answer": "sing" },
+                { "question_id": "u4_b_ex5_q6", "label": "6", "prompt_text": "- What musical ___ do you like best?\n- The Beatles.", "correct_answer": "band" },
+                { "question_id": "u4_b_ex5_q7", "label": "7", "prompt_text": "Paintings and drawings are not the same thing. They are quite ___.", "correct_answer": "different" },
+                { "question_id": "u4_b_ex5_q8", "label": "8", "prompt_text": "A ___ is a room or building which is used for showing works of art.", "correct_answer": "gallery" }
+              ]
+            },
+            {
+              "exercise_id": "u4_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Fill in each of the blanks with one suitable word.",
+              "instruction_vi": "Điền vào mỗi chỗ trống một danh từ chỉ nhóm phù hợp.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u4_b_ex6_q1", "label": "1", "prompt_text": "My sister likes to watch Mickey Mouse, Donald Duck, and other ___.", "correct_answer": "cartoons" },
+                { "question_id": "u4_b_ex6_q2", "label": "2", "prompt_text": "I like science fiction, but I never watch thriller or horror ___.", "correct_answer": "films" },
+                { "question_id": "u4_b_ex6_q3", "label": "3", "prompt_text": "Michael Jackson, Bob Dylan, and Britney Spears are among the ___ I like best.", "correct_answer": ["musicians", "singers", "stars"] },
+                { "question_id": "u4_b_ex6_q4", "label": "4", "prompt_text": "Old people generally enjoy traditional, classical, or country ___.", "correct_answer": "music" },
+                { "question_id": "u4_b_ex6_q5", "label": "5", "prompt_text": "Chris is a very good pianist and can also play a number of other musical ___.", "correct_answer": "instruments" }
+              ]
+            },
+            {
+              "exercise_id": "u4_b_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Use the cues given to write complete sentences.",
+              "instruction_vi": "Sử dụng các từ gợi ý để viết câu hoàn chỉnh.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u4_b_ex7_q1", "label": "1", "prompt_text": "painting / he / recently / painted / very much / like / old one.", "correct_answer": "The painting he recently painted is very much like the old one." },
+                { "question_id": "u4_b_ex7_q2", "label": "2", "prompt_text": "performance / she / give / last night / not like / other / performances.", "correct_answer": "The performance she gave last night was not like the other performances." },
+                { "question_id": "u4_b_ex7_q3", "label": "3", "prompt_text": "Each / my three sisters / be / very different / the others.", "correct_answer": "Each of my three sisters is very different from the others." },
+                { "question_id": "u4_b_ex7_q4", "label": "4", "prompt_text": "Music / arts / my / favourite subjects / school.", "correct_answer": "Music and arts are my favourite subjects at school." },
+                { "question_id": "u4_b_ex7_q5", "label": "5", "prompt_text": "The actress / spend / whole week / try / remember / her lines / the play.", "correct_answer": "The actress spent the whole week trying to remember her lines for the play." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u4_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Work in pairs. Talk about your preferences for different forms of arts.",
+              "instruction_vi": "Nói về sở thích của em đối với các loại hình nghệ thuật khác nhau.",
+              "game_mechanic": "guided_speaking",
+              "cues": ["Music", "Painting", "Photography", "Dancing", "Film making", "Singing"],
+              "sample_answer": "A: Which do you prefer, photography or singing?\nB: I prefer photography because I love taking photos of nature."
+            },
+            {
+              "exercise_id": "u4_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "What did these famous people do? Use the words and phrases in these lists to talk about them.",
+              "instruction_vi": "Ghép tên các nhân vật nổi tiếng với động từ (List 1) và tác phẩm (List 2) để tạo câu đúng.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u4_c_ex2_q1", "person": "Trinh Cong Son", "correct_answer": "Trinh Cong Son composed the song Noi vong tay lon." },
+                { "question_id": "u4_c_ex2_q2", "person": "Leonardo da Vinci", "correct_answer": "Leonardo da Vinci painted the Mona Lisa." },
+                { "question_id": "u4_c_ex2_q3", "person": "Ludwig van Beethoven", "correct_answer": "Ludwig van Beethoven composed the Moonlight Sonata." },
+                { "question_id": "u4_c_ex2_q4", "person": "William Shakespeare", "correct_answer": "William Shakespeare wrote A Midsummer Night's Dream." },
+                { "question_id": "u4_c_ex2_q5", "person": "BTS", "correct_answer": "BTS made the album Map of the Soul." },
+                { "question_id": "u4_c_ex2_q6", "person": "Alexandre Gustav Eiffel", "correct_answer": "Alexandre Gustav Eiffel designed the Truong Tien Bridge (Hue - Viet Nam)." }
+              ]
+            },
+            {
+              "exercise_id": "u4_c_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read the following opinions about music and arts. Work with a partner. Give your opinion on the idea(s) that you agree with.",
+              "instruction_vi": "Đọc các ý kiến về âm nhạc và nghệ thuật và nêu quan điểm đồng tình của em.",
+              "game_mechanic": "guided_speaking",
+              "cues": [
+                "1. Art education improves students' development of life skills.",
+                "2. Students who study art are more attentive at school than those who do not.",
+                "3. Students who study art do better in maths and science.",
+                "4. Learning music helps students achieve higher results in maths and reading.",
+                "5. Music also promotes creativity, social development, and personality."
+              ],
+              "sample_answer": "A: I quite agree with number five. Music really promotes our creativity and helps us connect with friends.\nB: You're right. I think so too."
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u4_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Fill in each blank in the passage with a word from the box.",
+              "instruction_vi": "Điền vào mỗi chỗ trống trong đoạn văn một từ trong khung.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["songs", "write", "languages", "musicians", "popular", "compose"],
+              "reading_passage": "I'm sure that you have heard the name Trinh Cong Son many times. He was one of the most famous (1) ___ and songwriters of Viet Nam in the 20th century. He was born in 1939 in Dak Lak Province. As a child he grew up in Hue. Later he went to Sai Gon to study. He began to (2) ___ songs and became well-known in 1958. He continued to (3) ___ music all his life. He wrote about 600 songs in all. Among his best songs are Noi vong tay lon (Circle of Unity), Ha trang (White Summer) and Cat bui (Dust). His (4) ___ are mostly about love, human condition, and nature. He died in Ho Chi Minh City in 2001. His songs remain (5) ___ among the Vietnamese all over the world today. Many have been translated into English, French, Japanese, and other (6) ___.",
+              "questions": [
+                { "question_id": "u4_d_ex1_q1", "blank_number": 1, "correct_answer": "musicians" },
+                { "question_id": "u4_d_ex1_q2", "blank_number": 2, "correct_answer": "write" },
+                { "question_id": "u4_d_ex1_q3", "blank_number": 3, "correct_answer": "compose" },
+                { "question_id": "u4_d_ex1_q4", "blank_number": 4, "correct_answer": "songs" },
+                { "question_id": "u4_d_ex1_q5", "blank_number": 5, "correct_answer": "popular" },
+                { "question_id": "u4_d_ex1_q6", "blank_number": 6, "correct_answer": "languages" }
+              ]
+            },
+            {
+              "exercise_id": "u4_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Choose the correct answer for each gap in the following passage.",
+              "instruction_vi": "Chọn đáp án đúng A, B, C hoặc D cho mỗi chỗ trống.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Do you know that artists can turn a pavement into a masterpiece? This is why people love this kind of (1) ___. Appearing each February with the support of (2) ___ and volunteers, the Lake Worth Street Painting Festival is probably the largest free festival of its kind in the world. Now in its third decade, the festival attracts 100,000 (3) ___ each year. Artists come together, using chalk as their (4) ___. They turn the streets of Lake Worth into a huge (5) ___ with large-scale traditional and contemporary art.",
+              "questions": [
+                { "question_id": "u4_d_ex2_q1", "label": "1", "options": [{ "id": "A", "text": "art" }, { "id": "B", "text": "event" }, { "id": "C", "text": "street" }, { "id": "D", "text": "painting" }], "correct_answer": "A" },
+                { "question_id": "u4_d_ex2_q2", "label": "2", "options": [{ "id": "A", "text": "singers" }, { "id": "B", "text": "actors" }, { "id": "C", "text": "composers" }, { "id": "D", "text": "artists" }], "correct_answer": "D" },
+                { "question_id": "u4_d_ex2_q3", "label": "3", "options": [{ "id": "A", "text": "tourists" }, { "id": "B", "text": "goers" }, { "id": "C", "text": "visitors" }, { "id": "D", "text": "guests" }], "correct_answer": "C" },
+                { "question_id": "u4_d_ex2_q4", "label": "4", "options": [{ "id": "A", "text": "paintbrushes" }, { "id": "B", "text": "instruments" }, { "id": "C", "text": "pictures" }, { "id": "D", "text": "crayons" }], "correct_answer": "B" },
+                { "question_id": "u4_d_ex2_q5", "label": "5", "options": [{ "id": "A", "text": "gallery" }, { "id": "B", "text": "museum" }, { "id": "C", "text": "theatre" }, { "id": "D", "text": "stadium" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "u4_d_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read the passage and choose the correct answer to each question below.",
+              "instruction_vi": "Đọc đoạn văn về Charlie Chaplin và chọn câu trả lời đúng.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Charlie Chaplin was an English actor, director, producer, and composer. He is known as the greatest comic artist of the screen and one of the most important figures in motion-picture history.\nChaplin was born in London in 1889. He learned to perform onstage and became a professional entertainer at eight as a clog dancer. In 1908 he joined the Fred Karno Pantomime Troupe and quickly became well-known. In 1910 he began to perform pantomime in the United States. He first appeared on screen in 1914. He created his world-famous character, the Tramp, and he played this classic role in more than 70 films during his career. He also composed background music for most of his films.\nIn 1972 Chaplin received an Honorary Academy Award for \"making motion pictures the art form of this century\". Chaplin died in 1977 at his home in Switzerland.",
+              "questions": [
+                { "question_id": "u4_d_ex3_q1", "label": "1", "prompt_text": "At eight, Chaplin became a professional entertainer as a ___.", "options": [{ "id": "A", "text": "dancer" }, { "id": "B", "text": "actor" }, { "id": "C", "text": "composer" }], "correct_answer": "A" },
+                { "question_id": "u4_d_ex3_q2", "label": "2", "prompt_text": "When did he start appearing in films?", "options": [{ "id": "A", "text": "In 1910" }, { "id": "B", "text": "In 1914" }, { "id": "C", "text": "In 1972" }], "correct_answer": "B" },
+                { "question_id": "u4_d_ex3_q3", "label": "3", "prompt_text": "In about how many films did he play the Tramp?", "options": [{ "id": "A", "text": "Seventy" }, { "id": "B", "text": "Seventeen" }, { "id": "C", "text": "Twenty-five" }], "correct_answer": "A" },
+                { "question_id": "u4_d_ex3_q4", "label": "4", "prompt_text": "Charlie Chaplin is very famous for ___.", "options": [{ "id": "A", "text": "his short plays" }, { "id": "B", "text": "his background music" }, { "id": "C", "text": "his character the Tramp" }], "correct_answer": "C" },
+                { "question_id": "u4_d_ex3_q5", "label": "5", "prompt_text": "Which of the following is NOT true?", "options": [{ "id": "A", "text": "Charlie Chaplin was an English artist." }, { "id": "B", "text": "He played classical music." }, { "id": "C", "text": "He received an award in 1972." }], "correct_answer": "B" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u4_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Rewrite the sentences so that their meaning stays the same. The beginning of each sentence is given.",
+              "instruction_vi": "Viết lại các câu sau sao cho nghĩa không đổi.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "u4_e_ex1_q1", "label": "1", "original_sentence": "Her picture is not like mine.", "starter": "Her picture is", "correct_answer": ["Her picture is different from mine.", "Her picture is not the same as mine."] },
+                { "question_id": "u4_e_ex1_q2", "label": "2", "original_sentence": "Khanh is a better painter than Giang.", "starter": "Giang can't", "correct_answer": "Giang can't paint as well as Khanh." },
+                { "question_id": "u4_e_ex1_q3", "label": "3", "original_sentence": "I much prefer country life to city life.", "starter": "I think living in the country is", "correct_answer": "I think living in the country is better than living in the city." },
+                { "question_id": "u4_e_ex1_q4", "label": "4", "original_sentence": "Her picture is not the same as her brother's.", "starter": "Her picture is", "correct_answer": ["Her picture is different from her brother's.", "Her picture is not like her brother's."] },
+                { "question_id": "u4_e_ex1_q5", "label": "5", "original_sentence": "This year's performance is not very good. Last year's was better.", "starter": "This year's performance is not", "correct_answer": "This year's performance is not as good as last year's." }
+              ]
+            },
+            {
+              "exercise_id": "u4_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Write an invitation letter to one of your friends or relatives, using the following cues.",
+              "instruction_vi": "Viết thư mời bạn hoặc người thân đi xem biểu diễn âm nhạc theo gợi ý.",
+              "game_mechanic": "guided_writing",
+              "cues": [
+                "Event: A Live show of BTS",
+                "Start time: 8 o'clock, Saturday night",
+                "Place: The Opera House",
+                "Time to meet: 7:45"
+              ],
+              "sample_answer": "Dear Lan,\nHow are things? This Saturday night, there is a live show of BTS at the Opera House. I have two tickets, and I'd love it if you could go with me. The show starts at 8 o'clock, so let's meet outside the Opera House at 7:45 p.m.\nLet me know if you can make it!\nWarm regards,\nMai"
+            },
+            {
+              "exercise_id": "u4_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Write a paragraph (60 - 80 words) about Michael Jackson, using the following prompts.",
+              "instruction_vi": "Viết đoạn văn (60 - 80 từ) về Michael Jackson dựa trên các gợi ý.",
+              "game_mechanic": "guided_writing",
+              "cues": [
+                "born: August 29, 1958, Gary, Indiana, the US",
+                "1964: joined the band The Jackson Brothers",
+                "1971: began his solo career",
+                "called \"the King of Pop\", received a lot of awards, including 13 Grammy Awards and 26 American Music Awards",
+                "Earth Song - one of his most successful songs",
+                "died: June 25, 2009, Los Angeles, California, the US"
+              ],
+              "sample_answer": "Michael Jackson was born on August 29, 1958, in Gary, Indiana, the US. In 1964, Michael joined the band The Jackson Brothers. He began his solo career in 1971. He was called \"the King of Pop\", and during his career, he received a lot of awards, including 13 Grammy Awards and 26 American Music Awards. Earth Song is one of his most successful songs. He died on June 25, 2009 in Los Angeles, California, the US."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_05",
+      "unit_number": 5,
+      "unit_title": "FOOD AND DRINK",
+      "pages": [35, 36, 37, 38, 39, 40, 41],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u5_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the word whose underlined part has a different sound. Say the words aloud.",
+              "instruction_vi": "Tìm từ có phần gạch chân phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                { "question_id": "u5_a_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "p[a]n" }, { "id": "B", "text": "h[a]m" }, { "id": "C", "text": "l[a]mb" }, { "id": "D", "text": "pl[a]te" }], "correct_answer": "D", "explanation_vi": "'plate' phát âm là /eɪ/, các từ còn lại phát âm là /æ/." },
+                { "question_id": "u5_a_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "p[o]t" }, { "id": "B", "text": "b[o]ttle" }, { "id": "C", "text": "r[o]ll" }, { "id": "D", "text": "h[o]t" }], "correct_answer": "C", "explanation_vi": "'roll' phát âm là /əʊ/, các từ còn lại phát âm là /ɒ/." },
+                { "question_id": "u5_a_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "d[au]ghter" }, { "id": "B", "text": "s[au]ce" }, { "id": "C", "text": "f[au]lt" }, { "id": "D", "text": "l[au]gh" }], "correct_answer": "D", "explanation_vi": "'laugh' phát âm là /ɑː/, các từ còn lại phát âm là /ɔː/." },
+                { "question_id": "u5_a_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "w[a]s" }, { "id": "B", "text": "w[a]lk" }, { "id": "C", "text": "w[a]ter" }, { "id": "D", "text": "w[a]ll" }], "correct_answer": "A", "explanation_vi": "'was' phát âm là /ɒ/ (hoặc /ə/), các từ còn lại phát âm là /ɔː/." },
+                { "question_id": "u5_a_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "m[or]ning" }, { "id": "B", "text": "f[or]get" }, { "id": "C", "text": "p[or]k" }, { "id": "D", "text": "f[or]k" }], "correct_answer": "B", "explanation_vi": "'forget' phát âm là /ə/, các từ còn lại phát âm là /ɔː/." }
+              ]
+            },
+            {
+              "exercise_id": "u5_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Give the names of the following pictures. Then put the words in the correct columns (/ɒ/ or /ɔː/).",
+              "instruction_vi": "Viết tên các bức tranh với chữ cái đầu cho sẵn, sau đó xếp vào cột âm /ɒ/ hoặc /ɔː/.",
+              "game_mechanic": "fill_and_sort_phonetics",
+              "columns": ["/ɒ/", "/ɔː/"],
+              "questions": [
+                { "question_id": "u5_a_ex2_q1", "label": "1", "prompt_text": "o___", "image_description": "Đĩa trứng tráng (omelette).", "correct_word": "omelette", "correct_column": "/ɒ/" },
+                { "question_id": "u5_a_ex2_q2", "label": "2", "prompt_text": "p___", "image_description": "Miếng thịt lợn quay (pork).", "correct_word": "pork", "correct_column": "/ɔː/" },
+                { "question_id": "u5_a_ex2_q3", "label": "3", "prompt_text": "p___", "image_description": "Ấm / nồi sứ (pot).", "correct_word": "pot", "correct_column": "/ɒ/" },
+                { "question_id": "u5_a_ex2_q4", "label": "4", "prompt_text": "f___", "image_description": "Chiếc nĩa (fork).", "correct_word": "fork", "correct_column": "/ɔː/" },
+                { "question_id": "u5_a_ex2_q5", "label": "5", "prompt_text": "f___", "image_description": "Con cáo trong rừng (fox).", "correct_word": "fox", "correct_column": "/ɒ/" },
+                { "question_id": "u5_a_ex2_q6", "label": "6", "prompt_text": "s___", "image_description": "Bát nước sốt (sauce).", "correct_word": "sauce", "correct_column": "/ɔː/" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u5_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write the words or phrases with the given letters under the pictures.",
+              "instruction_vi": "Viết từ hoặc cụm từ chỉ đồ ăn/thức uống dưới mỗi bức tranh.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u5_b_ex1_q1", "label": "1", "prompt_text": "p___", "image_description": "Chồng bánh kếp rưới mật ong.", "correct_answer": "pancakes" },
+                { "question_id": "u5_b_ex1_q2", "label": "2", "prompt_text": "n___", "image_description": "Bát mì sợi.", "correct_answer": "noodles" },
+                { "question_id": "u5_b_ex1_q3", "label": "3", "prompt_text": "g___ t___", "image_description": "Ấm trà và tách trà xanh.", "correct_answer": "green tea" },
+                { "question_id": "u5_b_ex1_q4", "label": "4", "prompt_text": "l___", "image_description": "Ly nước chanh.", "correct_answer": "lemonade" },
+                { "question_id": "u5_b_ex1_q5", "label": "5", "prompt_text": "p___", "image_description": "Những quả ớt chuông.", "correct_answer": "peppers" },
+                { "question_id": "u5_b_ex1_q6", "label": "6", "prompt_text": "b___ n___ s___", "image_description": "Bát phở bò.", "correct_answer": "beef noodle soup" },
+                { "question_id": "u5_b_ex1_q7", "label": "7", "prompt_text": "j___", "image_description": "Ly nước ép dưa hấu.", "correct_answer": "juice" },
+                { "question_id": "u5_b_ex1_q8", "label": "8", "prompt_text": "s___ r___", "image_description": "Đĩa nem rán (chả giò).", "correct_answer": "spring rolls" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Do the puzzle. Find the food in the blue column.",
+              "instruction_vi": "Giải ô chữ theo hình ảnh để tìm từ khóa hàng dọc màu xanh.",
+              "game_mechanic": "crossword",
+              "vertical_keyword": "SANDWICHES",
+              "questions": [
+                { "question_id": "u5_b_ex2_q1", "row": 1, "image_description": "Bát nước sốt.", "correct_answer": "sauce" },
+                { "question_id": "u5_b_ex2_q2", "row": 2, "image_description": "Chiếc bánh kem sinh nhật.", "correct_answer": "cake" },
+                { "question_id": "u5_b_ex2_q3", "row": 3, "image_description": "Ly nước chanh.", "correct_answer": "lemonade" },
+                { "question_id": "u5_b_ex2_q4", "row": 4, "image_description": "Đĩa mì.", "correct_answer": "noodles" },
+                { "question_id": "u5_b_ex2_q5", "row": 5, "image_description": "Chai nước lọc.", "correct_answer": "water" },
+                { "question_id": "u5_b_ex2_q6", "row": 6, "image_description": "Con cá trên đĩa.", "correct_answer": "fish" },
+                { "question_id": "u5_b_ex2_q7", "row": 7, "image_description": "Bát cơm trắng.", "correct_answer": "rice" },
+                { "question_id": "u5_b_ex2_q8", "row": 8, "image_description": "Miếng phô mai.", "correct_answer": "cheese" },
+                { "question_id": "u5_b_ex2_q9", "row": 9, "image_description": "Miếng thịt bò tươi.", "correct_answer": "beef" },
+                { "question_id": "u5_b_ex2_q10", "row": 10, "image_description": "Đĩa xúc xích.", "correct_answer": "sausage" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Write the amount under each picture.",
+              "instruction_vi": "Viết cụm từ chỉ định lượng đầy đủ bằng chữ dưới mỗi bức tranh.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u5_b_ex3_q1", "label": "1", "prompt_text": "beef: 2 kg", "correct_answer": "two kilograms of beef" },
+                { "question_id": "u5_b_ex3_q2", "label": "2", "prompt_text": "milk: 800 ml", "correct_answer": "eight hundred millilitres of milk" },
+                { "question_id": "u5_b_ex3_q3", "label": "3", "prompt_text": "salt: 1 tsp", "correct_answer": "one teaspoon of salt" },
+                { "question_id": "u5_b_ex3_q4", "label": "4", "prompt_text": "sugar: 20 g", "correct_answer": "twenty grams of sugar" },
+                { "question_id": "u5_b_ex3_q5", "label": "5", "prompt_text": "water: 2 l", "correct_answer": "two litres of water" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Match the phrases in column A with the nouns in column B.",
+              "instruction_vi": "Nối các cụm từ chỉ định lượng ở cột A với danh từ ở cột B.",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "a tin of", "right_id": "e", "right_text": "tuna" },
+                { "left_id": "2", "left_text": "a carton of", "right_id": "f", "right_text": "eggs" },
+                { "left_id": "3", "left_text": "a slice of", "right_id": "d", "right_text": "beef" },
+                { "left_id": "4", "left_text": "a bowl of", "right_id": "b", "right_text": "soup" },
+                { "left_id": "5", "left_text": "a bar of", "right_id": "c", "right_text": "chocolate" },
+                { "left_id": "6", "left_text": "a bottle of", "right_id": "a", "right_text": "mineral water" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Choose the correct words or phrases to complete the sentences below.",
+              "instruction_vi": "Chọn lượng từ đúng trong ngoặc để hoàn thành các câu dưới đây.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u5_b_ex5_q1", "label": "1", "prompt_text": "I have (some / any) food for you if you want some.", "options": ["some", "any"], "correct_answer": "some" },
+                { "question_id": "u5_b_ex5_q2", "label": "2", "prompt_text": "There is (a lot of / some) pepper in my omelette. Too much. I don't like it.", "options": ["a lot of", "some"], "correct_answer": "a lot of" },
+                { "question_id": "u5_b_ex5_q3", "label": "3", "prompt_text": "Can I have (some / a lot of) sauce in my spaghetti? But not too much.", "options": ["some", "a lot of"], "correct_answer": "some" },
+                { "question_id": "u5_b_ex5_q4", "label": "4", "prompt_text": "I need to buy (some / any) oil because there isn't (some / any) oil in the kitchen.", "options": ["some, any", "any, some"], "correct_answer": "some, any" },
+                { "question_id": "u5_b_ex5_q5", "label": "5", "prompt_text": "She is a warm and friendly girl. She has (lots of / some) friends.", "options": ["lots of", "some"], "correct_answer": "lots of" },
+                { "question_id": "u5_b_ex5_q6", "label": "6", "prompt_text": "I need (some / any) sugar for the cakes. Is there (any / a lot of) sugar in the jar?", "options": ["some, any", "any, a lot of"], "correct_answer": "some, any" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Complete the dialogue with How much or How many.",
+              "instruction_vi": "Hoàn thành đoạn hội thoại với How much hoặc How many.",
+              "game_mechanic": "fill_in_blank",
+              "dialogue_lines": [
+                "Nick: Let's make an omelette for breakfast, Mai!",
+                "Mai: OK, sounds good. (1) ___ eggs do we need for the omelette, Nick?",
+                "Nick: Five eggs.",
+                "Mai: And (2) ___ tomatoes and onions do we need?",
+                "Nick: Two tomatoes and three onions.",
+                "Mai: OK. Do we need any flour?",
+                "Nick: No, we don't. (3) ___ butter have we got?",
+                "Mai: About 100 grams.",
+                "Nick: We need only 40 grams of butter.",
+                "Mai: (4) ___ salt do we need?",
+                "Nick: A teaspoon.",
+                "Mai: And (5) ___ pepper do we need?",
+                "Nick: Half a teaspoon."
+              ],
+              "questions": [
+                { "question_id": "u5_b_ex6_q1", "blank_number": 1, "correct_answer": "How many" },
+                { "question_id": "u5_b_ex6_q2", "blank_number": 2, "correct_answer": "how many" },
+                { "question_id": "u5_b_ex6_q3", "blank_number": 3, "correct_answer": "How much" },
+                { "question_id": "u5_b_ex6_q4", "blank_number": 4, "correct_answer": "How much" },
+                { "question_id": "u5_b_ex6_q5", "blank_number": 5, "correct_answer": "how much" }
+              ]
+            },
+            {
+              "exercise_id": "u5_b_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Choose the best answer (A, B, or C) to each of the following questions.",
+              "instruction_vi": "Chọn đáp án đúng nhất A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u5_b_ex7_q1", "label": "1", "prompt_text": "We haven't got ___ rice left for breakfast.", "options": [{ "id": "A", "text": "some" }, { "id": "B", "text": "no" }, { "id": "C", "text": "any" }], "correct_answer": "C" },
+                { "question_id": "u5_b_ex7_q2", "label": "2", "prompt_text": "There ___ cans of orange juice in the fridge.", "options": [{ "id": "A", "text": "are some" }, { "id": "B", "text": "are any" }, { "id": "C", "text": "is some" }], "correct_answer": "A" },
+                { "question_id": "u5_b_ex7_q3", "label": "3", "prompt_text": "Ann has ___ dresses. She's always buying new ones.", "options": [{ "id": "A", "text": "lots of" }, { "id": "B", "text": "some" }, { "id": "C", "text": "any" }], "correct_answer": "A" },
+                { "question_id": "u5_b_ex7_q4", "label": "4", "prompt_text": "___ organic food in the supermarket?", "options": [{ "id": "A", "text": "Were there any" }, { "id": "B", "text": "Were there some" }, { "id": "C", "text": "Was there any" }], "correct_answer": "C" },
+                { "question_id": "u5_b_ex7_q5", "label": "5", "prompt_text": "This morning he didn't have ___ cup of tea as usual.", "options": [{ "id": "A", "text": "some" }, { "id": "B", "text": "no" }, { "id": "C", "text": "a" }], "correct_answer": "C" },
+                { "question_id": "u5_b_ex7_q6", "label": "6", "prompt_text": "He can teach me to cook some popular dishes. He has ___ free time today.", "options": [{ "id": "A", "text": "any" }, { "id": "B", "text": "a lot of" }, { "id": "C", "text": "many" }], "correct_answer": "B" },
+                { "question_id": "u5_b_ex7_q7", "label": "7", "prompt_text": "There ___ yogurt in this carton.", "options": [{ "id": "A", "text": "isn't any" }, { "id": "B", "text": "isn't some" }, { "id": "C", "text": "aren't any" }], "correct_answer": "A" },
+                { "question_id": "u5_b_ex7_q8", "label": "8", "prompt_text": "Did you buy ___ bottle of cooking oil yesterday?", "options": [{ "id": "A", "text": "some" }, { "id": "B", "text": "a" }, { "id": "C", "text": "any" }], "correct_answer": "B" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u5_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Choose A - E to complete the following conversation. Then practise the conversation with your friend.",
+              "instruction_vi": "Chọn các câu A - E để hoàn thành đoạn hội thoại gọi món tại nhà hàng.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": [
+                { "id": "A", "text": "Yes, I think so. To start with, I'd like the tomato soup." },
+                { "id": "B", "text": "Just a bottle of mineral water, please." },
+                { "id": "C", "text": "No, thanks." },
+                { "id": "D", "text": "Um, I'm not ready to order yet. Can I have a minute or two?" },
+                { "id": "E", "text": "I'd like the roast chicken, spring rolls and some rice, please." }
+              ],
+              "dialogue_lines": [
+                "A: Good evening. What can I get you?",
+                "B: (1) ___",
+                "A: Certainly. Take your time. Here is the menu.",
+                "...",
+                "A: Can I take your order now?",
+                "B: (2) ___",
+                "A: And what would you like for the main course?",
+                "B: (3) ___",
+                "A: What would you like to drink?",
+                "B: (4) ___",
+                "A: Anything else, sir?",
+                "B: (5) ___",
+                "A: OK. I'll be right back with your order."
+              ],
+              "questions": [
+                { "question_id": "u5_c_ex1_q1", "blank_number": 1, "correct_answer": "D" },
+                { "question_id": "u5_c_ex1_q2", "blank_number": 2, "correct_answer": "A" },
+                { "question_id": "u5_c_ex1_q3", "blank_number": 3, "correct_answer": "E" },
+                { "question_id": "u5_c_ex1_q4", "blank_number": 4, "correct_answer": "B" },
+                { "question_id": "u5_c_ex1_q5", "blank_number": 5, "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "u5_c_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look at the shopping list and the price list. Work in pairs. Read the dialogue and then act out similar dialogues.",
+              "instruction_vi": "Dựa vào danh sách mua sắm và bảng giá để tạo hội thoại mua bán tương tự.",
+              "game_mechanic": "guided_speaking",
+              "shopping_list": ["yogurt (5 cartons)", "rice (5 kilos)", "instant noodles (4 packets)", "eggs (10)", "pork (1 kilo)", "orange juice (6 cartons)"],
+              "price_list": ["yogurt: 6,000 / a carton", "rice: 30,000 / a kg", "instant noodles: 10,000 / a packet", "eggs: 5,000 / an egg", "pork: 70,000 / a kg", "orange juice: 7,000 / a carton"],
+              "sample_answer": "A: Have you got any rice?\nB: Yes, we have. How much do you want?\nA: Five kilos, please.\nB: Here you are. Do you need anything else?\nA: No, thanks. How much are they?\nB: They're 150,000 dong."
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u5_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Read the blog about Vietnamese food. Choose the best answer (A, B, or C) to each of the questions.",
+              "instruction_vi": "Đọc bài blog về ẩm thực Việt Nam và chọn đáp án đúng nhất A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "SOME INTERESTING FACTS ABOUT VIETNAMESE FOOD\n- Viet Nam is the second largest rice exporter in the world (only smaller than India).\n- People in Viet Nam eat the largest quantity of instant noodles in Asia. They even eat more instant noodles than people in Japan, where instant noodles came from.\n- Viet Nam has many kinds of noodles, such as pho, bun (vermicelli), mien (glass noodles), and banh da (rice noodles).\n- Nem ran (spring roll) is the most popular dish in Viet Nam. It isn't usually served as an everyday dish but mostly at a family gathering or an anniversary party.\n- Viet Nam has a large variety of che (sweet soup) with more than 100 kinds.\n- Viet Nam has nearly 200 kinds of cakes with various shapes and tastes. Some of them are not made from butter and flour, like banh chung or banh gai.",
+              "questions": [
+                { "question_id": "u5_d_ex1_q1", "label": "1", "prompt_text": "India ___ in the world.", "options": [{ "id": "A", "text": "is the largest rice exporter" }, { "id": "B", "text": "has the smallest rice production" }, { "id": "C", "text": "is the second largest rice exporter" }], "correct_answer": "A" },
+                { "question_id": "u5_d_ex1_q2", "label": "2", "prompt_text": "The Japanese eat ___.", "options": [{ "id": "A", "text": "the largest quantity of instant noodles in Asia" }, { "id": "B", "text": "more instant noodles than the Vietnamese" }, { "id": "C", "text": "a smaller quantity of instant noodles than the Vietnamese" }], "correct_answer": "C" },
+                { "question_id": "u5_d_ex1_q3", "label": "3", "prompt_text": "In Viet Nam, spring roll is served ___.", "options": [{ "id": "A", "text": "as an everyday dish" }, { "id": "B", "text": "only to elderly people" }, { "id": "C", "text": "mostly on special occasions" }], "correct_answer": "C" },
+                { "question_id": "u5_d_ex1_q4", "label": "4", "prompt_text": "The word \"them\" in the text refers to ___.", "options": [{ "id": "A", "text": "shapes" }, { "id": "B", "text": "cakes" }, { "id": "C", "text": "tastes" }], "correct_answer": "B" },
+                { "question_id": "u5_d_ex1_q5", "label": "5", "prompt_text": "Which of the following is NOT true according to the text?", "options": [{ "id": "A", "text": "There are more than 100 kinds of che in Viet Nam." }, { "id": "B", "text": "Viet Nam has a large variety of noodles and che." }, { "id": "C", "text": "The Vietnamese always make their cakes from butter and flour." }], "correct_answer": "C" }
+              ]
+            },
+            {
+              "exercise_id": "u5_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read Minh's blog and answer the questions that follow.",
+              "instruction_vi": "Đọc bài blog của Minh về Bún bò Huế và trả lời câu hỏi.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Bun bo Hue is one of the most popular dishes in Viet Nam. It comes from Hue - the old capital city of Viet Nam. Its main ingredients are rice vermicelli (a thin form of rice noodles called bun) and slices of beef. Nowadays, we can find bun bo Hue nearly everywhere in Viet Nam. People enjoy it for all kinds of meals during the day and even for a late-night snack.\nBun bo Hue has a special taste - a balance of spicy, salty, and sweet flavours. To make its broth, people stew beef bones and beef shank with lemongrass, shrimp sauce, sugar, and spicy chili oil. People often eat bun bo Hue with ox tail, pork knuckle, and a variety of herbs... It's really delicious!",
+              "questions": [
+                { "question_id": "u5_d_ex2_q1", "label": "1", "prompt_text": "Where does bun bo Hue come from?", "correct_answer": "It comes from Hue - the old capital city of Viet Nam." },
+                { "question_id": "u5_d_ex2_q2", "label": "2", "prompt_text": "What are its main ingredients?", "correct_answer": "Its main ingredients are rice vermicelli (a thin form of rice noodles called bun) and slices of beef." },
+                { "question_id": "u5_d_ex2_q3", "label": "3", "prompt_text": "Where can we find bun bo Hue?", "correct_answer": "We can find it nearly everywhere in Viet Nam." },
+                { "question_id": "u5_d_ex2_q4", "label": "4", "prompt_text": "When do people enjoy bun bo Hue?", "correct_answer": "People enjoy it for all kinds of meals during the day and even for a late-night snack." },
+                { "question_id": "u5_d_ex2_q5", "label": "5", "prompt_text": "How do people make the broth for bun bo Hue?", "correct_answer": "They stew beef bones and beef shank with lemongrass, shrimp sauce, sugar, and spicy chili oil." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u5_e_ex1_2",
+              "exercise_number": 1,
+              "instruction_en": "Write the answers to the questions about a popular dish in your neighbourhood or area / city / province / village. Then write a short paragraph (60 - 80 words) about it.",
+              "instruction_vi": "Trả lời 8 câu hỏi gợi ý và viết đoạn văn (60 - 80 từ) về một món ăn nổi tiếng ở địa phương em.",
+              "game_mechanic": "guided_writing",
+              "guiding_questions": [
+                "1. What is its name?",
+                "2. Where does it come from?",
+                "3. What are its main ingredients?",
+                "4. Where can we normally find it?",
+                "5. When and how often do people enjoy it?",
+                "6. How does it taste?",
+                "7. What do people often eat with it?",
+                "8. What is special about it?"
+              ],
+              "sample_answer": "Banh Canh Cha Ca (Fish cake noodle soup) is a very famous dish in my province, Khanh Hoa. Its main ingredients are thick rice noodles, fried or steamed fish cakes made from fresh sea fish, and a sweet, clear broth simmered from fish bones. We can find it at food stalls and restaurants everywhere in Nha Trang and Cam Ranh. People usually enjoy it for breakfast or dinner. We often eat it with chopped green onions, coriander, chili sauce, and a squeeze of lime. It is popular because the fish cakes are chewy, fresh, and delicious!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "unit_06",
+      "unit_number": 6,
+      "unit_title": "A VISIT TO A SCHOOL",
+      "pages": [42, 43, 44, 45, 46, 47, 48],
+      "sections": [
+        {
+          "section_id": "A",
+          "section_title": "Pronunciation",
+          "exercises": [
+            {
+              "exercise_id": "u6_a_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete the words with letter(s) which sound(s) /tʃ/ and /dʒ/. Then read them aloud.",
+              "instruction_vi": "Hoàn thành các từ với (các) chữ cái tạo âm /tʃ/ và /dʒ/.",
+              "game_mechanic": "fill_in_chars",
+              "questions": [
+                { "question_id": "u6_a_ex1_q1", "label": "1", "prompt_text": "___ildren", "correct_answer": "ch", "full_completed_text": "children" },
+                { "question_id": "u6_a_ex1_q2", "label": "2", "prompt_text": "___icken", "correct_answer": "ch", "full_completed_text": "chicken" },
+                { "question_id": "u6_a_ex1_q3", "label": "3", "prompt_text": "tea___er", "correct_answer": "ch", "full_completed_text": "teacher" },
+                { "question_id": "u6_a_ex1_q4", "label": "4", "prompt_text": "whi___", "correct_answer": "ch", "full_completed_text": "which" },
+                { "question_id": "u6_a_ex1_q5", "label": "5", "prompt_text": "Man___ester", "correct_answer": "ch", "full_completed_text": "Manchester" },
+                { "question_id": "u6_a_ex1_q6", "label": "6", "prompt_text": "___anuary", "correct_answer": "J", "full_completed_text": "January" },
+                { "question_id": "u6_a_ex1_q7", "label": "7", "prompt_text": "technolo___y", "correct_answer": "g", "full_completed_text": "technology" },
+                { "question_id": "u6_a_ex1_q8", "label": "8", "prompt_text": "intelli___ent", "correct_answer": "g", "full_completed_text": "intelligent" },
+                { "question_id": "u6_a_ex1_q9", "label": "9", "prompt_text": "___elly", "correct_answer": "j", "full_completed_text": "jelly" },
+                { "question_id": "u6_a_ex1_q10", "label": "10", "prompt_text": "___ym", "correct_answer": "g", "full_completed_text": "gym" }
+              ]
+            },
+            {
+              "exercise_id": "u6_a_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Practise reading the dialogue, paying attention to the words with the sounds /tʃ/ and /dʒ/.",
+              "instruction_vi": "Luyện đọc đoạn hội thoại, chú ý các từ có âm /tʃ/ và /dʒ/.",
+              "game_mechanic": "listen_and_repeat",
+              "dialogue_lines": [
+                "Mr Jones: Hi, Jane.",
+                "Jane: Hello, Mr Jones. I'd like a chop for lunch, please.",
+                "Mr Jones: Which one would you like, the chicken chop or the pork chop?",
+                "Jane: Which one is better?",
+                "Mr Jones: I think the chicken chop is.",
+                "Jane: Well, I'd like the chicken chop then.",
+                "Mr Jones: Which would you like to drink, orange juice or apple juice?",
+                "Jane: A glass of orange juice, please.",
+                "Mr Jones: So, that's a chicken chop and a glass of orange juice."
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "B",
+          "section_title": "Vocabulary & Grammar",
+          "exercises": [
+            {
+              "exercise_id": "u6_b_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete the sentences with phrases from the box. There are some extra phrases.",
+              "instruction_vi": "Hoàn thành các câu với các cụm từ trong khung (có một số cụm từ dư).",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["gifted students", "school library", "final examination", "water the vegetables", "computer rooms", "lower secondary schools", "school garden", "pass an entrance exam"],
+              "questions": [
+                { "question_id": "u6_b_ex1_q1", "label": "1", "prompt_text": "When you visit my school, you can see three modern ___.", "correct_answer": "computer rooms" },
+                { "question_id": "u6_b_ex1_q2", "label": "2", "prompt_text": "Their school is one of the most famous ___ in the city.", "correct_answer": "lower secondary schools" },
+                { "question_id": "u6_b_ex1_q3", "label": "3", "prompt_text": "We can borrow books and magazines from the ___.", "correct_answer": "school library" },
+                { "question_id": "u6_b_ex1_q4", "label": "4", "prompt_text": "If you want to study at this school, you have to ___.", "correct_answer": "pass an entrance exam" },
+                { "question_id": "u6_b_ex1_q5", "label": "5", "prompt_text": "Tran Phu Lower Secondary School is for ___ in the province.", "correct_answer": "gifted students" },
+                { "question_id": "u6_b_ex1_q6", "label": "6", "prompt_text": "When does the ___ take place?", "correct_answer": "final examination" }
+              ]
+            },
+            {
+              "exercise_id": "u6_b_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Do the crossword puzzle and complete the sentences below.",
+              "instruction_vi": "Giải ô chữ và hoàn thành các câu gợi ý bên dưới.",
+              "game_mechanic": "crossword",
+              "questions": [
+                { "question_id": "u6_b_ex2_q1", "label": "1 (Across)", "prompt_text": "The school ___ is in front of the building. (pl_g_____)", "correct_answer": "playground" },
+                { "question_id": "u6_b_ex2_q2", "label": "2 (Across)", "prompt_text": "Her favourite subject is ___. (m___s)", "correct_answer": "maths" },
+                { "question_id": "u6_b_ex2_q3", "label": "3 (Across)", "prompt_text": "The students take part in many outdoor ___ at the weekend. (act______s)", "correct_answer": "activities" },
+                { "question_id": "u6_b_ex2_q4", "label": "4 (Across)", "prompt_text": "They have to pass an entrance ___ to attend that school. (___m)", "correct_answer": "exam" },
+                { "question_id": "u6_b_ex2_q5", "label": "5 (Across)", "prompt_text": "Minh Khai Lower Secondary School is for gifted ___ in the city. (st_____s)", "correct_answer": "students" },
+                { "question_id": "u6_b_ex2_q6", "label": "6 (Down)", "prompt_text": "Our ___ is on the second floor.", "correct_answer": "classroom" },
+                { "question_id": "u6_b_ex2_q7", "label": "7 (Down)", "prompt_text": "They have a lot of modern ___ in their school. (fa_______)", "correct_answer": "facilities" },
+                { "question_id": "u6_b_ex2_q8", "label": "8 (Down)", "prompt_text": "They are not allowed to play football in the ___. (g_m)", "correct_answer": "gym" }
+              ]
+            },
+            {
+              "exercise_id": "u6_b_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Circle the correct prepositions to complete the sentences.",
+              "instruction_vi": "Khoanh tròn giới từ đúng (at / in / on) để hoàn thành câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "u6_b_ex3_q1", "label": "1", "prompt_text": "The staff room is (at / in / on) the second floor of the building.", "options": ["at", "in", "on"], "correct_answer": "on" },
+                { "question_id": "u6_b_ex3_q2", "label": "2", "prompt_text": "When I saw Hoa, she was holding a pocket English dictionary (at / in / on) her hands.", "options": ["at", "in", "on"], "correct_answer": "in" },
+                { "question_id": "u6_b_ex3_q3", "label": "3", "prompt_text": "Is their school (at / in / on) 32 Vo Van Kiet Avenue?", "options": ["at", "in", "on"], "correct_answer": "at" },
+                { "question_id": "u6_b_ex3_q4", "label": "4", "prompt_text": "The child is sitting (at / in / on) the classroom, looking at the poster (at / in / on) the wall.", "options": ["in, on", "at, on", "in, at"], "correct_answer": "in, on" },
+                { "question_id": "u6_b_ex3_q5", "label": "5", "prompt_text": "Parents usually wait for their children (at / in / on) the school gate (at / in / on) 11:30 a.m.", "options": ["at, at", "in, at", "on, at"], "correct_answer": "at, at" },
+                { "question_id": "u6_b_ex3_q6", "label": "6", "prompt_text": "What do you usually do (at / in / on) Tet?", "options": ["at", "in", "on"], "correct_answer": "at" }
+              ]
+            },
+            {
+              "exercise_id": "u6_b_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Complete the sentences with appropriate prepositions of place.",
+              "instruction_vi": "Điền giới từ chỉ nơi chốn (at, in, on) thích hợp vào chỗ trống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "u6_b_ex4_q1", "label": "1", "prompt_text": "I studied ___ that lower secondary school when I was young.", "correct_answer": "at" },
+                { "question_id": "u6_b_ex4_q2", "label": "2", "prompt_text": "There are many books ___ the shelves of the school library.", "correct_answer": "on" },
+                { "question_id": "u6_b_ex4_q3", "label": "3", "prompt_text": "The science laboratories and computer rooms are ___ the top floor of the building.", "correct_answer": "on" },
+                { "question_id": "u6_b_ex4_q4", "label": "4", "prompt_text": "Do the children have to do homework ___ home?", "correct_answer": "at" },
+                { "question_id": "u6_b_ex4_q5", "label": "5", "prompt_text": "When you visit my school, you will see many flowers ___ the school garden.", "correct_answer": "in" },
+                { "question_id": "u6_b_ex4_q6", "label": "6", "prompt_text": "Here you can see some pictures of our summer activities ___ the wall.", "correct_answer": "on" }
+              ]
+            },
+            {
+              "exercise_id": "u6_b_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Read the conversation and fill in the gaps with appropriate prepositions of time.",
+              "instruction_vi": "Đọc đoạn hội thoại và điền giới từ chỉ thời gian (at, in, on) thích hợp.",
+              "game_mechanic": "fill_in_blank",
+              "dialogue_lines": [
+                "Mark: I'm sorry I was out when you called yesterday afternoon, Alice. Look, I'm free (1) ___ the fifteenth of March. Can we meet then?",
+                "Alice: I'm busy next week, I'm afraid. So, I can't see you (2) ___ Friday.",
+                "Mark: I'd like to have a meeting this month if possible because I'll be very busy (3) ___ April.",
+                "Alice: I'm going away (4) ___ Easter, so how about the week after? Shall we meet (5) ___ the twenty-seventh? That's a Wednesday.",
+                "Mark: OK. Let's meet (6) ___ Wednesday afternoon (7) ___ half past two."
+              ],
+              "questions": [
+                { "question_id": "u6_b_ex5_q1", "blank_number": 1, "correct_answer": "on" },
+                { "question_id": "u6_b_ex5_q2", "blank_number": 2, "correct_answer": "on" },
+                { "question_id": "u6_b_ex5_q3", "blank_number": 3, "correct_answer": "in" },
+                { "question_id": "u6_b_ex5_q4", "blank_number": 4, "correct_answer": "at" },
+                { "question_id": "u6_b_ex5_q5", "blank_number": 5, "correct_answer": "on" },
+                { "question_id": "u6_b_ex5_q6", "blank_number": 6, "correct_answer": "on" },
+                { "question_id": "u6_b_ex5_q7", "blank_number": 7, "correct_answer": "at" }
+              ]
+            },
+            {
+              "exercise_id": "u6_b_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Write the questions for the answers, using when and where.",
+              "instruction_vi": "Đặt câu hỏi cho các câu trả lời dưới đây, sử dụng When và Where.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u6_b_ex6_q1", "label": "1", "prompt_text": "B: Quoc Hoc - Hue is in the centre of Hue City.", "correct_answer": "Where is Quoc Hoc - Hue?" },
+                { "question_id": "u6_b_ex6_q2", "label": "2", "prompt_text": "B: Her classroom is on the third floor.", "correct_answer": "Where is her classroom?" },
+                { "question_id": "u6_b_ex6_q3", "label": "3", "prompt_text": "B: They grow the flowers in the school garden.", "correct_answer": "Where do they grow the flowers?" },
+                { "question_id": "u6_b_ex6_q4", "label": "4", "prompt_text": "B: They celebrate Teachers' Day on November 20th.", "correct_answer": "When do they celebrate Teachers' Day?" },
+                { "question_id": "u6_b_ex6_q5", "label": "5", "prompt_text": "B: Our school year will finish in June.", "correct_answer": "When will your school year finish?" },
+                { "question_id": "u6_b_ex6_q6", "label": "6", "prompt_text": "B: They built my school thirty years ago.", "correct_answer": "When did they build your school?" }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "C",
+          "section_title": "Speaking",
+          "exercises": [
+            {
+              "exercise_id": "u6_c_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Match the questions (1 - 6) with the answers (a - f). Then practise them with your partner.",
+              "instruction_vi": "Nối các câu hỏi (1 - 6) với câu trả lời (a - f).",
+              "game_mechanic": "matching",
+              "pairs": [
+                { "left_id": "1", "left_text": "What school do you want to visit?", "right_id": "c", "right_text": "Nguyen Tat Thanh Lower Secondary School." },
+                { "left_id": "2", "left_text": "When do you want to go?", "right_id": "a", "right_text": "On Saturday." },
+                { "left_id": "3", "left_text": "How do you want to go there?", "right_id": "e", "right_text": "By coach." },
+                { "left_id": "4", "left_text": "Who do you want to meet?", "right_id": "d", "right_text": "The principal and students." },
+                { "left_id": "5", "left_text": "What do you want to see?", "right_id": "f", "right_text": "The school facilities." },
+                { "left_id": "6", "left_text": "What do you want to do?", "right_id": "b", "right_text": "Join some outdoor activities." }
+              ]
+            },
+            {
+              "exercise_id": "u6_c_ex2_3",
+              "exercise_number": 2,
+              "instruction_en": "Make a conversation with a partner and complete the table. Then talk about the school you want to visit.",
+              "instruction_vi": "Hoàn thành bảng thông tin và nói về ngôi trường em muốn đến thăm.",
+              "game_mechanic": "guided_speaking",
+              "table_fields": ["Name of the school", "Time to visit", "Type of transport", "People to meet", "School facilities", "Outdoor activities"],
+              "sample_answer": "I'd like to visit Le Quy Don Lower Secondary School next Sunday morning. We will go there by bus. I want to meet the teachers and students there. I want to see the science laboratories, the library, and the swimming pool. We also want to play badminton and plant trees with the students."
+            }
+          ]
+        },
+        {
+          "section_id": "D",
+          "section_title": "Reading",
+          "exercises": [
+            {
+              "exercise_id": "u6_d_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Complete the passage with the words in the box.",
+              "instruction_vi": "Hoàn thành đoạn văn với các từ trong khung.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["students", "talking", "experience", "visit", "learnt", "activities"],
+              "reading_passage": "Last year, we had a visit to Thao Dien Lower Secondary School for blind students. Before the (1) ___, we spent time learning about what outdoor (2) ___ the students do there.\nDuring our visit, we were surprised to see that the (3) ___ could interact with us easily. They enjoyed (4) ___ with us while painting, drawing, making fruits using clay, and making paper art. They even (5) ___ some of the English words for fruit.\nAlthough it was a short visit, we had a good (6) ___ working with the blind students in our community.",
+              "questions": [
+                { "question_id": "u6_d_ex1_q1", "blank_number": 1, "correct_answer": "visit" },
+                { "question_id": "u6_d_ex1_q2", "blank_number": 2, "correct_answer": "activities" },
+                { "question_id": "u6_d_ex1_q3", "blank_number": 3, "correct_answer": "students" },
+                { "question_id": "u6_d_ex1_q4", "blank_number": 4, "correct_answer": "talking" },
+                { "question_id": "u6_d_ex1_q5", "blank_number": 5, "correct_answer": "learnt" },
+                { "question_id": "u6_d_ex1_q6", "blank_number": 6, "correct_answer": "experience" }
+              ]
+            },
+            {
+              "exercise_id": "u6_d_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Read the conversation and then circle the best option (A, B, or C) to complete each of the sentences.",
+              "instruction_vi": "Đọc đoạn hội thoại và khoanh tròn đáp án đúng nhất A, B hoặc C.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "Mai and Phong: Good morning, Mr Lam.\nMr Lam: Good morning. Welcome to Hung Vuong Lower Secondary School.\nMai: Mr Lam, can you tell us something about the school?\nMr Lam: Well, it was founded in 1957. So it's one of the oldest lower secondary schools in the city.\nPhong: How many students are there? And what are they like?\nMr Lam: More than two thousand students. Most of them are intelligent and hard-working. They're very active too. They do lots of outdoor activities.\nPhong: Sounds really interesting. I wish I could study here.\nMr Lam: Well, to attend the school, you have to pass an entrance exam.",
+              "questions": [
+                { "question_id": "u6_d_ex2_q1", "label": "1", "prompt_text": "Hung Vuong Lower Secondary School is one of the ___ lower secondary schools in the city.", "options": [{ "id": "A", "text": "oldest" }, { "id": "B", "text": "most beautiful" }, { "id": "C", "text": "most modern" }], "correct_answer": "A" },
+                { "question_id": "u6_d_ex2_q2", "label": "2", "prompt_text": "The number of students in the school is ___.", "options": [{ "id": "A", "text": "1,500" }, { "id": "B", "text": "2,000" }, { "id": "C", "text": "more than 2,000" }], "correct_answer": "C" },
+                { "question_id": "u6_d_ex2_q3", "label": "3", "prompt_text": "Most of the students are ___.", "options": [{ "id": "A", "text": "intelligent" }, { "id": "B", "text": "hard-working" }, { "id": "C", "text": "intelligent and hard-working" }], "correct_answer": "C" },
+                { "question_id": "u6_d_ex2_q4", "label": "4", "prompt_text": "The students not only study but also do ___.", "options": [{ "id": "A", "text": "morning exercise" }, { "id": "B", "text": "outdoor activities" }, { "id": "C", "text": "homework" }], "correct_answer": "B" },
+                { "question_id": "u6_d_ex2_q5", "label": "5", "prompt_text": "To attend the school, students have to pass ___.", "options": [{ "id": "A", "text": "an entrance exam" }, { "id": "B", "text": "a mid-term test" }, { "id": "C", "text": "a final exam" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "u6_d_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Read the passage and write answers to the questions.",
+              "instruction_vi": "Đọc đoạn văn về Trường Trung học Westminster và viết câu trả lời.",
+              "game_mechanic": "fill_in_blank",
+              "reading_passage": "Westminster High School is a famous school in England. It is in the heart of London, next to the Houses of Parliament. The school has some modern facilities such as a new sports hall, a golf course, a science centre, a large theatre, and a music centre.\nThere are 740 students in the school. They are intelligent and hard-working. To attend the school, they have to pass an entrance exam and an interview. All students have to take final exams in science, maths, English, literature, and French or German. They also take part in some outdoor activities such as playing golf, growing flowers or rowing on the Thames.",
+              "questions": [
+                { "question_id": "u6_d_ex3_q1", "label": "1", "prompt_text": "Where is Westminster High School?", "correct_answer": "It is in the heart of London, next to the Houses of Parliament." },
+                { "question_id": "u6_d_ex3_q2", "label": "2", "prompt_text": "What facilities does the school have?", "correct_answer": "It has some modern facilities such as a new sports hall, a golf course, a science centre, a large theatre, and a music centre." },
+                { "question_id": "u6_d_ex3_q3", "label": "3", "prompt_text": "What are the students like?", "correct_answer": "They are intelligent and hard-working." },
+                { "question_id": "u6_d_ex3_q4", "label": "4", "prompt_text": "What do the students have to do to attend the school?", "correct_answer": "They have to pass an entrance exam and an interview." },
+                { "question_id": "u6_d_ex3_q5", "label": "5", "prompt_text": "What outdoor activities do they take part in?", "correct_answer": "They take part in some outdoor activities such as playing golf, growing flowers or rowing on the Thames." }
+              ]
+            }
+          ]
+        },
+        {
+          "section_id": "E",
+          "section_title": "Writing",
+          "exercises": [
+            {
+              "exercise_id": "u6_e_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Write the answers to the questions about your school.",
+              "instruction_vi": "Trả lời 6 câu hỏi về trường học của em.",
+              "game_mechanic": "guided_writing",
+              "guiding_questions": [
+                "1. What is the full name of your school?",
+                "2. Where is it?",
+                "3. How many students and teachers are there?",
+                "4. What are the students and teachers like?",
+                "5. What facilities does it have?",
+                "6. How many subjects do you study? Which is your favourite one?"
+              ]
+            },
+            {
+              "exercise_id": "u6_e_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Look at the table and write sentences to answer the questions \"Where and when do you do these outdoor activities?\"",
+              "instruction_vi": "Nhìn bảng thông tin và viết câu hoàn chỉnh cho biết địa điểm và thời gian thực hiện các hoạt động ngoại khóa.",
+              "game_mechanic": "sentence_building",
+              "questions": [
+                { "question_id": "u6_e_ex2_q1", "label": "Example", "activity": "Playing football", "where": "School yard", "when": "Wednesday afternoon", "correct_answer": "We usually play football in the school yard on Wednesday afternoon." },
+                { "question_id": "u6_e_ex2_q2", "label": "1", "activity": "Growing and watering vegetables", "where": "School garden", "when": "Saturday morning", "correct_answer": "We usually grow and water vegetables in the school garden on Saturday morning." },
+                { "question_id": "u6_e_ex2_q3", "label": "2", "activity": "Taking care of old and poor people", "where": "Nursing home", "when": "Saturday afternoon", "correct_answer": "We usually take care of old and poor people at the nursing home on Saturday afternoon." },
+                { "question_id": "u6_e_ex2_q4", "label": "3", "activity": "Doing clean-up activities", "where": "Streets around school", "when": "Sunday morning", "correct_answer": "We usually do clean-up activities in the streets around our school on Sunday morning." }
+              ]
+            },
+            {
+              "exercise_id": "u6_e_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Write a paragraph (60 - 80 words) about your school using the information in 1 and/or 2.",
+              "instruction_vi": "Viết đoạn văn (60 - 80 từ) giới thiệu về trường của em.",
+              "game_mechanic": "guided_writing",
+              "sample_answer": "The name of my school is Nguyen Du Lower Secondary School. It is in the centre of our town. There are about 800 students and 50 teachers in my school. The teachers are very caring and helpful, and the students are hard-working and friendly. Our school has modern facilities such as two computer rooms, a large library, a science lab, and a school garden. After school, we often play football in the school yard or grow vegetables in the school garden."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_id": "test_yourself_02",
+      "unit_number": 0,
+      "unit_title": "TEST YOURSELF 2",
+      "pages": [49, 50, 51, 52],
+      "sections": [
+        {
+          "section_id": "TEST",
+          "section_title": "Comprehensive Test (Units 4 - 6)",
+          "exercises": [
+            {
+              "exercise_id": "ty2_ex1",
+              "exercise_number": 1,
+              "instruction_en": "Find the word which is pronounced differently in the part underlined. (1.0 pt)",
+              "instruction_vi": "Tìm từ có phần gạch chân phát âm khác với các từ còn lại.",
+              "game_mechanic": "phonetic_odd_one_out",
+              "questions": [
+                { "question_id": "ty2_ex1_q1", "label": "1", "options": [{ "id": "A", "text": "trea[s]ure" }, { "id": "B", "text": "occa[s]ion" }, { "id": "C", "text": "televi[s]ion" }, { "id": "D", "text": "[s]urely" }], "correct_answer": "D", "explanation_vi": "'surely' phát âm là /ʃ/, các từ còn lại phát âm là /ʒ/." },
+                { "question_id": "ty2_ex1_q2", "label": "2", "options": [{ "id": "A", "text": "kit[ch]en" }, { "id": "B", "text": "charity" }, { "id": "C", "text": "ma[ch]ine" }, { "id": "D", "text": "sandwi[ch]" }], "correct_answer": "C", "explanation_vi": "'machine' phát âm là /ʃ/, các từ còn lại phát âm là /tʃ/." },
+                { "question_id": "ty2_ex1_q3", "label": "3", "options": [{ "id": "A", "text": "fra[g]ile" }, { "id": "B", "text": "photogra[ph]" }, { "id": "C", "text": "arran[g]ing" }, { "id": "D", "text": "ve[g]etable" }], "correct_answer": "B", "explanation_vi": "'photograph' có 'ph' phát âm là /f/, các từ còn lại có 'g' phát âm là /dʒ/." },
+                { "question_id": "ty2_ex1_q4", "label": "4", "options": [{ "id": "A", "text": "t[or]ch" }, { "id": "B", "text": "f[or]get" }, { "id": "C", "text": "inf[or]m" }, { "id": "D", "text": "t[or]n" }], "correct_answer": "B", "explanation_vi": "'forget' phát âm là /ə/, các từ còn lại phát âm là /ɔː/." },
+                { "question_id": "ty2_ex1_q5", "label": "5", "options": [{ "id": "A", "text": "c[o]ntrol" }, { "id": "B", "text": "b[o]ttle" }, { "id": "C", "text": "v[o]lunteer" }, { "id": "D", "text": "c[o]ncentrate" }], "correct_answer": "A", "explanation_vi": "'control' phát âm là /ə/, các từ còn lại phát âm là /ɒ/." }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex2",
+              "exercise_number": 2,
+              "instruction_en": "Choose the correct answer to complete each of the sentences. (2.0 pts)",
+              "instruction_vi": "Chọn đáp án đúng A, B, C hoặc D để hoàn thành câu.",
+              "game_mechanic": "multiple_choice",
+              "questions": [
+                { "question_id": "ty2_ex2_q1", "label": "1", "prompt_text": "This painting is prettier, but it is not ___ the other one.", "options": [{ "id": "A", "text": "as expensive than" }, { "id": "B", "text": "expensive than" }, { "id": "C", "text": "as expensive as" }, { "id": "D", "text": "much expensive as" }], "correct_answer": "C" },
+                { "question_id": "ty2_ex2_q2", "label": "2", "prompt_text": "Mozart was one of the most famous composers ___ classical music.", "options": [{ "id": "A", "text": "about" }, { "id": "B", "text": "of" }, { "id": "C", "text": "in" }, { "id": "D", "text": "for" }], "correct_answer": "B" },
+                { "question_id": "ty2_ex2_q3", "label": "3", "prompt_text": "We guess that there were ___ 10,000 people at the concert last night.", "options": [{ "id": "A", "text": "above" }, { "id": "B", "text": "like" }, { "id": "C", "text": "for" }, { "id": "D", "text": "about" }], "correct_answer": "D" },
+                { "question_id": "ty2_ex2_q4", "label": "4", "prompt_text": "\"Would you like to have ___ apple juice?\"", "options": [{ "id": "A", "text": "lots" }, { "id": "B", "text": "a lot" }, { "id": "C", "text": "some" }, { "id": "D", "text": "little" }], "correct_answer": "C" },
+                { "question_id": "ty2_ex2_q5", "label": "5", "prompt_text": "He bought ___ books and then left for home.", "options": [{ "id": "A", "text": "much more" }, { "id": "B", "text": "a few" }, { "id": "C", "text": "a lot" }, { "id": "D", "text": "a little" }], "correct_answer": "B" },
+                { "question_id": "ty2_ex2_q6", "label": "6", "prompt_text": "Viet Duc High School in Ha Noi is one of the oldest schools in Viet Nam. They ___ it in 1897.", "options": [{ "id": "A", "text": "built" }, { "id": "B", "text": "got" }, { "id": "C", "text": "made" }, { "id": "D", "text": "did" }], "correct_answer": "A" },
+                { "question_id": "ty2_ex2_q7", "label": "7", "prompt_text": "Last year, Linh participated in ___ funds for street children.", "options": [{ "id": "A", "text": "raising" }, { "id": "B", "text": "making" }, { "id": "C", "text": "gathering" }, { "id": "D", "text": "taking" }], "correct_answer": "A" },
+                { "question_id": "ty2_ex2_q8", "label": "8", "prompt_text": "The lemonade isn't very sweet. I'll add some more ___.", "options": [{ "id": "A", "text": "salt" }, { "id": "B", "text": "pepper" }, { "id": "C", "text": "sugar" }, { "id": "D", "text": "lemon" }], "correct_answer": "C" },
+                { "question_id": "ty2_ex2_q9", "label": "9", "prompt_text": "People say that I am ___ my grandmother.", "options": [{ "id": "A", "text": "with" }, { "id": "B", "text": "as" }, { "id": "C", "text": "from" }, { "id": "D", "text": "like" }], "correct_answer": "D" },
+                { "question_id": "ty2_ex2_q10", "label": "10", "prompt_text": "- \"___ is a kilo of beef, please?\"\n- \"It's 300,000 dong.\"", "options": [{ "id": "A", "text": "How much" }, { "id": "B", "text": "How many" }, { "id": "C", "text": "What money" }, { "id": "D", "text": "How high" }], "correct_answer": "A" }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex3",
+              "exercise_number": 3,
+              "instruction_en": "Fill in each blank with the correct preposition. (1.0 pt)",
+              "instruction_vi": "Điền giới từ đúng vào mỗi chỗ trống.",
+              "game_mechanic": "fill_in_blank",
+              "questions": [
+                { "question_id": "ty2_ex3_q1", "label": "1", "prompt_text": "Many people think that breakfast is the most important meal ___ the day.", "correct_answer": "of" },
+                { "question_id": "ty2_ex3_q2", "label": "2", "prompt_text": "I'll wait for you ___ the entrance of the museum.", "correct_answer": "at" },
+                { "question_id": "ty2_ex3_q3", "label": "3", "prompt_text": "There were lots of black clouds ___ the sky before it rained.", "correct_answer": "in" },
+                { "question_id": "ty2_ex3_q4", "label": "4", "prompt_text": "We normally start lunch ___ about twelve o'clock ___ Sundays.", "correct_answer": "at; on" },
+                { "question_id": "ty2_ex3_q5", "label": "5", "prompt_text": "What Bill likes to do most ___ his spare time is playing the flute.", "correct_answer": "in" }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex4",
+              "exercise_number": 4,
+              "instruction_en": "Read the passage and fill in each gap with a suitable word or phrase from the box. (2.0 pts)",
+              "instruction_vi": "Đọc đoạn văn và điền từ/cụm từ trong khung vào mỗi chỗ trống.",
+              "game_mechanic": "word_bank_fill",
+              "word_bank": ["advice", "shape", "change", "overweight", "a lot of", "slim", "a little", "healthy", "too much", "keep fit"],
+              "reading_passage": "HEALTH AND FITNESS\nDo you feel good? Are you fit and (1) ___? Maybe you think you are (2) ___ and need to go on a diet. Or maybe you are a bit (3) ___ and need to put on weight. Here is some (4) ___ for you. First, it is important not to do things that are bad for you - so, do not eat (5) ___ or go to bed too late. If you have an unhealthy lifestyle, try to (6) ___ some of the things you do - only do the things that are good for you. Second, make sure you eat a balanced diet, including (7) ___ fresh fruit and vegetables. Do plenty of exercise to (8) ___: go running in the morning or join your local gym. If you are not in (9) ___, though, you should start with just (10) ___ swimming.",
+              "questions": [
+                { "question_id": "ty2_ex4_q1", "blank_number": 1, "correct_answer": "healthy" },
+                { "question_id": "ty2_ex4_q2", "blank_number": 2, "correct_answer": "overweight" },
+                { "question_id": "ty2_ex4_q3", "blank_number": 3, "correct_answer": "slim" },
+                { "question_id": "ty2_ex4_q4", "blank_number": 4, "correct_answer": "advice" },
+                { "question_id": "ty2_ex4_q5", "blank_number": 5, "correct_answer": "too much" },
+                { "question_id": "ty2_ex4_q6", "blank_number": 6, "correct_answer": "change" },
+                { "question_id": "ty2_ex4_q7", "blank_number": 7, "correct_answer": "a lot of" },
+                { "question_id": "ty2_ex4_q8", "blank_number": 8, "correct_answer": "keep fit" },
+                { "question_id": "ty2_ex4_q9", "blank_number": 9, "correct_answer": "shape" },
+                { "question_id": "ty2_ex4_q10", "blank_number": 10, "correct_answer": "a little" }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex5",
+              "exercise_number": 5,
+              "instruction_en": "Find a mistake (A, B, C, or D) in each of the following sentences and correct it. (1.0 pt)",
+              "instruction_vi": "Tìm một lỗi sai (A, B, C hoặc D) trong mỗi câu sau và sửa lại cho đúng.",
+              "game_mechanic": "error_correction",
+              "questions": [
+                {
+                  "question_id": "ty2_ex5_q1",
+                  "label": "1",
+                  "sentence": "[Although](A) this motorbike is [more expensive](B) [as that one](C), many people [prefer to](D) buy it.",
+                  "error_option": "C",
+                  "correction": "than that one",
+                  "explanation_vi": "So sánh hơn 'more expensive' phải đi với 'than' (than that one)."
+                },
+                {
+                  "question_id": "ty2_ex5_q2",
+                  "label": "2",
+                  "sentence": "Mai [asked](A) me: \"How [are you going](B) [to school](C) [every day](D)?\"",
+                  "error_option": "B",
+                  "correction": "do you go",
+                  "explanation_vi": "Có trạng từ chỉ thói quen 'every day' nên dùng thì hiện tại đơn: 'do you go'."
+                },
+                {
+                  "question_id": "ty2_ex5_q3",
+                  "label": "3",
+                  "sentence": "The English [summer](A) course [will start](B) [in June 2nd](C) and finish [in August](D).",
+                  "error_option": "C",
+                  "correction": "on June 2nd",
+                  "explanation_vi": "Trước ngày cụ thể (June 2nd) phải dùng giới từ 'on'."
+                },
+                {
+                  "question_id": "ty2_ex5_q4",
+                  "label": "4",
+                  "sentence": "There [was](A) [a lot of](B) people [trying](C) to enter the stadium [to see](D) the football match.",
+                  "error_option": "A",
+                  "correction": "were",
+                  "explanation_vi": "Chủ ngữ 'a lot of people' là danh từ số nhiều nên to be ở quá khứ phải là 'were'."
+                },
+                {
+                  "question_id": "ty2_ex5_q5",
+                  "label": "5",
+                  "sentence": "The [price of](A) food is [not as](B) [low than](C) it [was](D) last summer.",
+                  "error_option": "C",
+                  "correction": "low as",
+                  "explanation_vi": "Cấu trúc so sánh bằng: not as + adj + as (low as)."
+                }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex6",
+              "exercise_number": 6,
+              "instruction_en": "Choose the correct options to complete the conversation about an Indian dish called chicken curry. (1.0 pt)",
+              "instruction_vi": "Chọn từ đúng trong ngoặc để hoàn thành đoạn hội thoại về món cà ri gà.",
+              "game_mechanic": "multiple_choice",
+              "dialogue_lines": [
+                "Oggy: I'd like to make chicken curry this evening. What do you think?",
+                "Jack: Sounds good.",
+                "Oggy: OK, well, we need (1) (any / some / many) chicken. Can you buy some when you go to the supermarket?",
+                "Jack: Sure.",
+                "Oggy: And we need (2) (a / an / much) onion.",
+                "Jack: There are (3) (any / much / a lot of) onions in the cupboard. Can we have salad with it?",
+                "Oggy: Good idea. Do we have everything we need?",
+                "Jack: I think so. Oh no, we need (4) (a / some / many) potatoes.",
+                "Oggy: And I'd like some olive oil and curry powder as well. There isn't (5) (any / some / lots) left.",
+                "Jack: OK. I'll buy them. Anything else?"
+              ],
+              "questions": [
+                { "question_id": "ty2_ex6_q1", "blank_number": 1, "options": ["any", "some", "many"], "correct_answer": "some" },
+                { "question_id": "ty2_ex6_q2", "blank_number": 2, "options": ["a", "an", "much"], "correct_answer": "an" },
+                { "question_id": "ty2_ex6_q3", "blank_number": 3, "options": ["any", "much", "a lot of"], "correct_answer": "a lot of" },
+                { "question_id": "ty2_ex6_q4", "blank_number": 4, "options": ["a", "some", "many"], "correct_answer": "some" },
+                { "question_id": "ty2_ex6_q5", "blank_number": 5, "options": ["any", "some", "lots"], "correct_answer": "any" }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex7",
+              "exercise_number": 7,
+              "instruction_en": "Read the following passage and choose the correct answer to each question. (1.0 pt)",
+              "instruction_vi": "Đọc đoạn văn và chọn đáp án đúng A, B, C hoặc D.",
+              "game_mechanic": "multiple_choice",
+              "reading_passage": "In Britain children start school when they are five. Their first year - the reception - is usually a very happy one for the child. They learn to follow instructions from the teachers. Lots of new skills are introduced. Communal activities, socialising with the other children, learning to take turns are all part of the first-year experience.\nAs they paint, draw, and do other creative activities, they interact with other children and their language skills develop. When they have music and movement lessons or gym activities, they learn to control their body movements. Children learn to cooperate with others. During music lessons, they have to listen to a rhythm and try to copy it, and sing simple tunes.\nIn the morning students have number work and reading skills. The afternoons are more creative. They learn to have parties, make little cakes and pour cups of tea for others. They love dressing up in costumes and acting like adults.",
+              "questions": [
+                { "question_id": "ty2_ex7_q1", "label": "1", "prompt_text": "What is the first year of school called in Britain?", "options": [{ "id": "A", "text": "The reception" }, { "id": "B", "text": "The year one" }, { "id": "C", "text": "The beginners' year" }, { "id": "D", "text": "The starters' year" }], "correct_answer": "A" },
+                { "question_id": "ty2_ex7_q2", "label": "2", "prompt_text": "Which of the following encourages language development?", "options": [{ "id": "A", "text": "Number work" }, { "id": "B", "text": "Creative activities" }, { "id": "C", "text": "Music and singing" }, { "id": "D", "text": "Movement lessons" }], "correct_answer": "B" },
+                { "question_id": "ty2_ex7_q3", "label": "3", "prompt_text": "The highlighted word \"interact\" in the passage is closest in meaning to ___.", "options": [{ "id": "A", "text": "control" }, { "id": "B", "text": "study" }, { "id": "C", "text": "follow" }, { "id": "D", "text": "communicate" }], "correct_answer": "D" },
+                { "question_id": "ty2_ex7_q4", "label": "4", "prompt_text": "What types of learning do children take part in before lunch?", "options": [{ "id": "A", "text": "Maths and reading" }, { "id": "B", "text": "Making parties" }, { "id": "C", "text": "Making cakes" }, { "id": "D", "text": "Acting in plays" }], "correct_answer": "A" },
+                { "question_id": "ty2_ex7_q5", "label": "5", "prompt_text": "Which of the following is NOT true, according to the passage?", "options": [{ "id": "A", "text": "Children in Britain start school when they are five." }, { "id": "B", "text": "When children interact with each other, their language skills develop." }, { "id": "C", "text": "In their music lessons, they try to copy musical notes." }, { "id": "D", "text": "Children love dressing up and acting like adults." }], "correct_answer": "C", "explanation_vi": "Trong bài viết 'try to copy it' (bắt chước nhịp điệu - a rhythm), không phải bắt chước nốt nhạc (musical notes)." }
+              ]
+            },
+            {
+              "exercise_id": "ty2_ex8",
+              "exercise_number": 8,
+              "instruction_en": "Rewrite the sentences so that their meaning stays the same. The beginning of each sentence is given. (1.0 pt)",
+              "instruction_vi": "Viết lại các câu sau sao cho nghĩa không đổi.",
+              "game_mechanic": "sentence_transformation",
+              "questions": [
+                { "question_id": "ty2_ex8_q1", "label": "1", "original_sentence": "The Louvre in Paris is the largest art museum in the world.", "starter": "No other art museum in the world is as", "correct_answer": "No other art museum in the world is as large as the Louvre in Paris." },
+                { "question_id": "ty2_ex8_q2", "label": "2", "original_sentence": "I'd like to know the price of a kilo of pork.", "starter": "I asked: \"How", "correct_answer": "I asked: \"How much is a kilo of pork?\"" },
+                { "question_id": "ty2_ex8_q3", "label": "3", "original_sentence": "This film is not like the others: It is educational and informative.", "starter": "This film is different", "correct_answer": "This film is different from the others: It is educational and informative." },
+                { "question_id": "ty2_ex8_q4", "label": "4", "original_sentence": "Collecting and trying recipes from foreign countries is one of Jane's interests.", "starter": "Jane is", "correct_answer": "Jane is interested in collecting and trying recipes from foreign countries." },
+                { "question_id": "ty2_ex8_q5", "label": "5", "original_sentence": "Because of the heavy rain, they didn't go camping yesterday.", "starter": "Because it", "correct_answer": "Because it rained heavily, they didn't go camping yesterday." }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

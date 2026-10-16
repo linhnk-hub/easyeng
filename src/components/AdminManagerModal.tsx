@@ -365,6 +365,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [clusterJsonModal, setClusterJsonModal] = useState<{
     clusterIndex: number;
     title: string;
+    description?: string;
     rawText: string;
     detectedCount: number;
     error: string | null;
@@ -407,14 +408,26 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     }
   };
 
-  const handleLoadOfficialGrade4Workbooks = () => {
+  const handleLoadOfficialGrade4Workbooks = async () => {
     soundEffects.playClick();
     const defaults = createDefaultClusters(4, 4);
     setExerciseClustersMap(prev => ({
       ...prev,
       [4]: defaults
     }));
-    setExerciseSaveSuccess('Đã nạp toàn bộ 4 học phần Sách bài tập Lớp 4 chuẩn (833 câu hỏi)! Nhấn "Lưu tất cả học phần lên Cloud" để đồng bộ cho học sinh.');
+    await onSaveExercises?.(4, defaults);
+    setExerciseSaveSuccess('Đã nạp và lưu thành công toàn bộ 4 học phần Sách bài tập Lớp 4 chuẩn (833 câu hỏi) và đồng bộ Cloud!');
+  };
+
+  const handleLoadOfficialGrade7Workbooks = async () => {
+    soundEffects.playClick();
+    const defaults = createDefaultClusters(7, 4);
+    setExerciseClustersMap(prev => ({
+      ...prev,
+      [7]: defaults
+    }));
+    await onSaveExercises?.(7, defaults);
+    setExerciseSaveSuccess('Đã nạp và lưu thành công toàn bộ 4 học phần Sách bài tập Lớp 7 chuẩn (910 câu hỏi) và đồng bộ Cloud!');
   };
 
   const handleAddCluster = () => {
@@ -422,10 +435,12 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     const current = getCurrentGradeClusters();
     const nextNum = current.length + 1;
     const newCluster = createEmptyCluster(nextNum, selectedExerciseGrade);
+    const updated = [...current, newCluster];
     setExerciseClustersMap(prev => ({
       ...prev,
-      [selectedExerciseGrade]: [...current, newCluster]
+      [selectedExerciseGrade]: updated
     }));
+    onSaveExercises?.(selectedExerciseGrade, updated);
   };
 
   const handleDeleteCluster = (clusterIdx: number) => {
@@ -444,6 +459,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
         ...prev,
         [selectedExerciseGrade]: filtered
       }));
+      onSaveExercises?.(selectedExerciseGrade, filtered);
     }
   };
 
@@ -453,6 +469,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     if (updated[clusterIdx]) {
       updated[clusterIdx] = { ...updated[clusterIdx], title: newTitle };
       setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: updated }));
+      onSaveExercises?.(selectedExerciseGrade, updated);
     }
   };
 
@@ -460,8 +477,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     const current = getCurrentGradeClusters();
     const updated = [...current];
     if (updated[clusterIdx]) {
+      // Cho phép để trống (rỗng "") mô tả mà không bị reset
       updated[clusterIdx] = { ...updated[clusterIdx], description: newDesc };
       setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: updated }));
+      onSaveExercises?.(selectedExerciseGrade, updated);
     }
   };
 
@@ -473,6 +492,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setClusterJsonModal({
       clusterIndex: clusterIdx,
       title: target.title,
+      description: target.description !== undefined ? target.description : '',
       rawText: target.rawJson || '',
       detectedCount: target.questions?.length || 0,
       error: null
@@ -506,7 +526,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   const handleApplyClusterJson = () => {
     if (!clusterJsonModal) return;
-    const { clusterIndex, rawText } = clusterJsonModal;
+    const { clusterIndex, rawText, title, description } = clusterJsonModal;
     const parsedRes = parseExerciseJson(rawText, clusterIndex + 1, selectedExerciseGrade);
     if (parsedRes.cluster.questions.length === 0 && parsedRes.error) {
       soundEffects.playError();
@@ -515,17 +535,24 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     soundEffects.playSuccess();
     const current = getCurrentGradeClusters();
     const updated = [...current];
+
+    // Giữ nguyên tiêu đề và mô tả người dùng đã nhập (kể cả khi mô tả để trống "")
+    const finalTitle = title && title.trim() ? title : (parsedRes.cluster.title || current[clusterIndex]?.title);
+    const finalDesc = description !== undefined ? description : (parsedRes.cluster.description || '');
+
     updated[clusterIndex] = {
       ...parsedRes.cluster,
-      title: clusterJsonModal.title || parsedRes.cluster.title,
+      title: finalTitle,
+      description: finalDesc,
       clusterNumber: clusterIndex + 1
     };
     setExerciseClustersMap(prev => ({
       ...prev,
       [selectedExerciseGrade]: updated
     }));
+    onSaveExercises?.(selectedExerciseGrade, updated);
     setClusterJsonModal(null);
-    setExerciseSaveSuccess(`Đã nạp thành công ${parsedRes.cluster.questions.length} câu hỏi vào Học phần ${clusterIndex + 1}! Nhấn nút "Lưu tất cả học phần lên Cloud" bên dưới để hoàn tất.`);
+    setExerciseSaveSuccess(`Đã nạp và lưu thành công ${parsedRes.cluster.questions.length} câu hỏi vào Học phần ${clusterIndex + 1}!`);
   };
 
   const handleSaveAllExerciseClusters = async () => {
@@ -1016,6 +1043,20 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
           <button
             onClick={() => {
               soundEffects.playClick();
+              setActiveTab('branding');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'branding'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <Sparkles className="w-4 h-4" /> Cài đặt Logo
+          </button>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
               setActiveTab('classes');
             }}
             className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
@@ -1039,20 +1080,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
             }`}
           >
             <Code2 className="w-4 h-4" /> Quản lý JSON
-          </button>
-
-          <button
-            onClick={() => {
-              soundEffects.playClick();
-              setActiveTab('branding');
-            }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
-              activeTab === 'branding'
-                ? 'border-amber-500 text-amber-700'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <Sparkles className="w-4 h-4" /> Cài đặt Logo
           </button>
         </div>
 
@@ -1769,7 +1796,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   }`}
                 >
                   <BookOpen className="w-4 h-4" />
-                  <span>Dữ liệu Giáo trình SGK</span>
+                  <span>Dữ liệu Sách giáo khoa</span>
                 </button>
 
                 <button
@@ -1785,12 +1812,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   }`}
                 >
                   <FileText className="w-4 h-4" />
-                  <span>Quản lý dữ liệu bài tập JSON</span>
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
-                    jsonSubTab === 'exercises' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-700'
-                  }`}>
-                    {getCurrentGradeClusters().length} Học phần
-                  </span>
+                  <span>Dữ liệu Sách bài tập</span>
                 </button>
               </div>
 
@@ -1800,7 +1822,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <h3 className="font-display font-bold text-lg text-slate-800">
-                        Quản lý dữ liệu giáo trình JSON
+                        Quản lý dữ liệu Sách giáo khoa
                       </h3>
                       <p className="text-xs text-slate-500">
                         Xem, dán code trích xuất từ NotebookLM, sao chép hoặc nhập tệp tin JSON
@@ -1920,10 +1942,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <h3 className="font-display font-bold text-lg text-slate-800 flex items-center gap-2">
-                        <span>Quản lý dữ liệu học phần bài tập JSON</span>
-                        <span className="text-xs font-semibold px-2 py-0.5 bg-purple-100 text-purple-700 rounded-md">
-                          Trích xuất từ PDF
-                        </span>
+                        <span>Dữ liệu Sách bài tập</span>
                       </h3>
                       <p className="text-xs text-slate-500">
                         Cấu hình các học phần bài tập, nạp dữ liệu câu hỏi từ file JSON và đồng bộ tới học sinh.
@@ -1982,6 +2001,19 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                         >
                           <BookOpen className="w-3.5 h-3.5" />
                           <span>Nạp 4 file JSON SGK Lớp 4 (833 câu)</span>
+                        </button>
+                      )}
+
+                      {/* Nút nạp sẵn 4 file JSON cho Lớp 7 */}
+                      {selectedExerciseGrade === 7 && (
+                        <button
+                          type="button"
+                          onClick={handleLoadOfficialGrade7Workbooks}
+                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer active:scale-95"
+                          title="Tải lên và nạp sẵn 4 học phần Sách bài tập Global Success Lớp 7 (910 câu)"
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          <span>Nạp 4 file JSON SGK Lớp 7 (910 câu)</span>
                         </button>
                       )}
 
@@ -2073,21 +2105,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             placeholder="Mô tả nội dung học phần (ví dụ: Ôn tập ngữ pháp, câu hỏi từ vựng Unit 1 - 5)..."
                             className="w-full px-3 py-1.5 text-xs text-slate-600 bg-slate-50 hover:bg-white border border-slate-200 focus:bg-white focus:border-purple-400 rounded-xl transition focus:outline-none"
                           />
-
-                          {/* Preview 2 câu hỏi mẫu nếu đã load */}
-                          {qCount > 0 && (
-                            <div className="bg-slate-50/70 p-2.5 rounded-xl border border-slate-100 text-xs text-slate-600 space-y-1">
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                                Xem nhanh câu hỏi đã nạp:
-                              </span>
-                              {cluster.questions.slice(0, 2).map((q, qIdx) => (
-                                <div key={qIdx} className="truncate flex items-center gap-1.5 text-[11px]">
-                                  <span className="font-bold text-purple-600 shrink-0">Câu {qIdx + 1}:</span>
-                                  <span className="truncate">{q.question}</span>
-                                </div>
-                              ))}
-                            </div>
-                          )}
                         </div>
                       );
                     })}
