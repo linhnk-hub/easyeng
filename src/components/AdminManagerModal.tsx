@@ -583,7 +583,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setExerciseSaveError(null);
     try {
       const current = getCurrentGradeClusters();
-      await onSaveExercises?.(selectedExerciseGrade, current);
+      const ok = await onSaveExercises?.(selectedExerciseGrade, current);
+      if (ok === false) {
+        throw new Error('Lưu bộ nhớ tạm thành công nhưng không thể đồng bộ lên Cloud Firestore.');
+      }
       setHasUnsavedExerciseChanges(false);
       soundEffects.playSuccess();
       setExerciseSaveSuccess(`Đã lưu và đồng bộ thành công ${current.length} Học phần bài tập Lớp ${selectedExerciseGrade} lên Cloud Firestore! Dữ liệu đã có hiệu lực cho học sinh.`);
@@ -2060,15 +2063,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                         <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
                         <span>Có thay đổi dữ liệu chưa lưu! Hãy bấm <strong>Lưu dữ liệu bài tập</strong> để áp dụng có hiệu lực.</span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={handleSaveAllExerciseClusters}
-                        disabled={isSavingExercises}
-                        className="px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl text-xs font-bold shadow-xs transition active:scale-95 cursor-pointer shrink-0 flex items-center gap-1.5"
-                      >
-                        <Save className="w-3.5 h-3.5" />
-                        <span>Lưu ngay</span>
-                      </button>
                     </div>
                   )}
                   {exerciseSaveError && (

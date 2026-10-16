@@ -367,7 +367,30 @@ export function subscribeToCurriculum(callback: (curriculumMap: Record<number, U
 export async function syncExercisesToCloud(grade: number, clusters: ExerciseCluster[]): Promise<boolean> {
   const path = `exercises/${grade}`;
   try {
-    const cleanClusters = JSON.parse(JSON.stringify(clusters));
+    // Tối ưu hóa kích thước dữ liệu: loại bỏ rawJson trùng lặp để tài liệu không vượt quá giới hạn 1MB của Firestore
+    const cleanClusters = clusters.map(c => ({
+      id: c.id,
+      clusterNumber: c.clusterNumber,
+      title: c.title,
+      description: c.description || '',
+      grade: Number(c.grade || grade),
+      itemsCount: c.questions?.length || 0,
+      updatedAt: c.updatedAt || new Date().toISOString(),
+      questions: (c.questions || []).map(q => {
+        const item: any = {
+          id: q.id,
+          question: q.question,
+          options: q.options || [],
+          answerIndex: typeof q.answerIndex === 'number' ? q.answerIndex : 0,
+          type: q.type || 'quiz'
+        };
+        if (q.explanation) item.explanation = q.explanation;
+        if (q.hint) item.hint = q.hint;
+        if (q.unitNumber) item.unitNumber = q.unitNumber;
+        return item;
+      })
+    }));
+
     await setDoc(doc(db, 'exercises', String(grade)), {
       grade: Number(grade),
       clusters: cleanClusters,
