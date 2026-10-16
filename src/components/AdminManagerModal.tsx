@@ -360,6 +360,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [exerciseSaveSuccess, setExerciseSaveSuccess] = useState<string | null>(null);
   const [exerciseSaveError, setExerciseSaveError] = useState<string | null>(null);
   const [isSavingExercises, setIsSavingExercises] = useState(false);
+  const [hasUnsavedExerciseChanges, setHasUnsavedExerciseChanges] = useState<boolean>(false);
 
   // Modal Load JSON for a specific cluster
   const [clusterJsonModal, setClusterJsonModal] = useState<{
@@ -379,13 +380,19 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   };
 
   const handleSelectExerciseGrade = (grade: number) => {
+    if (hasUnsavedExerciseChanges) {
+      if (!window.confirm(`Dữ liệu bài tập Lớp ${selectedExerciseGrade} đang có thay đổi chưa lưu. Bạn có muốn chuyển sang Lớp ${grade} mà không lưu không?`)) {
+        return;
+      }
+    }
     setSelectedExerciseGrade(grade);
+    setHasUnsavedExerciseChanges(false);
     setExerciseSaveSuccess(null);
     setExerciseSaveError(null);
     if (!exerciseClustersMap[grade] || exerciseClustersMap[grade].length === 0) {
       setExerciseClustersMap(prev => ({
         ...prev,
-        [grade]: createDefaultClusters(grade, 4)
+        [grade]: (gradeExercisesMap && gradeExercisesMap[grade]) || createDefaultClusters(grade, 4)
       }));
     }
   };
@@ -400,34 +407,36 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
         added.push(createEmptyCluster(i, selectedExerciseGrade));
       }
       setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: added }));
+      setHasUnsavedExerciseChanges(true);
     } else {
       if (window.confirm(`Bạn có chắc chắn muốn giảm số lượng học phần xuống ${newCount} học phần không? Các học phần phía sau sẽ bị lược bỏ.`)) {
         const sliced = current.slice(0, newCount);
         setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: sliced }));
+        setHasUnsavedExerciseChanges(true);
       }
     }
   };
 
-  const handleLoadOfficialGrade4Workbooks = async () => {
+  const handleLoadOfficialGrade4Workbooks = () => {
     soundEffects.playClick();
     const defaults = createDefaultClusters(4, 4);
     setExerciseClustersMap(prev => ({
       ...prev,
       [4]: defaults
     }));
-    await onSaveExercises?.(4, defaults);
-    setExerciseSaveSuccess('Đã nạp và lưu thành công toàn bộ 4 học phần Sách bài tập Lớp 4 chuẩn (833 câu hỏi) và đồng bộ Cloud!');
+    setHasUnsavedExerciseChanges(true);
+    setExerciseSaveSuccess('Đã nạp 4 học phần Sách bài tập Lớp 4 chuẩn (833 câu hỏi) vào biểu mẫu. Hãy nhấn nút "Lưu dữ liệu bài tập Lớp 4" bên dưới để áp dụng có hiệu lực!');
   };
 
-  const handleLoadOfficialGrade7Workbooks = async () => {
+  const handleLoadOfficialGrade7Workbooks = () => {
     soundEffects.playClick();
     const defaults = createDefaultClusters(7, 4);
     setExerciseClustersMap(prev => ({
       ...prev,
       [7]: defaults
     }));
-    await onSaveExercises?.(7, defaults);
-    setExerciseSaveSuccess('Đã nạp và lưu thành công toàn bộ 4 học phần Sách bài tập Lớp 7 chuẩn (910 câu hỏi) và đồng bộ Cloud!');
+    setHasUnsavedExerciseChanges(true);
+    setExerciseSaveSuccess('Đã nạp 4 học phần Sách bài tập Lớp 7 chuẩn (910 câu hỏi) vào biểu mẫu. Hãy nhấn nút "Lưu dữ liệu bài tập Lớp 7" bên dưới để áp dụng có hiệu lực!');
   };
 
   const handleAddCluster = () => {
@@ -440,7 +449,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       ...prev,
       [selectedExerciseGrade]: updated
     }));
-    onSaveExercises?.(selectedExerciseGrade, updated);
+    setHasUnsavedExerciseChanges(true);
   };
 
   const handleDeleteCluster = (clusterIdx: number) => {
@@ -459,7 +468,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
         ...prev,
         [selectedExerciseGrade]: filtered
       }));
-      onSaveExercises?.(selectedExerciseGrade, filtered);
+      setHasUnsavedExerciseChanges(true);
     }
   };
 
@@ -469,7 +478,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     if (updated[clusterIdx]) {
       updated[clusterIdx] = { ...updated[clusterIdx], title: newTitle };
       setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: updated }));
-      onSaveExercises?.(selectedExerciseGrade, updated);
+      setHasUnsavedExerciseChanges(true);
     }
   };
 
@@ -480,7 +489,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       // Cho phép để trống (rỗng "") mô tả mà không bị reset
       updated[clusterIdx] = { ...updated[clusterIdx], description: newDesc };
       setExerciseClustersMap(prev => ({ ...prev, [selectedExerciseGrade]: updated }));
-      onSaveExercises?.(selectedExerciseGrade, updated);
+      setHasUnsavedExerciseChanges(true);
     }
   };
 
@@ -550,9 +559,21 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       ...prev,
       [selectedExerciseGrade]: updated
     }));
-    onSaveExercises?.(selectedExerciseGrade, updated);
+    setHasUnsavedExerciseChanges(true);
     setClusterJsonModal(null);
-    setExerciseSaveSuccess(`Đã nạp và lưu thành công ${parsedRes.cluster.questions.length} câu hỏi vào Học phần ${clusterIndex + 1}!`);
+    setExerciseSaveSuccess(`Đã nạp ${parsedRes.cluster.questions.length} câu hỏi vào Học phần ${clusterIndex + 1}! Hãy bấm nút "Lưu dữ liệu bài tập Lớp ${selectedExerciseGrade}" bên dưới để có hiệu lực.`);
+  };
+
+  const handleResetExerciseDraft = () => {
+    soundEffects.playClick();
+    const original = (gradeExercisesMap && gradeExercisesMap[selectedExerciseGrade]) || createDefaultClusters(selectedExerciseGrade, 4);
+    setExerciseClustersMap(prev => ({
+      ...prev,
+      [selectedExerciseGrade]: JSON.parse(JSON.stringify(original))
+    }));
+    setHasUnsavedExerciseChanges(false);
+    setExerciseSaveSuccess('Đã hủy các thay đổi chưa lưu và khôi phục dữ liệu đã lưu gần nhất.');
+    setTimeout(() => setExerciseSaveSuccess(null), 4000);
   };
 
   const handleSaveAllExerciseClusters = async () => {
@@ -563,8 +584,9 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     try {
       const current = getCurrentGradeClusters();
       await onSaveExercises?.(selectedExerciseGrade, current);
+      setHasUnsavedExerciseChanges(false);
       soundEffects.playSuccess();
-      setExerciseSaveSuccess(`Đã lưu và đồng bộ thành công ${current.length} Học phần bài tập Lớp ${selectedExerciseGrade} lên Cloud Firestore! Học sinh Lớp ${selectedExerciseGrade} đã có thể làm các bài tập này ngay.`);
+      setExerciseSaveSuccess(`Đã lưu và đồng bộ thành công ${current.length} Học phần bài tập Lớp ${selectedExerciseGrade} lên Cloud Firestore! Dữ liệu đã có hiệu lực cho học sinh.`);
       setTimeout(() => setExerciseSaveSuccess(null), 6000);
     } catch (err: any) {
       soundEffects.playError();
@@ -1015,6 +1037,11 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
           <button
             onClick={() => {
+              if (hasUnsavedExerciseChanges) {
+                if (!window.confirm(`Dữ liệu bài tập Lớp ${selectedExerciseGrade} đang có thay đổi chưa lưu. Bạn có chắc chắn muốn đóng mà không lưu không?`)) {
+                  return;
+                }
+              }
               soundEffects.playClick();
               onClose();
             }}
@@ -1627,9 +1654,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                        Lớp:
-                      </label>
+
                       <select
                         value={newClassGrade}
                         onChange={(e) => setNewClassGrade(Number(e.target.value))}
@@ -1950,8 +1975,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                     </div>
 
                     {/* Mục Chọn Lớp */}
-                    <div className="flex items-center gap-2 bg-purple-50 p-1.5 px-3 rounded-2xl border border-purple-200">
-                      <span className="text-xs font-bold text-purple-800">Lớp:</span>
+                     
                       <select
                         value={selectedExerciseGrade}
                         onChange={(e) => handleSelectExerciseGrade(Number(e.target.value))}
@@ -1963,7 +1987,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                           </option>
                         ))}
                       </select>
-                    </div>
+                    
                   </div>
 
                   {/* Thanh điều khiển số lượng học phần (Mặc định 4 học phần) & Nút + Thêm học phần */}
@@ -2030,6 +2054,23 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   </div>
 
                   {/* Feedback Banners */}
+                  {hasUnsavedExerciseChanges && (
+                    <div className="p-3 rounded-2xl bg-amber-50 border border-amber-300 text-amber-900 text-xs font-semibold flex items-center justify-between gap-3 shadow-xs">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                        <span>Có thay đổi dữ liệu chưa lưu! Hãy bấm <strong>Lưu dữ liệu bài tập</strong> để áp dụng có hiệu lực.</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleSaveAllExerciseClusters}
+                        disabled={isSavingExercises}
+                        className="px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl text-xs font-bold shadow-xs transition active:scale-95 cursor-pointer shrink-0 flex items-center gap-1.5"
+                      >
+                        <Save className="w-3.5 h-3.5" />
+                        <span>Lưu ngay</span>
+                      </button>
+                    </div>
+                  )}
                   {exerciseSaveError && (
                     <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {exerciseSaveError}
@@ -2111,16 +2152,55 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   </div>
 
                   {/* Save All Clusters Footer */}
-                  <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-200">
-                    <button
-                      type="button"
-                      disabled={isSavingExercises}
-                      onClick={handleSaveAllExerciseClusters}
-                      className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-display font-bold text-xs shadow-md shadow-purple-600/20 transition active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
-                    >
-                      <Save className="w-4 h-4" />
-                      <span>{isSavingExercises ? 'Đang lưu lên Cloud...' : `Lưu tất cả học phần bài tập Lớp ${selectedExerciseGrade} lên Cloud 🚀`}</span>
-                    </button>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-200">
+                    <div className="text-xs">
+                      {hasUnsavedExerciseChanges ? (
+                        <span className="text-amber-700 font-bold flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse inline-block" />
+                          Có thay đổi chưa lưu (bấm nút Lưu để có hiệu lực)
+                        </span>
+                      ) : (
+                        <span className="text-slate-500 flex items-center gap-1.5">
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          Dữ liệu bài tập Lớp {selectedExerciseGrade} đã được lưu
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {hasUnsavedExerciseChanges && (
+                        <button
+                          type="button"
+                          onClick={handleResetExerciseDraft}
+                          disabled={isSavingExercises}
+                          className="px-4 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-100 text-slate-600 font-display font-bold text-xs transition cursor-pointer flex items-center gap-1.5"
+                          title="Hủy bỏ các thay đổi và tải lại dữ liệu đã lưu gần nhất"
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                          <span>Hủy thay đổi</span>
+                        </button>
+                      )}
+
+                      <button
+                        type="button"
+                        disabled={isSavingExercises}
+                        onClick={handleSaveAllExerciseClusters}
+                        className={`px-6 py-2.5 rounded-xl text-white font-display font-bold text-xs shadow-md transition active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50 ${
+                          hasUnsavedExerciseChanges
+                            ? 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 shadow-orange-500/25 ring-2 ring-orange-300'
+                            : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-purple-600/20'
+                        }`}
+                      >
+                        <Save className="w-4 h-4" />
+                        <span>
+                          {isSavingExercises
+                            ? 'Đang lưu...'
+                            : hasUnsavedExerciseChanges
+                            ? `Lưu dữ liệu bài tập Lớp ${selectedExerciseGrade} (Chưa lưu) 🚀`
+                            : `Lưu tất cả học phần bài tập Lớp ${selectedExerciseGrade} 🚀`}
+                        </span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}

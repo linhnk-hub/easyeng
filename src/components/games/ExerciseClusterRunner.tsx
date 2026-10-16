@@ -268,16 +268,7 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
             <Filter className="w-3.5 h-3.5 text-purple-600" />
             Lọc bài:
           </span>
-          <button
-            onClick={() => handleFilterChange('all')}
-            className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
-              selectedUnitFilter === 'all'
-                ? 'bg-purple-600 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            Tất cả ({allQuestions.length})
-          </button>
+
           {availableUnits.map(u => {
             const count = allQuestions.filter(q => q.unitNumber === u.num).length;
             return (
@@ -294,6 +285,16 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
               </button>
             );
           })}
+          <button
+            onClick={() => handleFilterChange('all')}
+            className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
+              selectedUnitFilter === 'all'
+                ? 'bg-purple-600 text-white shadow-2xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+            }`}
+          >
+            Tất cả ({allQuestions.length})
+          </button>
         </div>
       )}
 
