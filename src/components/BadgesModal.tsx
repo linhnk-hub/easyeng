@@ -13,13 +13,33 @@ interface BadgesModalProps {
 
 export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onClose }) => {
   const [activeTab, setActiveTab] = useState<'ranks' | 'badges'>('ranks');
-  const totalUnitsCount = units.length > 0 ? units.length : (user.grade <= 5 ? 20 : 12);
+  
+  // Tính số lượng tối đa Unit tương ứng với từng lớp học (Lớp 1-5: 20 Unit; Lớp 6-9: 12 Unit; Lớp 10-12: 10 Unit)
+  const getMaxUnitsForGrade = (grade: number, actualCount: number) => {
+    if (actualCount > 1) return actualCount;
+    if (grade <= 5) return 20;
+    if (grade <= 9) return 12;
+    return 10;
+  };
+  const totalUnitsCount = getMaxUnitsForGrade(user.grade, units.length);
 
   const currentRank = getRankTier(user.level, user.xp);
   const nextRank = getNextRankTier(user.level);
 
   const getBadgeProgress = (badgeId: string) => {
     const completed = user.completedUnits || {};
+    if (badgeId === 'first_word') {
+      const hasStarted = Object.values(completed).some(
+        (u: any) =>
+          (Number(u.flashcardStars) || 0) > 0 ||
+          (Number(u.memoryStars) || 0) > 0 ||
+          (Number(u.wordScrambleStars) || 0) > 0 ||
+          (Number(u.sentenceStars) || 0) > 0 ||
+          (Number(u.quizStars) || 0) > 0 ||
+          u.flashcardsDone
+      );
+      return { count: hasStarted ? 1 : 0, total: 1, label: `${hasStarted ? 1 : 0}/1 Unit` };
+    }
     if (badgeId === 'memory_champion') {
       const count = units.filter(u => (Number(completed[u.unit]?.memoryStars) || 0) === 3).length;
       return { count, total: totalUnitsCount, label: `${count}/${totalUnitsCount} Unit (3⭐)` };
@@ -220,7 +240,6 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
               </div>
               <ul className="list-disc pl-4 space-y-0.5 text-[11px] text-amber-800/90 leading-relaxed">
                 <li><strong>Thắng trò chơi mới:</strong> Nhận 50 XP cơ bản + 30 XP cho mỗi Sao đạt được (Đạt 3 sao nhận tối đa <strong>140 XP</strong>!).</li>
-                <li><strong>Luyện tập lại bài cũ:</strong> Đạt đủ 3 sao nhận <strong>5 XP</strong> mỗi lần hoàn thành.</li>
                 <li><strong>Quy định lên cấp:</strong> Mỗi <strong>500 XP</strong> tích lũy sẽ thăng 1 Cấp bậc mới (riêng từ Cấp 9 lên Cấp 10 cần <strong>1000 XP</strong>). Tối đa 10 Cấp Bậc!</li>
               </ul>
             </div>

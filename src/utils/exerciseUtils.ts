@@ -648,6 +648,25 @@ export function createDefaultClusters(grade: number, count: number = 4): Exercis
   return [];
 }
 
+export interface BuiltInClusterTemplate {
+  grade: number;
+  clusterNumber: number;
+  name: string;
+  description: string;
+  data: any;
+}
+
+export const BUILT_IN_WORKBOOK_TEMPLATES: BuiltInClusterTemplate[] = [
+  { grade: 4, clusterNumber: 1, name: 'Lớp 4 - Cụm 1: Units 1 - 5 & Self-check 1', description: 'Từ vựng, mẫu câu và bài tập Unit 1 đến 5', data: grade4Cluster1Data },
+  { grade: 4, clusterNumber: 2, name: 'Lớp 4 - Cụm 2: Units 6 - 10 & Self-check 2', description: 'Từ vựng, mẫu câu và bài tập Unit 6 đến 10', data: grade4Cluster2Data },
+  { grade: 4, clusterNumber: 3, name: 'Lớp 4 - Cụm 3: Units 11 - 15 & Self-check 3', description: 'Từ vựng, mẫu câu và bài tập Unit 11 đến 15', data: grade4Cluster3Data },
+  { grade: 4, clusterNumber: 4, name: 'Lớp 4 - Cụm 4: Units 16 - 20 & Self-check 4', description: 'Từ vựng, mẫu câu và bài tập Unit 16 đến 20', data: grade4Cluster4Data },
+  { grade: 7, clusterNumber: 1, name: 'Lớp 7 - Học phần 1: Units 1 - 3 & Test Yourself 1', description: 'Học phần 1 chương trình Global Success Lớp 7', data: grade7Cluster1Data },
+  { grade: 7, clusterNumber: 2, name: 'Lớp 7 - Học phần 2: Units 4 - 6 & Test Yourself 2', description: 'Học phần 2 chương trình Global Success Lớp 7', data: grade7Cluster2Data },
+  { grade: 7, clusterNumber: 3, name: 'Lớp 7 - Học phần 3: Units 7 - 9 & Test Yourself 3', description: 'Học phần 3 chương trình Global Success Lớp 7', data: grade7Cluster3Data },
+  { grade: 7, clusterNumber: 4, name: 'Lớp 7 - Học phần 4: Units 10 - 12 & Test Yourself 4', description: 'Học phần 4 chương trình Global Success Lớp 7', data: grade7Cluster4Data },
+];
+
 /**
  * Checks whether an exercise question belongs to a "Test Yourself" assessment.
  */

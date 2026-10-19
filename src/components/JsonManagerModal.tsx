@@ -145,7 +145,7 @@ export const JsonManagerModal: React.FC<JsonManagerModalProps> = ({
             onClick={handleReset}
             className="px-4 py-2.5 rounded-2xl border border-slate-200 text-slate-600 hover:bg-slate-50 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5" /> Khôi phục 20 Unit gốc
+            <RotateCcw className="w-3.5 h-3.5" /> Khôi phục toàn bộ Unit gốc
           </button>
 
           <div className="flex gap-2">

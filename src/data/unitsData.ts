@@ -2098,30 +2098,30 @@ export const BADGES: { id: string; title: string; description: string; icon: str
   {
     id: "memory_champion",
     title: "Trí Nhớ Siêu Phàm",
-    description: "Đạt thắng Lật thẻ 3 sao với tất cả các Unit",
+    description: "Đạt thắng Lật thẻ 3 sao với toàn bộ Unit",
     icon: "🧠",
-    reqSummary: "Thắng Lật thẻ 3 sao tất cả các Unit"
+    reqSummary: "Thắng Lật thẻ 3 sao toàn bộ Unit"
   },
   {
     id: "spelling_hero",
     title: "Dũng Sĩ Ghép Từ",
-    description: "Ghép đúng 3 sao với tất cả các Unit",
+    description: "Ghép đúng 3 sao với toàn bộ Unit",
     icon: "🏹",
-    reqSummary: "Ghép đúng 3 sao tất cả các Unit"
+    reqSummary: "Ghép đúng 3 sao toàn bộ Unit"
   },
   {
     id: "sentence_master",
     title: "Bậc Thầy Cú Pháp",
-    description: "Ghép đúng 3 sao tất cả các Unit",
+    description: "Ghép đúng 3 sao với toàn bộ Unit",
     icon: "🏰",
-    reqSummary: "Ghép đúng 3 sao tất cả các Unit"
+    reqSummary: "Ghép đúng 3 sao toàn bộ Unit"
   },
   {
     id: "quiz_scholar",
     title: "Trạng Nguyên Tiếng Anh",
-    description: "Đạt 3 sao điểm trắc nghiệm tất cả các Unit",
+    description: "Đạt 3 sao điểm trắc nghiệm toàn bộ Unit",
     icon: "👑",
-    reqSummary: "Đạt 3 sao trắc nghiệm tất cả các Unit"
+    reqSummary: "Đạt 3 sao trắc nghiệm toàn bộ Unit"
   },
   {
     id: "volume2_grad",
