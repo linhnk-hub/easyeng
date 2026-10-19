@@ -15,7 +15,7 @@ import {
 import { ExerciseCluster, ExerciseQuestion } from '../../types';
 import { soundEffects } from '../../services/soundEffects';
 import { speechService } from '../../services/speechService';
-import { isTestYourselfQuestion, isSelfCheckQuestion } from '../../utils/exerciseUtils';
+import { isTestYourselfQuestion, isSelfCheckQuestion, filterExercisesForOnline } from '../../utils/exerciseUtils';
 
 interface ExerciseClusterRunnerProps {
   cluster: ExerciseCluster;
@@ -30,7 +30,39 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
   onComplete,
   onBack
 }) => {
-  const allQuestions: ExerciseQuestion[] = cluster.questions || [];
+  const [showExitConfirmModal, setShowExitConfirmModal] = useState(false);
+
+  // Filter questions and track stats (removed images and conversation questions)
+  const questionFilterStats = useMemo(() => {
+    const baseStats = filterExercisesForOnline(cluster.questions || []);
+    const skippedImages = (cluster.skippedImageQuestions !== undefined && cluster.skippedImageQuestions > 0)
+      ? cluster.skippedImageQuestions
+      : baseStats.removedImagesCount;
+    const skippedAudio = (cluster.skippedAudioQuestions !== undefined && cluster.skippedAudioQuestions > 0)
+      ? cluster.skippedAudioQuestions
+      : baseStats.removedDialoguesCount;
+    const totalRaw = (cluster.totalRawQuestions !== undefined && cluster.totalRawQuestions > 0)
+      ? cluster.totalRawQuestions
+      : (baseStats.validQuestions.length + skippedImages + skippedAudio);
+
+    return {
+      validQuestions: baseStats.validQuestions,
+      skippedImages,
+      skippedAudio,
+      totalRaw
+    };
+  }, [cluster]);
+
+  const allQuestions: ExerciseQuestion[] = questionFilterStats.validQuestions;
+
+  const handleRequestBack = () => {
+    soundEffects.playClick();
+    if (isFinished) {
+      onBack();
+    } else {
+      setShowExitConfirmModal(true);
+    }
+  };
 
   // Helper to check whether a question belongs to a specific filter key
   const matchesFilter = useCallback((q: ExerciseQuestion, filterKey: number | string | 'all') => {
@@ -325,6 +357,11 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
             Về danh sách bài tập ➔
           </button>
         </div>
+
+        {/* Note about skipped questions */}
+        <div className="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 text-xs text-amber-900 text-center">
+          📌 Đã bỏ <strong>{questionFilterStats.skippedImages}</strong> câu hỏi hình ảnh, <strong>{questionFilterStats.skippedAudio}</strong> câu hỏi có nội dung nghe đoạn hội thoại trên tổng số <strong>{questionFilterStats.totalRaw}</strong> câu hỏi sách bài tập.
+        </div>
       </div>
     );
   }
@@ -337,7 +374,7 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
       {/* Top Header Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-3xl border border-slate-200 shadow-2xs">
         <button
-          onClick={onBack}
+          onClick={handleRequestBack}
           className="self-start sm:self-auto p-2 hover:bg-slate-100 rounded-xl text-slate-600 transition cursor-pointer flex items-center gap-1.5 font-bold text-xs"
         >
           <ArrowLeft className="w-4 h-4" /> Quay lại
@@ -356,6 +393,14 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
           <Trophy className="w-3.5 h-3.5 text-amber-600" />
           <span>{score} điểm</span>
         </div>
+      </div>
+
+      {/* Thông báo số câu hỏi đã bỏ theo yêu cầu */}
+      <div className="bg-amber-50/90 border border-amber-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 text-xs text-amber-900 shadow-2xs">
+        <span className="text-base shrink-0">📌</span>
+        <span className="leading-relaxed">
+          Đã bỏ <strong>{questionFilterStats.skippedImages}</strong> câu hỏi hình ảnh, <strong>{questionFilterStats.skippedAudio}</strong> câu hỏi có nội dung nghe đoạn hội thoại trên tổng số <strong>{questionFilterStats.totalRaw}</strong> câu hỏi sách bài tập.
+        </span>
       </div>
 
       {/* Unit Selector Pills (if cluster contains multiple units) */}
@@ -584,6 +629,47 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
           </div>
         )}
       </div>
+
+      {/* Warning confirmation modal when exiting exercises */}
+      {showExitConfirmModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-white rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100">
+            <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mx-auto shadow-inner">
+              ⚠️
+            </div>
+            <div>
+              <h3 className="font-display font-black text-lg text-slate-800">
+                Dừng làm bài tập?
+              </h3>
+              <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                Bạn có chắc chắn muốn quay lại danh sách bài tập không? Tiến trình làm bài hiện tại sẽ không được lưu nếu bạn rời khỏi lúc này.
+              </p>
+            </div>
+            <div className="flex gap-2.5 pt-2">
+              <button
+                onClick={() => {
+                  soundEffects.playClick();
+                  setShowExitConfirmModal(false);
+                }}
+                className="flex-1 py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs sm:text-sm rounded-2xl transition cursor-pointer"
+              >
+                Tiếp tục làm bài
+              </button>
+              <button
+                onClick={() => {
+                  soundEffects.playClick();
+                  setShowExitConfirmModal(false);
+                  onBack();
+                }}
+                className="flex-1 py-3 px-4 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-md shadow-red-500/20 transition cursor-pointer"
+              >
+                Rời khỏi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+

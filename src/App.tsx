@@ -26,6 +26,8 @@ import { speechService, VoiceGender } from './services/speechService';
 import { CustomAvatarItem } from './utils/avatarUtils';
 import { getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, getGradeLevelName } from './utils/gradeUtils';
 import { createDefaultClusters } from './utils/exerciseUtils';
+import { calculateUpdatedStreak } from './utils/streakUtils';
+import { calculateLevelFromXp } from './data/ranksData';
 import {
   testConnection,
   syncLearnerToCloud,
@@ -585,6 +587,7 @@ export default function App() {
           const lUnits = gradeUnitsMap[l.grade] || getDefaultUnitsForGrade(l.grade);
           return {
             ...l,
+            level: calculateLevelFromXp(l.xp || 0),
             unlockedBadges: computeLearnerBadges(l.completedUnits, l.unlockedBadges || [], lUnits)
           };
         });
@@ -603,6 +606,7 @@ export default function App() {
           const lUnits = gradeUnitsMap[l.grade] || getDefaultUnitsForGrade(l.grade);
           return {
             ...l,
+            level: calculateLevelFromXp(l.xp || 0),
             unlockedBadges: computeLearnerBadges(l.completedUnits, l.unlockedBadges || [], lUnits)
           };
         });
@@ -793,14 +797,22 @@ export default function App() {
     if (!currentUser) return;
     const addedXp = score * 15;
     const newXp = currentUser.xp + addedXp;
-    const newLevel = Math.floor(newXp / 200) + 1;
+    const newLevel = calculateLevelFromXp(newXp);
     const newTotalStars = currentUser.totalStars + starsEarned;
+
+    const streakResult = calculateUpdatedStreak(
+      currentUser.currentStreak,
+      currentUser.lastActiveDate,
+      currentUser.highestStreak
+    );
 
     const updatedUser: UserProfile = {
       ...currentUser,
       xp: newXp,
       level: newLevel,
       totalStars: newTotalStars,
+      currentStreak: streakResult.currentStreak,
+      highestStreak: streakResult.highestStreak,
       lastActiveDate: new Date().toISOString()
     };
 
@@ -841,6 +853,32 @@ export default function App() {
   const handleSelectLearner = (learnerId: string) => {
     setActiveLearnerId(learnerId);
     setActiveGame('none');
+
+    // Automatically check and increment daily consecutive streak when entering learner profile
+    setLearners(prev => {
+      const target = prev.find(l => l.learnerId === learnerId);
+      if (!target) return prev;
+
+      const streakRes = calculateUpdatedStreak(
+        target.currentStreak,
+        target.lastActiveDate,
+        target.highestStreak
+      );
+      const correctLevel = calculateLevelFromXp(target.xp);
+
+      if (streakRes.streakUpdated || !target.lastActiveDate || target.level !== correctLevel) {
+        const updated: UserProfile = {
+          ...target,
+          level: correctLevel,
+          currentStreak: streakRes.currentStreak,
+          highestStreak: streakRes.highestStreak,
+          lastActiveDate: new Date().toISOString()
+        };
+        syncLearnerToCloud(updated).catch(() => {});
+        return prev.map(l => l.learnerId === learnerId ? updated : l);
+      }
+      return prev;
+    });
   };
 
   const handleSwitchLearner = () => {
@@ -911,9 +949,24 @@ export default function App() {
     }
 
     const starDelta = Math.max(0, starsEarned - prevStarsForThisGame);
-    const addedXp = starDelta > 0 ? (50 + starDelta * 30) : (starsEarned > 0 ? 20 : 0);
+    // User requirement:
+    // "luyện tập bài cũ đạt đủ 3 sao cộng 5 XP, quy định lên cấp: 500 XP, bỏ cấp 11, chỉ lấy tối đa 10 cấp và đặc biệt từ cấp 9 lên 10 cách nhau 1000 XP"
+    let addedXp = 0;
+    if (starDelta > 0) {
+      addedXp = 50 + starDelta * 30;
+    } else if (starsEarned === 3) {
+      // Luyện tập bài cũ đạt đủ 3 sao: cộng 5 XP
+      addedXp = 5;
+    }
+
     const newXp = currentUser.xp + addedXp;
-    const newLevel = Math.floor(newXp / 200) + 1;
+    const newLevel = calculateLevelFromXp(newXp);
+
+    const streakResult = calculateUpdatedStreak(
+      currentUser.currentStreak,
+      currentUser.lastActiveDate,
+      currentUser.highestStreak
+    );
 
     const newCompletedUnits = {
       ...currentUser.completedUnits
@@ -940,8 +993,11 @@ export default function App() {
       xp: newXp,
       level: newLevel,
       totalStars: newTotalStars,
+      currentStreak: streakResult.currentStreak,
+      highestStreak: streakResult.highestStreak,
       completedUnits: newCompletedUnits,
-      unlockedBadges: newBadges
+      unlockedBadges: newBadges,
+      lastActiveDate: new Date().toISOString()
     };
 
     setLearners(prev => prev.map(l => l.learnerId === currentUser.learnerId ? updatedProfile : l));

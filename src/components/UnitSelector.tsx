@@ -3,6 +3,7 @@ import { BookOpen, Star, Sparkles, CheckCircle2, Play, Search, Gamepad2, Trophy,
 import { UnitData, UserProfile, ExerciseCluster } from '../types';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent } from '../utils/avatarUtils';
+import { filterExercisesForOnline } from '../utils/exerciseUtils';
 
 interface UnitSelectorProps {
   units: UnitData[];
@@ -267,7 +268,8 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {filteredClusters.map((cluster) => {
-                const qCount = cluster.questions?.length || 0;
+                const validQuestions = cluster.questions ? filterExercisesForOnline(cluster.questions).validQuestions : [];
+                const qCount = validQuestions.length;
                 return (
                   <div
                     key={cluster.id}
@@ -310,7 +312,10 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                       <button
                         onClick={() => {
                           soundEffects.playClick();
-                          onSelectExerciseCluster?.(cluster);
+                          onSelectExerciseCluster?.({
+                            ...cluster,
+                            questions: validQuestions
+                          });
                         }}
                         disabled={qCount === 0}
                         className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-display font-bold text-sm shadow-md shadow-purple-600/20 transition active:scale-98 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"

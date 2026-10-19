@@ -687,7 +687,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       currentStreak: 0,
       completedUnits: {},
       unlockedBadges: [],
-      lastActiveDate: new Date().toDateString()
+      lastActiveDate: new Date().toISOString()
     };
 
     onUpdateLearner(resetUser);
@@ -728,7 +728,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       unlockedBadges: [],
       completedUnits: {},
       currentStreak: 1,
-      lastActiveDate: new Date().toDateString()
+      lastActiveDate: new Date().toISOString()
     };
     onAddLearner(newProfile);
     setNewName('');

@@ -112,6 +112,9 @@ export interface ExerciseCluster {
   rawJson?: string;
   itemsCount: number;
   unitsCount?: number;
+  totalRawQuestions?: number;
+  skippedImageQuestions?: number;
+  skippedAudioQuestions?: number;
   updatedAt?: string;
 }
 

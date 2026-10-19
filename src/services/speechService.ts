@@ -96,28 +96,50 @@ class SpeechService {
   }
 
   /**
-   * Fallback using online TTS audio in case Web Speech API fails or is muted in Firefox
+   * High-reliability audio fallback for Firefox, Safari, and systems without Web Speech API voices
    */
   private playAudioFallback(text: string, rate: number = 1.0) {
     try {
       if (this.currentAudioFallback) {
         this.currentAudioFallback.pause();
+        this.currentAudioFallback.removeAttribute('src');
+        this.currentAudioFallback.load();
         this.currentAudioFallback = null;
       }
       const clean = encodeURIComponent(text.trim());
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${clean}`;
-      const audio = new Audio(url);
+      const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${clean}`;
+      const youdaoUrl = `https://dict.youdao.com/dictvoice?audio=${clean}&type=2`;
+
+      const audio = new Audio(googleUrl);
+      audio.preload = 'auto';
       if (rate < 0.9) {
         audio.playbackRate = 0.75;
       } else {
         audio.playbackRate = 1.0;
       }
+
+      let hasFallenBack = false;
+      audio.onerror = () => {
+        if (!hasFallenBack) {
+          hasFallenBack = true;
+          audio.src = youdaoUrl;
+          audio.play().catch(e => console.warn('Secondary fallback notice:', e));
+        }
+      };
+
       this.currentAudioFallback = audio;
-      audio.play().catch(() => {
-        // Ignored if autoplay policy blocks without user gesture
-      });
-    } catch {
-      // Graceful fallback
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          if (!hasFallenBack) {
+            hasFallenBack = true;
+            audio.src = youdaoUrl;
+            audio.play().catch(e => console.warn('Audio play notice:', e));
+          }
+        });
+      }
+    } catch (err) {
+      console.warn('Audio fallback error:', err);
     }
   }
 
@@ -136,13 +158,17 @@ class SpeechService {
     }
 
     try {
-      // In Firefox, if paused, resume synthesis
-      if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
-      }
-
-      // Safe rate clamping: Firefox eSpeak and Windows SAPI crash or drop utterances below 0.6
+      const isFirefox = typeof navigator !== 'undefined' && /firefox/i.test(navigator.userAgent);
       const safeRate = Math.max(0.65, Math.min(rate, 1.5));
+
+      const voices = window.speechSynthesis.getVoices() || [];
+      const hasEnVoice = voices.some(v => v.lang.toLowerCase().startsWith('en'));
+
+      // If Firefox has no native English voices available, immediately use online audio fallback
+      if (isFirefox && (!hasEnVoice || voices.length === 0)) {
+        this.playAudioFallback(text, safeRate);
+        return;
+      }
 
       const utterance = new SpeechSynthesisUtterance(text.trim());
       utterance.lang = 'en-US';
@@ -154,38 +180,68 @@ class SpeechService {
         utterance.voice = this.currentVoice;
       }
 
-      // Keep strong reference to prevent Firefox garbage collection bug
+      // Strong global reference prevents Firefox/Chrome garbage collection bug
       this.activeUtterance = utterance;
+      (window as any)._easyEngActiveUtterance = utterance;
 
       let started = false;
+      let resumeInterval: any = null;
+
+      const clearAll = () => {
+        if (resumeInterval) {
+          clearInterval(resumeInterval);
+          resumeInterval = null;
+        }
+        if (this.activeUtterance === utterance) {
+          this.activeUtterance = null;
+        }
+      };
+
       utterance.onstart = () => {
         started = true;
       };
 
       utterance.onend = () => {
-        this.activeUtterance = null;
+        clearAll();
       };
 
       utterance.onerror = (e) => {
         console.warn('SpeechSynthesis error:', e.error);
-        this.activeUtterance = null;
-        // If synthesis failed, switch to audio fallback
+        clearAll();
+        // If synthesis failed, immediately switch to audio fallback
         this.playAudioFallback(text, safeRate);
       };
 
-      // Firefox cancel bug workaround: only cancel if actively speaking
-      if (window.speechSynthesis.speaking) {
+      // In non-Firefox browsers, cancel any active utterance
+      if (!isFirefox && window.speechSynthesis.speaking) {
         window.speechSynthesis.cancel();
+      }
+
+      // Ensure speech synthesis is active
+      if (window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
       }
 
       window.speechSynthesis.speak(utterance);
 
-      // On Firefox, if synthesis fails to start within 350ms, trigger fallback
+      // Firefox-specific: resume queue immediately after speak() to unblock playback
+      if (isFirefox) {
+        window.speechSynthesis.resume();
+        resumeInterval = setInterval(() => {
+          if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+          }
+        }, 150);
+      }
+
+      // If synthesis fails to start within 350ms, unblock with audio fallback
       setTimeout(() => {
         if (!started && this.activeUtterance === utterance) {
-          if (!window.speechSynthesis.speaking) {
-            this.playAudioFallback(text, safeRate);
-          }
+          clearAll();
+          try {
+            window.speechSynthesis.cancel();
+          } catch {}
+          this.playAudioFallback(text, safeRate);
         }
       }, 350);
 

@@ -69,9 +69,14 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
     return null;
   };
 
-  const currentLevelXp = user.xp % 200;
-  const xpPercent = Math.min(Math.round((currentLevelXp / 200) * 100), 100);
-  const xpToNextLevel = 200 - currentLevelXp;
+  // Level requirements:
+  // - 500 XP per level (Levels 1 to 8: 0, 500, 1000, 1500, 2000, 2500, 3000, 3500)
+  // - Level 9 requires 1000 XP to reach Level 10 (4000 to 5000 XP)
+  // - Level 10 is max level (5000+ XP)
+  const currentTierSpan = nextRank ? (nextRank.minXp - currentRank.minXp) : 1000;
+  const currentLevelXp = nextRank ? Math.max(0, user.xp - currentRank.minXp) : currentTierSpan;
+  const xpPercent = nextRank ? Math.min(Math.round((currentLevelXp / currentTierSpan) * 100), 100) : 100;
+  const xpToNextLevel = nextRank ? Math.max(0, nextRank.minXp - user.xp) : 0;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
@@ -163,9 +168,10 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
 
           <div className="space-y-1.5 pt-1 border-t border-white/15">
             <div className="flex justify-between items-center text-xs font-semibold text-purple-100">
-              <span>Tiến độ cấp tiếp theo:</span>
               <span className="text-amber-300 font-bold">
-                {currentLevelXp} / 200 XP {nextRank ? `(Còn ${xpToNextLevel} XP lên Cấp ${user.level + 1})` : '(Đạt cấp tối đa)'}
+                {nextRank 
+                  ? `${currentLevelXp} / ${currentTierSpan} XP (Còn ${xpToNextLevel} XP lên Cấp ${user.level + 1})` 
+                  : `${user.xp} XP (Đạt cấp tối đa 10)`}
               </span>
             </div>
             <div className="w-full bg-black/25 rounded-full h-2.5 overflow-hidden p-0.5">
@@ -217,7 +223,7 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
                 <span>Danh sách cấp bậc</span>
               </h3>
               <span className="text-[11px] font-semibold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">
-                11 Cấp Bậc
+                10 Cấp Bậc
               </span>
             </div>
 
@@ -229,8 +235,8 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
               </div>
               <ul className="list-disc pl-4 space-y-0.5 text-[11px] text-amber-800/90 leading-relaxed">
                 <li><strong>Thắng trò chơi mới:</strong> Nhận 50 XP cơ bản + 30 XP cho mỗi Sao đạt được (Đạt 3 sao nhận tối đa <strong>140 XP</strong>!).</li>
-                <li><strong>Luyện tập lại bài cũ:</strong> Nhận <strong>20 XP</strong> mỗi lần hoàn thành.</li>
-                <li><strong>Quy định lên cấp:</strong> Cứ mỗi <strong>200 XP</strong> tích lũy, học viên sẽ được thăng thêm 1 Cấp bậc mới!</li>
+                <li><strong>Luyện tập lại bài cũ:</strong> Đạt đủ 3 sao nhận <strong>5 XP</strong> mỗi lần hoàn thành.</li>
+                <li><strong>Quy định lên cấp:</strong> Mỗi <strong>500 XP</strong> tích lũy sẽ thăng 1 Cấp bậc mới (riêng từ Cấp 9 lên Cấp 10 cần <strong>1000 XP</strong>). Tối đa 10 Cấp Bậc!</li>
               </ul>
             </div>
 
@@ -293,7 +299,7 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
                     <div className="shrink-0 text-right pt-0.5">
                       {isCurrent ? (
                         <div className="text-[11px] font-extrabold text-purple-700 bg-purple-100/80 px-2 py-1 rounded-lg border border-purple-200">
-                          {currentLevelXp}/200 XP
+                          {nextRank ? `${currentLevelXp}/${currentTierSpan} XP` : 'Cấp tối đa'}
                         </div>
                       ) : isPassed ? (
                         <CheckCircle2 className="w-5 h-5 text-emerald-500" />

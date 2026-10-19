@@ -17,6 +17,64 @@ const COMMON_DISTRACTORS = [
 ];
 
 /**
+ * Checks whether an exercise question requires looking at an image/picture
+ */
+export function isImageQuestion(q: any, ex?: any, sec?: any): boolean {
+  if (q.image_url || q.image || q.imageUrl || q.image_description || q.character_image || q.imageDescription) return true;
+  if (ex && (ex.image_url || ex.image || ex.imageUrl || ex.pictures)) return true;
+
+  const combinedText = [
+    q.question,
+    q.question_text,
+    q.prompt_text,
+    q.sentence,
+    q.explanation,
+    q.explanation_vi,
+    ex?.instruction_vi,
+    ex?.instruction_en,
+    sec?.section_title,
+    q.category
+  ].filter(Boolean).join(' ');
+
+  if (/(nhìn|xem)\s+(hình|tranh|ảnh)/i.test(combinedText)) return true;
+  if (/look\s+at\s+the\s+picture/i.test(combinedText)) return true;
+  if (/look\s+and\s+(match|read|complete|circle|write|tick|number|choose)/i.test(combinedText)) return true;
+  if (/\b(picture|image|photo)\s*([a-d]|\d+)\b/i.test(combinedText)) return true;
+  if (/\b(hình|tranh|ảnh)\s*([a-d]|\d+)\b/i.test(combinedText)) return true;
+
+  return false;
+}
+
+/**
+ * Checks whether an exercise question requires listening to audio or dialogue/conversation.
+ */
+export function isAudioConversationQuestion(q: any, ex?: any, sec?: any): boolean {
+  if (q.simulated_audio || q.audioTranscript || ex?.simulated_audio) return true;
+  if (sec && /section\s*c\b/i.test(sec.section_id || '') && /listening/i.test(sec.section_title || '')) return true;
+
+  const combinedText = [
+    q.question,
+    q.question_text,
+    q.prompt_text,
+    q.sentence,
+    q.explanation,
+    q.explanation_vi,
+    ex?.instruction_vi,
+    ex?.instruction_en,
+    sec?.section_title,
+    q.category
+  ].filter(Boolean).join(' ');
+
+  if (/(lắng\s*nghe|băng\s*nghe|audio\s*track|file\s*nghe)/i.test(combinedText)) return true;
+  if (/track\s*\d+/i.test(combinedText)) return true;
+  if (/\b(nghe|listen)\b/i.test(combinedText)) return true;
+  if (/(đoạn\s+)?hội\s+thoại/i.test(combinedText)) return true;
+  if (/\b(dialogue|conversation)\b/i.test(combinedText)) return true;
+
+  return false;
+}
+
+/**
  * Robust parser for PDF Workbook structures (such as Global Success Sách bài tập)
  * Supporting units -> sections (A-F) -> exercises -> questions, pairs, pictures
  */
@@ -39,6 +97,9 @@ export function parseWorkbookCluster(
   const description = `${data.book_title || 'Sách bài tập Tiếng Anh'} • Trọn bộ ${unitsCount} bài học`;
 
   const questions: ExerciseQuestion[] = [];
+  let totalRawCount = 0;
+  let skippedAudioCount = 0;
+  let skippedImageCount = 0;
 
   (data.units || []).forEach((u: any, uIdx: number) => {
     const rawUnitNum = u.unit_number !== undefined ? Number(u.unit_number) : (uIdx + 1);
@@ -94,6 +155,16 @@ export function parseWorkbookCluster(
         // 1. Multiple choice, fill_in_blank, fill_in_chars, true_false, word_bank_fill, sentence_reorder
         if (Array.isArray(ex.questions)) {
           ex.questions.forEach((q: any, qIdx: number) => {
+            totalRawCount++;
+            if (isAudioConversationQuestion(q, ex, sec)) {
+              skippedAudioCount++;
+              return;
+            }
+            if (isImageQuestion(q, ex, sec)) {
+              skippedImageCount++;
+              return;
+            }
+
             const qId = q.question_id || `${ex.exercise_id}_q${qIdx + 1}`;
             let prompt = q.prompt_text || q.sentence || '';
             if (!prompt && q.speaker_a) {
@@ -193,6 +264,16 @@ export function parseWorkbookCluster(
         if (Array.isArray(ex.pairs)) {
           const allRights = ex.pairs.map((p: any) => p.right_text);
           ex.pairs.forEach((pair: any, pIdx: number) => {
+            totalRawCount++;
+            if (isAudioConversationQuestion(pair, ex, sec)) {
+              skippedAudioCount++;
+              return;
+            }
+            if (isImageQuestion(pair, ex, sec)) {
+              skippedImageCount++;
+              return;
+            }
+
             const prompt = `Đọc và nối vế đúng với: "${pair.left_text}"`;
             const correctText = pair.right_text;
             const options = [...allRights];
@@ -221,6 +302,16 @@ export function parseWorkbookCluster(
         // 3. Ordering pictures
         if (Array.isArray(ex.pictures)) {
           ex.pictures.forEach((pic: any, picIdx: number) => {
+            totalRawCount++;
+            if (isAudioConversationQuestion(pic, ex, sec)) {
+              skippedAudioCount++;
+              return;
+            }
+            if (isImageQuestion(pic, ex, sec)) {
+              skippedImageCount++;
+              return;
+            }
+
             const prompt = `Nghe và chọn số thứ tự đúng cho tranh (${pic.picture_id?.toUpperCase() || picIdx + 1}): "${pic.image_description}"`;
             const options = ['Tranh số 1', 'Tranh số 2', 'Tranh số 3', 'Tranh số 4'];
             const answerIndex = Math.max(0, Math.min(3, (pic.correct_order_number || 1) - 1));
@@ -258,6 +349,9 @@ export function parseWorkbookCluster(
     questions,
     itemsCount: questions.length,
     unitsCount,
+    totalRawQuestions: totalRawCount,
+    skippedImageQuestions: skippedImageCount,
+    skippedAudioQuestions: skippedAudioCount,
     rawJson: typeof data === 'string' ? data : JSON.stringify(data, null, 2),
     updatedAt: new Date().toISOString()
   };
@@ -352,9 +446,22 @@ export function parseExerciseJson(
 
     // Normalize each question
     const questions: ExerciseQuestion[] = [];
+    let totalRawCount = 0;
+    let skippedAudioCount = 0;
+    let skippedImageCount = 0;
 
     rawItems.forEach((item: any, idx: number) => {
       if (!item || typeof item !== 'object') return;
+      totalRawCount++;
+
+      if (isAudioConversationQuestion(item)) {
+        skippedAudioCount++;
+        return;
+      }
+      if (isImageQuestion(item)) {
+        skippedImageCount++;
+        return;
+      }
 
       const qText = item.question || item.prompt || item.content || item.cauHoi || item.cau_hoi || item.title || item.sentence || `Câu hỏi số ${idx + 1}`;
 
@@ -468,6 +575,9 @@ export function parseExerciseJson(
       grade,
       questions,
       itemsCount: questions.length,
+      totalRawQuestions: totalRawCount,
+      skippedImageQuestions: skippedImageCount,
+      skippedAudioQuestions: skippedAudioCount,
       rawJson: typeof rawInput === 'string' ? rawInput : JSON.stringify(rawInput, null, 2),
       updatedAt: new Date().toISOString()
     };
@@ -566,4 +676,47 @@ export function isSelfCheckQuestion(q: ExerciseQuestion, grade?: number): boolea
   if (q.unitNumber === 0 && grade && grade <= 5) return true;
   return false;
 }
+
+/**
+ * Alias for isAudioConversationQuestion
+ */
+export function isDialogueAudioQuestion(q: any, ex?: any, sec?: any): boolean {
+  if (isImageQuestion(q, ex, sec)) return false; // Mutually exclusive with image question
+  return isAudioConversationQuestion(q, ex, sec);
+}
+
+export interface ExerciseFilterStats {
+  originalTotal: number;
+  removedImagesCount: number;
+  removedDialoguesCount: number;
+  validQuestions: ExerciseQuestion[];
+}
+
+/**
+ * Filters out image and dialogue-based questions from an exercise question list
+ */
+export function filterExercisesForOnline(questions: ExerciseQuestion[]): ExerciseFilterStats {
+  const originalTotal = (questions || []).length;
+  let removedImagesCount = 0;
+  let removedDialoguesCount = 0;
+  const validQuestions: ExerciseQuestion[] = [];
+
+  (questions || []).forEach(q => {
+    if (isImageQuestion(q)) {
+      removedImagesCount++;
+    } else if (isDialogueAudioQuestion(q)) {
+      removedDialoguesCount++;
+    } else {
+      validQuestions.push(q);
+    }
+  });
+
+  return {
+    originalTotal,
+    removedImagesCount,
+    removedDialoguesCount,
+    validQuestions
+  };
+}
+
 
