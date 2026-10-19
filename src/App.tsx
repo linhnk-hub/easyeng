@@ -396,11 +396,11 @@ export default function App() {
       try {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === 'object') {
-          // Khởi tạo mặc định nếu Lớp 4 hoặc Lớp 7 chưa từng có dữ liệu
-          if (!parsed[4] || !Array.isArray(parsed[4]) || parsed[4].length === 0) {
+          // Chỉ khởi tạo mặc định nếu key 4 hoặc 7 hoàn toàn undefined (chưa từng được cấu hình hay lưu)
+          if (parsed[4] === undefined) {
             parsed[4] = defaultOfficial[4];
           }
-          if (!parsed[7] || !Array.isArray(parsed[7]) || parsed[7].length === 0) {
+          if (parsed[7] === undefined) {
             parsed[7] = defaultOfficial[7];
           }
           return parsed;
@@ -430,9 +430,9 @@ export default function App() {
   );
 
   // Active exercise clusters for current learner's grade
-  const currentExercises = (currentUser && gradeExercisesMap[currentUser.grade]) || (
-    currentUser ? createDefaultClusters(currentUser.grade, 4) : []
-  );
+  const currentExercises = (currentUser && gradeExercisesMap[currentUser.grade] !== undefined)
+    ? gradeExercisesMap[currentUser.grade]
+    : (currentUser ? createDefaultClusters(currentUser.grade, 4) : []);
 
   // Selected Unit
   const [selectedUnit, setSelectedUnit] = useState<UnitData>(() => currentUnits[0] || DEFAULT_UNITS_DATA[0]);
@@ -663,17 +663,17 @@ export default function App() {
       Object.keys(cloudData).forEach(gk => {
         const g = Number(gk);
         const cloudClusters = cloudData[g];
-        if (Array.isArray(cloudClusters) && cloudClusters.length > 0) {
+        if (Array.isArray(cloudClusters)) {
           result[g] = cloudClusters;
         }
       });
 
-      // Chỉ khởi tạo mặc định nếu khối lớp 4 hoặc 7 hoàn toàn trống
-      if (!result[4] || !Array.isArray(result[4]) || result[4].length === 0) {
+      // Chỉ khởi tạo mặc định nếu khối lớp 4 hoặc 7 chưa từng được định nghĩa (undefined)
+      if (result[4] === undefined) {
         result[4] = createDefaultClusters(4, 4);
         syncExercisesToCloud(4, result[4]).catch(() => {});
       }
-      if (!result[7] || !Array.isArray(result[7]) || result[7].length === 0) {
+      if (result[7] === undefined) {
         result[7] = createDefaultClusters(7, 4);
         syncExercisesToCloud(7, result[7]).catch(() => {});
       }
@@ -935,8 +935,8 @@ export default function App() {
     if (starDelta > 0) {
       addedXp = 50 + starDelta * 30;
     } else if (starsEarned === 3) {
-      // Luyện tập bài cũ đạt đủ 3 sao: cộng 5 XP
-      addedXp = 5;
+      // Luyện tập bài cũ đạt đủ 3 sao: cộng 10 XP
+      addedXp = 10;
     }
 
     const newXp = currentUser.xp + addedXp;

@@ -375,7 +375,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   const getCurrentGradeClusters = (): ExerciseCluster[] => {
     const list = exerciseClustersMap[selectedExerciseGrade];
-    if (list && list.length > 0) return list;
+    if (list !== undefined) return list;
+    if (gradeExercisesMap && gradeExercisesMap[selectedExerciseGrade] !== undefined) {
+      return gradeExercisesMap[selectedExerciseGrade];
+    }
     return createDefaultClusters(selectedExerciseGrade, 4);
   };
 
@@ -389,10 +392,12 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setHasUnsavedExerciseChanges(false);
     setExerciseSaveSuccess(null);
     setExerciseSaveError(null);
-    if (!exerciseClustersMap[grade] || exerciseClustersMap[grade].length === 0) {
+    if (exerciseClustersMap[grade] === undefined) {
       setExerciseClustersMap(prev => ({
         ...prev,
-        [grade]: (gradeExercisesMap && gradeExercisesMap[grade]) || createDefaultClusters(grade, 4)
+        [grade]: (gradeExercisesMap && gradeExercisesMap[grade] !== undefined)
+          ? gradeExercisesMap[grade]
+          : createDefaultClusters(grade, 4)
       }));
     }
   };
@@ -583,7 +588,9 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   const handleResetExerciseDraft = () => {
     soundEffects.playClick();
-    const original = (gradeExercisesMap && gradeExercisesMap[selectedExerciseGrade]) || createDefaultClusters(selectedExerciseGrade, 4);
+    const original = (gradeExercisesMap && gradeExercisesMap[selectedExerciseGrade] !== undefined)
+      ? gradeExercisesMap[selectedExerciseGrade]
+      : createDefaultClusters(selectedExerciseGrade, 4);
     setExerciseClustersMap(prev => ({
       ...prev,
       [selectedExerciseGrade]: JSON.parse(JSON.stringify(original))

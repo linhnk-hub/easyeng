@@ -240,6 +240,7 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
               </div>
               <ul className="list-disc pl-4 space-y-0.5 text-[11px] text-amber-800/90 leading-relaxed">
                 <li><strong>Thắng trò chơi mới:</strong> Nhận 50 XP cơ bản + 30 XP cho mỗi Sao đạt được (Đạt 3 sao nhận tối đa <strong>140 XP</strong>!).</li>
+                <li><strong>Luyện tập lại bài cũ:</strong> Đạt đủ 3 sao nhận <strong>10 XP</strong> mỗi lần hoàn thành.</li>
                 <li><strong>Quy định lên cấp:</strong> Mỗi <strong>500 XP</strong> tích lũy sẽ thăng 1 Cấp bậc mới (riêng từ Cấp 9 lên Cấp 10 cần <strong>1000 XP</strong>). Tối đa 10 Cấp Bậc!</li>
               </ul>
             </div>
