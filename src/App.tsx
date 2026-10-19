@@ -205,29 +205,9 @@ function computeLearnerBadges(
     badges.push('quiz_scholar');
   }
 
-  // 6. "Chinh Phục Phần 1" (volume1_grad): Vượt qua Unit 1-10
-  const unit1to10Units = targetUnits.filter(u => u.unit >= 1 && u.unit <= 10);
-  const volume1Done =
-    unit1to10Units.length > 0 &&
-    unit1to10Units.every(u => {
-      const cu = completedUnits?.[u.unit];
-      return (
-        cu &&
-        ((Number(cu.flashcardStars) || 0) > 0 ||
-          (Number(cu.memoryStars) || 0) > 0 ||
-          (Number(cu.wordScrambleStars) || 0) > 0 ||
-          (Number(cu.sentenceStars) || 0) > 0 ||
-          (Number(cu.quizStars) || 0) > 0 ||
-          cu.flashcardsDone)
-      );
-    });
-  if (volume1Done) {
-    badges.push('volume1_grad');
-  }
-
-  // 7. "Đại Sứ Toàn Năng" (volume2_grad): Hoàn tất cả 20 Unit
-  const volume2Done =
-    targetUnits.length >= 20 &&
+  // 6. "Đại Sứ Toàn Năng" (volume2_grad): Hoàn thành toàn bộ Unit của chương trình học
+  const allUnitsCompleted =
+    targetUnits.length > 0 &&
     targetUnits.every(u => {
       const cu = completedUnits?.[u.unit];
       return (
@@ -240,7 +220,7 @@ function computeLearnerBadges(
           cu.flashcardsDone)
       );
     });
-  if (volume2Done) {
+  if (allUnitsCompleted) {
     badges.push('volume2_grad');
   }
 

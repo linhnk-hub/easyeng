@@ -359,8 +359,8 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
         </div>
 
         {/* Note about skipped questions */}
-        <div className="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 text-xs text-amber-900 text-center">
-          📌 Đã bỏ <strong>{questionFilterStats.skippedImages}</strong> câu hỏi hình ảnh, <strong>{questionFilterStats.skippedAudio}</strong> câu hỏi có nội dung nghe đoạn hội thoại trên tổng số <strong>{questionFilterStats.totalRaw}</strong> câu hỏi sách bài tập.
+        <div className="bg-amber-50/80 border border-amber-200/70 rounded-2xl p-3 text-xs text-amber-900 text-center font-medium">
+          📌 Đã lược bỏ các câu hỏi về hình ảnh, lắng nghe đoạn hội thoại
         </div>
       </div>
     );
@@ -398,8 +398,8 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
       {/* Thông báo số câu hỏi đã bỏ theo yêu cầu */}
       <div className="bg-amber-50/90 border border-amber-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 text-xs text-amber-900 shadow-2xs">
         <span className="text-base shrink-0">📌</span>
-        <span className="leading-relaxed">
-          Đã bỏ <strong>{questionFilterStats.skippedImages}</strong> câu hỏi hình ảnh, <strong>{questionFilterStats.skippedAudio}</strong> câu hỏi có nội dung nghe đoạn hội thoại trên tổng số <strong>{questionFilterStats.totalRaw}</strong> câu hỏi sách bài tập.
+        <span className="leading-relaxed font-medium">
+          Đã lược bỏ các câu hỏi về hình ảnh, lắng nghe đoạn hội thoại
         </span>
       </div>
 

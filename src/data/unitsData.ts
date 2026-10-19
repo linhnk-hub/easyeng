@@ -2124,18 +2124,11 @@ export const BADGES: { id: string; title: string; description: string; icon: str
     reqSummary: "Đạt 3 sao trắc nghiệm tất cả các Unit"
   },
   {
-    id: "volume1_grad",
-    title: "Chinh Phục Phần 1",
-    description: "Hoàn thành tất cả các Unit từ 1 đến 10",
-    icon: "🏆",
-    reqSummary: "Vượt qua Unit 1-10"
-  },
-  {
     id: "volume2_grad",
     title: "Đại Sứ Toàn Năng",
-    description: "Chinh phục toàn bộ 20 Unit của cả năm lớp 4",
+    description: "Chinh phục toàn bộ các Unit của chương trình học",
     icon: "🌟",
-    reqSummary: "Hoàn tất cả 20 Unit"
+    reqSummary: "Hoàn thành toàn bộ Unit"
   }
 ];
 

@@ -13,7 +13,7 @@ interface BadgesModalProps {
 
 export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onClose }) => {
   const [activeTab, setActiveTab] = useState<'ranks' | 'badges'>('ranks');
-  const totalUnitsCount = units.length > 0 ? units.length : 20;
+  const totalUnitsCount = units.length > 0 ? units.length : (user.grade <= 5 ? 20 : 12);
 
   const currentRank = getRankTier(user.level, user.xp);
   const nextRank = getNextRankTier(user.level);
@@ -21,50 +21,35 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
   const getBadgeProgress = (badgeId: string) => {
     const completed = user.completedUnits || {};
     if (badgeId === 'memory_champion') {
-      const count = Object.values(completed).filter((u: any) => (Number(u.memoryStars) || 0) === 3).length;
+      const count = units.filter(u => (Number(completed[u.unit]?.memoryStars) || 0) === 3).length;
       return { count, total: totalUnitsCount, label: `${count}/${totalUnitsCount} Unit (3⭐)` };
     }
     if (badgeId === 'spelling_hero') {
-      const count = Object.values(completed).filter((u: any) => (Number(u.wordScrambleStars) || 0) === 3).length;
+      const count = units.filter(u => (Number(completed[u.unit]?.wordScrambleStars) || 0) === 3).length;
       return { count, total: totalUnitsCount, label: `${count}/${totalUnitsCount} Unit (3⭐)` };
     }
     if (badgeId === 'sentence_master') {
-      const count = Object.values(completed).filter((u: any) => (Number(u.sentenceStars) || 0) === 3).length;
+      const count = units.filter(u => (Number(completed[u.unit]?.sentenceStars) || 0) === 3).length;
       return { count, total: totalUnitsCount, label: `${count}/${totalUnitsCount} Unit (3⭐)` };
     }
     if (badgeId === 'quiz_scholar') {
-      const count = Object.values(completed).filter((u: any) => (Number(u.quizStars) || 0) === 3).length;
+      const count = units.filter(u => (Number(completed[u.unit]?.quizStars) || 0) === 3).length;
       return { count, total: totalUnitsCount, label: `${count}/${totalUnitsCount} Unit (3⭐)` };
     }
-    if (badgeId === 'volume1_grad') {
-      const count = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(id => {
-        const u = completed[id];
-        return (
-          u &&
-          ((u.flashcardStars || 0) > 0 ||
-            (u.memoryStars || 0) > 0 ||
-            (u.wordScrambleStars || 0) > 0 ||
-            (u.sentenceStars || 0) > 0 ||
-            (u.quizStars || 0) > 0 ||
-            u.flashcardsDone)
-        );
-      }).length;
-      return { count, total: 10, label: `${count}/10 Unit` };
-    }
     if (badgeId === 'volume2_grad') {
-      const count = Array.from({ length: 20 }, (_, i) => i + 1).filter(id => {
-        const u = completed[id];
+      const count = units.filter(u => {
+        const cu = completed[u.unit];
         return (
-          u &&
-          ((u.flashcardStars || 0) > 0 ||
-            (u.memoryStars || 0) > 0 ||
-            (u.wordScrambleStars || 0) > 0 ||
-            (u.sentenceStars || 0) > 0 ||
-            (u.quizStars || 0) > 0 ||
-            u.flashcardsDone)
+          cu &&
+          ((cu.flashcardStars || 0) > 0 ||
+            (cu.memoryStars || 0) > 0 ||
+            (cu.wordScrambleStars || 0) > 0 ||
+            (cu.sentenceStars || 0) > 0 ||
+            (cu.quizStars || 0) > 0 ||
+            cu.flashcardsDone)
         );
       }).length;
-      return { count, total: 20, label: `${count}/20 Unit` };
+      return { count, total: totalUnitsCount, label: `${count}/${totalUnitsCount} Unit` };
     }
     return null;
   };
