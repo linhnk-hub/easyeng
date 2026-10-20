@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 import { UserProfile, UnitData, ExerciseCluster } from '../types';
+import { resolveValidUsername } from '../utils/userUtils';
 
 export enum OperationType {
   CREATE = 'create',
@@ -110,6 +111,10 @@ function formatLearnerForFirestore(learner: UserProfile) {
     completedUnits: cleanCompletedUnits,
     unlockedBadges: Array.isArray(learner.unlockedBadges) ? learner.unlockedBadges.slice(0, 50) : [],
     pin: learner.pin && /^\d{4}$/.test(learner.pin) ? learner.pin : '0000',
+    username: resolveValidUsername(learner.username, learner.name),
+    phone: learner.phone ? String(learner.phone).trim() : '',
+    email: learner.email ? String(learner.email).trim().toLowerCase() : '',
+    customAvatarUrl: learner.customAvatarUrl ? String(learner.customAvatarUrl).slice(0, 350000) : '',
     lastActiveDate: learner.lastActiveDate || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -144,6 +149,10 @@ function formatFirestoreToLearner(data: any): UserProfile {
     completedUnits,
     unlockedBadges: Array.isArray(data.unlockedBadges) ? data.unlockedBadges : [],
     pin: data.pin && /^\d{4}$/.test(String(data.pin)) ? String(data.pin) : '0000',
+    username: resolveValidUsername(data.username, data.name),
+    phone: data.phone || '',
+    email: data.email || '',
+    customAvatarUrl: data.customAvatarUrl || '',
     lastActiveDate: data.lastActiveDate || new Date().toISOString(),
   };
 }
@@ -241,6 +250,7 @@ export interface CloudCustomAvatar {
   name: string;
   icon: string;
   isCustom?: boolean;
+  ownerLearnerId?: string;
 }
 
 export async function syncCustomAvatarToCloud(avatar: CloudCustomAvatar): Promise<boolean> {
@@ -251,6 +261,7 @@ export async function syncCustomAvatarToCloud(avatar: CloudCustomAvatar): Promis
       name: avatar.name.slice(0, 64),
       icon: String(avatar.icon).slice(0, 350000),
       isCustom: true,
+      ownerLearnerId: avatar.ownerLearnerId || '',
       updatedAt: new Date().toISOString()
     });
     return true;
@@ -283,7 +294,8 @@ export async function fetchCustomAvatarsFromCloud(): Promise<CloudCustomAvatar[]
           id: data.id,
           name: data.name || 'Avatar',
           icon: data.icon,
-          isCustom: true
+          isCustom: true,
+          ownerLearnerId: data.ownerLearnerId || undefined
         });
       }
     });

@@ -261,9 +261,6 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
               <h3 className="font-display font-bold text-lg text-slate-800">
                 Chưa có dữ liệu bài tập cho Lớp {user.grade}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-                Quản trị viên có thể vào trang <strong>Quản lý hệ thống ➔ Quản lý JSON ➔ Dữ liệu Bài tập</strong> để cấu hình số lượng học phần và nạp các tệp JSON bài tập.
-              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">

@@ -6,6 +6,7 @@ export interface CustomAvatarItem {
   name: string;
   icon: string; // can be emoji or data:image URL
   isCustom?: boolean;
+  ownerLearnerId?: string; // ID của người học sở hữu avatar tải lên (riêng tư)
 }
 
 export const STORAGE_KEY_CUSTOM_AVATARS = 'easyeng_custom_avatars_v3';

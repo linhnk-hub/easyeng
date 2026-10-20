@@ -271,9 +271,6 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
         <h3 className="font-display font-bold text-xl text-slate-800">
           Chưa tìm thấy câu hỏi bài tập
         </h3>
-        <p className="text-sm text-slate-500">
-          Quản trị viên có thể tải lên tệp JSON câu hỏi bài tập từ tài liệu PDF trong mục Quản lý hệ thống ➔ Quản lý JSON.
-        </p>
         <button
           onClick={onBack}
           className="px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl transition cursor-pointer"

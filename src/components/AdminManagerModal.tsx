@@ -27,7 +27,10 @@ import {
   Cloud,
   FileText,
   FolderPlus,
-  BookOpen
+  BookOpen,
+  Phone,
+  Mail,
+  User
 } from 'lucide-react';
 import { UserProfile, UnitData, ExerciseCluster } from '../types';
 import { AVATARS } from '../data/unitsData';
@@ -37,6 +40,7 @@ import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, AL
 import { clearAppCache } from '../utils/cacheUtils';
 import { parseExerciseJson, createDefaultClusters, createEmptyCluster, BUILT_IN_WORKBOOK_TEMPLATES } from '../utils/exerciseUtils';
 import { EasyEngLogo } from './EasyEngLogo';
+import { resolveValidUsername, generateDefaultUsernameFromName } from '../utils/userUtils';
 
 interface AdminClassInfo {
   grade: number;
@@ -316,20 +320,28 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   // Learners Tab editing state
   const [editingLearnerId, setEditingLearnerId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
+  const [editUsername, setEditUsername] = useState('');
   const [editGrade, setEditGrade] = useState<number>(4);
   const [editAvatar, setEditAvatar] = useState('');
   const [editPin, setEditPin] = useState('0000');
   const [editPinConfirm, setEditPinConfirm] = useState('0000');
   const [editPinError, setEditPinError] = useState<string | null>(null);
+  const [editPhone, setEditPhone] = useState('');
+  const [editEmail, setEditEmail] = useState('');
+  const [editFormError, setEditFormError] = useState<string | null>(null);
 
   // Add Learner state
   const [isAddingLearner, setIsAddingLearner] = useState(false);
   const [newName, setNewName] = useState('');
+  const [newUsername, setNewUsername] = useState('');
   const [newGrade, setNewGrade] = useState<number>(4);
   const [newAvatar, setNewAvatar] = useState('fox');
   const [newPin, setNewPin] = useState('0000');
   const [newPinConfirm, setNewPinConfirm] = useState('0000');
   const [newPinError, setNewPinError] = useState<string | null>(null);
+  const [newPhone, setNewPhone] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newFormError, setNewFormError] = useState<string | null>(null);
 
   // Avatar upload state
   const avatarFileInputRef = useRef<HTMLInputElement>(null);
@@ -371,6 +383,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     detectedCount: number;
     error: string | null;
   } | null>(null);
+  const [copiedJsonSuccess, setCopiedJsonSuccess] = useState(false);
   const clusterFileInputRef = useRef<HTMLInputElement>(null);
 
   const getCurrentGradeClusters = (): ExerciseCluster[] => {
@@ -520,18 +533,46 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     if (!initialText && target.questions && target.questions.length > 0) {
       initialText = JSON.stringify(target.questions, null, 2);
     }
+    const check = initialText ? parseExerciseJson(initialText, clusterIdx + 1, selectedExerciseGrade) : null;
+    const detectedCount = check ? check.cluster.questions.length : (target.questions?.length || 0);
+
+    setCopiedJsonSuccess(false);
     setClusterJsonModal({
       clusterIndex: clusterIdx,
       title: target.title,
       description: target.description !== undefined ? target.description : '',
       rawText: initialText,
-      detectedCount: target.questions?.length || 0,
-      error: null
+      detectedCount,
+      error: check?.error || null
     });
+  };
+
+  const handleCopyClusterJson = async () => {
+    if (!clusterJsonModal?.rawText) return;
+    soundEffects.playClick();
+    try {
+      await navigator.clipboard.writeText(clusterJsonModal.rawText);
+      setCopiedJsonSuccess(true);
+      setTimeout(() => setCopiedJsonSuccess(false), 2000);
+    } catch {
+      try {
+        const el = document.createElement('textarea');
+        el.value = clusterJsonModal.rawText;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        setCopiedJsonSuccess(true);
+        setTimeout(() => setCopiedJsonSuccess(false), 2000);
+      } catch {
+        // Fallback
+      }
+    }
   };
 
   const handleClusterJsonTextChange = (text: string) => {
     if (!clusterJsonModal) return;
+    setCopiedJsonSuccess(false);
     const parsedRes = parseExerciseJson(text, clusterJsonModal.clusterIndex + 1, selectedExerciseGrade);
     setClusterJsonModal({
       ...clusterJsonModal,
@@ -653,17 +694,44 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     soundEffects.playClick();
     setEditingLearnerId(l.learnerId);
     setEditName(l.name);
+    setEditUsername(resolveValidUsername(l.username, l.name));
     setEditGrade(l.grade);
     setEditAvatar(l.avatar);
     setEditPin(l.pin && /^\d{4}$/.test(l.pin) ? l.pin : '0000');
     setEditPinConfirm(l.pin && /^\d{4}$/.test(l.pin) ? l.pin : '0000');
+    setEditPhone(l.phone || '');
+    setEditEmail(l.email || '');
     setEditPinError(null);
+    setEditFormError(null);
   };
 
   // Save edited learner
   const handleSaveEditLearner = (original: UserProfile) => {
     if (!editName.trim()) return;
     setEditPinError(null);
+    setEditFormError(null);
+
+    // Validate Username (only Manager can change, cannot be empty or conflict)
+    const cleanUsername = editUsername.trim();
+    if (!cleanUsername) {
+      soundEffects.playError();
+      setEditFormError('Tên đăng nhập không được để trống!');
+      return;
+    }
+    if (cleanUsername.toLowerCase().startsWith('learner')) {
+      soundEffects.playError();
+      setEditFormError('Tên đăng nhập không được bắt đầu bằng "learner" (đây là định danh kỹ thuật hệ thống)!');
+      return;
+    }
+    const usernameConflict = learners.find(
+      l => l.learnerId !== original.learnerId &&
+           resolveValidUsername(l.username, l.name).toLowerCase() === cleanUsername.toLowerCase()
+    );
+    if (usernameConflict) {
+      soundEffects.playError();
+      setEditFormError(`Tên đăng nhập "${cleanUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
+      return;
+    }
 
     // Validate 4-digit numeric PIN
     if (!/^\d{4}$/.test(editPin)) {
@@ -678,13 +746,53 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       return;
     }
 
+    // Validate Phone (digits only, length 9-11, duplicate check)
+    const cleanPhone = editPhone.trim();
+    if (cleanPhone) {
+      if (cleanPhone.length < 9 || cleanPhone.length > 11) {
+        soundEffects.playError();
+        setEditFormError('Số điện thoại không hợp lệ (phải gồm từ 9 đến 11 chữ số)!');
+        return;
+      }
+      const phoneConflict = learners.find(
+        l => l.learnerId !== original.learnerId && l.phone && l.phone.trim() === cleanPhone
+      );
+      if (phoneConflict) {
+        soundEffects.playError();
+        setEditFormError(`Số điện thoại "${cleanPhone}" đã tồn tại trong hệ thống (tài khoản: ${phoneConflict.name})!`);
+        return;
+      }
+    }
+
+    // Validate Email (no accents, no special chars, duplicate check)
+    const cleanEmail = editEmail.trim().toLowerCase();
+    if (cleanEmail) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(cleanEmail)) {
+        soundEffects.playError();
+        setEditFormError('Địa chỉ email không đúng định dạng (không có dấu hay ký tự đặc biệt)!');
+        return;
+      }
+      const emailConflict = learners.find(
+        l => l.learnerId !== original.learnerId && l.email && l.email.trim().toLowerCase() === cleanEmail
+      );
+      if (emailConflict) {
+        soundEffects.playError();
+        setEditFormError(`Địa chỉ email "${cleanEmail}" đã tồn tại trong hệ thống (tài khoản: ${emailConflict.name})!`);
+        return;
+      }
+    }
+
     soundEffects.playSuccess();
     onUpdateLearner({
       ...original,
+      username: cleanUsername,
       name: editName.trim(),
       grade: Number(editGrade) || original.grade || 4,
       avatar: editAvatar || original.avatar,
-      pin: editPin
+      pin: editPin,
+      phone: cleanPhone,
+      email: cleanEmail
     });
     setEditingLearnerId(null);
   };
@@ -724,6 +832,23 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     e.preventDefault();
     if (!newName.trim()) return;
     setNewPinError(null);
+    setNewFormError(null);
+
+    // Validate Username: Default to nickname if empty
+    const cleanNewUsername = (newUsername.trim() || newName.trim());
+    if (cleanNewUsername.toLowerCase().startsWith('learner')) {
+      soundEffects.playError();
+      setNewFormError('Tên đăng nhập không được bắt đầu bằng "learner" (đây là định danh kỹ thuật hệ thống)!');
+      return;
+    }
+    const usernameConflict = learners.find(
+      l => resolveValidUsername(l.username, l.name).toLowerCase() === cleanNewUsername.toLowerCase()
+    );
+    if (usernameConflict) {
+      soundEffects.playError();
+      setNewFormError(`Tên đăng nhập "${cleanNewUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
+      return;
+    }
 
     // Validate 4-digit numeric PIN
     if (!/^\d{4}$/.test(newPin)) {
@@ -738,14 +863,51 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       return;
     }
 
+    // Validate Phone (digits only, length 9-11, duplicate check)
+    const cleanPhone = newPhone.trim();
+    if (cleanPhone) {
+      if (cleanPhone.length < 9 || cleanPhone.length > 11) {
+        soundEffects.playError();
+        setNewFormError('Số điện thoại không hợp lệ (phải gồm từ 9 đến 11 chữ số)!');
+        return;
+      }
+      const phoneConflict = learners.find(l => l.phone && l.phone.trim() === cleanPhone);
+      if (phoneConflict) {
+        soundEffects.playError();
+        setNewFormError(`Số điện thoại "${cleanPhone}" đã tồn tại trong hệ thống (tài khoản: ${phoneConflict.name})!`);
+        return;
+      }
+    }
+
+    // Validate Email (no accents, no special chars, duplicate check)
+    const cleanEmail = newEmail.trim().toLowerCase();
+    if (cleanEmail) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(cleanEmail)) {
+        soundEffects.playError();
+        setNewFormError('Địa chỉ email không đúng định dạng (không có dấu hay ký tự đặc biệt)!');
+        return;
+      }
+      const emailConflict = learners.find(l => l.email && l.email.trim().toLowerCase() === cleanEmail);
+      if (emailConflict) {
+        soundEffects.playError();
+        setNewFormError(`Địa chỉ email "${cleanEmail}" đã tồn tại trong hệ thống (tài khoản: ${emailConflict.name})!`);
+        return;
+      }
+    }
+
     soundEffects.playSuccess();
     const newLearnerId = `learner_${Date.now()}`;
+
     const newProfile: UserProfile = {
       learnerId: newLearnerId,
+      username: cleanNewUsername,
       grade: Number(newGrade) || 4,
       name: newName.trim(),
       avatar: newAvatar,
       pin: newPin,
+      phone: cleanPhone,
+      email: cleanEmail,
       level: 1,
       xp: 0,
       totalStars: 0,
@@ -756,8 +918,11 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     };
     onAddLearner(newProfile);
     setNewName('');
+    setNewUsername('');
     setNewPin('0000');
     setNewPinConfirm('0000');
+    setNewPhone('');
+    setNewEmail('');
     setIsAddingLearner(false);
   };
 
@@ -1194,33 +1359,45 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                     Thư viện Avatar hiện có ({allAvailableAvatars.length}):
                   </span>
                   <div className="flex flex-wrap gap-2.5">
-                    {allAvailableAvatars.map((av) => (
-                      <div
-                        key={av.id}
-                        className="relative group p-1.5 bg-white rounded-2xl border border-amber-200 shadow-xs flex items-center justify-center w-14 h-14 text-center aspect-square"
-                      >
-                        <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-xl">
-                          {renderAvatarContent(av.icon)}
-                        </div>
+                    {allAvailableAvatars.map((av) => {
+                      const owner = (av as any).ownerLearnerId
+                        ? learners.find(l => l.learnerId === (av as any).ownerLearnerId)
+                        : null;
+                      return (
+                        <div
+                          key={av.id}
+                          className="relative group p-1.5 bg-white rounded-2xl border border-amber-200 shadow-xs flex items-center justify-center w-14 h-14 text-center aspect-square"
+                          title={`${av.name}${owner ? ` (Upload bởi: ${owner.name})` : ''}`}
+                        >
+                          <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-xl">
+                            {renderAvatarContent(av.icon)}
+                          </div>
 
-                        {/* Delete button only for custom uploaded avatars */}
-                        {av.isCustom && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              soundEffects.playClick();
-                              if (window.confirm(`Xóa avatar "${av.name}" khỏi thư viện?`)) {
-                                onDeleteCustomAvatar(av.id);
-                              }
-                            }}
-                            className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow-xs cursor-pointer hover:bg-rose-600"
-                            title="Xóa avatar này"
-                          >
-                            ✕
-                          </button>
-                        )}
-                      </div>
-                    ))}
+                          {owner && (
+                            <span className="absolute -bottom-1 -left-1 px-1 py-0.2 bg-indigo-600 text-[8px] font-bold text-white rounded-full shadow-2xs">
+                              user
+                            </span>
+                          )}
+
+                          {/* Delete button only for custom uploaded avatars */}
+                          {av.isCustom && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                soundEffects.playClick();
+                                if (window.confirm(`Xóa avatar "${av.name}" khỏi thư viện?`)) {
+                                  onDeleteCustomAvatar(av.id);
+                                }
+                              }}
+                              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow-xs cursor-pointer hover:bg-rose-600"
+                              title="Xóa avatar này"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -1320,6 +1497,79 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                         </div>
                       </div>
                     </div>
+
+                    {/* Tên đăng nhập, Số điện thoại và Email cho học sinh mới */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-200">
+                      <div>
+                        <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                          <span className="flex items-center gap-1">
+                            <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-normal">(Mặc định: nickname)</span>
+                        </label>
+                        <input
+                          type="text"
+                          value={newUsername}
+                          onChange={(e) => {
+                            setNewUsername(e.target.value);
+                            setNewFormError(null);
+                          }}
+                          placeholder={newName.trim() ? newName.trim() : "Nhập tên đăng nhập..."}
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        />
+                      </div>
+                      <div>
+                        <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                          <span className="flex items-center gap-1">
+                            <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
+                        </label>
+                        <input
+                          type="tel"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          value={newPhone}
+                          onChange={(e) => {
+                            setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
+                            setNewFormError(null);
+                          }}
+                          placeholder="Nhập SĐT (ví dụ: 0912345678)..."
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        />
+                      </div>
+                      <div>
+                        <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                          <span className="flex items-center gap-1">
+                            <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-normal">(Không dấu)</span>
+                        </label>
+                        <input
+                          type="email"
+                          value={newEmail}
+                          onChange={(e) => {
+                            const sanitized = e.target.value
+                              .normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                              .replace(/[đĐ]/g, 'd')
+                              .replace(/\s+/g, '')
+                              .replace(/[^a-zA-Z0-9.@_-]/g, '')
+                              .toLowerCase();
+                            setNewEmail(sanitized);
+                            setNewFormError(null);
+                          }}
+                          placeholder="Nhập email (ví dụ: name@gmail.com)..."
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        />
+                      </div>
+                    </div>
+
+                    {newFormError && (
+                      <p className="text-xs text-rose-600 font-bold flex items-center gap-1 mt-1">
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {newFormError}
+                      </p>
+                    )}
 
                     {/* Mã PIN đăng nhập cho học sinh mới (khống chế 4 chữ số) */}
                     <div className="pt-2 border-t border-slate-200">
@@ -1465,6 +1715,82 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             </div>
                           </div>
 
+                          {/* Tên đăng nhập (Quản lý có thể đổi), SĐT và Email */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80">
+                            <div>
+                              <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                                <span className="flex items-center gap-1">
+                                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
+                                </span>
+                                <span className="text-[10px] text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded font-semibold flex items-center gap-0.5">
+                                  Quản lý có thể đổi
+                                </span>
+                              </label>
+                              <input
+                                type="text"
+                                value={editUsername}
+                                onChange={(e) => {
+                                  setEditUsername(e.target.value);
+                                  setEditFormError(null);
+                                }}
+                                placeholder="Nhập tên đăng nhập..."
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                                <span className="flex items-center gap-1">
+                                  <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
+                              </label>
+                              <input
+                                type="tel"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                value={editPhone}
+                                onChange={(e) => {
+                                  setEditPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
+                                  setEditFormError(null);
+                                }}
+                                placeholder="Nhập SĐT..."
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                              />
+                            </div>
+                            <div>
+                              <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                                <span className="flex items-center gap-1">
+                                  <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-normal">(Không dấu)</span>
+                              </label>
+                              <input
+                                type="email"
+                                value={editEmail}
+                                onChange={(e) => {
+                                  const sanitized = e.target.value
+                                    .normalize('NFD')
+                                    .replace(/[\u0300-\u036f]/g, '')
+                                    .replace(/[đĐ]/g, 'd')
+                                    .replace(/\s+/g, '')
+                                    .replace(/[^a-zA-Z0-9.@_-]/g, '')
+                                    .toLowerCase();
+                                  setEditEmail(sanitized);
+                                  setEditFormError(null);
+                                }}
+                                placeholder="Nhập email..."
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                              />
+                            </div>
+                          </div>
+
+                          {editFormError && (
+                            <p className="text-xs text-rose-600 font-bold flex items-center gap-1 mt-1">
+                              <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {editFormError}
+                            </p>
+                          )}
+
                           {/* Avatar preview */}
                           <div className="flex items-center gap-3 pt-1">
                             <span className="text-xs font-bold text-slate-500">Avatar đang chọn:</span>
@@ -1562,6 +1888,23 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                               <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-300">
                                 Lớp {learner.grade}
                               </span>
+                            </div>
+
+                            {/* Tên đăng nhập, Số điện thoại, Email */}
+                            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
+                              <span className="inline-flex items-center gap-1 font-mono font-semibold bg-slate-100 px-2 py-0.5 rounded-md text-slate-700">
+                                <User className="w-3 h-3 text-amber-600" /> {resolveValidUsername(learner.username, learner.name)}
+                              </span>
+                              {learner.phone && (
+                                <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
+                                  <Phone className="w-3 h-3 text-emerald-600" /> {learner.phone}
+                                </span>
+                              )}
+                              {learner.email && (
+                                <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-700 px-2 py-0.5 rounded-md border border-sky-200">
+                                  <Mail className="w-3 h-3 text-sky-600" /> {learner.email}
+                                </span>
+                              )}
                             </div>
 
                             {/* Thành tích học tập chi tiết của tài khoản */}
@@ -2291,9 +2634,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                 <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div className="space-y-1">
                   <p className="font-bold text-sm text-amber-950">Tùy chỉnh Logo & Kích thước hiển thị (Đồng bộ CSDL)</p>
-                  <p className="text-amber-800 text-xs leading-relaxed">
-                    Chọn ảnh logo từ máy tính, dán liên kết URL và kéo thanh trượt điều chỉnh kích thước tùy thích trên bản xem trước trực tiếp. Sau khi chỉnh xong, hãy bấm <strong>"Lưu thay đổi lên CSDL"</strong> để cập nhật chính thức và đồng bộ tự động sang mọi thiết bị khác.
-                  </p>
                 </div>
               </div>
 
@@ -2716,26 +3056,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                 </p>
               </div>
 
-              {/* Developer / Source code instructions */}
-              <div className="bg-slate-900 rounded-2xl p-4 sm:p-5 text-slate-300 space-y-2 text-xs font-mono">
-                <span className="text-amber-400 font-bold block uppercase tracking-wider font-sans">
-                  📖 Hướng dẫn cấu hình trong mã nguồn (Source Code):
-                </span>
-                <p className="text-slate-400 leading-relaxed font-sans text-xs">
-                  Nếu bạn muốn thay đổi kích thước hoặc logo trực tiếp trong mã nguồn dự án:
-                </p>
-                <ul className="list-disc pl-5 space-y-1 font-sans text-xs text-slate-300">
-                  <li>
-                    <strong>Kích thước mặc định:</strong> Có thể điều chỉnh hằng số <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">DEFAULT_HEADER_LOGO_SIZE</code> (200px) và <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">DEFAULT_WELCOME_LOGO_SIZE</code> (300px) trong <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">src/App.tsx</code>.
-                  </li>
-                  <li>
-                    <strong>Mã SVG / Vector Logo:</strong> Mở tệp <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">src/components/EasyEngLogo.tsx</code> để chỉnh các vector hình ảnh hoặc màu sắc gradient.
-                  </li>
-                  <li>
-                    <strong>Biểu tượng favicon trình duyệt:</strong> Thay đổi tệp icon hiển thị trên tab trình duyệt tại <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">public/favicon.svg</code> hoặc <code className="text-amber-300 bg-slate-800 px-1 py-0.5 rounded">public/favicon.ico</code>.
-                  </li>
-                </ul>
-              </div>
             </div>
           )}
         </div>
@@ -2787,14 +3107,21 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   {clusterJsonModal.rawText && (
                     <button
                       type="button"
-                      onClick={() => {
-                        soundEffects.playClick();
-                        navigator.clipboard.writeText(clusterJsonModal.rawText);
-                        alert('Đã sao chép mã JSON vào bộ nhớ đệm!');
-                      }}
+                      onClick={handleCopyClusterJson}
                       className="px-2.5 py-1.5 text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-xl font-bold flex items-center gap-1 cursor-pointer transition hover:bg-slate-100"
+                      title="Sao chép toàn bộ mã JSON này để dán sang học phần hoặc lớp khác"
                     >
-                      <Copy className="w-3.5 h-3.5" /> Sao chép JSON
+                      {copiedJsonSuccess ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          <span className="text-emerald-700">Đã chép ✓</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Sao chép JSON</span>
+                        </>
+                      )}
                     </button>
                   )}
 

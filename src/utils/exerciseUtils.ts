@@ -139,11 +139,25 @@ export function parseWorkbookCluster(
       }
     }
 
-    (u.sections || []).forEach((sec: any) => {
+    let sections = Array.isArray(u.sections) ? u.sections : [];
+    if (sections.length === 0) {
+      if (Array.isArray(u.exercises) && u.exercises.length > 0) {
+        sections = [{ section_id: 'exercises', section_title: 'Bài tập', exercises: u.exercises }];
+      } else if (Array.isArray(u.questions) && u.questions.length > 0) {
+        sections = [{ section_id: 'questions', section_title: 'Câu hỏi', exercises: [{ exercise_id: `ex_${unitNum}`, game_mechanic: 'multiple_choice', questions: u.questions }] }];
+      }
+    }
+
+    sections.forEach((sec: any) => {
       const secId = sec.section_id || '';
       const secTitle = sec.section_title || '';
 
-      (sec.exercises || []).forEach((ex: any) => {
+      let exercises = Array.isArray(sec.exercises) ? sec.exercises : [];
+      if (exercises.length === 0 && Array.isArray(sec.questions) && sec.questions.length > 0) {
+        exercises = [{ exercise_id: `ex_${secId || 'sec'}`, game_mechanic: 'multiple_choice', questions: sec.questions }];
+      }
+
+      exercises.forEach((ex: any) => {
         const mechanic = ex.game_mechanic || 'multiple_choice';
         const instVi = ex.instruction_vi || '';
         const instEn = ex.instruction_en || '';
@@ -358,7 +372,49 @@ export function parseWorkbookCluster(
 }
 
 /**
- * Intelligent parser that extracts questions from any PDF-extracted JSON structure
+ * Recursively collects question-like objects from any deeply nested JSON structure
+ */
+function collectQuestionsRecursively(obj: any, collected: any[] = [], depth: number = 0): any[] {
+  if (!obj || typeof obj !== 'object' || depth > 10) return collected;
+  if (Array.isArray(obj)) {
+    obj.forEach(item => collectQuestionsRecursively(item, collected, depth + 1));
+    return collected;
+  }
+  const hasPrompt = Boolean(
+    obj.question || obj.prompt || obj.prompt_text || obj.sentence || 
+    obj.cauHoi || obj.cau_hoi || obj.câu_hỏi || obj.content
+  );
+  const hasOptionsOrAnswer = Boolean(
+    (Array.isArray(obj.options) && obj.options.length > 0) ||
+    (Array.isArray(obj.choices) && obj.choices.length > 0) ||
+    (Array.isArray(obj.answers) && obj.answers.length > 0) ||
+    (Array.isArray(obj.dapAn) && obj.dapAn.length > 0) ||
+    obj.correctAnswer !== undefined ||
+    obj.correct_answer !== undefined ||
+    obj.answer !== undefined ||
+    obj.answerIndex !== undefined ||
+    obj.dapAnDung !== undefined ||
+    obj.word_bank ||
+    obj.pairs
+  );
+
+  if (hasPrompt && hasOptionsOrAnswer) {
+    collected.push(obj);
+    return collected;
+  }
+
+  for (const key of Object.keys(obj)) {
+    // Avoid recursing into raw large strings
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      collectQuestionsRecursively(obj[key], collected, depth + 1);
+    }
+  }
+  return collected;
+}
+
+/**
+ * Intelligent parser that extracts questions from any PDF-extracted JSON structure,
+ * exported cluster data, standard quiz arrays, or official Global Success workbooks.
  */
 export function parseExerciseJson(
   rawInput: any,
@@ -368,13 +424,37 @@ export function parseExerciseJson(
   try {
     let parsed: any = rawInput;
     if (typeof rawInput === 'string') {
-      try {
-        parsed = JSON.parse(rawInput);
-      } catch (err: any) {
+      let cleaned = rawInput.trim();
+      if (!cleaned) {
         return {
           cluster: createEmptyCluster(clusterNumber, grade),
-          error: `Lỗi cú pháp JSON: ${err.message || 'Mã JSON không hợp lệ'}`
+          error: 'Dữ liệu JSON rỗng. Vui lòng dán mã JSON câu hỏi bài tập.'
         };
+      }
+
+      // 1. Strip markdown code fences if copied from AI/chat (```json ... ``` or ``` ... ```)
+      if (cleaned.startsWith('```')) {
+        cleaned = cleaned.replace(/^```[a-zA-Z]*\n?/, '').replace(/```\s*$/, '').trim();
+      }
+
+      // 2. Strip Byte Order Mark (BOM)
+      if (cleaned.charCodeAt(0) === 0xFEFF) {
+        cleaned = cleaned.slice(1).trim();
+      }
+
+      try {
+        parsed = JSON.parse(cleaned);
+      } catch (err: any) {
+        // Attempt lenient recovery: remove trailing commas before } or ]
+        try {
+          const lenient = cleaned.replace(/,\s*([}\]])/g, '$1');
+          parsed = JSON.parse(lenient);
+        } catch {
+          return {
+            cluster: createEmptyCluster(clusterNumber, grade),
+            error: `Lỗi cú pháp JSON: ${err.message || 'Mã JSON không đúng định dạng chuẩn'}. Vui lòng kiểm tra dấu ngoặc { } hoặc [ ].`
+          };
+        }
       }
     }
 
@@ -385,42 +465,102 @@ export function parseExerciseJson(
       };
     }
 
-    // Check if it is the official Workbook format with units array
-    if (parsed.units && Array.isArray(parsed.units)) {
-      const cluster = parseWorkbookCluster(parsed, clusterNumber, grade);
-      return { cluster };
+    // 3. Unwrap container objects (e.g. { cluster: ... }, { workbook: ... }, { data: ... })
+    if (typeof parsed === 'object' && !Array.isArray(parsed)) {
+      if (parsed.cluster && typeof parsed.cluster === 'object') parsed = parsed.cluster;
+      else if (parsed.workbook && typeof parsed.workbook === 'object') parsed = parsed.workbook;
+      else if (parsed.data && typeof parsed.data === 'object' && !Array.isArray(parsed.data) && (parsed.data.units || parsed.data.questions || parsed.data.clusters || parsed.data.exercises)) parsed = parsed.data;
+      else if (parsed.result && typeof parsed.result === 'object' && !Array.isArray(parsed.result) && (parsed.result.units || parsed.result.questions || parsed.result.clusters)) parsed = parsed.result;
+      else if (parsed.payload && typeof parsed.payload === 'object' && !Array.isArray(parsed.payload) && (parsed.payload.units || parsed.payload.questions)) parsed = parsed.payload;
     }
 
-    let detectedTitle = `Học phần bài tập ${clusterNumber}`;
-    let detectedDescription = '';
+    // 4. Handle array of clusters or { clusters: [...] }
+    if (parsed.clusters && Array.isArray(parsed.clusters)) {
+      const match = parsed.clusters.find((c: any) => c.clusterNumber === clusterNumber) || 
+                    parsed.clusters.find((c: any) => c.cluster_number === clusterNumber) ||
+                    parsed.clusters[clusterNumber - 1] || 
+                    parsed.clusters[0];
+      if (match) parsed = match;
+    } else if (Array.isArray(parsed) && parsed.length > 0 && (parsed[0].units || parsed[0].questions)) {
+      const match = parsed.find((c: any) => c.clusterNumber === clusterNumber) || 
+                    parsed.find((c: any) => c.cluster_number === clusterNumber) ||
+                    parsed[clusterNumber - 1] || 
+                    parsed[0];
+      if (match) parsed = match;
+    }
+
+    // 5. Check if it is the official Workbook format with units array
+    if (parsed.units && Array.isArray(parsed.units)) {
+      const wbCluster = parseWorkbookCluster(parsed, clusterNumber, grade);
+      if (wbCluster.questions && wbCluster.questions.length > 0) {
+        return { cluster: wbCluster };
+      }
+    }
+
+    // 6. Check if parsed is an array of units
+    if (Array.isArray(parsed) && parsed.length > 0 && (parsed[0].unit_id || parsed[0].unit_number || parsed[0].sections)) {
+      const wbCluster = parseWorkbookCluster({ units: parsed }, clusterNumber, grade);
+      if (wbCluster.questions && wbCluster.questions.length > 0) {
+        return { cluster: wbCluster };
+      }
+    }
+
+    // 7. Extract raw items from generic / simplified formats
+    let detectedTitle = parsed.title || parsed.name || parsed.cluster_name || parsed.module_name || `Học phần bài tập ${clusterNumber}`;
+    let detectedDescription = parsed.description || '';
     let rawItems: any[] = [];
 
     if (Array.isArray(parsed)) {
       rawItems = parsed;
     } else if (typeof parsed === 'object') {
-      if (parsed.title) detectedTitle = String(parsed.title);
-      if (parsed.name) detectedTitle = String(parsed.name);
-      if (parsed.cluster_name) detectedTitle = String(parsed.cluster_name);
-      if (parsed.description) detectedDescription = String(parsed.description);
+      const potentialLists = [
+        parsed.questions,
+        parsed.exercises,
+        parsed.items,
+        parsed.quizzes,
+        parsed.cauHoi,
+        parsed.cau_hoi,
+        parsed['câu_hỏi'],
+        parsed.baiTap,
+        parsed.bai_tap,
+        parsed['bài_tập'],
+        parsed.danhSachCauHoi,
+        parsed.danh_sach_cau_hoi,
+        parsed.danhSach,
+        parsed.content,
+        parsed.data,
+        parsed.tasks,
+        parsed.tests,
+        parsed.list,
+        parsed.rows,
+        parsed.records
+      ];
 
-      if (Array.isArray(parsed.questions)) {
-        rawItems = parsed.questions;
-      } else if (Array.isArray(parsed.exercises)) {
-        rawItems = parsed.exercises;
-      } else if (Array.isArray(parsed.quizzes)) {
-        rawItems = parsed.quizzes;
-      } else if (Array.isArray(parsed.items)) {
-        rawItems = parsed.items;
-      } else if (Array.isArray(parsed.data)) {
-        rawItems = parsed.data;
-      } else if (Array.isArray(parsed.parts)) {
+      for (const candidate of potentialLists) {
+        if (Array.isArray(candidate) && candidate.length > 0) {
+          rawItems = candidate;
+          break;
+        } else if (candidate && typeof candidate === 'object' && Object.keys(candidate).length > 0) {
+          const values = Object.values(candidate);
+          if (values.length > 0 && typeof values[0] === 'object') {
+            rawItems = values;
+            break;
+          }
+        }
+      }
+
+      // If parts array
+      if (rawItems.length === 0 && Array.isArray(parsed.parts)) {
         parsed.parts.forEach((p: any) => {
           if (Array.isArray(p.questions)) rawItems.push(...p.questions);
           else if (Array.isArray(p.exercises)) rawItems.push(...p.exercises);
           else if (Array.isArray(p.items)) rawItems.push(...p.items);
           else rawItems.push(p);
         });
-      } else if (parsed.vocabulary && Array.isArray(parsed.vocabulary)) {
+      }
+
+      // If vocabulary array
+      if (rawItems.length === 0 && Array.isArray(parsed.vocabulary)) {
         parsed.vocabulary.forEach((v: any) => {
           rawItems.push({
             question: `Từ "${v.word}" có nghĩa là gì?`,
@@ -429,10 +569,38 @@ export function parseExerciseJson(
             explanation: `${v.word} (${v.phonetic || ''}): ${v.meaning}. Ví dụ: ${v.example || ''}`
           });
         });
-      } else {
+      }
+
+      // If units had flat questions or exercises
+      if (rawItems.length === 0 && Array.isArray(parsed.units)) {
+        parsed.units.forEach((u: any) => {
+          if (Array.isArray(u.questions)) rawItems.push(...u.questions);
+          else if (Array.isArray(u.exercises)) rawItems.push(...u.exercises);
+          else if (Array.isArray(u.sections)) {
+            u.sections.forEach((s: any) => {
+              if (Array.isArray(s.questions)) rawItems.push(...s.questions);
+              else if (Array.isArray(s.exercises)) rawItems.push(...s.exercises);
+            });
+          }
+        });
+      }
+
+      // If dictionary object of questions (e.g. { "q1": {...}, "q2": {...} })
+      if (rawItems.length === 0) {
         const values = Object.values(parsed);
-        if (values.length > 0 && typeof values[0] === 'object') {
-          rawItems = values;
+        if (values.length > 0 && typeof values[0] === 'object' && values[0] !== null) {
+          const sample = values[0] as any;
+          if (sample.question || sample.prompt || sample.prompt_text || sample.options || sample.cauHoi) {
+            rawItems = values;
+          }
+        }
+      }
+
+      // 8. Recursive Fallback Search: Search all keys and arrays for question-like objects
+      if (rawItems.length === 0) {
+        const deeplyFound = collectQuestionsRecursively(parsed);
+        if (deeplyFound.length > 0) {
+          rawItems = deeplyFound;
         }
       }
     }
@@ -440,7 +608,7 @@ export function parseExerciseJson(
     if (!Array.isArray(rawItems) || rawItems.length === 0) {
       return {
         cluster: createEmptyCluster(clusterNumber, grade, typeof rawInput === 'string' ? rawInput : JSON.stringify(rawInput, null, 2)),
-        error: 'Không tìm thấy danh sách câu hỏi / bài tập trong dữ liệu JSON. Vui lòng kiểm tra định dạng mảng [...] hoặc đối tượng có trường questions / units / exercises.'
+        error: 'Không tìm thấy câu hỏi bài tập nào trong dữ liệu JSON. Vui lòng kiểm tra file JSON có chứa mảng danh sách câu hỏi [ ... ] hoặc đối tượng có trường questions / exercises / units.'
       };
     }
 
@@ -454,36 +622,54 @@ export function parseExerciseJson(
       if (!item || typeof item !== 'object') return;
       totalRawCount++;
 
-      if (isAudioConversationQuestion(item)) {
-        skippedAudioCount++;
-        return;
-      }
-      if (isImageQuestion(item)) {
-        skippedImageCount++;
-        return;
+      // Check if this item is already an interactive question with explicit options
+      const rawOpts = item.options || item.choices || item.answers || item.dapAn || item.dap_an || item.cacDapAn || item.luaChon;
+      const hasExplicitOptions = Array.isArray(rawOpts) && rawOpts.length > 1;
+
+      // Only skip audio/image if it does NOT already have interactive multiple-choice options
+      if (!hasExplicitOptions) {
+        if (isAudioConversationQuestion(item)) {
+          skippedAudioCount++;
+          return;
+        }
+        if (isImageQuestion(item)) {
+          skippedImageCount++;
+          return;
+        }
       }
 
-      const qText = item.question || item.prompt || item.content || item.cauHoi || item.cau_hoi || item.title || item.sentence || `Câu hỏi số ${idx + 1}`;
+      const qText = item.question || item.prompt || item.prompt_text || item.content || 
+                    item.cauHoi || item.cau_hoi || item['câu_hỏi'] || item.title || 
+                    item.sentence || item.full_completed_text || `Câu hỏi số ${idx + 1}`;
 
-      let rawOptions: any[] = item.options || item.choices || item.answers || item.dapAn || item.dap_an || [];
+      let rawOptions: any[] = rawOpts || [];
       if (!Array.isArray(rawOptions) && typeof rawOptions === 'object') {
         rawOptions = Object.values(rawOptions);
       }
-      const options: string[] = Array.isArray(rawOptions) ? rawOptions.map(opt => String(opt).trim()) : [];
+      const options: string[] = Array.isArray(rawOptions) ? rawOptions.map(opt => {
+        if (typeof opt === 'object' && opt !== null) {
+          return String(opt.text || opt.title || opt.content || opt.name || opt.id || JSON.stringify(opt)).trim();
+        }
+        return String(opt).trim();
+      }) : [];
 
       let answerIndex = 0;
-      const rawAns = item.answerIndex !== undefined ? item.answerIndex : (item.answer !== undefined ? item.answer : (item.correctAnswer !== undefined ? item.correctAnswer : item.dapAnDung));
+      const rawAns = item.answerIndex !== undefined ? item.answerIndex : 
+                    (item.answer !== undefined ? item.answer : 
+                    (item.correctAnswer !== undefined ? item.correctAnswer : 
+                    (item.correct_answer !== undefined ? item.correct_answer : 
+                    (item.dapAnDung !== undefined ? item.dapAnDung : item.dap_an_dung))));
 
       if (typeof rawAns === 'number') {
         answerIndex = Math.max(0, Math.min(rawAns, Math.max(0, options.length - 1)));
       } else if (typeof rawAns === 'string') {
         const trimmed = rawAns.trim().toUpperCase();
-        if (trimmed === 'A') answerIndex = 0;
-        else if (trimmed === 'B') answerIndex = 1;
-        else if (trimmed === 'C') answerIndex = 2;
-        else if (trimmed === 'D') answerIndex = 3;
+        if (trimmed === 'A' || trimmed === '1') answerIndex = 0;
+        else if (trimmed === 'B' || trimmed === '2') answerIndex = 1;
+        else if (trimmed === 'C' || trimmed === '3') answerIndex = 2;
+        else if (trimmed === 'D' || trimmed === '4') answerIndex = 3;
         else {
-          const foundIdx = options.findIndex(opt => opt.toLowerCase().includes(rawAns.toLowerCase()) || rawAns.toLowerCase().includes(opt.toLowerCase()));
+          const foundIdx = options.findIndex(opt => opt.toLowerCase() === rawAns.toLowerCase() || opt.toLowerCase().includes(rawAns.toLowerCase()));
           if (foundIdx >= 0) {
             answerIndex = foundIdx;
           } else {
@@ -492,6 +678,22 @@ export function parseExerciseJson(
               answerIndex = num;
             }
           }
+        }
+      } else if (typeof rawAns === 'boolean') {
+        answerIndex = rawAns ? 0 : 1;
+        if (options.length === 0) options.push('True (Đúng)', 'False (Sai)');
+      }
+
+      // If no options but correct answer exists, generate reasonable options
+      if (options.length === 0) {
+        if (rawAns !== undefined && rawAns !== null && String(rawAns).trim()) {
+          const corr = String(rawAns).trim();
+          const distractors = COMMON_DISTRACTORS.filter(d => d.toLowerCase() !== corr.toLowerCase()).slice(0, 3);
+          options.push(corr, ...distractors);
+          answerIndex = 0;
+        } else {
+          options.push('✓ True (Đúng)', '✗ False (Sai)');
+          answerIndex = 0;
         }
       }
 
@@ -556,22 +758,30 @@ export function parseExerciseJson(
       questions.push({
         id: item.id || `q_${clusterNumber}_${idx + 1}`,
         question: String(qText).trim(),
-        options: options.length > 0 ? options : ['Đúng', 'Sai'],
+        options,
         answerIndex,
-        explanation: item.explanation || item.giaiThich || item.note || '',
-        type: item.type || (options.length > 0 ? 'quiz' : 'fill'),
-        category: item.category || 'Bài tập PDF',
+        correctAnswer: options[answerIndex] || String(rawAns || ''),
+        explanation: item.explanation || item.explanation_vi || item.giaiThich || item.note || '',
+        type: item.type || (options.length > 2 ? 'quiz' : 'true_false'),
+        category: item.category || 'Bài tập trắc nghiệm',
         hint: item.hint || '',
         unitNumber: qUnitNum,
         unitTitle: qUnitTitle
       });
     });
 
+    if (questions.length === 0) {
+      return {
+        cluster: createEmptyCluster(clusterNumber, grade, typeof rawInput === 'string' ? rawInput : JSON.stringify(rawInput, null, 2)),
+        error: 'Không trích xuất được câu hỏi hợp lệ từ dữ liệu JSON. Vui lòng kiểm tra các câu hỏi có trường câu hỏi (question) và lựa chọn (options).'
+      };
+    }
+
     const cluster: ExerciseCluster = {
       id: `cluster_grade${grade}_${clusterNumber}`,
       clusterNumber,
       title: detectedTitle,
-      description: detectedDescription,
+      description: detectedDescription || `Học phần gồm ${questions.length} câu hỏi bài tập`,
       grade,
       questions,
       itemsCount: questions.length,

@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
-import { X, Check, Lock, KeyRound, AlertCircle, Eye, EyeOff, User } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { X, Check, Lock, KeyRound, AlertCircle, Eye, EyeOff, User, Upload, Phone, Mail, Image as ImageIcon } from 'lucide-react';
 import { UserProfile } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
+import { resolveValidUsername } from '../utils/userUtils';
 
 interface AvatarModalProps {
   user: UserProfile;
   customAvatars?: CustomAvatarItem[];
-  onSave: (newName: string, newAvatar: string, newPin?: string) => void;
+  allLearners?: UserProfile[];
+  onSave: (
+    newName: string,
+    newAvatar: string,
+    newPin?: string,
+    newPhone?: string,
+    newEmail?: string,
+    uploadedCustomAvatar?: string
+  ) => void;
   onClose: () => void;
 }
 
 export const AvatarModal: React.FC<AvatarModalProps> = ({
   user,
   customAvatars = [],
+  allLearners = [],
   onSave,
   onClose
 }) => {
@@ -22,7 +32,19 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
 
   // Profile state
   const [name, setName] = useState(user.name);
+  const [phone, setPhone] = useState(user.phone || '');
+  const [email, setEmail] = useState(user.email || '');
+  const [profileError, setProfileError] = useState<string | null>(null);
+
+  // Avatar state
+  // Check if user has an existing uploaded custom avatar
+  const existingUserCustomAvatar = user.customAvatarUrl || 
+    customAvatars.find(a => a.ownerLearnerId === user.learnerId)?.icon ||
+    (user.avatar.startsWith('data:image/') ? user.avatar : null);
+
+  const [userUploadedAvatar, setUserUploadedAvatar] = useState<string | null>(existingUserCustomAvatar);
   const [selectedAvatar, setSelectedAvatar] = useState(user.avatar);
+  const userAvatarFileInputRef = useRef<HTMLInputElement>(null);
 
   // Password state
   const [oldPin, setOldPin] = useState('');
@@ -35,12 +57,148 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
   const [pinSuccess, setPinSuccess] = useState<string | null>(null);
 
   const currentActualPin = user.pin && /^\d{4}$/.test(user.pin) ? user.pin : '0000';
+  // Không hiển thị mã dạng learner_..., tự động chọn nickname nếu chưa có tên đăng nhập
+  const username = resolveValidUsername(user.username, user.name);
+
+  // Handle phone input: Digits only (không cho phép gõ chữ)
+  const handlePhoneChange = (val: string) => {
+    const digitsOnly = val.replace(/\D/g, '').slice(0, 11);
+    setPhone(digitsOnly);
+    setProfileError(null);
+  };
+
+  // Handle email input: No Vietnamese accented characters, no spaces, no invalid special characters
+  const handleEmailChange = (val: string) => {
+    const sanitized = val
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[đĐ]/g, 'd')
+      .replace(/\s+/g, '')
+      .replace(/[^a-zA-Z0-9.@_-]/g, '')
+      .toLowerCase();
+    setEmail(sanitized);
+    setProfileError(null);
+  };
+
+  // Handle user uploading their single personal avatar (overwriting previous one if uploaded again)
+  const handleUserAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      soundEffects.playError();
+      setProfileError('Vui lòng chọn tệp hình ảnh (PNG, JPG, WEBP)!');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      soundEffects.playError();
+      setProfileError('Dung lượng ảnh không được vượt quá 5MB!');
+      return;
+    }
+
+    soundEffects.playClick();
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const src = event.target?.result as string;
+      if (!src) return;
+
+      // Resize/compress to thumbnail 200x200 max so it syncs cleanly to Firestore
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 200;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressed = canvas.toDataURL('image/jpeg', 0.85);
+          // Ghi đè lên avatar cũ của người dùng
+          setUserUploadedAvatar(compressed);
+          setSelectedAvatar(compressed);
+          setProfileError(null);
+        }
+      };
+      img.src = src;
+    };
+    reader.readAsDataURL(file);
+    // Reset file input
+    if (e.target) e.target.value = '';
+  };
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) return;
+    setProfileError(null);
+
+    // 1. Kiểm tra họ tên
+    if (!name.trim()) {
+      soundEffects.playError();
+      setProfileError('Vui lòng nhập tên hoặc nickname của bạn!');
+      return;
+    }
+
+    // 2. Kiểm tra số điện thoại (nếu có nhập)
+    const cleanPhone = phone.trim();
+    if (cleanPhone) {
+      if (cleanPhone.length < 9 || cleanPhone.length > 11) {
+        soundEffects.playError();
+        setProfileError('Số điện thoại không hợp lệ (phải gồm từ 9 đến 11 chữ số)!');
+        return;
+      }
+      // Đối chiếu với dữ liệu SDT của các người dùng khác trên CSDL
+      const phoneConflict = allLearners.find(
+        l => l.learnerId !== user.learnerId && l.phone && l.phone.trim() === cleanPhone
+      );
+      if (phoneConflict) {
+        soundEffects.playError();
+        setProfileError(`Số điện thoại "${cleanPhone}" đã tồn tại trong hệ thống (được sử dụng bởi tài khoản khác)!`);
+        return;
+      }
+    }
+
+    // 3. Kiểm tra email (nếu có nhập)
+    const cleanEmail = email.trim().toLowerCase();
+    if (cleanEmail) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(cleanEmail)) {
+        soundEffects.playError();
+        setProfileError('Địa chỉ email không đúng định dạng (ví dụ: user@gmail.com, không có dấu hay ký tự đặc biệt)!');
+        return;
+      }
+      // Đối chiếu với dữ liệu Email của các người dùng khác trên CSDL
+      const emailConflict = allLearners.find(
+        l => l.learnerId !== user.learnerId && l.email && l.email.trim().toLowerCase() === cleanEmail
+      );
+      if (emailConflict) {
+        soundEffects.playError();
+        setProfileError(`Địa chỉ email "${cleanEmail}" đã tồn tại trong hệ thống (được sử dụng bởi tài khoản khác)!`);
+        return;
+      }
+    }
+
     soundEffects.playSuccess();
-    onSave(name.trim(), selectedAvatar);
+    onSave(
+      name.trim(),
+      selectedAvatar,
+      undefined,
+      cleanPhone,
+      cleanEmail,
+      userUploadedAvatar || undefined
+    );
     onClose();
   };
 
@@ -71,7 +229,14 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
     }
 
     soundEffects.playSuccess();
-    onSave(name.trim(), selectedAvatar, newPin);
+    onSave(
+      name.trim(),
+      selectedAvatar,
+      newPin,
+      phone.trim(),
+      email.trim(),
+      userUploadedAvatar || undefined
+    );
     setPinSuccess('Đổi mật khẩu thành công! Mật khẩu mới đã được cập nhật.');
     setOldPin('');
     setNewPin('');
@@ -81,25 +246,29 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
     }, 900);
   };
 
-  const allAvatars = [
-    ...AVATARS.map(a => ({ id: a.id, name: a.name, icon: a.icon })),
-    ...customAvatars
-  ];
+  // Avatar visibility rule:
+  // - Built-in animal avatars
+  // - Global admin avatars (!ownerLearnerId)
+  // - ONLY this user's uploaded avatar (ownerLearnerId === user.learnerId)
+  // - OTHER users' avatars are filtered out!
+  const visibleCustomAvatars = customAvatars.filter(
+    a => !a.ownerLearnerId || a.ownerLearnerId === user.learnerId
+  );
+
+  const builtInAvatarsList = AVATARS.map(a => ({ id: a.id, name: a.name, icon: a.icon }));
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl p-5 sm:p-7 space-y-4 animate-float border border-slate-100 max-h-[92vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
-              ⚙️
-            </div>
-            <div>
-              <h2 className="font-display font-bold text-xl text-slate-800">
-                Thông tin
-              </h2>
-            </div>
+          <div>
+            <h2 className="font-display font-bold text-xl text-slate-800">
+              Thông tin tài khoản: {user.name}
+            </h2>
+            <p className="text-xs text-slate-500">
+              Cập nhật hồ sơ, số điện thoại, email và mật khẩu PIN
+            </p>
           </div>
           <button
             onClick={() => {
@@ -119,7 +288,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             onClick={() => {
               soundEffects.playClick();
               setActiveTab('profile');
-              setPinError(null);
+              setProfileError(null);
             }}
             className={`flex-1 py-2 rounded-xl font-display font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer ${
               activeTab === 'profile'
@@ -128,7 +297,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             }`}
           >
             <User className="w-3.5 h-3.5 text-amber-500" />
-            <span>Tên & Avatar</span>
+            <span>Hồ sơ & Avatar</span>
           </button>
           <button
             type="button"
@@ -148,71 +317,228 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
           </button>
         </div>
 
-        {/* TAB 1: PROFILE & AVATAR */}
+        {/* TAB 1: PROFILE, USERNAME, PHONE, EMAIL & AVATAR */}
         {activeTab === 'profile' && (
-          <form onSubmit={handleSaveProfile} className="space-y-4 overflow-y-auto pr-1 flex-1">
-            {/* Name input */}
-            <div className="space-y-1.5">
+          <form onSubmit={handleSaveProfile} className="space-y-3.5 overflow-y-auto pr-1 flex-1">
+            {profileError && (
+              <div className="p-3 rounded-2xl bg-rose-50 border border-rose-300 text-rose-800 text-xs font-semibold flex items-center gap-2 animate-shake">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+                <span>{profileError}</span>
+              </div>
+            )}
+
+            {/* Tên đăng nhập (Cố định, người dùng không thể tự sửa, chỉ Quản lý có quyền đổi) */}
+            <div className="space-y-1">
+              <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
+                <span className="flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
+                </span>
+                <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-semibold lowercase flex items-center gap-1">
+                  <Lock className="w-3 h-3 text-amber-600" /> Chỉ Quản lý có quyền đổi
+                </span>
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={username}
+                  disabled
+                  readOnly
+                  className="w-full px-3.5 py-2 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-mono font-bold text-xs cursor-not-allowed select-none"
+                  title="Tên đăng nhập do Quản lý thiết lập và quản lý, người dùng không thể tự chỉnh sửa"
+                />
+              </div>
+            </div>
+
+            {/* Tên hiển thị / Nickname */}
+            <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                Tên/Nickname:
+                Tên hiển thị / Nickname:
               </label>
               <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                maxLength={20}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setProfileError(null);
+                }}
+                maxLength={30}
                 placeholder="Nhập họ tên hoặc nickname..."
-                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
                 required
               />
             </div>
 
-            {/* Avatar selector */}
-            <div className="space-y-2">
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                Ảnh đại diện/Avatar:
+            {/* Số điện thoại (Chỉ cho phép nhập số 0-9, không cho phép gõ chữ) */}
+            <div className="space-y-1">
+              <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
+                <span className="flex items-center gap-1">
+                  <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
+                </span>
+                <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
               </label>
-              <div className="grid grid-cols-4 gap-2.5 max-h-48 overflow-y-auto p-1">
-                {allAvatars.map((av) => {
-                  const isSelected = selectedAvatar === av.id || selectedAvatar === av.icon;
+              <input
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                value={phone}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                placeholder="Nhập số điện thoại (ví dụ: 0912345678)..."
+                maxLength={11}
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
+              />
+            </div>
 
-                  return (
-                    <button
-                      key={av.id}
-                      type="button"
-                      onClick={() => {
-                        soundEffects.playClick();
-                        setSelectedAvatar(av.icon || av.id);
-                      }}
-                      className={`p-2 rounded-2xl border-2 transition-all flex items-center justify-center cursor-pointer aspect-square ${
-                        isSelected
-                          ? 'border-amber-500 bg-amber-50 shadow-md scale-105'
-                          : 'border-slate-100 bg-slate-50 hover:bg-slate-100'
-                      }`}
-                    >
-                      <div className="w-12 h-12 flex items-center justify-center text-3xl overflow-hidden rounded-xl">
-                        {renderAvatarContent(av.icon, '🦊', customAvatars)}
-                      </div>
-                    </button>
-                  );
-                })}
+            {/* Địa chỉ Email (Không dấu, không ký tự đặc biệt) */}
+            <div className="space-y-1">
+              <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
+                <span className="flex items-center gap-1">
+                  <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
+                </span>
+                <span className="text-[10px] text-slate-400 font-normal">(Không dấu)</span>
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => handleEmailChange(e.target.value)}
+                placeholder="Nhập email (ví dụ: name@gmail.com)..."
+                maxLength={60}
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
+              />
+            </div>
+
+            {/* PHẦN TỰ UPLOAD AVATAR CỦA NGƯỜI DÙNG (TỐI ĐA 1 AVA, UPLOAD TIẾP GHI ĐÈ, RIÊNG TƯ) */}
+            <div className="space-y-2 pt-1 border-t border-slate-100">
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Ảnh đại diện / Avatar:
+                </label>
+                <div>
+                  <input
+                    type="file"
+                    ref={userAvatarFileInputRef}
+                    accept="image/*"
+                    onChange={handleUserAvatarUpload}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => userAvatarFileInputRef.current?.click()}
+                    className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1 transition cursor-pointer active:scale-95"
+                    title="Tự tải ảnh avatar từ thiết bị của bạn (ghi đè avatar cũ)"
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>{userUploadedAvatar ? 'Đổi avatar cá nhân' : 'Tự upload avatar'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Box Avatar cá nhân đã upload */}
+              {userUploadedAvatar && (
+                <div className="p-2.5 rounded-2xl bg-amber-50/80 border border-amber-300 flex items-center justify-between gap-3 shadow-2xs">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="w-11 h-11 rounded-xl bg-white border-2 border-amber-400 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
+                      {renderAvatarContent(userUploadedAvatar)}
+                    </div>
+                    <div className="min-w-0 text-left">
+                      <span className="block text-xs font-bold text-amber-900 truncate">
+                        Avatar riêng tư của bạn
+                      </span>
+                      <span className="block text-[10px] text-amber-700">
+                        (Chỉ bạn nhìn thấy avatar này, upload ảnh mới sẽ ghi đè)
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEffects.playClick();
+                      setSelectedAvatar(userUploadedAvatar);
+                    }}
+                    className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
+                      selectedAvatar === userUploadedAvatar
+                        ? 'bg-emerald-600 text-white shadow-2xs'
+                        : 'bg-white hover:bg-amber-100 text-amber-800 border border-amber-300'
+                    }`}
+                  >
+                    {selectedAvatar === userUploadedAvatar ? '✓ Đang chọn' : 'Chọn avatar này'}
+                  </button>
+                </div>
+              )}
+
+              {/* Danh sách avatar có sẵn và avatar hệ thống (người dùng khác không thấy avatar riêng tư) */}
+              <div className="space-y-1">
+                <span className="text-[11px] font-bold text-slate-500 block">
+                  Hoặc chọn trong bộ sưu tập:
+                </span>
+                <div className="grid grid-cols-5 gap-2 max-h-40 overflow-y-auto p-1 bg-slate-50 rounded-2xl border border-slate-200">
+                  {/* Built-in avatars */}
+                  {builtInAvatarsList.map((av) => {
+                    const isSelected = selectedAvatar === av.id || selectedAvatar === av.icon;
+                    return (
+                      <button
+                        key={av.id}
+                        type="button"
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setSelectedAvatar(av.icon || av.id);
+                        }}
+                        className={`p-1.5 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer aspect-square ${
+                          isSelected
+                            ? 'border-amber-500 bg-white shadow-md scale-105 ring-2 ring-amber-300'
+                            : 'border-transparent bg-white/70 hover:bg-white'
+                        }`}
+                        title={av.name}
+                      >
+                        <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-lg">
+                          {renderAvatarContent(av.icon, '🦊')}
+                        </div>
+                      </button>
+                    );
+                  })}
+
+                  {/* System custom avatars */}
+                  {visibleCustomAvatars.map((av) => {
+                    const isSelected = selectedAvatar === av.icon || selectedAvatar === av.id;
+                    return (
+                      <button
+                        key={av.id}
+                        type="button"
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setSelectedAvatar(av.icon || av.id);
+                        }}
+                        className={`p-1.5 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer aspect-square ${
+                          isSelected
+                            ? 'border-amber-500 bg-white shadow-md scale-105 ring-2 ring-amber-300'
+                            : 'border-transparent bg-white/70 hover:bg-white'
+                        }`}
+                        title={av.name}
+                      >
+                        <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-lg">
+                          {renderAvatarContent(av.icon, '🦊')}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            <div className="pt-2 flex gap-3 shrink-0">
+            <div className="pt-2 flex gap-2.5 shrink-0">
               <button
                 type="button"
                 onClick={() => {
                   soundEffects.playClick();
                   onClose();
                 }}
-                className="flex-1 py-2.5 rounded-2xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 cursor-pointer"
+                className="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 cursor-pointer"
               >
                 Hủy bỏ
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 cursor-pointer"
+                className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 cursor-pointer active:scale-95 transition"
               >
                 Lưu thông tin ✨
               </button>
@@ -260,7 +586,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             {/* New PIN */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600">
-                Mật khẩu mới (4 số):
+                Mật khẩu PIN mới (4 số):
               </label>
               <div className="relative">
                 <input
@@ -269,8 +595,11 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   pattern="[0-9]*"
                   maxLength={4}
                   value={newPin}
-                  onChange={(e) => setNewPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                  placeholder="4 số mới..."
+                  onChange={(e) => {
+                    setNewPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                    setPinError(null);
+                  }}
+                  placeholder="Nhập 4 số mới..."
                   required
                   className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold tracking-widest text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
@@ -284,10 +613,10 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </div>
             </div>
 
-            {/* Confirm New PIN */}
+            {/* Confirm PIN */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600">
-                Xác nhận mật khẩu mới:
+                Xác nhận PIN mới (4 số):
               </label>
               <div className="relative">
                 <input
@@ -296,7 +625,10 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   pattern="[0-9]*"
                   maxLength={4}
                   value={confirmPin}
-                  onChange={(e) => setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                  onChange={(e) => {
+                    setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                    setPinError(null);
+                  }}
                   placeholder="Nhập lại 4 số mới..."
                   required
                   className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold tracking-widest text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
@@ -311,18 +643,16 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </div>
             </div>
 
-            {/* Error & Success Messages */}
             {pinError && (
-              <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-1.5">
-                <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
-                <span>{pinError}</span>
-              </div>
+              <p className="text-xs text-rose-600 font-bold flex items-center gap-1">
+                <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {pinError}
+              </p>
             )}
+
             {pinSuccess && (
-              <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-1.5">
-                <Check className="w-4 h-4 shrink-0 text-emerald-600" />
-                <span>{pinSuccess}</span>
-              </div>
+              <p className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                <Check className="w-3.5 h-3.5 shrink-0" /> {pinSuccess}
+              </p>
             )}
 
             <div className="pt-2 flex gap-3 shrink-0">
@@ -338,10 +668,9 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </button>
               <button
                 type="submit"
-                disabled={newPin.length !== 4 || confirmPin.length !== 4}
-                className="flex-1 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 disabled:opacity-50 transition cursor-pointer"
+                className="flex-1 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 cursor-pointer"
               >
-                Lưu mật khẩu mới 🔐
+                Đổi mật khẩu 🔐
               </button>
             </div>
           </form>

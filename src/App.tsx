@@ -24,6 +24,7 @@ import { ExitConfirmationModal } from './components/ExitConfirmationModal';
 import { soundEffects } from './services/soundEffects';
 import { speechService, VoiceGender } from './services/speechService';
 import { CustomAvatarItem } from './utils/avatarUtils';
+import { resolveValidUsername } from './utils/userUtils';
 import { getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, getGradeLevelName } from './utils/gradeUtils';
 import { createDefaultClusters } from './utils/exerciseUtils';
 import { calculateUpdatedStreak } from './utils/streakUtils';
@@ -234,7 +235,12 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed)) {
+          return parsed.map((l: UserProfile) => ({
+            ...l,
+            username: resolveValidUsername(l.username, l.name)
+          }));
+        }
       } catch {
         // fallback
       }
@@ -567,6 +573,7 @@ export default function App() {
           const lUnits = gradeUnitsMap[l.grade] || getDefaultUnitsForGrade(l.grade);
           return {
             ...l,
+            username: resolveValidUsername(l.username, l.name),
             level: calculateLevelFromXp(l.xp || 0),
             unlockedBadges: computeLearnerBadges(l.completedUnits, l.unlockedBadges || [], lUnits)
           };
@@ -586,6 +593,7 @@ export default function App() {
           const lUnits = gradeUnitsMap[l.grade] || getDefaultUnitsForGrade(l.grade);
           return {
             ...l,
+            username: resolveValidUsername(l.username, l.name),
             level: calculateLevelFromXp(l.xp || 0),
             unlockedBadges: computeLearnerBadges(l.completedUnits, l.unlockedBadges || [], lUnits)
           };
@@ -1096,18 +1104,48 @@ export default function App() {
     }
   };
 
-  const handleSaveAvatar = (newName: string, newAvatar: string, newPin?: string) => {
+  const handleSaveAvatar = (
+    newName: string,
+    newAvatar: string,
+    newPin?: string,
+    newPhone?: string,
+    newEmail?: string,
+    uploadedCustomAvatar?: string
+  ) => {
     if (!currentUser) return;
-    const updated = {
+    const updated: UserProfile = {
       ...currentUser,
       name: newName,
+      username: resolveValidUsername(currentUser.username, newName),
       avatar: newAvatar,
-      ...(newPin ? { pin: newPin } : {})
+      ...(newPin ? { pin: newPin } : {}),
+      phone: newPhone !== undefined ? newPhone : (currentUser.phone || ''),
+      email: newEmail !== undefined ? newEmail : (currentUser.email || ''),
+      ...(uploadedCustomAvatar ? { customAvatarUrl: uploadedCustomAvatar } : {})
     };
     setLearners(prev => prev.map(l => l.learnerId === currentUser.learnerId ? updated : l));
     syncLearnerToCloud(updated).catch(err => {
       console.warn('Sync avatar update warning:', err);
     });
+
+    if (uploadedCustomAvatar) {
+      const userCustomAvatarItem: CustomAvatarItem = {
+        id: `custom_av_${currentUser.learnerId}`,
+        name: `Avatar ${newName}`,
+        icon: uploadedCustomAvatar,
+        isCustom: true,
+        ownerLearnerId: currentUser.learnerId
+      };
+      setCustomAvatars(prev => {
+        const filtered = prev.filter(
+          a => a.id !== userCustomAvatarItem.id && a.ownerLearnerId !== currentUser.learnerId
+        );
+        return [...filtered, userCustomAvatarItem];
+      });
+      syncCustomAvatarToCloud(userCustomAvatarItem).catch(err => {
+        console.warn('Sync user custom avatar warning:', err);
+      });
+    }
   };
 
   // If learner is not chosen yet or no active learner found, show LearnerSelectScreen
@@ -1314,6 +1352,7 @@ export default function App() {
         <AvatarModal
           user={currentUser}
           customAvatars={customAvatars}
+          allLearners={learners}
           onSave={handleSaveAvatar}
           onClose={() => setShowAvatarModal(false)}
         />

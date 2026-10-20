@@ -22,7 +22,11 @@ service cloud.firestore {
         data.xp is number && data.xp >= 0 &&
         data.completedUnits is map &&
         data.unlockedBadges is list && data.unlockedBadges.size() <= 50 &&
-        (!('pin' in data) || (data.pin is string && data.pin.size() == 4 && data.pin.matches('^[0-9]{4}$')));
+        (!('pin' in data) || (data.pin is string && data.pin.size() == 4 && data.pin.matches('^[0-9]{4}$'))) &&
+        (!('phone' in data) || (data.phone is string && data.phone.size() <= 20)) &&
+        (!('email' in data) || (data.email is string && data.email.size() <= 120)) &&
+        (!('username' in data) || (data.username is string && data.username.size() <= 64)) &&
+        (!('customAvatarUrl' in data) || (data.customAvatarUrl is string && data.customAvatarUrl.size() <= 350000));
     }
 
     // Collection for learner profiles & cross-device progress sync

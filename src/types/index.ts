@@ -59,6 +59,10 @@ export interface UserProfile {
   highestStreak?: number;
   lastActiveDate: string;
   pin?: string;
+  username?: string;
+  phone?: string;
+  email?: string;
+  customAvatarUrl?: string;
 }
 
 export interface Badge {
