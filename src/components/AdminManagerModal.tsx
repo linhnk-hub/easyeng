@@ -3286,7 +3286,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       Yêu cầu Cấp lại mật khẩu
                     </h3>
                     <p className="text-xs text-slate-600 mt-0.5">
-                      Danh sách người dùng đã gửi yêu cầu cấp lại mật khẩu qua email Quản trị viên (<span className="font-bold text-amber-800">linhnk.online@gmail.com</span>)
+                      Danh sách người dùng đã gửi yêu cầu cấp lại mật khẩu
                     </p>
                   </div>
                 </div>
@@ -3431,7 +3431,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       Yêu cầu Xác minh tài khoản
                     </h3>
                     <p className="text-xs text-slate-600 mt-0.5">
-                      Danh sách người dùng báo cáo tài khoản đang đăng nhập trên thiết bị khác hoặc nghi ngờ bị truy cập trái phép ({ADMIN_EMAIL})
+                      Danh sách người dùng báo cáo tài khoản đang đăng nhập trên thiết bị khác hoặc nghi ngờ bị truy cập trái phép
                     </p>
                   </div>
                 </div>
