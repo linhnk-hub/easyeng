@@ -285,7 +285,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
         <div className="flex items-center justify-between shrink-0">
           <div>
             <h2 className="font-display font-bold text-xl text-slate-800">
-              Thông tin tài khoản: {user.name}
+              Thông tin tài khoản
             </h2>
             <p className="text-xs text-slate-500">
               Cập nhật hồ sơ, số điện thoại, email và mật khẩu
@@ -641,9 +641,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   {showNewPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              <p className="text-[11px] text-slate-400">
-                Bao gồm cả chữ, số và ký tự đặc biệt do bạn đặt
-              </p>
+
             </div>
 
             {/* Confirm Password */}
