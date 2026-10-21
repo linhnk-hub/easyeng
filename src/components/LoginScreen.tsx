@@ -944,7 +944,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 1. Họ và tên */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Họ và tên <span className="text-rose-500">*</span>
+                    Họ tên hoặc Nickname <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -957,15 +957,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
-                  </p>
+
                 </div>
 
-                {/* 2. Nickname */}
+                {/* 2. Tên đăng nhập / Username */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Nickname <span className="text-rose-500">*</span>
+                    Tên đăng nhập<span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -978,9 +976,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Quy tắc: Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
-                  </p>
+
                 </div>
 
                 {/* 3. Số điện thoại */}
