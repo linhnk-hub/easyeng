@@ -738,7 +738,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     />
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Không dấu, không in hoa, không kí tự đặc biệt, tối thiểu 4 kí tự, tối đa 16 kí tự
+                    Độ dài 4 - 16 kí tự (không được nhập: chữ in hoa, ký tự đặc biệt)
                   </p>
                 </div>
 
@@ -773,7 +773,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     </button>
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Tối thiểu 4 kí tự, tối đa 16 kí tự (bao gồm cả chữ in hoa, số và ký tự đặc biệt)
+                    Độ dài 4 - 16 kí tự (bao gồm cả chữ in hoa, số và ký tự đặc biệt)
                   </p>
                 </div>
 
@@ -1126,7 +1126,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 1. Họ và tên */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Họ và tên <span className="text-rose-500">*</span>
+                    Họ tên hoặc Nickname <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -1136,19 +1136,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setVerificationFullName(e.target.value);
                       setVerificationError(null);
                     }}
-                    placeholder="Ví dụ: Nguyễn Văn An (từ 4 đến 32 ký tự)..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Quy tắc: Có thể không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
+                    Có thể không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
                   </p>
                 </div>
 
-                {/* 2. Nickname */}
+                {/* 2. Username */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Nickname / Tên đăng nhập <span className="text-rose-500">*</span>
+                    Tên đăng nhập<span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -1158,12 +1157,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setVerificationNickname(e.target.value);
                       setVerificationError(null);
                     }}
-                    placeholder="Ví dụ: vanan123 (từ 4 đến 16 ký tự viết thường)..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Quy tắc: Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+                    Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
                   </p>
                 </div>
 
@@ -1186,7 +1184,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setVerificationPhone(sanitizePhoneNumber(e.target.value));
                         setVerificationError(null);
                       }}
-                      placeholder="Ví dụ: 0912345678 (từ 9 đến 11 số)..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                       required
                     />
@@ -1196,7 +1193,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 4. Email cá nhân nhận phản hồi xác minh */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Email của cá nhân dùng để nhận phản hồi <span className="text-rose-500">*</span>
+                    Email dùng để nhận phản hồi <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -1209,7 +1206,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setVerificationEmail(sanitizeEmailAddress(e.target.value));
                         setVerificationError(null);
                       }}
-                      placeholder="Ví dụ: vanan@gmail.com..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                       required
                     />
