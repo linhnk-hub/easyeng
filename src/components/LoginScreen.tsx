@@ -741,7 +741,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     />
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Quy tắc: Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+                    Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
                   </p>
                 </div>
 
@@ -958,7 +958,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     required
                   />
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Quy tắc: Có thể không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
+                    Không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
                   </p>
                 </div>
 
@@ -1011,7 +1011,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 4. Email của cá nhân dùng để nhận lại mật khẩu */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Email của cá nhân dùng để nhận lại mật khẩu <span className="text-rose-500">*</span>
+                    Email dùng để nhận lại mật khẩu <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
