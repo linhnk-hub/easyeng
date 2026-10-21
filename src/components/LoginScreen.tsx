@@ -114,6 +114,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   // Single active device session & Account verification state
   const [isCheckingSession, setIsCheckingSession] = useState(false);
   const [deviceConflictSession, setDeviceConflictSession] = useState<UserActiveSession | null>(null);
+  const [isDeviceConflict, setIsDeviceConflict] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
   const [verificationFullName, setVerificationFullName] = useState('');
   const [verificationNickname, setVerificationNickname] = useState('');
@@ -135,12 +136,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     }
     setLoginError(null);
     setRegError(null);
+    setIsDeviceConflict(false);
   }, [mode]);
 
   // Handle Login submission
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
+    setIsDeviceConflict(false);
 
     const cleanInputUser = loginUsername.trim();
     const cleanInputPass = loginPassword.trim();
@@ -195,9 +198,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       const sessionResult = await checkLearnerActiveSession(matchedLearner.learnerId, currentDeviceId);
       if (sessionResult.isConflict) {
         soundEffects.playError();
+        setIsDeviceConflict(true);
         setDeviceConflictSession(sessionResult.activeSession || null);
         setLoginError(
-          'Tài khoản này đang đăng nhập trên 1 thiết bị khác, vui lòng kiểm tra lại các thiết bị bạn đang sử dụng hoặc liên hệ Admin để xác minh trạng thái đăng nhập'
+          'Tài khoản đang đăng nhập trên 1 thiết bị khác, vui lòng kiểm tra lại các thiết bị bạn đang sử dụng hoặc liên hệ Admin để xác minh.'
         );
         triggerShake();
         setIsCheckingSession(false);
@@ -423,10 +427,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   // Open Account Verification Modal (khi tài khoản bị đăng nhập thiết bị khác hoặc nghi bị truy cập trái phép)
   const handleOpenVerificationModal = (prefNick?: string) => {
     soundEffects.playClick();
-    setVerificationFullName('');
-    setVerificationNickname(prefNick || loginUsername.trim());
-    setVerificationPhone('');
-    setVerificationEmail('');
+    const targetUser = (prefNick || loginUsername).trim();
+    const lower = targetUser.toLowerCase();
+    const matched = learners.find(l => 
+      (l.username || '').toLowerCase() === lower ||
+      (l.nickname || '').toLowerCase() === lower ||
+      (l.name || '').toLowerCase() === lower
+    );
+
+    setVerificationFullName(matched?.fullName || matched?.name || '');
+    setVerificationNickname(targetUser);
+    setVerificationPhone(matched?.phone || '');
+    setVerificationEmail(matched?.email || '');
     setVerificationError(null);
     setVerificationSuccessMessage(null);
     setShowVerificationModal(true);
@@ -575,21 +587,25 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </div>
 
                   {/* Khi bị xung đột đăng nhập đa thiết bị: Hiển thị mục Liên hệ Admin: Xác minh tài khoản */}
-                  {loginError.includes('Tài khoản đang đăng nhập trên 1 thiết bị khác') && (
-                    <div className="pt-2 border-t border-rose-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+                  {(isDeviceConflict || loginError.includes('thiết bị khác') || loginError.includes('đang đăng nhập trên')) && (
+                    <div className="pt-2.5 mt-1 border-t border-rose-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
                       {deviceConflictSession?.deviceDescription ? (
                         <div className="text-[11px] text-rose-700 font-normal">
-                          Thiết bị: <strong>{deviceConflictSession.deviceDescription}</strong>
+                          Thiết bị đang truy cập: <strong className="font-semibold text-rose-900">{deviceConflictSession.deviceDescription}</strong>
                         </div>
-                      ) : <div />}
+                      ) : (
+                        <div className="text-[11px] text-rose-700 font-normal">
+                          Nghi ngờ tài khoản đang được đăng nhập ở thiết bị khác?
+                        </div>
+                      )}
                       <button
                         type="button"
                         onClick={() => handleOpenVerificationModal(loginUsername.trim())}
-                        className="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
+                        className="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-rose-600/25 transition transform active:scale-95 cursor-pointer shrink-0"
                         title="Gửi yêu cầu xác minh và mở khóa tài khoản tới Quản trị viên"
                       >
-                        <ShieldAlert className="w-3.5 h-3.5" />
-                        <span>Liên hệ Admin</span>
+                        <ShieldAlert className="w-4 h-4" />
+                        <span>Liên hệ Admin để xác minh</span>
                       </button>
                     </div>
                   )}
@@ -613,6 +629,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       onChange={(e) => {
                         setLoginUsername(e.target.value);
                         setLoginError(null);
+                        setIsDeviceConflict(false);
                       }}
                       className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       autoComplete="username"
@@ -636,6 +653,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       onChange={(e) => {
                         setLoginPassword(e.target.value);
                         setLoginError(null);
+                        setIsDeviceConflict(false);
                       }}
                       className="w-full pl-10 pr-11 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       autoComplete="current-password"
@@ -669,8 +687,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 </button>
               </form>
 
-              {/* Dòng chữ bên dưới khung đăng nhập: Cấp lại mật khẩu, Tạo tài khoản */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-semibold">
+              {/* Dòng chữ bên dưới khung đăng nhập: Cấp lại mật khẩu, Tạo tài khoản (và Liên hệ Admin khi xung đột) */}
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-semibold flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={handleOpenResetModal}
@@ -679,6 +697,20 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   <KeyRound className="w-3.5 h-3.5 text-amber-600" />
                   <span>Cấp lại mật khẩu</span>
                 </button>
+
+                {(isDeviceConflict || (loginError && loginError.includes('thiết bị khác'))) && (
+                  <>
+                    <span className="text-slate-300">•</span>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenVerificationModal(loginUsername.trim())}
+                      className="inline-flex items-center gap-1.5 text-rose-600 hover:text-rose-700 font-bold hover:underline transition cursor-pointer animate-in fade-in"
+                    >
+                      <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
+                      <span>Liên hệ Admin</span>
+                    </button>
+                  </>
+                )}
 
                 <span className="text-slate-300">•</span>
 
