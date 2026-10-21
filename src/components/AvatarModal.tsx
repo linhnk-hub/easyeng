@@ -370,7 +370,9 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             {/* 1. Họ và tên */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                Họ tên / Fullname:
+               <span className="flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-amber-600" /> Họ tên / Fullname:
+                </span>  
               </label>
               <input
                 type="text"
@@ -390,7 +392,9 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             {/* 2. Nickname */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                Tên thân mật / Nickname:
+               <span className="flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên thân mật / Nickname:
+                </span> 
               </label>
               <input
                 type="text"
