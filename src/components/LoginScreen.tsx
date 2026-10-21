@@ -385,12 +385,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           {/* ========================================================= */}
           {mode === 'login' && (
             <div className="space-y-5">
-              <div className="text-center">
-                <p className="text-sm sm:text-base font-bold text-slate-700">
-                  <span className="text-orange-400 border-b border-orange-300/60 pb-0.5 inline-block font-bold">
-                    EasyEng xin chào
-                  </span>
-                  <span className="text-slate-600">, mời bạn nhập thông tin</span>
+              <div className="text-center pb-3 border-b border-slate-100">
+                <p className="text-sm sm:text-base font-bold text-orange-400">
+                  EasyEng xin chào, mời bạn nhập thông tin
                 </p>
               </div>
 

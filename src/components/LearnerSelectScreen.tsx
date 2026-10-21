@@ -66,9 +66,7 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
     if (e) e.preventDefault();
     if (!selectedLearnerForPin) return;
 
-    const actualPin = selectedLearnerForPin.pin && /^\d{4}$/.test(selectedLearnerForPin.pin)
-      ? selectedLearnerForPin.pin
-      : '0000';
+    const actualPin = selectedLearnerForPin.pin ? selectedLearnerForPin.pin.trim() : '';
 
     if (pinInput.length !== 4) {
       soundEffects.playError();
@@ -110,9 +108,7 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
       if (nextPin.length === 4 && selectedLearnerForPin) {
         // Auto-verify when 4th digit entered
         setTimeout(() => {
-          const actualPin = selectedLearnerForPin.pin && /^\d{4}$/.test(selectedLearnerForPin.pin)
-            ? selectedLearnerForPin.pin
-            : '0000';
+          const actualPin = selectedLearnerForPin.pin ? selectedLearnerForPin.pin.trim() : '';
           if (nextPin === actualPin) {
             soundEffects.playSuccess();
             const learnerId = selectedLearnerForPin.learnerId;
@@ -184,7 +180,7 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
           <div className="mx-auto w-full max-w-md py-8 text-center bg-white/80 backdrop-blur-md rounded-2xl border border-amber-200 p-6 shadow-sm space-y-2">
             <p className="text-slate-700 font-bold text-sm">Chưa có người học nào trong cơ sở dữ liệu.</p>
             <p className="text-slate-500 text-xs">
-              Bấm vào chữ <span className="font-semibold text-slate-700">BaTyNa</span> ở chân trang để mở phần Quản lý và thêm người học mới.
+              Bấm vào chữ <span className="font-semibold text-slate-700">LinhNK</span> ở chân trang để mở phần Quản lý và thêm người học mới.
             </p>
           </div>
         ) : (
@@ -293,14 +289,14 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
         )}
       </div>
 
-      {/* Footer: Click chữ BaTyNa để vào trang Quản lý - giữ nguyên hiển thị và con trỏ chuột khi hover */}
+      {/* Footer: Click chữ LinhNK để vào trang Quản lý - giữ nguyên hiển thị và con trỏ chuột khi hover */}
       <footer className="text-center py-2 text-xs font-semibold text-slate-500 shrink-0 select-none">
         © 2026{' '}
         <span
           onClick={onOpenAdminManager}
           className="cursor-default"
         >
-          BaTyNa
+          LinhNK
         </span>
       </footer>
 
@@ -363,9 +359,7 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
                   setPinError(null);
                   if (cleaned.length === 4) {
                     setTimeout(() => {
-                      const actualPin = selectedLearnerForPin.pin && /^\d{4}$/.test(selectedLearnerForPin.pin)
-                        ? selectedLearnerForPin.pin
-                        : '0000';
+                      const actualPin = selectedLearnerForPin.pin ? selectedLearnerForPin.pin.trim() : '';
                       if (cleaned === actualPin) {
                         soundEffects.playSuccess();
                         const learnerId = selectedLearnerForPin.learnerId;
@@ -373,7 +367,7 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
                         onSelectLearner(learnerId);
                       } else {
                         soundEffects.playError();
-                        setPinError('Mã PIN không đúng, vui lòng thử lại! (Mặc định là 0000)');
+                        setPinError('Mã PIN không đúng, vui lòng thử lại!');
                         setIsShaking(true);
                         setTimeout(() => setIsShaking(false), 500);
                         setPinInput('');

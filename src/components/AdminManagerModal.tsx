@@ -1854,48 +1854,44 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             </div>
                           </div>
 
-                          {/* Đổi mật khẩu PIN cho học sinh (Quản trị viên: nhập MK mới & xác nhận MK mới, không cần MK cũ) */}
+                          {/* Đổi mật khẩu cho học sinh (Quản trị viên: nhập MK mới & xác nhận MK mới, không cần MK cũ) */}
                           <div className="pt-2 border-t border-amber-200/80">
                             <div className="flex items-center gap-1.5 mb-2">
                               <Lock className="w-4 h-4 text-amber-800" />
                               <span className="text-xs font-bold text-amber-900">
-                                Đổi mật khẩu đăng nhập (Mã PIN 4 số):
+                                Đổi mật khẩu đăng nhập:
                               </span>
                               <span className="text-[11px] text-slate-500 font-normal">
-                                (Chỉ gồm 4 chữ số 0-9, không nhập chữ hay ký tự đặc biệt)
+                                (Từ 4 đến 16 ký tự, gồm cả chữ, số và ký tự đặc biệt)
                               </span>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <div>
-                                <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu PIN mới (4 số):</label>
+                                <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu mới (4-16 ký tự):</label>
                                 <input
                                   type="password"
-                                  inputMode="numeric"
-                                  pattern="[0-9]*"
-                                  maxLength={4}
+                                  maxLength={16}
                                   value={editPin}
                                   onChange={(e) => {
-                                    setEditPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                                    setEditPin(e.target.value);
                                     setEditPinError(null);
                                   }}
-                                  placeholder="Nhập 4 số mới..."
-                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                  placeholder="Nhập mật khẩu mới..."
+                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                                 />
                               </div>
                               <div>
-                                <label className="block text-xs font-bold text-slate-600 mb-1">Xác nhận PIN mới (4 số):</label>
+                                <label className="block text-xs font-bold text-slate-600 mb-1">Xác nhận mật khẩu mới:</label>
                                 <input
                                   type="password"
-                                  inputMode="numeric"
-                                  pattern="[0-9]*"
-                                  maxLength={4}
+                                  maxLength={16}
                                   value={editPinConfirm}
                                   onChange={(e) => {
-                                    setEditPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4));
+                                    setEditPinConfirm(e.target.value);
                                     setEditPinError(null);
                                   }}
-                                  placeholder="Nhập lại 4 số mới..."
-                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                  placeholder="Nhập lại mật khẩu mới..."
+                                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                                 />
                               </div>
                             </div>
@@ -3229,7 +3225,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       {/* Actions */}
                       <div className="flex items-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
                         <a
-                          href={`mailto:${req.email}?subject=${encodeURIComponent('[EasyEng] Cấp lại mật khẩu tài khoản học')}&body=${encodeURIComponent(`Xin chào ${req.fullName},\n\nQuản trị viên EasyEng đã nhận được yêu cầu cấp lại mật khẩu của bạn cho tài khoản "${req.nickname}".\n\nMật khẩu mới của bạn là: 0000 (hoặc mật khẩu theo yêu cầu)\n\nBạn có thể đăng nhập ngay tại EasyEng và đổi lại mật khẩu trong phần cài đặt tài khoản.\n\nTrân trọng!`)}`}
+                          href={`mailto:${req.email}?subject=${encodeURIComponent('[EasyEng] Cấp lại mật khẩu tài khoản học')}&body=${encodeURIComponent(`Xin chào ${req.fullName},\n\nQuản trị viên EasyEng đã nhận được yêu cầu cấp lại mật khẩu của bạn cho tài khoản "${req.nickname}".\n\nMật khẩu mới của bạn là: [Nhập mật khẩu mới từ 4-16 ký tự]\n\nBạn có thể đăng nhập ngay tại EasyEng và đổi lại mật khẩu trong phần cài đặt tài khoản.\n\nTrân trọng!`)}`}
                           className="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
                           title="Gửi email phản hồi mật khẩu mới cho học sinh"
                         >

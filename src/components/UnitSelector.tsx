@@ -144,7 +144,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
 
             <div className="space-y-1.5 text-center sm:text-left">
               <h1 className="font-display font-bold text-2xl sm:text-4xl leading-tight">
-                <span className="text-amber-200 border-b-2 border-amber-200/50 pb-0.5 inline-block">EasyEng xin chào</span> {user.name}!
+                EasyEng xin chào {user.name}!
               </h1>
               <p className="text-white/90 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
                 Khám phá nội dung sách giáo khoa Tiếng Anh Global Success bằng cách vượt qua các mini-game sinh động, thu thập nhiều sao và điểm kinh nghiệm, nâng cấp bậc và đạt được các huy hiệu vinh quang!
