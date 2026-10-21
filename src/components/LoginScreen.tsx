@@ -411,13 +411,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
       soundEffects.playSuccess();
       setResetSuccessMessage(
-        `Yêu cầu cấp lại mật khẩu đã được gửi đến Quản trị viên qua địa chỉ ${ADMIN_EMAIL}. Quản trị viên sẽ kiểm tra và phản hồi mật khẩu mới vào email "${cleanEmail}" của bạn sớm nhất!`
+        `Yêu cầu cấp lại mật khẩu đã được gửi. Chúng tôi sẽ kiểm tra và gửi mật khẩu mới vào email "${cleanEmail}" của bạn sớm nhất!`
       );
     } catch (err) {
       console.error('Password reset request error:', err);
       // Still display success because mailto was prepared
       setResetSuccessMessage(
-        `Yêu cầu của bạn đã được ghi nhận. Quản trị viên (${ADMIN_EMAIL}) sẽ xử lý và liên hệ lại với bạn qua email "${cleanEmail}"!`
+        `Yêu cầu của bạn đã được ghi nhận. Chúng tôi sẽ xử lý và liên hệ lại với bạn qua email "${cleanEmail}"!`
       );
     } finally {
       setIsSubmittingReset(false);
@@ -512,7 +512,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         `- Email cá nhân nhận phản hồi: ${cleanEmail}\n` +
         `- Thiết bị đang sử dụng: ${currentDevice}\n` +
         `- Thời gian gửi yêu cầu: ${new Date().toLocaleString('vi-VN')}\n\n` +
-        `Kính mong Quản trị viên hỗ trợ kiểm tra, ngắt kết nối các thiết bị khác và xác minh quyền sở hữu tài khoản giúp tôi qua địa chỉ email: ${cleanEmail}.\n` +
+        `Kính mong Admin hỗ trợ kiểm tra, ngắt kết nối các thiết bị khác và xác minh quyền sở hữu tài khoản giúp tôi qua địa chỉ email: ${cleanEmail}.\n` +
         `Trân trọng cảm ơn!`
       );
 
@@ -522,13 +522,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
       soundEffects.playSuccess();
       setVerificationSuccessMessage(
-        `Yêu cầu xác minh tài khoản đã được gửi đến Quản trị viên qua địa chỉ ${ADMIN_EMAIL}. Quản trị viên sẽ kiểm tra, ngắt kết nối các thiết bị truy cập trái phép và gửi phản hồi xác nhận vào email "${cleanEmail}" của bạn sớm nhất!`
+        `Yêu cầu xác minh tài khoản đã được gửi. Chúng tôi sẽ kiểm tra và gửi kết quả xác minh vào email "${cleanEmail}" của bạn sớm nhất!`
       );
     } catch (err) {
       console.error('Account verification request error:', err);
       // Still display success because mailto was prepared
       setVerificationSuccessMessage(
-        `Yêu cầu xác minh của bạn đã được ghi nhận. Quản trị viên (${ADMIN_EMAIL}) sẽ xử lý và liên hệ lại với bạn qua email "${cleanEmail}"!`
+        `Yêu cầu xác minh của bạn đã được ghi nhận. Chúng tôi sẽ xử lý và liên hệ lại với bạn qua email "${cleanEmail}"!`
       );
     } finally {
       setIsSubmittingVerification(false);
@@ -605,7 +605,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         title="Gửi yêu cầu xác minh và mở khóa tài khoản tới Quản trị viên"
                       >
                         <ShieldAlert className="w-4 h-4" />
-                        <span>Liên hệ Admin để xác minh</span>
+                        <span>Liên hệ Admin</span>
                       </button>
                     </div>
                   )}
@@ -687,7 +687,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 </button>
               </form>
 
-              {/* Dòng chữ bên dưới khung đăng nhập: Cấp lại mật khẩu, Tạo tài khoản (và Liên hệ Admin khi xung đột) */}
+              {/* Dòng chữ bên dưới khung đăng nhập: Cấp lại mật khẩu, Tạo tài khoản */}
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-semibold flex-wrap gap-2">
                 <button
                   type="button"
@@ -697,20 +697,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   <KeyRound className="w-3.5 h-3.5 text-amber-600" />
                   <span>Cấp lại mật khẩu</span>
                 </button>
-
-                {(isDeviceConflict || (loginError && loginError.includes('thiết bị khác'))) && (
-                  <>
-                    <span className="text-slate-300">•</span>
-                    <button
-                      type="button"
-                      onClick={() => handleOpenVerificationModal(loginUsername.trim())}
-                      className="inline-flex items-center gap-1.5 text-rose-600 hover:text-rose-700 font-bold hover:underline transition cursor-pointer animate-in fade-in"
-                    >
-                      <ShieldAlert className="w-3.5 h-3.5 text-rose-600" />
-                      <span>Liên hệ Admin</span>
-                    </button>
-                  </>
-                )}
 
                 <span className="text-slate-300">•</span>
 
