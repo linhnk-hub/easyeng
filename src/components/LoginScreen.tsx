@@ -1089,8 +1089,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   Xác minh tài khoản
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Thông tin sẽ được gửi đến email quản trị viên:{' '}
-                  <span className="font-bold text-rose-800 underline">{ADMIN_EMAIL}</span>
+                  Vui lòng nhập chính xác thông tin
                 </p>
               </div>
             </div>
@@ -1143,9 +1142,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Có thể không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
-                  </p>
+
                 </div>
 
                 {/* 2. Username */}
@@ -1164,9 +1161,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
-                  </p>
+
                 </div>
 
                 {/* 3. Số điện thoại */}
@@ -1215,7 +1210,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     />
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Quản trị viên sẽ kiểm tra, ngắt kết nối các thiết bị khác và phản hồi xác nhận quyền truy cập về email này.
+                    Admin sẽ kiểm tra và phản hồi về email này.
                   </p>
                 </div>
 
