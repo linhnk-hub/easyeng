@@ -85,9 +85,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         emoji: getDefaultGradeEmoji(g)
       }));
 
-  // Register form state (3 pieces of user info: 1. Họ tên, 2. Nickname, 3. Tên đăng nhập)
-  const [regFullName, setRegFullName] = useState('');
-  const [regNickname, setRegNickname] = useState('');
+  // Register form state
   const [regUsername, setRegUsername] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regConfirmPassword, setRegConfirmPassword] = useState('');
@@ -238,29 +236,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     e.preventDefault();
     setRegError(null);
 
-    const cleanFullName = regFullName.trim();
-    const cleanNick = regNickname.trim();
     const cleanUser = regUsername.trim();
     const cleanPass = regPassword.trim();
     const cleanConfirm = regConfirmPassword.trim();
 
-    // 1. Validate Họ tên: 4 - 16 kí tự, là tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số
-    const nameValidation = validateFullName(cleanFullName);
-    if (!nameValidation.isValid) {
-      soundEffects.playError();
-      setRegError(nameValidation.error || 'Họ và tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
-      return;
-    }
-
-    // 2. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
-    const nickValidation = validateNickname(cleanNick);
-    if (!nickValidation.isValid) {
-      soundEffects.playError();
-      setRegError(nickValidation.error || 'Nickname không hợp lệ (không chứa ký tự đặc biệt)!');
-      return;
-    }
-
-    // 3. Validate Tên đăng nhập / Username: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
+    // 1. Validate Tên đăng nhập / Username: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
     const userValidation = validateUsername(cleanUser);
     if (!userValidation.isValid) {
       soundEffects.playError();
@@ -282,7 +262,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // 4. Validate Mật khẩu (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
+    // 2. Validate Mật khẩu (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
     const passValidation = validatePassword(cleanPass);
     if (!passValidation.isValid) {
       soundEffects.playError();
@@ -296,14 +276,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // Create new profile with 3 pieces of user info
+    // Create new profile with username (Họ tên và Nickname có thể cập nhật sau trong phần cá nhân hoặc Quản lý)
     const newId = `learner_${Date.now()}`;
     const newProfile: UserProfile = {
       learnerId: newId,
-      fullName: cleanFullName,
-      nickname: cleanNick,
+      fullName: '',
+      nickname: cleanUser,
       username: cleanUser,
-      name: cleanNick, // Displays next to avatar
+      name: cleanUser, // Displays next to avatar
       grade: regGrade,
       avatar: '🦊',
       pin: cleanPass,
@@ -737,7 +717,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
               )}
 
               <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                 {/* 3. Tên đăng nhập / Username */}
+                 {/* Tên đăng nhập / Username */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Tên đăng nhập / Username <span className="text-rose-500">*</span>
@@ -747,6 +727,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       <LogIn className="w-4 h-4 text-slate-400" />
                     </div>
                     <input
+                      ref={regInputRef}
                       type="text"
                       maxLength={16}
                       value={regUsername}
