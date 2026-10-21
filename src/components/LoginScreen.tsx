@@ -703,9 +703,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-slate-800 tracking-tight">
                   Tạo tài khoản
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-500">
-                  Điền tên đăng nhập và mật khẩu để tạo tài khoản mới
-                </p>
+
               </div>
 
               {regError && (
@@ -740,7 +738,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     />
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+                    Không dấu, không in hoa, không kí tự đặc biệt, tối thiểu 4 kí tự, tối đa 16 kí tự
                   </p>
                 </div>
 
@@ -763,7 +761,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setRegPassword(e.target.value);
                         setRegError(null);
                       }}
-                      placeholder="Nhập mật khẩu (4-16 ký tự)..."
                       className="w-full pl-10 pr-11 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       required
                     />
@@ -776,7 +773,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     </button>
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Quy tắc: Tối thiểu 4 kí tự, tối đa 16 kí tự (bao gồm cả chữ, số và ký tự đặc biệt)
+                    Tối thiểu 4 kí tự, tối đa 16 kí tự (bao gồm cả chữ in hoa, số và ký tự đặc biệt)
                   </p>
                 </div>
 
@@ -797,7 +794,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setRegConfirmPassword(e.target.value);
                         setRegError(null);
                       }}
-                      placeholder="Nhập lại mật khẩu để xác nhận..."
                       className="w-full pl-10 pr-11 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       required
                     />
@@ -814,7 +810,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                  {/* Chọn trình độ tiếng Anh: Menu xổ xuống danh sách lớp từ CSDL */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Chọn trình độ tiếng Anh:
+                    Chọn chương trình tiếng Anh:
                   </label>
                   <select
                     value={regGrade}
