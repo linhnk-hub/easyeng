@@ -210,7 +210,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
     // 1. Kiểm tra mật khẩu cũ
     if (oldPin !== currentActualPin) {
       soundEffects.playError();
-      setPinError('Mật khẩu cũ không chính xác! (Mã PIN mặc định là 0000)');
+      setPinError('Mật khẩu cũ không chính xác!');
       return;
     }
 
@@ -334,7 +334,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
                 </span>
                 <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-semibold lowercase flex items-center gap-1">
-                  <Lock className="w-3 h-3 text-amber-600" /> Chỉ Quản lý có quyền đổi
+                  <Lock className="w-3 h-3 text-amber-600" /> Không thể đổi
                 </span>
               </label>
               <div className="relative">
@@ -344,7 +344,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   disabled
                   readOnly
                   className="w-full px-3.5 py-2 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-mono font-bold text-xs cursor-not-allowed select-none"
-                  title="Tên đăng nhập do Quản lý thiết lập và quản lý, người dùng không thể tự chỉnh sửa"
+                  title="Tên đăng nhập không thể tự chỉnh sửa"
                 />
               </div>
             </div>
@@ -382,7 +382,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 pattern="[0-9]*"
                 value={phone}
                 onChange={(e) => handlePhoneChange(e.target.value)}
-                placeholder="Nhập số điện thoại (ví dụ: 0912345678)..."
                 maxLength={11}
                 className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
               />
@@ -400,7 +399,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 type="email"
                 value={email}
                 onChange={(e) => handleEmailChange(e.target.value)}
-                placeholder="Nhập email (ví dụ: name@gmail.com)..."
                 maxLength={60}
                 className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
               />
@@ -424,10 +422,10 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     type="button"
                     onClick={() => userAvatarFileInputRef.current?.click()}
                     className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1 transition cursor-pointer active:scale-95"
-                    title="Tự tải ảnh avatar từ thiết bị của bạn (ghi đè avatar cũ)"
+                    title="Tải lên avatar từ thiết bị của bạn"
                   >
                     <Upload className="w-3.5 h-3.5" />
-                    <span>{userUploadedAvatar ? 'Đổi avatar cá nhân' : 'Tự upload avatar'}</span>
+                    <span>{userUploadedAvatar ? 'Đổi avatar cá nhân' : 'Tải lên avatar'}</span>
                   </button>
                 </div>
               </div>
@@ -441,7 +439,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     </div>
                     <div className="min-w-0 text-left">
                       <span className="block text-xs font-bold text-amber-900 truncate">
-                        Avatar riêng tư của bạn
+                        Avatar của bạn
                       </span>
                       <span className="block text-[10px] text-amber-700">
                         (Chỉ bạn nhìn thấy avatar này, upload ảnh mới sẽ ghi đè)
