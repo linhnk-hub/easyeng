@@ -23,9 +23,11 @@ import { EasyEngLogo } from './EasyEngLogo';
 import { UserProfile, PasswordResetRequest } from '../types';
 import { resolveValidUsername, sanitizePhoneNumber, sanitizeEmailAddress } from '../utils/userUtils';
 import { savePasswordResetRequestToCloud } from '../services/firebase';
+import { ClassItem, ALL_12_GRADES, getGradeLevelName, getDefaultGradeEmoji } from '../utils/gradeUtils';
 
 interface LoginScreenProps {
   learners: UserProfile[];
+  classes?: ClassItem[];
   isLoading?: boolean;
   onSelectLearner: (learnerId: string) => void;
   onAddLearner?: (learner: UserProfile) => void;
@@ -38,6 +40,7 @@ const ADMIN_EMAIL = 'linhnk.online@gmail.com';
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   learners = [],
+  classes = [],
   isLoading = false,
   onSelectLearner,
   onAddLearner,
@@ -55,14 +58,31 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const [loginError, setLoginError] = useState<string | null>(null);
   const [isShaking, setIsShaking] = useState(false);
 
+  // Classes list from CSDL (Cloud Firestore) or fallback to standard grades
+  const availableClasses: ClassItem[] = (classes && classes.length > 0)
+    ? classes
+    : ALL_12_GRADES.map(g => ({
+        grade: g,
+        name: `Lớp ${g}`,
+        description: getGradeLevelName(g),
+        emoji: getDefaultGradeEmoji(g)
+      }));
+
   // Register form state
   const [regUsername, setRegUsername] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regConfirmPassword, setRegConfirmPassword] = useState('');
-  const [regGrade, setRegGrade] = useState<number>(4);
+  const [regGrade, setRegGrade] = useState<number>(() => classes[0]?.grade || 4);
   const [showRegPassword, setShowRegPassword] = useState(false);
   const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false);
   const [regError, setRegError] = useState<string | null>(null);
+
+  // Sync regGrade when classes loads from CSDL if currently selected is not in list
+  useEffect(() => {
+    if (classes && classes.length > 0 && !classes.some(c => c.grade === regGrade)) {
+      setRegGrade(classes[0].grade);
+    }
+  }, [classes]);
 
   // Password reset modal state
   const [showResetModal, setShowResetModal] = useState(false);
@@ -364,7 +384,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             <div className="space-y-5">
               <div className="text-center">
                 <p className="text-sm sm:text-base font-bold text-slate-700">
-                  Chào bạn, nhập thông tin đăng nhập để vào học nhé
+                  EasyEng xin chào, mời bạn nhập thông tin
                 </p>
               </div>
 
@@ -527,21 +547,26 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </p>
                 </div>
 
-                {/* Chọn Lớp học */}
+                {/* Chọn trình độ tiếng Anh: Menu xổ xuống danh sách lớp từ CSDL */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Lớp học của bạn
+                    Chọn trình độ tiếng Anh:
                   </label>
                   <select
                     value={regGrade}
                     onChange={(e) => setRegGrade(Number(e.target.value))}
                     className="w-full px-3.5 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm cursor-pointer"
                   >
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((g) => (
-                      <option key={g} value={g}>
-                        🎓 Lớp {g} {g <= 5 ? '(Tiểu học)' : g <= 9 ? '(THCS)' : '(THPT)'}
-                      </option>
-                    ))}
+                    {availableClasses.map((c) => {
+                      const levelName = getGradeLevelName(c.grade);
+                      const displayTitle = c.name ? `${c.emoji || '🎓'} ${c.name}` : `🎓 Lớp ${c.grade}`;
+                      const extraInfo = c.description ? ` (${c.description})` : ` (${levelName})`;
+                      return (
+                        <option key={c.grade} value={c.grade}>
+                          {displayTitle}{extraInfo}
+                        </option>
+                      );
+                    })}
                   </select>
                 </div>
 
@@ -726,7 +751,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setResetFullName(e.target.value);
                       setResetError(null);
                     }}
-                    placeholder="Ví dụ: Nguyễn Văn An..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
@@ -744,7 +768,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setResetNickname(e.target.value);
                       setResetError(null);
                     }}
-                    placeholder="Ví dụ: Bé Na, Tý, bena..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
@@ -768,7 +791,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setResetPhone(sanitizePhoneNumber(e.target.value));
                         setResetError(null);
                       }}
-                      placeholder="Ví dụ: 0912345678 (chỉ nhập số)..."
+
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                       required
                     />
@@ -778,7 +801,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 4. Email cá nhân dùng để nhận lại mật khẩu */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Email của cá nhân dùng để nhận lại mật khẩu <span className="text-rose-500">*</span>
+                    Email của dùng để nhận lại mật khẩu <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -791,13 +814,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setResetEmail(sanitizeEmailAddress(e.target.value));
                         setResetError(null);
                       }}
-                      placeholder="Ví dụ: myemail@gmail.com..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                       required
                     />
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    Mật khẩu mới sẽ được Quản trị viên gửi về địa chỉ email này.
+                    Mật khẩu mới sẽ được gửi về địa chỉ email này.
                   </p>
                 </div>
 
@@ -824,7 +846,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     ) : (
                       <>
                         <Send className="w-3.5 h-3.5" />
-                        <span>Gửi yêu cầu đến Admin</span>
+                        <span>Gửi yêu cầu</span>
                       </>
                     )}
                   </button>

@@ -1157,6 +1157,7 @@ export default function App() {
       <>
         <LoginScreen
           learners={learners}
+          classes={classes}
           isLoading={isLoadingLearners}
           onSelectLearner={handleSelectLearner}
           onAddLearner={handleAddLearner}
