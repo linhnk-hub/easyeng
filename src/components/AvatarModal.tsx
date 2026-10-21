@@ -288,7 +288,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               Thông tin tài khoản: {user.name}
             </h2>
             <p className="text-xs text-slate-500">
-              Cập nhật hồ sơ, số điện thoại, email và mật khẩu PIN
+              Cập nhật hồ sơ, số điện thoại, email và mật khẩu
             </p>
           </div>
           <button
@@ -334,7 +334,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             }`}
           >
             <KeyRound className="w-3.5 h-3.5 text-amber-500" />
-            <span>Đổi mật khẩu (PIN)</span>
+            <span>Đổi mật khẩu</span>
           </button>
         </div>
 
@@ -354,9 +354,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 <span className="flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập / Username:
                 </span>
-                <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-semibold lowercase flex items-center gap-1">
-                  <Lock className="w-3 h-3 text-amber-600" /> Quản lý đổi
-                </span>
               </label>
               <div className="relative">
                 <input
@@ -365,18 +362,15 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   disabled
                   readOnly
                   className="w-full px-3.5 py-2 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-mono font-bold text-xs cursor-not-allowed select-none"
-                  title="Tên đăng nhập không thể tự chỉnh sửa (chỉ Quản trị viên được đổi trong Quản lý hệ thống)"
+                  title="Tên đăng nhập không thể tự chỉnh sửa"
                 />
               </div>
-              <p className="text-[10px] text-slate-400">
-                Tên dùng để đăng nhập: 4 - 16 kí tự, không viết hoa, không ký tự đặc biệt, có thể có số
-              </p>
             </div>
 
             {/* 1. Họ và tên */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                1. Họ và tên:
+                Họ tên / Fullname:
               </label>
               <input
                 type="text"
@@ -386,7 +380,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   setProfileError(null);
                 }}
                 maxLength={16}
-                placeholder="Ví dụ: Nguyễn Văn An"
                 className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
               />
               <p className="text-[10px] text-slate-400">
@@ -397,7 +390,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             {/* 2. Nickname */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                2. Nickname (hiển thị kế bên Avatar):
+                Tên thân mật / Nickname:
               </label>
               <input
                 type="text"
@@ -407,12 +400,11 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   setProfileError(null);
                 }}
                 maxLength={16}
-                placeholder="Ví dụ: Bé Na, Tý, LinhNK, Tom99..."
                 className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
                 required
               />
               <p className="text-[10px] text-slate-400">
-                Tên gọi thân mật hoặc viết tắt hiển thị cạnh Avatar (có thể viết hoa, có thể có số, không có ký tự đặc biệt)
+                Tên gọi thân mật hoặc viết tắt, được hiển thị cạnh bên Avatar
               </p>
             </div>
 
@@ -420,7 +412,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1">
-                  <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
+                  <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại / Phone Number:
                 </span>
               </label>
               <input
@@ -438,7 +430,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1">
-                  <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
+                  <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email / Email Address:
                 </span>
               </label>
               <input
@@ -596,7 +588,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 flex items-start gap-2">
               <Lock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <span>
-                Mật khẩu gồm <strong>đúng 4 ký tự số</strong> (từ 0 đến 9), không dùng chữ cái hoặc ký tự đặc biệt.
+                Độ dài mật khẩu: 4 - 16 kí tự
               </span>
             </div>
 
@@ -611,7 +603,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   maxLength={16}
                   value={oldPin}
                   onChange={(e) => setOldPin(e.target.value)}
-                  placeholder="Nhập mật khẩu hiện tại..."
                   required
                   className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
@@ -628,7 +619,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             {/* New Password */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600">
-                Mật khẩu mới (tối thiểu 4, tối đa 16 ký tự):
+                Mật khẩu mới:
               </label>
               <div className="relative">
                 <input
@@ -639,7 +630,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     setNewPin(e.target.value);
                     setPinError(null);
                   }}
-                  placeholder="Nhập mật khẩu mới (4-16 ký tự)..."
                   required
                   className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
@@ -670,7 +660,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     setConfirmPin(e.target.value);
                     setPinError(null);
                   }}
-                  placeholder="Nhập lại mật khẩu mới..."
                   required
                   className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
