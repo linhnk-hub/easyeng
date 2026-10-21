@@ -197,7 +197,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         soundEffects.playError();
         setDeviceConflictSession(sessionResult.activeSession || null);
         setLoginError(
-          'tài khoản đang đăng nhập trên 1 thiết bị khác, vui lòng kiểm tra lại các thiết bị bạn đang sử dụng hoặc liên hệ admin để xác minh việc tài khoản bị truy cập trái phép'
+          'Tài khoản này đang đăng nhập trên 1 thiết bị khác, vui lòng kiểm tra lại các thiết bị bạn đang sử dụng hoặc liên hệ Admin để xác minh trạng thái đăng nhập'
         );
         triggerShake();
         setIsCheckingSession(false);
@@ -577,11 +577,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </div>
 
                   {/* Khi bị xung đột đăng nhập đa thiết bị: Hiển thị mục Liên hệ Admin: Xác minh tài khoản */}
-                  {loginError.includes('tài khoản đang đăng nhập trên 1 thiết bị khác') && (
+                  {loginError.includes('Tài khoản đang đăng nhập trên 1 thiết bị khác') && (
                     <div className="pt-2 border-t border-rose-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
                       {deviceConflictSession?.deviceDescription ? (
                         <div className="text-[11px] text-rose-700 font-normal">
-                          Đang hoạt động trên: <strong>{deviceConflictSession.deviceDescription}</strong>
+                          Thiết bị: <strong>{deviceConflictSession.deviceDescription}</strong>
                         </div>
                       ) : <div />}
                       <button
@@ -591,7 +591,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         title="Gửi yêu cầu xác minh và mở khóa tài khoản tới Quản trị viên"
                       >
                         <ShieldAlert className="w-3.5 h-3.5" />
-                        <span>Liên hệ Admin: Xác minh tài khoản</span>
+                        <span>Liên hệ Admin</span>
                       </button>
                     </div>
                   )}
