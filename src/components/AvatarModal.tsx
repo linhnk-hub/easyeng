@@ -352,7 +352,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập / Username:
+                  <User className="w-3.5 h-3.5 text-amber-600" />Tên đăng nhập / Username:
                 </span>
               </label>
               <div className="relative">
@@ -371,7 +371,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
                <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" /> Họ tên / Fullname:
+                  <User className="w-3.5 h-3.5 text-amber-600" />Họ tên / Fullname:
                 </span>  
               </label>
               <input
@@ -393,7 +393,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
                <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên thân mật / Nickname:
+                  <User className="w-3.5 h-3.5 text-amber-600" />Tên thân mật / Nickname:
                 </span> 
               </label>
               <input
@@ -416,7 +416,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1">
-                  <Phone className="w-3.5 h-3.5 text-amber-600" />  Số điện thoại / Phone Number:
+                  <Phone className="w-3.5 h-3.5 text-amber-600" />Số điện thoại / Phone Number:
                 </span>
               </label>
               <input
@@ -434,7 +434,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1">
-                  <Mail className="w-3.5 h-3.5 text-amber-600" />  Địa chỉ Email / Email Address:
+                  <Mail className="w-3.5 h-3.5 text-amber-600" />Địa chỉ Email / Email Address:
                 </span>
               </label>
               <input
