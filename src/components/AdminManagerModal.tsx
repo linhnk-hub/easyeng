@@ -1601,7 +1601,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                       <div>
                         <label className="block text-xs font-bold text-slate-600 mb-1">
-                          1. Họ và tên:
+                          Họ tên:
                         </label>
                         <input
                           type="text"
@@ -1610,16 +1610,14 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             setNewFullName(e.target.value);
                             setNewFormError(null);
                           }}
-                          placeholder="Nguyễn Văn An"
                           maxLength={16}
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
-                        <span className="text-[10px] text-slate-400">4-16 kí tự, không số/ký tự ĐB</span>
                       </div>
 
                       <div>
                         <label className="block text-xs font-bold text-slate-600 mb-1">
-                          2. Nickname (cạnh Avatar) <span className="text-rose-500">*</span>:
+                          Nickname:
                         </label>
                         <input
                           type="text"
@@ -1628,12 +1626,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             setNewNickname(e.target.value);
                             setNewFormError(null);
                           }}
-                          placeholder="Bé Na, Tý, LinhNK..."
                           maxLength={16}
                           required
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
-                        <span className="text-[10px] text-slate-400">Có hoa/số, không ký tự ĐB</span>
                       </div>
 
                       <div>
@@ -1684,7 +1680,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                           <span className="flex items-center gap-1">
-                            <User className="w-3.5 h-3.5 text-amber-600" /> 3. Tên đăng nhập / Username:
+                            <User className="w-3.5 h-3.5 text-amber-600" />Tên đăng nhập:
                           </span>
                           <span className="text-[10px] text-slate-400 font-normal">(Chữ thường & số)</span>
                         </label>
@@ -1706,7 +1702,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                           <span className="flex items-center gap-1">
                             <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
                           </span>
-                          <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
                         </label>
                         <input
                           type="tel"
@@ -1725,7 +1720,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                           <span className="flex items-center gap-1">
                             <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
                           </span>
-                          <span className="text-[10px] text-slate-400 font-normal">(Không dấu)</span>
                         </label>
                         <input
                           type="email"
@@ -1759,9 +1753,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                         <span className="text-xs font-bold text-slate-700">
                           Mật khẩu đăng nhập:
                         </span>
-                        <span className="text-[11px] text-slate-500 font-normal">
-                          (Từ 4 đến 16 ký tự, gồm cả chữ, số và ký tự đặc biệt)
-                        </span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
@@ -1774,7 +1765,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                               setNewPin(e.target.value);
                               setNewPinError(null);
                             }}
-                            placeholder="Nhập mật khẩu (4-16 ký tự)..."
                             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                           />
                         </div>
@@ -1877,7 +1867,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             </div>
 
                             <div>
-                              <label className="block text-xs font-bold text-slate-600 mb-1">Gán Lớp học:</label>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">Lớp:</label>
                               <select
                                 value={editGrade}
                                 onChange={(e) => setEditGrade(Number(e.target.value))}
@@ -1926,9 +1916,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                                 <span className="flex items-center gap-1">
                                   <User className="w-3.5 h-3.5 text-amber-600" /> 3. Tên đăng nhập / Username:
                                 </span>
-                                <span className="text-[10px] text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded font-semibold flex items-center gap-0.5">
-                                  Quản lý đổi
-                                </span>
+
                               </label>
                               <input
                                 type="text"
@@ -2018,7 +2006,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <div>
-                                <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu mới (4-16 ký tự):</label>
+                                <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu mới:</label>
                                 <input
                                   type="password"
                                   maxLength={16}
