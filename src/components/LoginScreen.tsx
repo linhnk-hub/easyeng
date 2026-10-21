@@ -537,13 +537,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setRegUsername(e.target.value);
                         setRegError(null);
                       }}
-                      placeholder="Ví dụ: bena, hoangminh, ty..."
                       className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       required
                     />
                   </div>
                   <p className="text-[11px] text-slate-400">
-                    Tên dùng để đăng nhập sau này (chỉ Quản lý mới có quyền đổi)
+                   Nhập chữ thường, không nhập in hoa, không nhập có dấu
                   </p>
                 </div>
 
@@ -636,7 +635,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-600 hover:via-teal-600 hover:to-emerald-700 text-white font-extrabold text-sm sm:text-base shadow-md shadow-emerald-500/25 transition-all transform active:scale-98 cursor-pointer flex items-center justify-center gap-2"
                 >
                   <UserPlus className="w-4 h-4" />
-                  <span>Hoàn tất tạo tài khoản & Vào học</span>
+                  <span>Tạo tài khoản & Vào học</span>
                 </button>
               </form>
 
