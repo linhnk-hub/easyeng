@@ -147,8 +147,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                 EasyEng xin chào {user.name}!
               </h1>
               <p className="text-white/90 text-xs sm:text-sm md:text-base leading-relaxed font-medium">
-                Khám phá nội dung sách giáo khoa Tiếng Anh Global Success bằng cách vượt qua các mini-game sinh động, thu thập nhiều sao và điểm kinh nghiệm, nâng cấp bậc và đạt được các huy hiệu vinh quang!
-              </p>
+                Trải nghiệm nội dung sách giáo khoa Tiếng Anh Global Success bằng cách vượt qua các mini-game sinh động, thu thập nhiều sao và điểm kinh nghiệm, nâng cấp bậc và đạt được các huy hiệu vinh quang!              </p>
             </div>
           </div>
 
