@@ -904,7 +904,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   Cấp lại mật khẩu
                 </h3>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Thông tin sẽ được gửi đến quản trị viên:{' '}
+                  Vui lòng nhập đầy đủ thông tin
                 </p>
               </div>
             </div>
