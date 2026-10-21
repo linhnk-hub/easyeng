@@ -1028,9 +1028,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       required
                     />
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Mật khẩu mới sẽ được gửi về địa chỉ email này.
-                  </p>
+
                 </div>
 
                 {/* Buttons */}
