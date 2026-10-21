@@ -131,3 +131,25 @@ export interface PasswordResetRequest {
   createdAt: string;
   status?: 'pending' | 'resolved';
 }
+
+export interface AccountVerificationRequest {
+  id: string;
+  fullName: string;
+  nickname: string;
+  phone: string;
+  email: string;
+  createdAt: string;
+  status?: 'pending' | 'resolved';
+  deviceInfo?: string;
+}
+
+export interface UserActiveSession {
+  learnerId: string;
+  sessionId: string;
+  deviceId: string;
+  deviceDescription: string;
+  isLoggedIn: boolean;
+  loginAt: string;
+  lastHeartbeat: string;
+}
+

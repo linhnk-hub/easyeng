@@ -12,7 +12,7 @@ import {
   getDocFromServer
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
-import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest } from '../types';
+import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest, UserActiveSession } from '../types';
 import { resolveValidUsername } from '../utils/userUtils';
 
 export enum OperationType {
@@ -703,4 +703,201 @@ export async function deletePasswordResetRequestFromCloud(id: string): Promise<b
     return false;
   }
 }
+
+/**
+ * Lưu yêu cầu xác minh tài khoản khi bị xung đột đăng nhập thiết bị
+ */
+export async function saveAccountVerificationRequestToCloud(req: AccountVerificationRequest): Promise<boolean> {
+  const path = `account_verification_requests/${req.id}`;
+  try {
+    await setDoc(doc(db, 'account_verification_requests', req.id), {
+      id: req.id,
+      fullName: String(req.fullName || '').slice(0, 64),
+      nickname: String(req.nickname || '').slice(0, 64),
+      phone: String(req.phone || '').slice(0, 20),
+      email: String(req.email || '').slice(0, 120),
+      createdAt: req.createdAt || new Date().toISOString(),
+      status: req.status || 'pending',
+      deviceInfo: req.deviceInfo || '',
+      updatedAt: new Date().toISOString()
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.CREATE, path);
+    return false;
+  }
+}
+
+/**
+ * Tải danh sách các yêu cầu xác minh tài khoản cho Admin
+ */
+export async function fetchAccountVerificationRequestsFromCloud(): Promise<AccountVerificationRequest[]> {
+  const path = 'account_verification_requests';
+  try {
+    const colSnap = await getDocs(collection(db, 'account_verification_requests'));
+    const list: AccountVerificationRequest[] = [];
+    colSnap.forEach(docSnap => {
+      const data = docSnap.data();
+      list.push({
+        id: data.id || docSnap.id,
+        fullName: data.fullName || '',
+        nickname: data.nickname || '',
+        phone: data.phone || '',
+        email: data.email || '',
+        createdAt: data.createdAt || new Date().toISOString(),
+        status: data.status || 'pending',
+        deviceInfo: data.deviceInfo || '',
+      });
+    });
+    list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return list;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return [];
+  }
+}
+
+/**
+ * Xóa yêu cầu xác minh tài khoản (sau khi Admin xử lý)
+ */
+export async function deleteAccountVerificationRequestFromCloud(id: string): Promise<boolean> {
+  const path = `account_verification_requests/${id}`;
+  try {
+    await deleteDoc(doc(db, 'account_verification_requests', id));
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+    return false;
+  }
+}
+
+/**
+ * =========================================================================
+ * QUẢN LÝ PHIÊN ĐĂNG NHẬP DUY NHẤT (1 THỜI ĐIỂM CHỈ 1 THIẾT BỊ ĐĂNG NHẬP)
+ * =========================================================================
+ */
+
+/**
+ * Kiểm tra xem tài khoản này có đang đăng nhập trên một thiết bị khác không
+ */
+export async function checkLearnerActiveSession(
+  learnerId: string,
+  currentDeviceId: string
+): Promise<{ isConflict: boolean; activeSession?: UserActiveSession }> {
+  const path = `active_sessions/${learnerId}`;
+  try {
+    const docSnap = await getDoc(doc(db, 'active_sessions', learnerId));
+    if (!docSnap.exists()) {
+      return { isConflict: false };
+    }
+    const data = docSnap.data() as UserActiveSession;
+    if (!data.isLoggedIn) {
+      return { isConflict: false };
+    }
+    // Nếu cùng 1 thiết bị đang dùng -> cho phép vào tiếp
+    if (data.deviceId === currentDeviceId) {
+      return { isConflict: false, activeSession: data };
+    }
+    // Kiểm tra thời gian hoạt động gần nhất (nếu quá 45 phút không hoạt động -> coi như phiên cũ hết hạn)
+    const lastActiveTime = new Date(data.lastHeartbeat || data.loginAt).getTime();
+    const now = Date.now();
+    const THIRTY_MINS = 30 * 60 * 1000;
+    if (now - lastActiveTime > THIRTY_MINS) {
+      // Phiên cũ đã hết hạn
+      return { isConflict: false };
+    }
+    // Đang có thiết bị khác đăng nhập hoạt động!
+    return { isConflict: true, activeSession: data };
+  } catch (error) {
+    // Nếu có lỗi mạng hoặc Firestore offline, vẫn hỗ trợ người dùng
+    console.warn('Could not check active session from Firestore:', error);
+    return { isConflict: false };
+  }
+}
+
+/**
+ * Ghi nhận thiết bị hiện tại đã đăng nhập tài khoản
+ */
+export async function setAccountActiveSession(session: UserActiveSession): Promise<boolean> {
+  const path = `active_sessions/${session.learnerId}`;
+  try {
+    await setDoc(doc(db, 'active_sessions', session.learnerId), {
+      learnerId: session.learnerId,
+      sessionId: session.sessionId,
+      deviceId: session.deviceId,
+      deviceDescription: session.deviceDescription,
+      isLoggedIn: true,
+      loginAt: session.loginAt || new Date().toISOString(),
+      lastHeartbeat: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+/**
+ * Cập nhật nhịp tim (heartbeat) định kỳ khi người dùng đang học
+ */
+export async function updateSessionHeartbeat(learnerId: string, deviceId: string): Promise<void> {
+  try {
+    await setDoc(
+      doc(db, 'active_sessions', learnerId),
+      {
+        deviceId,
+        isLoggedIn: true,
+        lastHeartbeat: new Date().toISOString(),
+      },
+      { merge: true }
+    );
+  } catch (e) {
+    // Silent heartbeat fail
+  }
+}
+
+/**
+ * Xóa phiên đăng nhập (khi người dùng đăng xuất hoặc khi Admin mở khóa)
+ */
+export async function clearAccountActiveSession(learnerId: string): Promise<boolean> {
+  const path = `active_sessions/${learnerId}`;
+  try {
+    await setDoc(
+      doc(db, 'active_sessions', learnerId),
+      {
+        isLoggedIn: false,
+        lastHeartbeat: new Date().toISOString(),
+        loggedOutAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+/**
+ * Lấy danh sách tất cả các phiên đang đăng nhập (dành cho Admin)
+ */
+export async function fetchAllActiveSessions(): Promise<UserActiveSession[]> {
+  const path = 'active_sessions';
+  try {
+    const colSnap = await getDocs(collection(db, 'active_sessions'));
+    const list: UserActiveSession[] = [];
+    colSnap.forEach(docSnap => {
+      const data = docSnap.data() as UserActiveSession;
+      if (data.isLoggedIn) {
+        list.push(data);
+      }
+    });
+    return list;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return [];
+  }
+}
+
 

@@ -22,7 +22,7 @@ service cloud.firestore {
         data.xp is number && data.xp >= 0 &&
         data.completedUnits is map &&
         data.unlockedBadges is list && data.unlockedBadges.size() <= 50 &&
-        (!('pin' in data) || (data.pin is string && data.pin.size() == 4 && data.pin.matches('^[0-9]{4}$'))) &&
+        (!('pin' in data) || (data.pin is string && data.pin.size() <= 64)) &&
         (!('phone' in data) || (data.phone is string && data.phone.size() <= 20)) &&
         (!('email' in data) || (data.email is string && data.email.size() <= 120)) &&
         (!('username' in data) || (data.username is string && data.username.size() <= 64)) &&
@@ -69,6 +69,18 @@ service cloud.firestore {
 
     // Password reset requests submitted by users for admin (linhnk.online@gmail.com)
     match /password_reset_requests/{requestId} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Account verification requests submitted by users for admin (linhnk.online@gmail.com)
+    match /account_verification_requests/{requestId} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
+    // Active session tracking per account (ensuring only 1 active device at a time)
+    match /active_sessions/{learnerId} {
       allow get, list: if true;
       allow create, update, delete: if true;
     }

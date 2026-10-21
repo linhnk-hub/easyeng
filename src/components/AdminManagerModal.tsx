@@ -31,9 +31,10 @@ import {
   Phone,
   Mail,
   User,
-  KeyRound
+  KeyRound,
+  ShieldAlert
 } from 'lucide-react';
-import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest } from '../types';
+import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
@@ -48,7 +49,15 @@ import {
   validateNickname,
   validateFullName
 } from '../utils/userUtils';
-import { fetchPasswordResetRequestsFromCloud, deletePasswordResetRequestFromCloud } from '../services/firebase';
+import {
+  fetchPasswordResetRequestsFromCloud,
+  deletePasswordResetRequestFromCloud,
+  fetchAccountVerificationRequestsFromCloud,
+  deleteAccountVerificationRequestFromCloud,
+  clearAccountActiveSession
+} from '../services/firebase';
+
+const ADMIN_EMAIL = 'linhnk.online@gmail.com';
 
 interface AdminClassInfo {
   grade: number;
@@ -157,13 +166,18 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   };
 
   // Active Admin Tab
-  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'branding' | 'resets'>('learners');
+  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'branding' | 'resets' | 'verifications'>('learners');
 
   // Password Reset Requests submitted to admin (linhnk.online@gmail.com)
   const [resetRequests, setResetRequests] = useState<PasswordResetRequest[]>([]);
   const [isLoadingResetRequests, setIsLoadingResetRequests] = useState(false);
 
-  // Load password reset requests
+  // Account Verification Requests submitted to admin (linhnk.online@gmail.com)
+  const [verificationRequests, setVerificationRequests] = useState<AccountVerificationRequest[]>([]);
+  const [isLoadingVerificationRequests, setIsLoadingVerificationRequests] = useState(false);
+  const [unlockedSessionMsg, setUnlockedSessionMsg] = useState<string | null>(null);
+
+  // Load password reset requests & account verification requests
   React.useEffect(() => {
     setIsLoadingResetRequests(true);
     fetchPasswordResetRequestsFromCloud().then(reqs => {
@@ -172,6 +186,15 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     }).catch(err => {
       console.warn('Load reset requests error:', err);
       setIsLoadingResetRequests(false);
+    });
+
+    setIsLoadingVerificationRequests(true);
+    fetchAccountVerificationRequestsFromCloud().then(reqs => {
+      setVerificationRequests(reqs);
+      setIsLoadingVerificationRequests(false);
+    }).catch(err => {
+      console.warn('Load verification requests error:', err);
+      setIsLoadingVerificationRequests(false);
     });
   }, []);
 
@@ -1359,6 +1382,24 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
               </span>
             )}
           </button>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('verifications');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'verifications'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <ShieldAlert className="w-4 h-4 text-rose-500" /> Xác minh tài khoản {verificationRequests.length > 0 && (
+              <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full">
+                {verificationRequests.length}
+              </span>
+            )}
+          </button>
         </div>
 
         {/* Tab Body */}
@@ -1463,6 +1504,22 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
               {/* SUBSECTION: LEARNERS LIST */}
               <div className="space-y-4">
+                {unlockedSessionMsg && (
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{unlockedSessionMsg}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setUnlockedSessionMsg(null)}
+                      className="text-emerald-700 hover:text-emerald-900 cursor-pointer text-xs"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-display font-bold text-lg text-slate-800">
@@ -1593,7 +1650,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
                             setNewFormError(null);
                           }}
-                          placeholder="Nhập SĐT (ví dụ: 0912345678)..."
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
                       </div>
@@ -1618,7 +1674,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             setNewEmail(sanitized);
                             setNewFormError(null);
                           }}
-                          placeholder="Nhập email (ví dụ: name@gmail.com)..."
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
                       </div>
@@ -1979,8 +2034,24 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                           </div>
                         </div>
 
-                        {/* Các nút hành động: Reset tài khoản, Sửa, Xóa */}
+                        {/* Các nút hành động: Mở khóa phiên, Reset tài khoản, Sửa, Xóa */}
                         <div className="flex items-center gap-1.5 self-end md:self-center shrink-0">
+                          {/* Nút Mở khóa phiên thiết bị */}
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              soundEffects.playClick();
+                              await clearAccountActiveSession(learner.learnerId);
+                              soundEffects.playSuccess();
+                              setUnlockedSessionMsg(`Đã mở khóa phiên và đăng xuất mọi thiết bị cho học sinh "${learner.name}" thành công!`);
+                              setTimeout(() => setUnlockedSessionMsg(null), 5000);
+                            }}
+                            className="px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 hover:border-emerald-300 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
+                            title="Ngắt kết nối các thiết bị khác đang đăng nhập tài khoản này"
+                          >
+                            <Unlock className="w-3.5 h-3.5 text-emerald-600" /> Mở khóa
+                          </button>
+
                           {/* Nút Reset tài khoản */}
                           <button
                             type="button"
@@ -3240,6 +3311,205 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                               soundEffects.playClick();
                               setResetRequests(prev => prev.filter(r => r.id !== req.id));
                               await deletePasswordResetRequestFromCloud(req.id);
+                            }
+                          }}
+                          className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
+                          title="Đã xử lý / Xóa yêu cầu"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB 6: ACCOUNT VERIFICATION REQUESTS (XÁC MINH TÀI KHOẢN) */}
+          {/* ========================================================= */}
+          {activeTab === 'verifications' && (
+            <div className="space-y-4">
+              {/* Header Box */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-rose-50/70 border border-rose-200">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-rose-100 border border-rose-300 flex items-center justify-center text-rose-700 shrink-0">
+                    <ShieldAlert className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-base text-slate-800">
+                      Yêu cầu Xác minh tài khoản
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-0.5">
+                      Danh sách người dùng báo cáo tài khoản đang đăng nhập trên thiết bị khác hoặc nghi ngờ bị truy cập trái phép ({ADMIN_EMAIL})
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playClick();
+                    setIsLoadingVerificationRequests(true);
+                    fetchAccountVerificationRequestsFromCloud().then(reqs => {
+                      setVerificationRequests(reqs);
+                      setIsLoadingVerificationRequests(false);
+                    });
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
+                >
+                  <RotateCcw className={`w-3.5 h-3.5 ${isLoadingVerificationRequests ? 'animate-spin' : ''}`} />
+                  <span>Làm mới</span>
+                </button>
+              </div>
+
+              {/* Notification Banner when account session was unlocked */}
+              {unlockedSessionMsg && (
+                <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
+                  <div className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>{unlockedSessionMsg}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setUnlockedSessionMsg(null)}
+                    className="text-emerald-700 hover:text-emerald-900 cursor-pointer text-xs"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
+
+              {/* Requests List */}
+              {isLoadingVerificationRequests ? (
+                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
+                  <div className="w-8 h-8 border-3 border-rose-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="text-xs font-bold text-slate-500">Đang tải danh sách yêu cầu từ Cloud Firestore...</p>
+                </div>
+              ) : verificationRequests.length === 0 ? (
+                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+                    <Check className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-display font-bold text-base text-slate-800">
+                    Không có yêu cầu xác minh tài khoản nào
+                  </h4>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    Hiện tại các tài khoản đều đăng nhập bình thường. Khi học sinh hoặc phụ huynh gặp cảnh báo tài khoản đang đăng nhập trên thiết bị khác và bấm "Xác minh tài khoản", thông tin sẽ hiển thị ở đây và gửi tới email <span className="font-bold text-slate-700">{ADMIN_EMAIL}</span>.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {verificationRequests.map((req) => (
+                    <div
+                      key={req.id}
+                      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-rose-300 transition shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-display font-bold text-base text-slate-900">
+                            {req.fullName}
+                          </span>
+                          <span className="text-xs bg-rose-100 text-rose-800 font-bold px-2.5 py-0.5 rounded-full border border-rose-200">
+                            Nickname: {req.nickname}
+                          </span>
+                          {req.deviceInfo && (
+                            <span className="text-[11px] bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full border border-slate-200">
+                              Thiết bị gửi: {req.deviceInfo}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+                          <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200">
+                            <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>{req.phone}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(req.phone);
+                                soundEffects.playClick();
+                              }}
+                              className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer"
+                              title="Sao chép SĐT"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </button>
+                          </span>
+
+                          <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-800 px-2.5 py-1 rounded-lg border border-sky-200">
+                            <Mail className="w-3.5 h-3.5 text-sky-600" />
+                            <span>{req.email}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(req.email);
+                                soundEffects.playClick();
+                              }}
+                              className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer"
+                              title="Sao chép Email"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </button>
+                          </span>
+
+                          <span className="text-[11px] text-slate-400">
+                            Thời gian gửi: {new Date(req.createdAt).toLocaleString('vi-VN')}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
+                        {/* Nút Mở khóa đăng nhập / Ngắt kết nối thiết bị khác */}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            soundEffects.playClick();
+                            const matchedLearner = learners.find(l => {
+                              const nick = resolveValidUsername(l.username, l.name).toLowerCase();
+                              return nick === req.nickname.toLowerCase() || (l.username && l.username.toLowerCase() === req.nickname.toLowerCase());
+                            });
+                            const targetLearnerId = matchedLearner ? matchedLearner.learnerId : req.nickname;
+                            await clearAccountActiveSession(targetLearnerId);
+                            soundEffects.playSuccess();
+                            setUnlockedSessionMsg(
+                              `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" (${req.fullName}) thành công! Học sinh có thể đăng nhập lại ngay.`
+                            );
+                            setTimeout(() => setUnlockedSessionMsg(null), 6000);
+                          }}
+                          className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
+                          title="Ngắt kết nối các thiết bị khác và cho phép học sinh đăng nhập lại ngay"
+                        >
+                          <Unlock className="w-3.5 h-3.5" />
+                          <span>Mở khóa phiên đăng nhập</span>
+                        </button>
+
+                        {/* Nút Gửi email phản hồi */}
+                        <a
+                          href={`mailto:${req.email}?subject=${encodeURIComponent(`[EasyEng] Xác minh tài khoản và hỗ trợ mở khóa: ${req.fullName}`)}&body=${encodeURIComponent(
+                            `Xin chào ${req.fullName},\n\n` +
+                            `Quản trị viên EasyEng đã tiếp nhận yêu cầu xác minh tài khoản "${req.nickname}" của bạn.\n\n` +
+                            `Hệ thống đã tiến hành ngắt kết nối các phiên đăng nhập trên thiết bị khác và bảo vệ an toàn cho tài khoản của bạn. Hiện tại bạn đã có thể đăng nhập lại bình thường.\n\n` +
+                            `Nếu bạn nghi ngờ mật khẩu đã bị lộ, vui lòng đổi mật khẩu mới trong phần Cài đặt tài khoản sau khi đăng nhập.\n\n` +
+                            `Trân trọng,\nQuản trị viên EasyEng`
+                          )}`}
+                          className="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
+                          title="Gửi email phản hồi xác nhận cho học sinh"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>Gửi email phản hồi</span>
+                        </a>
+
+                        {/* Nút Xóa yêu cầu */}
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (window.confirm(`Xác nhận đã xử lý xong và xóa yêu cầu xác minh tài khoản của ${req.fullName}?`)) {
+                              soundEffects.playClick();
+                              setVerificationRequests(prev => prev.filter(r => r.id !== req.id));
+                              await deleteAccountVerificationRequestFromCloud(req.id);
                             }
                           }}
                           className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"

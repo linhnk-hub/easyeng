@@ -52,8 +52,12 @@ import {
   subscribeToBranding,
   syncExercisesToCloud,
   fetchExercisesFromCloud,
-  subscribeToExercises
+  subscribeToExercises,
+  clearAccountActiveSession,
+  updateSessionHeartbeat,
+  checkLearnerActiveSession
 } from './services/firebase';
+import { getOrCreateDeviceId } from './utils/sessionUtils';
 import { fireGrandFireworks } from './utils/confettiFireworks';
 
 const STORAGE_KEY_ACTIVE_LEARNER = 'easyeng_active_learner_id_v3';
@@ -818,6 +822,48 @@ export default function App() {
     }
   }, [activeLearnerId]);
 
+  // Session heartbeat & Single-device enforcement:
+  // Định kỳ gửi nhịp tim và kiểm tra xem có thiết bị nào khác đăng nhập tài khoản này không
+  useEffect(() => {
+    if (!activeLearnerId) return;
+
+    const deviceId = getOrCreateDeviceId();
+
+    // Kiểm tra ban đầu khi nạp hồ sơ người học
+    checkLearnerActiveSession(activeLearnerId, deviceId).then(res => {
+      if (res.isConflict) {
+        console.warn('Session conflict detected on start');
+        soundEffects.playError();
+        setActiveLearnerId(null);
+        localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
+        return;
+      }
+      updateSessionHeartbeat(activeLearnerId, deviceId);
+    }).catch(() => {});
+
+    // Gửi nhịp tim (heartbeat) định kỳ mỗi 60 giây
+    const heartbeatTimer = setInterval(() => {
+      updateSessionHeartbeat(activeLearnerId, deviceId);
+    }, 60 * 1000);
+
+    // Kiểm tra xung đột thiết bị định kỳ mỗi 40 giây
+    const conflictCheckTimer = setInterval(() => {
+      checkLearnerActiveSession(activeLearnerId, deviceId).then(res => {
+        if (res.isConflict) {
+          console.warn('Active session logged in on another device, logging out local session');
+          soundEffects.playError();
+          setActiveLearnerId(null);
+          localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
+        }
+      }).catch(() => {});
+    }, 40 * 1000);
+
+    return () => {
+      clearInterval(heartbeatTimer);
+      clearInterval(conflictCheckTimer);
+    };
+  }, [activeLearnerId]);
+
   // Audio Toggles
   const handleToggleSound = () => {
     const next = !soundOn;
@@ -874,6 +920,9 @@ export default function App() {
 
   const handleSwitchLearner = () => {
     soundEffects.playClick();
+    if (activeLearnerId) {
+      clearAccountActiveSession(activeLearnerId).catch(() => {});
+    }
     setActiveLearnerId(null);
     setActiveGame('none');
   };
@@ -881,6 +930,9 @@ export default function App() {
   const handleSaveAndExit = () => {
     soundEffects.playSuccess();
     setShowExitModal(false);
+    if (activeLearnerId) {
+      clearAccountActiveSession(activeLearnerId).catch(() => {});
+    }
     setActiveLearnerId(null);
     setActiveGame('none');
   };
