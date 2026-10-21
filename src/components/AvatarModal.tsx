@@ -4,7 +4,7 @@ import { UserProfile } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
-import { resolveValidUsername, validatePassword, validateFullName } from '../utils/userUtils';
+import { resolveValidUsername, validatePassword, validateFullName, validateNickname } from '../utils/userUtils';
 
 interface AvatarModalProps {
   user: UserProfile;
@@ -16,7 +16,9 @@ interface AvatarModalProps {
     newPin?: string,
     newPhone?: string,
     newEmail?: string,
-    uploadedCustomAvatar?: string
+    uploadedCustomAvatar?: string,
+    newFullName?: string,
+    newNickname?: string
   ) => void;
   onClose: () => void;
 }
@@ -30,8 +32,9 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'profile' | 'password'>('profile');
 
-  // Profile state
-  const [name, setName] = useState(user.name);
+  // Profile state (3 user info fields: Họ tên, Nickname, Tên đăng nhập)
+  const [fullName, setFullName] = useState(user.fullName || '');
+  const [nickname, setNickname] = useState(user.nickname || user.name);
   const [phone, setPhone] = useState(user.phone || '');
   const [email, setEmail] = useState(user.email || '');
   const [profileError, setProfileError] = useState<string | null>(null);
@@ -57,8 +60,8 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
   const [pinSuccess, setPinSuccess] = useState<string | null>(null);
 
   const currentActualPin = user.pin ? user.pin : '';
-  // Không hiển thị mã dạng learner_..., tự động chọn nickname nếu chưa có tên đăng nhập
-  const username = resolveValidUsername(user.username, user.name);
+  // Tên đăng nhập dùng để đăng nhập (không viết hoa, không ký tự đặc biệt, có thể có số)
+  const username = resolveValidUsername(user.username, user.nickname || user.name);
 
   // Handle phone input: Digits only (không cho phép gõ chữ)
   const handlePhoneChange = (val: string) => {
@@ -144,15 +147,27 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
     e.preventDefault();
     setProfileError(null);
 
-    // 1. Kiểm tra họ tên: từ 4 đến 32 ký tự, không chứa ký tự đặc biệt ngoại trừ dấu ngôn ngữ
-    const nameValidation = validateFullName(name.trim());
-    if (!nameValidation.isValid) {
+    // 1. Kiểm tra họ tên: 4 - 16 kí tự, tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số (nếu người dùng nhập)
+    const cleanFullName = fullName.trim();
+    if (cleanFullName) {
+      const nameValidation = validateFullName(cleanFullName);
+      if (!nameValidation.isValid) {
+        soundEffects.playError();
+        setProfileError(nameValidation.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
+        return;
+      }
+    }
+
+    // 2. Kiểm tra nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    const cleanNickname = nickname.trim();
+    const nickValidation = validateNickname(cleanNickname);
+    if (!nickValidation.isValid) {
       soundEffects.playError();
-      setProfileError(nameValidation.error || 'Họ tên không hợp lệ (từ 4 đến 32 ký tự, không chứa ký tự đặc biệt)!');
+      setProfileError(nickValidation.error || 'Nickname không hợp lệ (không chứa ký tự đặc biệt)!');
       return;
     }
 
-    // 2. Kiểm tra số điện thoại (nếu có nhập)
+    // 3. Kiểm tra số điện thoại (nếu có nhập)
     const cleanPhone = phone.trim();
     if (cleanPhone) {
       if (cleanPhone.length < 9 || cleanPhone.length > 11) {
@@ -171,7 +186,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
       }
     }
 
-    // 3. Kiểm tra email (nếu có nhập)
+    // 4. Kiểm tra email (nếu có nhập)
     const cleanEmail = email.trim().toLowerCase();
     if (cleanEmail) {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -193,12 +208,14 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
 
     soundEffects.playSuccess();
     onSave(
-      name.trim(),
+      cleanNickname,
       selectedAvatar,
       undefined,
       cleanPhone,
       cleanEmail,
-      userUploadedAvatar || undefined
+      userUploadedAvatar || undefined,
+      cleanFullName || undefined,
+      cleanNickname
     );
     onClose();
   };
@@ -232,12 +249,14 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
 
     soundEffects.playSuccess();
     onSave(
-      name.trim(),
+      nickname.trim(),
       selectedAvatar,
       newPin,
       phone.trim(),
       email.trim(),
-      userUploadedAvatar || undefined
+      userUploadedAvatar || undefined,
+      fullName.trim() || undefined,
+      nickname.trim()
     );
     setPinSuccess('Đổi mật khẩu thành công! Mật khẩu mới đã được cập nhật.');
     setOldPin('');
@@ -329,14 +348,14 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </div>
             )}
 
-            {/* Tên đăng nhập (Cố định, người dùng không thể tự sửa, chỉ Quản lý có quyền đổi) */}
+            {/* 3. Tên đăng nhập / Username (Cố định, người dùng không thể tự sửa, chỉ Quản lý có quyền đổi) */}
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
+                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập / Username:
                 </span>
                 <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-semibold lowercase flex items-center gap-1">
-                  <Lock className="w-3 h-3 text-amber-600" />
+                  <Lock className="w-3 h-3 text-amber-600" /> Quản lý đổi
                 </span>
               </label>
               <div className="relative">
@@ -346,28 +365,55 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   disabled
                   readOnly
                   className="w-full px-3.5 py-2 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 font-mono font-bold text-xs cursor-not-allowed select-none"
-                  title="Tên đăng nhập không thể tự chỉnh sửa"
+                  title="Tên đăng nhập không thể tự chỉnh sửa (chỉ Quản trị viên được đổi trong Quản lý hệ thống)"
                 />
               </div>
+              <p className="text-[10px] text-slate-400">
+                Tên dùng để đăng nhập: 4 - 16 kí tự, không viết hoa, không ký tự đặc biệt, có thể có số
+              </p>
             </div>
 
-            {/* Tên hiển thị / Nickname */}
+            {/* 1. Họ và tên */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-                Tên hiển thị / Nickname:
+                1. Họ và tên:
               </label>
               <input
                 type="text"
-                value={name}
+                value={fullName}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setFullName(e.target.value);
                   setProfileError(null);
                 }}
-                maxLength={30}
-                placeholder="Nhập họ tên hoặc nickname..."
+                maxLength={16}
+                placeholder="Ví dụ: Nguyễn Văn An"
+                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
+              />
+              <p className="text-[10px] text-slate-400">
+                4 - 16 kí tự (tên gọi đầy đủ, có thể viết hoa, không được có ký tự đặc biệt hoặc số)
+              </p>
+            </div>
+
+            {/* 2. Nickname */}
+            <div className="space-y-1">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+                2. Nickname (hiển thị kế bên Avatar):
+              </label>
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => {
+                  setNickname(e.target.value);
+                  setProfileError(null);
+                }}
+                maxLength={16}
+                placeholder="Ví dụ: Bé Na, Tý, LinhNK, Tom99..."
                 className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
                 required
               />
+              <p className="text-[10px] text-slate-400">
+                Tên gọi thân mật hoặc viết tắt hiển thị cạnh Avatar (có thể viết hoa, có thể có số, không có ký tự đặc biệt)
+              </p>
             </div>
 
             {/* Số điện thoại (Chỉ cho phép nhập số 0-9, không cho phép gõ chữ) */}

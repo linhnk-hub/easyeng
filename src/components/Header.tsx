@@ -126,14 +126,14 @@ export const Header: React.FC<HeaderProps> = ({
               onOpenAvatarModal();
             }}
             className="h-9 w-9 sm:h-10 sm:w-10 md:w-auto flex items-center justify-center md:justify-start gap-2 p-0 md:pl-1 md:pr-3 rounded-2xl bg-amber-100/80 hover:bg-amber-200/80 border border-amber-300 transition cursor-pointer active:scale-95 shadow-xs shrink-0"
-            title={`Xem thông tin tài khoản: ${user.name}`}
+            title={`Xem thông tin tài khoản: ${user.nickname || user.name}${user.fullName ? ` (${user.fullName})` : ''}`}
           >
             <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-lg sm:text-xl overflow-hidden rounded-xl bg-white/70">
               {renderAvatarContent(user.avatar, isTy ? '🦊' : '🦄')}
             </div>
             <div className="text-left hidden md:block leading-none pr-1">
               <span className="block text-xs font-bold text-amber-900 truncate max-w-[80px]">
-                {user.name}
+                {user.nickname || user.name}
               </span>
               <span className="block text-[10px] text-amber-700 mt-0.5">
                 Lv.{user.level}

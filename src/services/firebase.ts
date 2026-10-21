@@ -100,7 +100,9 @@ function formatLearnerForFirestore(learner: UserProfile) {
 
   return {
     id: String(learner.learnerId),
-    name: String(learner.name || 'Học sinh').slice(0, 64),
+    name: String(learner.nickname || learner.name || 'Học sinh').slice(0, 64),
+    fullName: learner.fullName ? String(learner.fullName).trim().slice(0, 32) : '',
+    nickname: learner.nickname ? String(learner.nickname).trim().slice(0, 32) : String(learner.name || '').slice(0, 32),
     grade: Math.max(1, Math.min(12, Math.round(Number(learner.grade) || 4))),
     avatar: String(learner.avatar || '🦊').slice(0, 350000),
     totalStars: Math.max(0, Math.round(Number(learner.totalStars || 0))),
@@ -111,7 +113,7 @@ function formatLearnerForFirestore(learner: UserProfile) {
     completedUnits: cleanCompletedUnits,
     unlockedBadges: Array.isArray(learner.unlockedBadges) ? learner.unlockedBadges.slice(0, 50) : [],
     pin: learner.pin !== undefined && learner.pin !== null ? String(learner.pin).trim() : '',
-    username: resolveValidUsername(learner.username, learner.name),
+    username: resolveValidUsername(learner.username, learner.nickname || learner.name),
     phone: learner.phone ? String(learner.phone).trim() : '',
     email: learner.email ? String(learner.email).trim().toLowerCase() : '',
     customAvatarUrl: learner.customAvatarUrl ? String(learner.customAvatarUrl).slice(0, 350000) : '',
@@ -136,9 +138,13 @@ function formatFirestoreToLearner(data: any): UserProfile {
     });
   }
 
+  const nickname = data.nickname || data.name || 'Học sinh';
+
   return {
     learnerId: data.id || 'ty',
-    name: data.name || 'Học sinh',
+    name: nickname,
+    fullName: data.fullName || '',
+    nickname: nickname,
     grade: Math.max(1, Math.min(12, Math.round(Number(data.grade) || 4))),
     avatar: data.avatar || '🦊',
     totalStars: Number(data.totalStars || 0),
@@ -149,7 +155,7 @@ function formatFirestoreToLearner(data: any): UserProfile {
     completedUnits,
     unlockedBadges: Array.isArray(data.unlockedBadges) ? data.unlockedBadges : [],
     pin: data.pin !== undefined && data.pin !== null ? String(data.pin).trim() : '',
-    username: resolveValidUsername(data.username, data.name),
+    username: resolveValidUsername(data.username, nickname),
     phone: data.phone || '',
     email: data.email || '',
     customAvatarUrl: data.customAvatarUrl || '',

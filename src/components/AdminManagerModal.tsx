@@ -47,7 +47,8 @@ import {
   generateDefaultUsernameFromName,
   validatePassword,
   validateNickname,
-  validateFullName
+  validateFullName,
+  validateUsername
 } from '../utils/userUtils';
 import {
   fetchPasswordResetRequestsFromCloud,
@@ -364,8 +365,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setStagedWelcomeLogoSize(300);
   };
 
-  // Learners Tab editing state
+  // Learners Tab editing state (3 pieces of user info: 1. Họ tên, 2. Nickname, 3. Tên đăng nhập)
   const [editingLearnerId, setEditingLearnerId] = useState<string | null>(null);
+  const [editFullName, setEditFullName] = useState('');
+  const [editNickname, setEditNickname] = useState('');
   const [editName, setEditName] = useState('');
   const [editUsername, setEditUsername] = useState('');
   const [editGrade, setEditGrade] = useState<number>(4);
@@ -379,6 +382,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   // Add Learner state
   const [isAddingLearner, setIsAddingLearner] = useState(false);
+  const [newFullName, setNewFullName] = useState('');
+  const [newNickname, setNewNickname] = useState('');
   const [newName, setNewName] = useState('');
   const [newUsername, setNewUsername] = useState('');
   const [newGrade, setNewGrade] = useState<number>(4);
@@ -740,8 +745,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const handleStartEditLearner = (l: UserProfile) => {
     soundEffects.playClick();
     setEditingLearnerId(l.learnerId);
+    setEditFullName(l.fullName || '');
+    setEditNickname(l.nickname || l.name);
     setEditName(l.name);
-    setEditUsername(resolveValidUsername(l.username, l.name));
+    setEditUsername(l.username || resolveValidUsername(l.username, l.nickname || l.name));
     setEditGrade(l.grade);
     setEditAvatar(l.avatar);
     setEditPin(l.pin ? l.pin : '');
@@ -757,34 +764,47 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setEditPinError(null);
     setEditFormError(null);
 
-    // 1. Validate Họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt
-    const nameVal = validateFullName(editName.trim());
-    if (!nameVal.isValid) {
+    // 1. Validate Họ tên: 4 - 16 kí tự, là tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số (nếu có nhập)
+    const cleanFullName = editFullName.trim();
+    if (cleanFullName) {
+      const nameVal = validateFullName(cleanFullName);
+      if (!nameVal.isValid) {
+        soundEffects.playError();
+        setEditFormError(nameVal.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
+        return;
+      }
+    }
+
+    // 2. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    const cleanNick = (editNickname.trim() || editName.trim());
+    const nickVal = validateNickname(cleanNick);
+    if (!nickVal.isValid) {
       soundEffects.playError();
-      setEditFormError(nameVal.error || 'Họ tên không hợp lệ!');
+      setEditFormError(nickVal.error || 'Nickname không hợp lệ (không chứa ký tự đặc biệt)!');
       return;
     }
 
-    // 2. Validate Nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+    // 3. Validate Tên đăng nhập / Username: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
     const cleanUsername = editUsername.trim();
-    const nickVal = validateNickname(cleanUsername);
-    if (!nickVal.isValid) {
+    const userVal = validateUsername(cleanUsername);
+    if (!userVal.isValid) {
       soundEffects.playError();
-      setEditFormError(nickVal.error || 'Tên đăng nhập / Nickname không hợp lệ!');
+      setEditFormError(userVal.error || 'Tên đăng nhập không hợp lệ!');
       return;
     }
 
     const usernameConflict = learners.find(
       l => l.learnerId !== original.learnerId &&
-           resolveValidUsername(l.username, l.name).toLowerCase() === cleanUsername.toLowerCase()
+           ((l.username && l.username.toLowerCase() === cleanUsername.toLowerCase()) ||
+            resolveValidUsername(l.username, l.nickname || l.name).toLowerCase() === cleanUsername.toLowerCase())
     );
     if (usernameConflict) {
       soundEffects.playError();
-      setEditFormError(`Tên đăng nhập / Nickname "${cleanUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
+      setEditFormError(`Tên đăng nhập "${cleanUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.nickname || usernameConflict.name})!`);
       return;
     }
 
-    // 3. Validate Mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
+    // 4. Validate Mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
     if (editPin || editPinConfirm) {
       const passVal = validatePassword(editPin);
       if (!passVal.isValid) {
@@ -840,8 +860,10 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     soundEffects.playSuccess();
     onUpdateLearner({
       ...original,
+      fullName: cleanFullName,
+      nickname: cleanNick,
       username: cleanUsername,
-      name: editName.trim(),
+      name: cleanNick,
       grade: Number(editGrade) || original.grade || 4,
       avatar: editAvatar || original.avatar,
       pin: editPin,
@@ -887,33 +909,46 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setNewPinError(null);
     setNewFormError(null);
 
-    // 1. Validate Họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt
-    const nameVal = validateFullName(newName.trim());
-    if (!nameVal.isValid) {
+    // 1. Validate Họ tên: 4 - 16 kí tự, là tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số (nếu có nhập)
+    const cleanFullName = newFullName.trim();
+    if (cleanFullName) {
+      const nameVal = validateFullName(cleanFullName);
+      if (!nameVal.isValid) {
+        soundEffects.playError();
+        setNewFormError(nameVal.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
+        return;
+      }
+    }
+
+    // 2. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    const cleanNick = (newNickname.trim() || newName.trim());
+    const nickVal = validateNickname(cleanNick);
+    if (!nickVal.isValid) {
       soundEffects.playError();
-      setNewFormError(nameVal.error || 'Họ tên không hợp lệ!');
+      setNewFormError(nickVal.error || 'Nickname không hợp lệ (không chứa ký tự đặc biệt)!');
       return;
     }
 
-    // 2. Validate Nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
-    const cleanNewUsername = (newUsername.trim() || newName.trim());
-    const nickVal = validateNickname(cleanNewUsername);
-    if (!nickVal.isValid) {
+    // 3. Validate Tên đăng nhập / Username: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
+    const cleanNewUsername = (newUsername.trim() || generateDefaultUsernameFromName(cleanNick));
+    const userVal = validateUsername(cleanNewUsername);
+    if (!userVal.isValid) {
       soundEffects.playError();
-      setNewFormError(nickVal.error || 'Tên đăng nhập / Nickname không hợp lệ!');
+      setNewFormError(userVal.error || 'Tên đăng nhập không hợp lệ (4 - 16 ký tự, chữ thường và số, không viết hoa, không ký tự đặc biệt)!');
       return;
     }
 
     const usernameConflict = learners.find(
-      l => resolveValidUsername(l.username, l.name).toLowerCase() === cleanNewUsername.toLowerCase()
+      l => (l.username && l.username.toLowerCase() === cleanNewUsername.toLowerCase()) ||
+           resolveValidUsername(l.username, l.nickname || l.name).toLowerCase() === cleanNewUsername.toLowerCase()
     );
     if (usernameConflict) {
       soundEffects.playError();
-      setNewFormError(`Tên đăng nhập / Nickname "${cleanNewUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
+      setNewFormError(`Tên đăng nhập "${cleanNewUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.nickname || usernameConflict.name})!`);
       return;
     }
 
-    // 3. Validate Mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
+    // 4. Validate Mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
     const passVal = validatePassword(newPin);
     if (!passVal.isValid) {
       soundEffects.playError();
@@ -965,9 +1000,11 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
     const newProfile: UserProfile = {
       learnerId: newLearnerId,
+      fullName: cleanFullName,
+      nickname: cleanNick,
       username: cleanNewUsername,
       grade: Number(newGrade) || 4,
-      name: newName.trim(),
+      name: cleanNick,
       avatar: newAvatar,
       pin: newPin,
       phone: cleanPhone,
@@ -981,6 +1018,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       lastActiveDate: new Date().toISOString()
     };
     onAddLearner(newProfile);
+    setNewFullName('');
+    setNewNickname('');
     setNewName('');
     setNewUsername('');
     setNewPin('');
@@ -1559,16 +1598,42 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       </button>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-slate-600 mb-1">Tên người học:</label>
+                        <label className="block text-xs font-bold text-slate-600 mb-1">
+                          1. Họ và tên:
+                        </label>
                         <input
                           type="text"
-                          value={newName}
-                          onChange={(e) => setNewName(e.target.value)}
+                          value={newFullName}
+                          onChange={(e) => {
+                            setNewFullName(e.target.value);
+                            setNewFormError(null);
+                          }}
+                          placeholder="Nguyễn Văn An"
+                          maxLength={16}
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                        />
+                        <span className="text-[10px] text-slate-400">4-16 kí tự, không số/ký tự ĐB</span>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-600 mb-1">
+                          2. Nickname (cạnh Avatar) <span className="text-rose-500">*</span>:
+                        </label>
+                        <input
+                          type="text"
+                          value={newNickname}
+                          onChange={(e) => {
+                            setNewNickname(e.target.value);
+                            setNewFormError(null);
+                          }}
+                          placeholder="Bé Na, Tý, LinhNK..."
+                          maxLength={16}
                           required
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
+                        <span className="text-[10px] text-slate-400">Có hoa/số, không ký tự ĐB</span>
                       </div>
 
                       <div>
@@ -1602,7 +1667,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                                 key={av.id}
                                 type="button"
                                 onClick={() => setNewAvatar(av.icon)}
-                                className={`w-9 h-9 rounded-xl flex items-center justify-center text-xl overflow-hidden cursor-pointer border-2 transition ${
+                                className={`w-8 h-8 rounded-xl flex items-center justify-center text-lg overflow-hidden cursor-pointer border-2 transition ${
                                   isSelected ? 'border-amber-500 bg-amber-50 scale-105 shadow-xs' : 'border-transparent hover:bg-slate-50'
                                 }`}
                               >
@@ -1619,20 +1684,22 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                           <span className="flex items-center gap-1">
-                            <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
+                            <User className="w-3.5 h-3.5 text-amber-600" /> 3. Tên đăng nhập / Username:
                           </span>
-                          <span className="text-[10px] text-slate-400 font-normal">(Mặc định: nickname)</span>
+                          <span className="text-[10px] text-slate-400 font-normal">(Chữ thường & số)</span>
                         </label>
                         <input
                           type="text"
+                          maxLength={16}
                           value={newUsername}
                           onChange={(e) => {
-                            setNewUsername(e.target.value);
+                            setNewUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
                             setNewFormError(null);
                           }}
-                          placeholder={newName.trim() ? newName.trim() : "Nhập tên đăng nhập..."}
-                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                          placeholder={newNickname.trim() ? generateDefaultUsernameFromName(newNickname) : "vanan, ty2024..."}
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                         />
+                        <span className="text-[10px] text-slate-400">4-16 kí tự, không viết hoa, không ký tự ĐB</span>
                       </div>
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
@@ -1771,15 +1838,42 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             </button>
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                             <div>
-                              <label className="block text-xs font-bold text-slate-600 mb-1">Tên hiển thị:</label>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">
+                                1. Họ và tên:
+                              </label>
                               <input
                                 type="text"
-                                value={editName}
-                                onChange={(e) => setEditName(e.target.value)}
+                                value={editFullName}
+                                onChange={(e) => {
+                                  setEditFullName(e.target.value);
+                                  setEditFormError(null);
+                                }}
+                                placeholder="Nguyễn Văn An"
+                                maxLength={16}
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                               />
+                              <span className="text-[10px] text-slate-400">4-16 kí tự, không số/ký tự ĐB</span>
+                            </div>
+
+                            <div>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">
+                                2. Nickname (cạnh Avatar) <span className="text-rose-500">*</span>:
+                              </label>
+                              <input
+                                type="text"
+                                value={editNickname}
+                                onChange={(e) => {
+                                  setEditNickname(e.target.value);
+                                  setEditFormError(null);
+                                }}
+                                placeholder="Bé Na, Tý, LinhNK..."
+                                maxLength={16}
+                                required
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                              />
+                              <span className="text-[10px] text-slate-400">Có hoa/số, không ký tự ĐB</span>
                             </div>
 
                             <div>
@@ -1813,7 +1907,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                                       key={av.id}
                                       type="button"
                                       onClick={() => setEditAvatar(av.icon)}
-                                      className={`w-9 h-9 rounded-xl flex items-center justify-center text-xl overflow-hidden cursor-pointer border-2 transition ${
+                                      className={`w-8 h-8 rounded-xl flex items-center justify-center text-lg overflow-hidden cursor-pointer border-2 transition ${
                                         isSelected ? 'border-amber-500 bg-amber-50 scale-105 shadow-xs' : 'border-transparent hover:bg-slate-50'
                                       }`}
                                     >
@@ -1830,23 +1924,25 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                             <div>
                               <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                                 <span className="flex items-center gap-1">
-                                  <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
+                                  <User className="w-3.5 h-3.5 text-amber-600" /> 3. Tên đăng nhập / Username:
                                 </span>
                                 <span className="text-[10px] text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded font-semibold flex items-center gap-0.5">
-                                  Quản lý có thể đổi
+                                  Quản lý đổi
                                 </span>
                               </label>
                               <input
                                 type="text"
+                                maxLength={16}
                                 value={editUsername}
                                 onChange={(e) => {
-                                  setEditUsername(e.target.value);
+                                  setEditUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
                                   setEditFormError(null);
                                 }}
                                 placeholder="Nhập tên đăng nhập..."
-                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                                 required
                               />
+                              <span className="text-[10px] text-slate-400">4-16 kí tự, không viết hoa, không ký tự ĐB</span>
                             </div>
                             <div>
                               <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
@@ -1989,8 +2085,13 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                           <div className="space-y-1.5">
                             <div className="flex items-center gap-2">
                               <h4 className="font-display font-bold text-base text-slate-800">
-                                {learner.name}
+                                {learner.nickname || learner.name}
                               </h4>
+                              {learner.fullName && (
+                                <span className="text-xs text-slate-500 font-medium">
+                                  ({learner.fullName})
+                                </span>
+                              )}
                               <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-300">
                                 Lớp {learner.grade}
                               </span>
@@ -1998,8 +2099,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
                             {/* Tên đăng nhập, Số điện thoại, Email */}
                             <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                              <span className="inline-flex items-center gap-1 font-mono font-semibold bg-slate-100 px-2 py-0.5 rounded-md text-slate-700">
-                                <User className="w-3 h-3 text-amber-600" /> {resolveValidUsername(learner.username, learner.name)}
+                              <span className="inline-flex items-center gap-1 font-mono font-semibold bg-slate-100 px-2 py-0.5 rounded-md text-slate-700" title="Tên đăng nhập / Username">
+                                <User className="w-3 h-3 text-amber-600" /> {learner.username || resolveValidUsername(learner.username, learner.nickname || learner.name)}
                               </span>
                               {learner.phone && (
                                 <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">

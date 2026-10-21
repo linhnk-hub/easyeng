@@ -1165,13 +1165,18 @@ export default function App() {
     newPin?: string,
     newPhone?: string,
     newEmail?: string,
-    uploadedCustomAvatar?: string
+    uploadedCustomAvatar?: string,
+    newFullName?: string,
+    newNickname?: string
   ) => {
     if (!currentUser) return;
+    const finalNick = newNickname || newName;
     const updated: UserProfile = {
       ...currentUser,
-      name: newName,
-      username: resolveValidUsername(currentUser.username, newName),
+      name: finalNick,
+      nickname: finalNick,
+      fullName: newFullName !== undefined ? newFullName : (currentUser.fullName || ''),
+      username: resolveValidUsername(currentUser.username, finalNick),
       avatar: newAvatar,
       ...(newPin ? { pin: newPin } : {}),
       phone: newPhone !== undefined ? newPhone : (currentUser.phone || ''),

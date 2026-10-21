@@ -30,7 +30,8 @@ import {
   sanitizeEmailAddress,
   validatePassword,
   validateNickname,
-  validateFullName
+  validateFullName,
+  validateUsername
 } from '../utils/userUtils';
 import {
   savePasswordResetRequestToCloud,
@@ -84,7 +85,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         emoji: getDefaultGradeEmoji(g)
       }));
 
-  // Register form state
+  // Register form state (3 pieces of user info: 1. Họ tên, 2. Nickname, 3. Tên đăng nhập)
+  const [regFullName, setRegFullName] = useState('');
+  const [regNickname, setRegNickname] = useState('');
   const [regUsername, setRegUsername] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regConfirmPassword, setRegConfirmPassword] = useState('');
@@ -159,15 +162,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     }
 
     // Match learner by:
-    // 1. resolved username (ignoring case)
-    // 2. stored username (ignoring case)
-    // 3. stored name / nickname (ignoring case)
+    // 1. stored username (ignoring case)
+    // 2. stored nickname (ignoring case)
+    // 3. stored name / resolved username (ignoring case)
     const lowerInput = cleanInputUser.toLowerCase();
     const matchedLearner = learners.find(l => {
-      const validUsername = resolveValidUsername(l.username, l.name).toLowerCase();
       const storedUser = (l.username || '').toLowerCase();
+      const storedNick = (l.nickname || '').toLowerCase();
       const storedName = (l.name || '').toLowerCase();
-      return validUsername === lowerInput || storedUser === lowerInput || storedName === lowerInput;
+      const validUsername = resolveValidUsername(l.username, l.nickname || l.name).toLowerCase();
+      return storedUser === lowerInput || storedNick === lowerInput || validUsername === lowerInput || storedName === lowerInput;
     });
 
     if (!matchedLearner) {
@@ -234,32 +238,51 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     e.preventDefault();
     setRegError(null);
 
+    const cleanFullName = regFullName.trim();
+    const cleanNick = regNickname.trim();
     const cleanUser = regUsername.trim();
     const cleanPass = regPassword.trim();
     const cleanConfirm = regConfirmPassword.trim();
 
-    // 1. Validate Nickname (không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự)
-    const nickValidation = validateNickname(cleanUser);
+    // 1. Validate Họ tên: 4 - 16 kí tự, là tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số
+    const nameValidation = validateFullName(cleanFullName);
+    if (!nameValidation.isValid) {
+      soundEffects.playError();
+      setRegError(nameValidation.error || 'Họ và tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
+      return;
+    }
+
+    // 2. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    const nickValidation = validateNickname(cleanNick);
     if (!nickValidation.isValid) {
       soundEffects.playError();
-      setRegError(nickValidation.error || 'Nickname không hợp lệ!');
+      setRegError(nickValidation.error || 'Nickname không hợp lệ (không chứa ký tự đặc biệt)!');
+      return;
+    }
+
+    // 3. Validate Tên đăng nhập / Username: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
+    const userValidation = validateUsername(cleanUser);
+    if (!userValidation.isValid) {
+      soundEffects.playError();
+      setRegError(userValidation.error || 'Tên đăng nhập không hợp lệ (4 - 16 ký tự, chữ thường và số, không viết hoa, không ký tự đặc biệt)!');
       return;
     }
 
     // Check duplicate username across database
     const lowerUser = cleanUser.toLowerCase();
     const conflict = learners.find(l => {
-      const existingUser = resolveValidUsername(l.username, l.name).toLowerCase();
-      return existingUser === lowerUser || (l.username && l.username.toLowerCase() === lowerUser);
+      const existingUser = (l.username || '').toLowerCase();
+      const resolved = resolveValidUsername(l.username, l.nickname || l.name).toLowerCase();
+      return existingUser === lowerUser || resolved === lowerUser;
     });
 
     if (conflict) {
       soundEffects.playError();
-      setRegError(`Nickname / Tên đăng nhập "${cleanUser}" đã có người sử dụng. Vui lòng chọn tên khác!`);
+      setRegError(`Tên đăng nhập "${cleanUser}" đã có người sử dụng. Vui lòng chọn tên đăng nhập khác!`);
       return;
     }
 
-    // 2. Validate Password (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
+    // 4. Validate Mật khẩu (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
     const passValidation = validatePassword(cleanPass);
     if (!passValidation.isValid) {
       soundEffects.playError();
@@ -273,12 +296,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // Create new profile
+    // Create new profile with 3 pieces of user info
     const newId = `learner_${Date.now()}`;
     const newProfile: UserProfile = {
       learnerId: newId,
+      fullName: cleanFullName,
+      nickname: cleanNick,
       username: cleanUser,
-      name: cleanUser,
+      name: cleanNick, // Displays next to avatar
       grade: regGrade,
       avatar: '🦊',
       pin: cleanPass,
@@ -337,19 +362,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     const cleanPhone = sanitizePhoneNumber(resetPhone);
     const cleanEmail = sanitizeEmailAddress(resetEmail);
 
-    // 1. Quy tắc họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt ngoại trừ các dấu của ngôn ngữ
+    // 1. Quy tắc họ tên: 4 - 16 kí tự, có thể viết hoa, không số hoặc ký tự đặc biệt
     const nameValidation = validateFullName(cleanFullName);
     if (!nameValidation.isValid) {
       soundEffects.playError();
-      setResetError(nameValidation.error || 'Họ và tên không hợp lệ!');
+      setResetError(nameValidation.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
       return;
     }
 
-    // 2. Quy tắc đặt nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
-    const nickValidation = validateNickname(cleanNick);
-    if (!nickValidation.isValid) {
+    // 2. Tên đăng nhập / Nickname
+    if (!cleanNick) {
       soundEffects.playError();
-      setResetError(nickValidation.error || 'Nickname không hợp lệ!');
+      setResetError('Vui lòng nhập tên đăng nhập hoặc nickname!');
       return;
     }
 
@@ -438,19 +462,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     const cleanPhone = sanitizePhoneNumber(verificationPhone);
     const cleanEmail = sanitizeEmailAddress(verificationEmail);
 
-    // 1. Quy tắc họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt ngoại trừ các dấu của ngôn ngữ
+    // 1. Quy tắc họ tên: 4 - 16 kí tự, có thể viết hoa, không số hoặc ký tự đặc biệt
     const nameValidation = validateFullName(cleanFullName);
     if (!nameValidation.isValid) {
       soundEffects.playError();
-      setVerificationError(nameValidation.error || 'Họ và tên không hợp lệ!');
+      setVerificationError(nameValidation.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
       return;
     }
 
-    // 2. Quy tắc đặt nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
-    const nickValidation = validateNickname(cleanNick);
-    if (!nickValidation.isValid) {
+    // 2. Tên đăng nhập / Nickname
+    if (!cleanNick) {
       soundEffects.playError();
-      setVerificationError(nickValidation.error || 'Nickname không hợp lệ!');
+      setVerificationError('Vui lòng nhập tên đăng nhập hoặc nickname!');
       return;
     }
 
@@ -714,31 +737,29 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
               )}
 
               <form onSubmit={handleRegisterSubmit} className="space-y-4">
-                {/* 1. Tên đăng nhập / Username */}
-              
+                 {/* 3. Tên đăng nhập / Username */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
                     Tên đăng nhập / Username <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                      <User className="w-4 h-4" />
+                      <LogIn className="w-4 h-4 text-slate-400" />
                     </div>
                     <input
-                      ref={regInputRef}
                       type="text"
                       maxLength={16}
                       value={regUsername}
                       onChange={(e) => {
-                        setRegUsername(e.target.value);
+                        setRegUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
                         setRegError(null);
                       }}
-                      className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
+                      className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm lowercase"
                       required
                     />
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Độ dài 4 - 16 kí tự (không được nhập: chữ in hoa, ký tự đặc biệt)
+                    Độ dài 4 - 16 kí tự, dùng chữ thường hoặc số
                   </p>
                 </div>
 
@@ -773,7 +794,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     </button>
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Độ dài 4 - 16 kí tự (bao gồm cả chữ in hoa, số và ký tự đặc biệt)
+                    Độ dài 4 - 16 kí tự
                   </p>
                 </div>
 

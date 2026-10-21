@@ -95,65 +95,96 @@ export function validatePassword(password?: string): { isValid: boolean; error?:
 }
 
 /**
- * Quy tắc đặt nickname:
- * - Không dấu (không dùng dấu tiếng Việt)
- * - Không in hoa (chỉ dùng chữ thường)
- * - Tối thiểu 4 ký tự, tối đa 16 ký tự
- * - Không chứa khoảng trắng, không chứa ký tự đặc biệt khác ngoài a-z, 0-9 (và . _ -)
+ * Biểu thức chính quy cho nickname (chữ hoa/thường, có thể có số, không ký tự đặc biệt)
  */
-export function validateNickname(nickname?: string): { isValid: boolean; error?: string } {
-  if (!nickname || !nickname.trim()) {
-    return { isValid: false, error: 'Vui lòng nhập nickname / tên đăng nhập!' };
-  }
-  const clean = nickname.trim();
-  if (clean.length < 4) {
-    return { isValid: false, error: 'Nickname phải có tối thiểu 4 ký tự!' };
-  }
-  if (clean.length > 16) {
-    return { isValid: false, error: 'Nickname chỉ được tối đa 16 ký tự!' };
-  }
-  if (/\s/.test(clean)) {
-    return { isValid: false, error: 'Nickname không được chứa dấu cách (khoảng trắng)!' };
-  }
-  if (/[A-Z]/.test(clean)) {
-    return { isValid: false, error: 'Nickname không được viết in hoa (chỉ sử dụng chữ viết thường)!' };
-  }
-  // Kiểm tra dấu tiếng Việt hoặc ký tự Unicode
-  if (/[^\u0000-\u007F]/.test(clean)) {
-    return { isValid: false, error: 'Nickname phải viết không dấu (không có dấu tiếng Việt)!' };
-  }
-  // Chỉ chấp nhận chữ thường a-z và số 0-9 (cho phép dấu gạch dưới _, gạch nối -, dấu chấm .)
-  if (!/^[a-z0-9_.-]+$/.test(clean)) {
-    return { isValid: false, error: 'Nickname chỉ được chứa chữ thường và số (không chứa ký tự đặc biệt)!' };
-  }
-  if (clean.toLowerCase().startsWith('learner')) {
-    return { isValid: false, error: 'Nickname không được bắt đầu bằng "learner" (tiền tố kỹ thuật hệ thống)!' };
-  }
-  return { isValid: true };
-}
+export const NICKNAME_REGEX =
+  /^[a-zA-Z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ\s]+$/;
 
 /**
- * Quy tắc đặt họ tên:
- * - Có thể không dấu hoặc có dấu
- * - Tối thiểu 4 ký tự, tối đa 32 ký tự
- * - Không cho phép ký tự đặc biệt ngoại trừ các dấu của ngôn ngữ (không cho phép số và ký tự đặc biệt)
+ * 1. Quy tắc đặt Họ tên:
+ * - 4 - 16 kí tự
+ * - Là tên gọi đầy đủ
+ * - Có thể viết hoa
+ * - Không được có kí tự đặc biệt hoặc số
  */
 export function validateFullName(fullName?: string): { isValid: boolean; error?: string } {
   if (!fullName || !fullName.trim()) {
-    return { isValid: false, error: 'Vui lòng nhập họ và tên!' };
+    return { isValid: false, error: 'Vui lòng nhập họ và tên đầy đủ!' };
   }
   const clean = fullName.trim();
   if (clean.length < 4) {
     return { isValid: false, error: 'Họ tên phải có tối thiểu 4 ký tự!' };
   }
-  if (clean.length > 32) {
-    return { isValid: false, error: 'Họ tên chỉ được tối đa 32 ký tự!' };
+  if (clean.length > 16) {
+    return { isValid: false, error: 'Họ tên chỉ được tối đa 16 ký tự!' };
   }
   if (/\d/.test(clean)) {
     return { isValid: false, error: 'Họ tên không được chứa chữ số!' };
   }
   if (!VIETNAMESE_NAME_REGEX.test(clean)) {
-    return { isValid: false, error: 'Họ tên không cho phép ký tự đặc biệt ngoại trừ các dấu của ngôn ngữ!' };
+    return { isValid: false, error: 'Họ tên không được chứa ký tự đặc biệt!' };
+  }
+  return { isValid: true };
+}
+
+/**
+ * 2. Quy tắc đặt Nickname:
+ * - Tên gọi thân mật hoặc tên viết tắt, sẽ hiển thị kế bên Avatar
+ * - Tối đa 16 kí tự (từ 2 đến 16 kí tự)
+ * - Có thể viết hoa
+ * - Có thể có số
+ * - Không được có kí tự đặc biệt
+ */
+export function validateNickname(nickname?: string): { isValid: boolean; error?: string } {
+  if (!nickname || !nickname.trim()) {
+    return { isValid: false, error: 'Vui lòng nhập nickname (tên hiển thị kế bên Avatar)!' };
+  }
+  const clean = nickname.trim();
+  if (clean.length < 2) {
+    return { isValid: false, error: 'Nickname phải có tối thiểu 2 ký tự!' };
+  }
+  if (clean.length > 16) {
+    return { isValid: false, error: 'Nickname chỉ được tối đa 16 ký tự!' };
+  }
+  if (!NICKNAME_REGEX.test(clean)) {
+    return { isValid: false, error: 'Nickname không được chứa ký tự đặc biệt (chỉ dùng chữ và số)!' };
+  }
+  return { isValid: true };
+}
+
+/**
+ * 3. Quy tắc đặt Tên đăng nhập / Username:
+ * - 4 - 16 kí tự
+ * - Là tên dùng để đăng nhập
+ * - Không được viết hoa (chỉ dùng chữ thường)
+ * - Không được có kí tự đặc biệt (chỉ gồm a-z và 0-9)
+ * - Có thể có số
+ */
+export function validateUsername(username?: string): { isValid: boolean; error?: string } {
+  if (!username || !username.trim()) {
+    return { isValid: false, error: 'Vui lòng nhập tên đăng nhập / username!' };
+  }
+  const clean = username.trim();
+  if (clean.length < 4) {
+    return { isValid: false, error: 'Tên đăng nhập phải có tối thiểu 4 ký tự!' };
+  }
+  if (clean.length > 16) {
+    return { isValid: false, error: 'Tên đăng nhập chỉ được tối đa 16 ký tự!' };
+  }
+  if (/\s/.test(clean)) {
+    return { isValid: false, error: 'Tên đăng nhập không được chứa khoảng trắng (dấu cách)!' };
+  }
+  if (/[A-Z]/.test(clean)) {
+    return { isValid: false, error: 'Tên đăng nhập không được viết hoa (chỉ sử dụng chữ viết thường)!' };
+  }
+  if (/[^\u0000-\u007F]/.test(clean)) {
+    return { isValid: false, error: 'Tên đăng nhập không được có dấu tiếng Việt!' };
+  }
+  if (!/^[a-z0-9]+$/.test(clean)) {
+    return { isValid: false, error: 'Tên đăng nhập không được có ký tự đặc biệt (chỉ gồm chữ thường a-z và số 0-9)!' };
+  }
+  if (clean.startsWith('learner')) {
+    return { isValid: false, error: 'Tên đăng nhập không được bắt đầu bằng "learner"!' };
   }
   return { isValid: true };
 }
