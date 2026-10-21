@@ -2134,8 +2134,6 @@ export const BADGES: { id: string; title: string; description: string; icon: str
 
 export const AVATARS = [
   { id: "fox", name: "Cáo Thông Thái", icon: "🦊", color: "bg-amber-100 text-amber-700 border-amber-300" },
-  { id: "astronaut", name: "Phi Hành Gia", icon: "👨‍🚀", color: "bg-blue-100 text-blue-700 border-blue-300" },
-  { id: "dino", name: "Khủng Long Dino", icon: "🦖", color: "bg-emerald-100 text-emerald-700 border-emerald-300" },
   { id: "panda", name: "Gấu Trúc Panda", icon: "🐼", color: "bg-slate-100 text-slate-700 border-slate-300" },
   { id: "cat", name: "Mèo Thám Hiểm", icon: "🐱", color: "bg-pink-100 text-pink-700 border-pink-300" },
   { id: "owl", name: "Cú Mèo Học Giả", icon: "🦉", color: "bg-purple-100 text-purple-700 border-purple-300" }
