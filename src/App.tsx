@@ -1,5 +1,5 @@
 /**
- * EasyEng - Webgame học tiếng Anh
+ * EasyEng - Tiếng Anh dễ mà!
  * @license Apache-2.0
  */
 

@@ -41,7 +41,13 @@ import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, AL
 import { clearAppCache } from '../utils/cacheUtils';
 import { parseExerciseJson, createDefaultClusters, createEmptyCluster, BUILT_IN_WORKBOOK_TEMPLATES } from '../utils/exerciseUtils';
 import { EasyEngLogo } from './EasyEngLogo';
-import { resolveValidUsername, generateDefaultUsernameFromName } from '../utils/userUtils';
+import {
+  resolveValidUsername,
+  generateDefaultUsernameFromName,
+  validatePassword,
+  validateNickname,
+  validateFullName
+} from '../utils/userUtils';
 import { fetchPasswordResetRequestsFromCloud, deletePasswordResetRequestFromCloud } from '../services/firebase';
 
 interface AdminClassInfo {
@@ -341,8 +347,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [editUsername, setEditUsername] = useState('');
   const [editGrade, setEditGrade] = useState<number>(4);
   const [editAvatar, setEditAvatar] = useState('');
-  const [editPin, setEditPin] = useState('0000');
-  const [editPinConfirm, setEditPinConfirm] = useState('0000');
+  const [editPin, setEditPin] = useState('');
+  const [editPinConfirm, setEditPinConfirm] = useState('');
   const [editPinError, setEditPinError] = useState<string | null>(null);
   const [editPhone, setEditPhone] = useState('');
   const [editEmail, setEditEmail] = useState('');
@@ -354,8 +360,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [newUsername, setNewUsername] = useState('');
   const [newGrade, setNewGrade] = useState<number>(4);
   const [newAvatar, setNewAvatar] = useState('fox');
-  const [newPin, setNewPin] = useState('0000');
-  const [newPinConfirm, setNewPinConfirm] = useState('0000');
+  const [newPin, setNewPin] = useState('');
+  const [newPinConfirm, setNewPinConfirm] = useState('');
   const [newPinError, setNewPinError] = useState<string | null>(null);
   const [newPhone, setNewPhone] = useState('');
   const [newEmail, setNewEmail] = useState('');
@@ -715,8 +721,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     setEditUsername(resolveValidUsername(l.username, l.name));
     setEditGrade(l.grade);
     setEditAvatar(l.avatar);
-    setEditPin(l.pin && /^\d{4}$/.test(l.pin) ? l.pin : '0000');
-    setEditPinConfirm(l.pin && /^\d{4}$/.test(l.pin) ? l.pin : '0000');
+    setEditPin(l.pin ? l.pin : '');
+    setEditPinConfirm(l.pin ? l.pin : '');
     setEditPhone(l.phone || '');
     setEditEmail(l.email || '');
     setEditPinError(null);
@@ -725,43 +731,50 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   // Save edited learner
   const handleSaveEditLearner = (original: UserProfile) => {
-    if (!editName.trim()) return;
     setEditPinError(null);
     setEditFormError(null);
 
-    // Validate Username (only Manager can change, cannot be empty or conflict)
+    // 1. Validate Họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt
+    const nameVal = validateFullName(editName.trim());
+    if (!nameVal.isValid) {
+      soundEffects.playError();
+      setEditFormError(nameVal.error || 'Họ tên không hợp lệ!');
+      return;
+    }
+
+    // 2. Validate Nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
     const cleanUsername = editUsername.trim();
-    if (!cleanUsername) {
+    const nickVal = validateNickname(cleanUsername);
+    if (!nickVal.isValid) {
       soundEffects.playError();
-      setEditFormError('Tên đăng nhập không được để trống!');
+      setEditFormError(nickVal.error || 'Tên đăng nhập / Nickname không hợp lệ!');
       return;
     }
-    if (cleanUsername.toLowerCase().startsWith('learner')) {
-      soundEffects.playError();
-      setEditFormError('Tên đăng nhập không được bắt đầu bằng "learner" (đây là định danh kỹ thuật hệ thống)!');
-      return;
-    }
+
     const usernameConflict = learners.find(
       l => l.learnerId !== original.learnerId &&
            resolveValidUsername(l.username, l.name).toLowerCase() === cleanUsername.toLowerCase()
     );
     if (usernameConflict) {
       soundEffects.playError();
-      setEditFormError(`Tên đăng nhập "${cleanUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
+      setEditFormError(`Tên đăng nhập / Nickname "${cleanUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
       return;
     }
 
-    // Validate 4-digit numeric PIN
-    if (!/^\d{4}$/.test(editPin)) {
-      soundEffects.playError();
-      setEditPinError('Mật khẩu PIN phải gồm đúng 4 ký tự số (0-9), không chứa chữ hoặc ký tự đặc biệt!');
-      return;
-    }
+    // 3. Validate Mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
+    if (editPin || editPinConfirm) {
+      const passVal = validatePassword(editPin);
+      if (!passVal.isValid) {
+        soundEffects.playError();
+        setEditPinError(passVal.error || 'Mật khẩu phải từ 4 đến 16 ký tự!');
+        return;
+      }
 
-    if (editPin !== editPinConfirm) {
-      soundEffects.playError();
-      setEditPinError('Xác nhận mật khẩu PIN mới không trùng khớp!');
-      return;
+      if (editPin !== editPinConfirm) {
+        soundEffects.playError();
+        setEditPinError('Xác nhận mật khẩu mới không trùng khớp!');
+        return;
+      }
     }
 
     // Validate Phone (digits only, length 9-11, duplicate check)
@@ -848,36 +861,46 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   // Create new learner
   const handleCreateLearner = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newName.trim()) return;
     setNewPinError(null);
     setNewFormError(null);
 
-    // Validate Username: Default to nickname if empty
-    const cleanNewUsername = (newUsername.trim() || newName.trim());
-    if (cleanNewUsername.toLowerCase().startsWith('learner')) {
+    // 1. Validate Họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt
+    const nameVal = validateFullName(newName.trim());
+    if (!nameVal.isValid) {
       soundEffects.playError();
-      setNewFormError('Tên đăng nhập không được bắt đầu bằng "learner" (đây là định danh kỹ thuật hệ thống)!');
+      setNewFormError(nameVal.error || 'Họ tên không hợp lệ!');
       return;
     }
+
+    // 2. Validate Nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+    const cleanNewUsername = (newUsername.trim() || newName.trim());
+    const nickVal = validateNickname(cleanNewUsername);
+    if (!nickVal.isValid) {
+      soundEffects.playError();
+      setNewFormError(nickVal.error || 'Tên đăng nhập / Nickname không hợp lệ!');
+      return;
+    }
+
     const usernameConflict = learners.find(
       l => resolveValidUsername(l.username, l.name).toLowerCase() === cleanNewUsername.toLowerCase()
     );
     if (usernameConflict) {
       soundEffects.playError();
-      setNewFormError(`Tên đăng nhập "${cleanNewUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
+      setNewFormError(`Tên đăng nhập / Nickname "${cleanNewUsername}" đã tồn tại trong hệ thống (tài khoản: ${usernameConflict.name})!`);
       return;
     }
 
-    // Validate 4-digit numeric PIN
-    if (!/^\d{4}$/.test(newPin)) {
+    // 3. Validate Mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
+    const passVal = validatePassword(newPin);
+    if (!passVal.isValid) {
       soundEffects.playError();
-      setNewPinError('Mật khẩu PIN phải gồm đúng 4 ký tự số (0-9), không chứa chữ hoặc ký tự đặc biệt!');
+      setNewPinError(passVal.error || 'Mật khẩu phải từ 4 đến 16 ký tự!');
       return;
     }
 
     if (newPin !== newPinConfirm) {
       soundEffects.playError();
-      setNewPinError('Xác nhận mật khẩu PIN không trùng khớp!');
+      setNewPinError('Xác nhận mật khẩu không trùng khớp!');
       return;
     }
 
@@ -937,8 +960,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     onAddLearner(newProfile);
     setNewName('');
     setNewUsername('');
-    setNewPin('0000');
-    setNewPinConfirm('0000');
+    setNewPin('');
+    setNewPinConfirm('');
     setNewPhone('');
     setNewEmail('');
     setIsAddingLearner(false);
@@ -1607,48 +1630,44 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                       </p>
                     )}
 
-                    {/* Mã PIN đăng nhập cho học sinh mới (khống chế 4 chữ số) */}
+                    {/* Mật khẩu đăng nhập cho học sinh mới */}
                     <div className="pt-2 border-t border-slate-200">
                       <div className="flex items-center gap-1.5 mb-2">
                         <Lock className="w-4 h-4 text-slate-600" />
                         <span className="text-xs font-bold text-slate-700">
-                          Mật khẩu đăng nhập (Mã PIN 4 số):
+                          Mật khẩu đăng nhập:
                         </span>
                         <span className="text-[11px] text-slate-500 font-normal">
-                          (Chỉ gồm 4 chữ số 0-9, mặc định: 0000)
+                          (Từ 4 đến 16 ký tự, gồm cả chữ, số và ký tự đặc biệt)
                         </span>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu PIN (4 số):</label>
+                          <label className="block text-xs font-bold text-slate-600 mb-1">Mật khẩu (4-16 ký tự):</label>
                           <input
                             type="password"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            maxLength={4}
+                            maxLength={16}
                             value={newPin}
                             onChange={(e) => {
-                              setNewPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                              setNewPin(e.target.value);
                               setNewPinError(null);
                             }}
-                            placeholder="Mặc định: 0000"
-                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                            placeholder="Nhập mật khẩu (4-16 ký tự)..."
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-bold text-slate-600 mb-1">Xác nhận PIN (4 số):</label>
+                          <label className="block text-xs font-bold text-slate-600 mb-1">Xác nhận mật khẩu:</label>
                           <input
                             type="password"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            maxLength={4}
+                            maxLength={16}
                             value={newPinConfirm}
                             onChange={(e) => {
-                              setNewPinConfirm(e.target.value.replace(/\D/g, '').slice(0, 4));
+                              setNewPinConfirm(e.target.value);
                               setNewPinError(null);
                             }}
-                            placeholder="Nhập lại 4 số..."
-                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
+                            placeholder="Nhập lại mật khẩu..."
+                            className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                           />
                         </div>
                       </div>

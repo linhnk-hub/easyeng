@@ -4,7 +4,7 @@ import { UserProfile } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
-import { resolveValidUsername } from '../utils/userUtils';
+import { resolveValidUsername, validatePassword, validateFullName } from '../utils/userUtils';
 
 interface AvatarModalProps {
   user: UserProfile;
@@ -56,7 +56,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
   const [pinError, setPinError] = useState<string | null>(null);
   const [pinSuccess, setPinSuccess] = useState<string | null>(null);
 
-  const currentActualPin = user.pin && /^\d{4}$/.test(user.pin) ? user.pin : '0000';
+  const currentActualPin = user.pin ? user.pin : '';
   // Không hiển thị mã dạng learner_..., tự động chọn nickname nếu chưa có tên đăng nhập
   const username = resolveValidUsername(user.username, user.name);
 
@@ -144,10 +144,11 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
     e.preventDefault();
     setProfileError(null);
 
-    // 1. Kiểm tra họ tên
-    if (!name.trim()) {
+    // 1. Kiểm tra họ tên: từ 4 đến 32 ký tự, không chứa ký tự đặc biệt ngoại trừ dấu ngôn ngữ
+    const nameValidation = validateFullName(name.trim());
+    if (!nameValidation.isValid) {
       soundEffects.playError();
-      setProfileError('Vui lòng nhập tên hoặc nickname của bạn!');
+      setProfileError(nameValidation.error || 'Họ tên không hợp lệ (từ 4 đến 32 ký tự, không chứa ký tự đặc biệt)!');
       return;
     }
 
@@ -214,10 +215,11 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
       return;
     }
 
-    // 2. Khống chế 4 chữ số
-    if (!/^\d{4}$/.test(newPin)) {
+    // 2. Kiểm tra quy tắc đặt mật khẩu: tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt
+    const passValidation = validatePassword(newPin);
+    if (!passValidation.isValid) {
       soundEffects.playError();
-      setPinError('Mật khẩu mới phải gồm đúng 4 ký tự số (0-9), không chứa chữ hoặc ký tự đặc biệt!');
+      setPinError(passValidation.error || 'Mật khẩu mới phải từ 4 đến 16 ký tự!');
       return;
     }
 
@@ -334,7 +336,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   <User className="w-3.5 h-3.5 text-amber-600" /> Tên đăng nhập:
                 </span>
                 <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200 font-semibold lowercase flex items-center gap-1">
-                  <Lock className="w-3 h-3 text-amber-600" /> Không thể đổi
+                  <Lock className="w-3 h-3 text-amber-600" />
                 </span>
               </label>
               <div className="relative">
@@ -374,7 +376,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 <span className="flex items-center gap-1">
                   <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
                 </span>
-                <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
               </label>
               <input
                 type="tel"
@@ -393,7 +394,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 <span className="flex items-center gap-1">
                   <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
                 </span>
-                <span className="text-[10px] text-slate-400 font-normal">(Không dấu)</span>
               </label>
               <input
                 type="email"
@@ -557,19 +557,17 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             {/* Old PIN */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600">
-                Mật khẩu cũ (4 số):
+                Mật khẩu hiện tại:
               </label>
               <div className="relative">
                 <input
                   type={showOldPin ? 'text' : 'password'}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={4}
+                  maxLength={16}
                   value={oldPin}
-                  onChange={(e) => setOldPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                  placeholder="Mã PIN 4 số hiện tại..."
+                  onChange={(e) => setOldPin(e.target.value)}
+                  placeholder="Nhập mật khẩu hiện tại..."
                   required
-                  className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold tracking-widest text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
+                  className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
                 <button
                   type="button"
@@ -581,25 +579,23 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </div>
             </div>
 
-            {/* New PIN */}
+            {/* New Password */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600">
-                Mật khẩu PIN mới (4 số):
+                Mật khẩu mới (tối thiểu 4, tối đa 16 ký tự):
               </label>
               <div className="relative">
                 <input
                   type={showNewPin ? 'text' : 'password'}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={4}
+                  maxLength={16}
                   value={newPin}
                   onChange={(e) => {
-                    setNewPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                    setNewPin(e.target.value);
                     setPinError(null);
                   }}
-                  placeholder="Nhập 4 số mới..."
+                  placeholder="Nhập mật khẩu mới (4-16 ký tự)..."
                   required
-                  className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold tracking-widest text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
+                  className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
                 <button
                   type="button"
@@ -609,27 +605,28 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                   {showNewPin ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+              <p className="text-[11px] text-slate-400">
+                Bao gồm cả chữ, số và ký tự đặc biệt do bạn đặt
+              </p>
             </div>
 
-            {/* Confirm PIN */}
+            {/* Confirm Password */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600">
-                Xác nhận PIN mới (4 số):
+                Xác nhận mật khẩu mới:
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPin ? 'text' : 'password'}
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={4}
+                  maxLength={16}
                   value={confirmPin}
                   onChange={(e) => {
-                    setConfirmPin(e.target.value.replace(/\D/g, '').slice(0, 4));
+                    setConfirmPin(e.target.value);
                     setPinError(null);
                   }}
-                  placeholder="Nhập lại 4 số mới..."
+                  placeholder="Nhập lại mật khẩu mới..."
                   required
-                  className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold tracking-widest text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
+                  className="w-full pl-4 pr-10 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold text-center text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white"
                 />
                 <button
                   type="button"

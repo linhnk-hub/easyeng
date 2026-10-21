@@ -21,7 +21,14 @@ import {
 import { soundEffects } from '../services/soundEffects';
 import { EasyEngLogo } from './EasyEngLogo';
 import { UserProfile, PasswordResetRequest } from '../types';
-import { resolveValidUsername, sanitizePhoneNumber, sanitizeEmailAddress } from '../utils/userUtils';
+import {
+  resolveValidUsername,
+  sanitizePhoneNumber,
+  sanitizeEmailAddress,
+  validatePassword,
+  validateNickname,
+  validateFullName
+} from '../utils/userUtils';
 import { savePasswordResetRequestToCloud } from '../services/firebase';
 import { ClassItem, ALL_12_GRADES, getGradeLevelName, getDefaultGradeEmoji } from '../utils/gradeUtils';
 
@@ -149,8 +156,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // Check PIN / password (default to '0000' if unset)
-    const actualPass = matchedLearner.pin && matchedLearner.pin.trim() ? matchedLearner.pin.trim() : '0000';
+    // Check PIN / password (remove default 0000 fallback)
+    const actualPass = matchedLearner.pin !== undefined && matchedLearner.pin !== null ? matchedLearner.pin.trim() : '';
     if (cleanInputPass !== actualPass) {
       soundEffects.playError();
       setLoginError('Mật khẩu không chính xác! Vui lòng thử lại hoặc bấm "Cấp lại mật khẩu" bên dưới để được hỗ trợ.');
@@ -178,16 +185,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     const cleanPass = regPassword.trim();
     const cleanConfirm = regConfirmPassword.trim();
 
-    if (!cleanUser) {
+    // 1. Validate Nickname (không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự)
+    const nickValidation = validateNickname(cleanUser);
+    if (!nickValidation.isValid) {
       soundEffects.playError();
-      setRegError('Vui lòng nhập tên đăng nhập / username!');
-      return;
-    }
-
-    // Prevent system technical prefixes
-    if (cleanUser.toLowerCase().startsWith('learner')) {
-      soundEffects.playError();
-      setRegError('Tên đăng nhập không được bắt đầu bằng "learner" (đây là tiền tố kỹ thuật hệ thống)!');
+      setRegError(nickValidation.error || 'Nickname không hợp lệ!');
       return;
     }
 
@@ -200,20 +202,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
     if (conflict) {
       soundEffects.playError();
-      setRegError(`Tên đăng nhập "${cleanUser}" đã có người sử dụng. Vui lòng chọn tên đăng nhập khác!`);
+      setRegError(`Nickname / Tên đăng nhập "${cleanUser}" đã có người sử dụng. Vui lòng chọn tên khác!`);
       return;
     }
 
-    // Validate password
-    if (!cleanPass) {
+    // 2. Validate Password (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
+    const passValidation = validatePassword(cleanPass);
+    if (!passValidation.isValid) {
       soundEffects.playError();
-      setRegError('Vui lòng nhập mật khẩu!');
-      return;
-    }
-
-    if (cleanPass.length < 4) {
-      soundEffects.playError();
-      setRegError('Mật khẩu phải có tối thiểu 4 ký tự!');
+      setRegError(passValidation.error || 'Mật khẩu phải từ 4 đến 16 ký tự!');
       return;
     }
 
@@ -271,24 +268,30 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     const cleanPhone = sanitizePhoneNumber(resetPhone);
     const cleanEmail = sanitizeEmailAddress(resetEmail);
 
-    if (!cleanFullName) {
+    // 1. Quy tắc họ tên: có thể không dấu hoặc có dấu, tối thiểu 4 kí tự tối đa 32 kí tự, không cho phép kí tự đặc biệt ngoại trừ các dấu của ngôn ngữ
+    const nameValidation = validateFullName(cleanFullName);
+    if (!nameValidation.isValid) {
       soundEffects.playError();
-      setResetError('Vui lòng nhập đầy đủ họ và tên!');
+      setResetError(nameValidation.error || 'Họ và tên không hợp lệ!');
       return;
     }
 
-    if (!cleanNick) {
+    // 2. Quy tắc đặt nickname: không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+    const nickValidation = validateNickname(cleanNick);
+    if (!nickValidation.isValid) {
       soundEffects.playError();
-      setResetError('Vui lòng nhập Nickname hoặc tên đăng nhập của tài khoản!');
+      setResetError(nickValidation.error || 'Nickname không hợp lệ!');
       return;
     }
 
-    if (!cleanPhone || cleanPhone.length < 9) {
+    // 3. Số điện thoại (9 đến 11 số)
+    if (!cleanPhone || cleanPhone.length < 9 || cleanPhone.length > 11) {
       soundEffects.playError();
       setResetError('Vui lòng nhập số điện thoại hợp lệ (từ 9 đến 11 số)!');
       return;
     }
 
+    // 4. Email cá nhân dùng để nhận lại mật khẩu
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       soundEffects.playError();
       setResetError('Vui lòng nhập địa chỉ email hợp lệ để nhận lại mật khẩu!');
@@ -384,7 +387,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
             <div className="space-y-5">
               <div className="text-center">
                 <p className="text-sm sm:text-base font-bold text-slate-700">
-                  EasyEng xin chào, mời bạn nhập thông tin
+                  <span className="text-orange-400 border-b border-orange-300/60 pb-0.5 inline-block font-bold">
+                    EasyEng xin chào
+                  </span>
+                  <span className="text-slate-600">, mời bạn nhập thông tin</span>
                 </p>
               </div>
 
@@ -521,9 +527,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
               <form onSubmit={handleRegisterSubmit} className="space-y-4">
                 {/* 1. Tên đăng nhập / Username */}
+                {/* 1. Tên đăng nhập / Nickname */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Tên đăng nhập / Username <span className="text-rose-500">*</span>
+                    Tên đăng nhập / Nickname <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -532,17 +539,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     <input
                       ref={regInputRef}
                       type="text"
+                      maxLength={16}
                       value={regUsername}
                       onChange={(e) => {
                         setRegUsername(e.target.value);
                         setRegError(null);
                       }}
+                      placeholder="Nhập nickname (4-16 ký tự, viết thường, không dấu)..."
                       className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       required
                     />
                   </div>
-                  <p className="text-[11px] text-slate-400">
-                   Nhập chữ thường, không nhập in hoa, không nhập có dấu
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Quy tắc: Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
                   </p>
                 </div>
 
@@ -580,12 +589,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     </div>
                     <input
                       type={showRegPassword ? 'text' : 'password'}
+                      maxLength={16}
                       value={regPassword}
                       onChange={(e) => {
                         setRegPassword(e.target.value);
                         setRegError(null);
                       }}
-                      placeholder="Nhập mật khẩu (tối thiểu 4 ký tự)..."
+                      placeholder="Nhập mật khẩu (4-16 ký tự)..."
                       className="w-full pl-10 pr-11 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
                       required
                     />
@@ -597,6 +607,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Quy tắc: Tối thiểu 4 kí tự, tối đa 16 kí tự (bao gồm cả chữ, số và ký tự đặc biệt)
+                  </p>
                 </div>
 
                 {/* 3. Xác nhận mật khẩu */}
@@ -610,6 +623,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     </div>
                     <input
                       type={showRegConfirmPassword ? 'text' : 'password'}
+                      maxLength={16}
                       value={regConfirmPassword}
                       onChange={(e) => {
                         setRegConfirmPassword(e.target.value);
@@ -745,31 +759,41 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </label>
                   <input
                     type="text"
+                    maxLength={32}
                     value={resetFullName}
                     onChange={(e) => {
                       setResetFullName(e.target.value);
                       setResetError(null);
                     }}
+                    placeholder="Ví dụ: Nguyễn Văn An (từ 4 đến 32 ký tự)..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Quy tắc: Có thể không dấu hoặc có dấu, từ 4 đến 32 kí tự, không dùng ký tự đặc biệt
+                  </p>
                 </div>
 
                 {/* 2. Nickname */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Nickname / Tên tài khoản <span className="text-rose-500">*</span>
+                    Nickname <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
+                    maxLength={16}
                     value={resetNickname}
                     onChange={(e) => {
                       setResetNickname(e.target.value);
                       setResetError(null);
                     }}
+                    placeholder="Ví dụ: vanan123 (từ 4 đến 16 ký tự viết thường)..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Quy tắc: Không dấu, không in hoa, tối thiểu 4 kí tự, tối đa 16 kí tự
+                  </p>
                 </div>
 
                 {/* 3. Số điện thoại */}
@@ -785,22 +809,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       type="tel"
                       inputMode="numeric"
                       pattern="[0-9]*"
+                      maxLength={11}
                       value={resetPhone}
                       onChange={(e) => {
                         setResetPhone(sanitizePhoneNumber(e.target.value));
                         setResetError(null);
                       }}
-
+                      placeholder="Ví dụ: 0912345678 (từ 9 đến 11 số)..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                       required
                     />
                   </div>
                 </div>
 
-                {/* 4. Email cá nhân dùng để nhận lại mật khẩu */}
+                {/* 4. Email của cá nhân dùng để nhận lại mật khẩu */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Email của dùng để nhận lại mật khẩu <span className="text-rose-500">*</span>
+                    Email của cá nhân dùng để nhận lại mật khẩu <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -813,11 +838,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setResetEmail(sanitizeEmailAddress(e.target.value));
                         setResetError(null);
                       }}
+                      placeholder="Ví dụ: vanan@gmail.com..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                       required
                     />
                   </div>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-slate-500 font-medium">
                     Mật khẩu mới sẽ được gửi về địa chỉ email này.
                   </p>
                 </div>
