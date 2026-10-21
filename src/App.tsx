@@ -1397,7 +1397,7 @@ export default function App() {
           onClick={() => setShowAdminModal(true)}
           className="cursor-default"
         >
-          BaTyNa
+          LinhNK
         </span>
       </footer>
 
