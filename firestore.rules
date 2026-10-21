@@ -67,6 +67,12 @@ service cloud.firestore {
       allow create, update, delete: if true;
     }
 
+    // Password reset requests submitted by users for admin (linhnk.online@gmail.com)
+    match /password_reset_requests/{requestId} {
+      allow get, list: if true;
+      allow create, update, delete: if true;
+    }
+
     // Test connection document
     match /test/connection {
       allow read: if true;

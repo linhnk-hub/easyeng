@@ -122,3 +122,12 @@ export interface ExerciseCluster {
   updatedAt?: string;
 }
 
+export interface PasswordResetRequest {
+  id: string;
+  fullName: string;
+  nickname: string;
+  phone: string;
+  email: string;
+  createdAt: string;
+  status?: 'pending' | 'resolved';
+}

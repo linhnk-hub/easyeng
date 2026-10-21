@@ -9,6 +9,7 @@ import { DEFAULT_UNITS_DATA } from './data/unitsData';
 import { GRADE_7_UNITS_DATA } from './data/unitsGrade7Data';
 import { Header } from './components/Header';
 import { UnitSelector } from './components/UnitSelector';
+import { LoginScreen } from './components/LoginScreen';
 import { LearnerSelectScreen } from './components/LearnerSelectScreen';
 import { FlashcardGame } from './components/games/FlashcardGame';
 import { MemoryGame } from './components/games/MemoryGame';
@@ -428,7 +429,7 @@ export default function App() {
   const [learningMode, setLearningMode] = useState<'textbook' | 'exercises'>('textbook');
 
   // Active learner profile
-  const currentUser = learners.find(l => l.learnerId === activeLearnerId) || learners[0];
+  const currentUser = activeLearnerId ? (learners.find(l => l.learnerId === activeLearnerId) || null) : null;
 
   // Active curriculum units for current learner's grade
   const currentUnits = (currentUser && gradeUnitsMap[currentUser.grade]) || (
@@ -812,6 +813,8 @@ export default function App() {
   useEffect(() => {
     if (activeLearnerId) {
       localStorage.setItem(STORAGE_KEY_ACTIVE_LEARNER, activeLearnerId);
+    } else {
+      localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
     }
   }, [activeLearnerId]);
 
@@ -1148,14 +1151,15 @@ export default function App() {
     }
   };
 
-  // If learner is not chosen yet or no active learner found, show LearnerSelectScreen
+  // If user is not logged in or no active learner, show LoginScreen
   if (!activeLearnerId || !currentUser) {
     return (
       <>
-        <LearnerSelectScreen
+        <LoginScreen
           learners={learners}
           isLoading={isLoadingLearners}
           onSelectLearner={handleSelectLearner}
+          onAddLearner={handleAddLearner}
           onOpenAdminManager={() => setShowAdminModal(true)}
           customLogo={customLogo}
           welcomeLogoSize={welcomeLogoSize}

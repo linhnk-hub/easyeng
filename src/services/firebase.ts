@@ -12,7 +12,7 @@ import {
   getDocFromServer
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
-import { UserProfile, UnitData, ExerciseCluster } from '../types';
+import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest } from '../types';
 import { resolveValidUsername } from '../utils/userUtils';
 
 export enum OperationType {
@@ -637,6 +637,70 @@ export function subscribeToBranding(callback: (settings: CloudBrandingSettings) 
   } catch (err) {
     handleFirestoreError(err, OperationType.GET, path);
     return () => {};
+  }
+}
+
+/**
+ * Lưu yêu cầu cấp lại mật khẩu lên Cloud Firestore
+ */
+export async function savePasswordResetRequestToCloud(request: PasswordResetRequest): Promise<boolean> {
+  const path = `password_reset_requests/${request.id}`;
+  try {
+    await setDoc(doc(db, 'password_reset_requests', request.id), {
+      id: request.id,
+      fullName: String(request.fullName || '').slice(0, 100),
+      nickname: String(request.nickname || '').slice(0, 100),
+      phone: String(request.phone || '').slice(0, 20),
+      email: String(request.email || '').slice(0, 120),
+      createdAt: request.createdAt || new Date().toISOString(),
+      status: request.status || 'pending',
+    });
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.WRITE, path);
+    return false;
+  }
+}
+
+/**
+ * Lấy danh sách các yêu cầu cấp lại mật khẩu từ Cloud Firestore
+ */
+export async function fetchPasswordResetRequestsFromCloud(): Promise<PasswordResetRequest[]> {
+  const path = 'password_reset_requests';
+  try {
+    const colSnap = await getDocs(collection(db, 'password_reset_requests'));
+    const list: PasswordResetRequest[] = [];
+    colSnap.forEach(docSnap => {
+      const data = docSnap.data();
+      list.push({
+        id: data.id || docSnap.id,
+        fullName: data.fullName || '',
+        nickname: data.nickname || '',
+        phone: data.phone || '',
+        email: data.email || '',
+        createdAt: data.createdAt || new Date().toISOString(),
+        status: data.status || 'pending',
+      });
+    });
+    list.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    return list;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.LIST, path);
+    return [];
+  }
+}
+
+/**
+ * Xóa hoặc hoàn tất yêu cầu cấp lại mật khẩu
+ */
+export async function deletePasswordResetRequestFromCloud(id: string): Promise<boolean> {
+  const path = `password_reset_requests/${id}`;
+  try {
+    await deleteDoc(doc(db, 'password_reset_requests', id));
+    return true;
+  } catch (error) {
+    handleFirestoreError(error, OperationType.DELETE, path);
+    return false;
   }
 }
 

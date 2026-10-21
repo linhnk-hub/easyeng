@@ -30,9 +30,10 @@ import {
   BookOpen,
   Phone,
   Mail,
-  User
+  User,
+  KeyRound
 } from 'lucide-react';
-import { UserProfile, UnitData, ExerciseCluster } from '../types';
+import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
@@ -41,6 +42,7 @@ import { clearAppCache } from '../utils/cacheUtils';
 import { parseExerciseJson, createDefaultClusters, createEmptyCluster, BUILT_IN_WORKBOOK_TEMPLATES } from '../utils/exerciseUtils';
 import { EasyEngLogo } from './EasyEngLogo';
 import { resolveValidUsername, generateDefaultUsernameFromName } from '../utils/userUtils';
+import { fetchPasswordResetRequestsFromCloud, deletePasswordResetRequestFromCloud } from '../services/firebase';
 
 interface AdminClassInfo {
   grade: number;
@@ -149,7 +151,23 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   };
 
   // Active Admin Tab
-  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'branding'>('learners');
+  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'branding' | 'resets'>('learners');
+
+  // Password Reset Requests submitted to admin (linhnk.online@gmail.com)
+  const [resetRequests, setResetRequests] = useState<PasswordResetRequest[]>([]);
+  const [isLoadingResetRequests, setIsLoadingResetRequests] = useState(false);
+
+  // Load password reset requests
+  React.useEffect(() => {
+    setIsLoadingResetRequests(true);
+    fetchPasswordResetRequestsFromCloud().then(reqs => {
+      setResetRequests(reqs);
+      setIsLoadingResetRequests(false);
+    }).catch(err => {
+      console.warn('Load reset requests error:', err);
+      setIsLoadingResetRequests(false);
+    });
+  }, []);
 
   // Staged Branding & Sizing state (Draft changes that require clicking "Lưu" to take effect)
   const [stagedLogo, setStagedLogo] = useState<string | null>(customLogo ?? null);
@@ -1299,6 +1317,24 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
             }`}
           >
             <Code2 className="w-4 h-4" /> Quản lý JSON
+          </button>
+
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              setActiveTab('resets');
+            }}
+            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+              activeTab === 'resets'
+                ? 'border-amber-500 text-amber-700'
+                : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            <KeyRound className="w-4 h-4 text-amber-600" /> Cấp lại mật khẩu {resetRequests.length > 0 && (
+              <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full">
+                {resetRequests.length}
+              </span>
+            )}
           </button>
         </div>
 
@@ -3056,6 +3092,151 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                 </p>
               </div>
 
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB 5: PASSWORD RESET REQUESTS (CẤP LẠI MẬT KHẨU) */}
+          {/* ========================================================= */}
+          {activeTab === 'resets' && (
+            <div className="space-y-6 max-w-4xl mx-auto">
+              {/* Header Box */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-amber-900 shrink-0">
+                    <KeyRound className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-base text-slate-800">
+                      Yêu cầu Cấp lại mật khẩu
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-0.5">
+                      Danh sách người dùng đã gửi yêu cầu cấp lại mật khẩu qua email Quản trị viên (<span className="font-bold text-amber-800">linhnk.online@gmail.com</span>)
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playClick();
+                    setIsLoadingResetRequests(true);
+                    fetchPasswordResetRequestsFromCloud().then(reqs => {
+                      setResetRequests(reqs);
+                      setIsLoadingResetRequests(false);
+                    });
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
+                >
+                  <RotateCcw className={`w-3.5 h-3.5 ${isLoadingResetRequests ? 'animate-spin' : ''}`} />
+                  <span>Làm mới</span>
+                </button>
+              </div>
+
+              {/* Requests List */}
+              {isLoadingResetRequests ? (
+                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
+                  <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="text-xs font-bold text-slate-500">Đang tải danh sách yêu cầu từ Cloud Firestore...</p>
+                </div>
+              ) : resetRequests.length === 0 ? (
+                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+                    <Check className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-display font-bold text-base text-slate-800">
+                    Không có yêu cầu cấp lại mật khẩu nào
+                  </h4>
+                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                    Hiện tại tất cả học sinh và phụ huynh đều đăng nhập bình thường. Khi có người bấm "Cấp lại mật khẩu" ở màn hình đăng nhập, thông tin sẽ hiển thị ở đây và gửi đến email <span className="font-bold text-slate-700">linhnk.online@gmail.com</span>.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {resetRequests.map((req) => (
+                    <div
+                      key={req.id}
+                      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-amber-300 transition shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="font-display font-bold text-base text-slate-900">
+                            {req.fullName}
+                          </span>
+                          <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full border border-amber-200">
+                            Nickname: {req.nickname}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+                          <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200">
+                            <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>{req.phone}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(req.phone);
+                                soundEffects.playClick();
+                              }}
+                              className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer"
+                              title="Sao chép SĐT"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </button>
+                          </span>
+
+                          <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-800 px-2.5 py-1 rounded-lg border border-sky-200">
+                            <Mail className="w-3.5 h-3.5 text-sky-600" />
+                            <span>{req.email}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(req.email);
+                                soundEffects.playClick();
+                              }}
+                              className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer"
+                              title="Sao chép Email"
+                            >
+                              <Copy className="w-3 h-3" />
+                            </button>
+                          </span>
+
+                          <span className="text-[11px] text-slate-400">
+                            Thời gian gửi: {new Date(req.createdAt).toLocaleString('vi-VN')}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
+                        <a
+                          href={`mailto:${req.email}?subject=${encodeURIComponent('[EasyEng] Cấp lại mật khẩu tài khoản học')}&body=${encodeURIComponent(`Xin chào ${req.fullName},\n\nQuản trị viên EasyEng đã nhận được yêu cầu cấp lại mật khẩu của bạn cho tài khoản "${req.nickname}".\n\nMật khẩu mới của bạn là: 0000 (hoặc mật khẩu theo yêu cầu)\n\nBạn có thể đăng nhập ngay tại EasyEng và đổi lại mật khẩu trong phần cài đặt tài khoản.\n\nTrân trọng!`)}`}
+                          className="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
+                          title="Gửi email phản hồi mật khẩu mới cho học sinh"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>Gửi email phản hồi</span>
+                        </a>
+
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (window.confirm(`Xác nhận đã xử lý xong và xóa yêu cầu cấp lại mật khẩu của ${req.fullName}?`)) {
+                              soundEffects.playClick();
+                              setResetRequests(prev => prev.filter(r => r.id !== req.id));
+                              await deletePasswordResetRequestFromCloud(req.id);
+                            }
+                          }}
+                          className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
+                          title="Đã xử lý / Xóa yêu cầu"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
