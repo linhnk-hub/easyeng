@@ -209,9 +209,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       }
 
       // Record this device as active session
+      const newSessionId = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      try {
+        localStorage.setItem('easyeng_current_session_id', newSessionId);
+      } catch {}
       await setAccountActiveSession({
         learnerId: matchedLearner.learnerId,
-        sessionId: `sess_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        sessionId: newSessionId,
         deviceId: currentDeviceId,
         deviceDescription: getDeviceDescription(),
         isLoggedIn: true,
@@ -302,10 +306,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
     // Record session for new profile
     const currentDeviceId = getOrCreateDeviceId();
+    const newSessionId = `sess_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    try {
+      localStorage.setItem('easyeng_current_session_id', newSessionId);
+    } catch {}
     try {
       await setAccountActiveSession({
         learnerId: newId,
-        sessionId: `sess_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        sessionId: newSessionId,
         deviceId: currentDeviceId,
         deviceDescription: getDeviceDescription(),
         isLoggedIn: true,

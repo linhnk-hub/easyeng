@@ -153,5 +153,9 @@ export interface UserActiveSession {
   isLoggedIn: boolean;
   loginAt: string;
   lastHeartbeat: string;
+  terminatedAt?: string;
+  terminationReason?: string;
+  terminatedMessage?: string;
+  loggedOutAt?: string;
 }
 

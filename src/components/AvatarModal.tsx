@@ -483,9 +483,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                       <span className="block text-xs font-bold text-amber-900 truncate">
                         Avatar của bạn
                       </span>
-                      <span className="block text-[10px] text-amber-700">
-                        (Chỉ bạn nhìn thấy avatar này, upload ảnh mới sẽ ghi đè)
-                      </span>
                     </div>
                   </div>
 

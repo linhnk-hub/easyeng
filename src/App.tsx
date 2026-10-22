@@ -30,6 +30,7 @@ import { getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, getGra
 import { createDefaultClusters } from './utils/exerciseUtils';
 import { calculateUpdatedStreak } from './utils/streakUtils';
 import { calculateLevelFromXp } from './data/ranksData';
+import { ShieldAlert } from 'lucide-react';
 import {
   testConnection,
   syncLearnerToCloud,
@@ -55,7 +56,8 @@ import {
   subscribeToExercises,
   clearAccountActiveSession,
   updateSessionHeartbeat,
-  checkLearnerActiveSession
+  checkLearnerActiveSession,
+  subscribeToLearnerActiveSession
 } from './services/firebase';
 import { getOrCreateDeviceId } from './utils/sessionUtils';
 import { fireGrandFireworks } from './utils/confettiFireworks';
@@ -284,6 +286,9 @@ export default function App() {
     if (saved) return saved;
     return null;
   });
+
+  // Hộp thoại thông báo khi phiên đăng nhập bị ngắt do xác minh trên thiết bị lạ
+  const [sessionTerminatedNotice, setSessionTerminatedNotice] = useState<string | null>(null);
 
   // Classes list
   const [classes, setClasses] = useState<ClassItem[]>(() => {
@@ -823,44 +828,66 @@ export default function App() {
   }, [activeLearnerId]);
 
   // Session heartbeat & Single-device enforcement:
-  // Định kỳ gửi nhịp tim và kiểm tra xem có thiết bị nào khác đăng nhập tài khoản này không
+  // Lắng nghe realtime onSnapshot (< 1s), kiểm tra khi F5 và định kỳ gửi nhịp tim an toàn
   useEffect(() => {
     if (!activeLearnerId) return;
 
     const deviceId = getOrCreateDeviceId();
+    const currentSessionId = localStorage.getItem('easyeng_current_session_id');
 
-    // Kiểm tra ban đầu khi nạp hồ sơ người học
-    checkLearnerActiveSession(activeLearnerId, deviceId).then(res => {
-      if (res.isConflict) {
-        console.warn('Session conflict detected on start');
+    // 1. Kiểm tra phiên ban đầu (đặc biệt khi F5 tải lại trang)
+    checkLearnerActiveSession(activeLearnerId, deviceId, currentSessionId).then(res => {
+      if (res.isTerminated || res.isConflict) {
+        console.warn('Session terminated or conflict detected on startup');
         soundEffects.playError();
         setActiveLearnerId(null);
+        setActiveGame('none');
         localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
+        localStorage.removeItem('easyeng_current_session_id');
+        setSessionTerminatedNotice(
+          res.terminationMessage ||
+          'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+        );
         return;
       }
-      updateSessionHeartbeat(activeLearnerId, deviceId);
+      updateSessionHeartbeat(activeLearnerId, deviceId, currentSessionId);
     }).catch(() => {});
 
-    // Gửi nhịp tim (heartbeat) định kỳ mỗi 60 giây
-    const heartbeatTimer = setInterval(() => {
-      updateSessionHeartbeat(activeLearnerId, deviceId);
-    }, 60 * 1000);
+    // 2. Lắng nghe thay đổi phiên thời gian thực (onSnapshot < 1 giây)
+    const unsubscribeSession = subscribeToLearnerActiveSession(activeLearnerId, (session) => {
+      if (!session) return;
+      const curSessId = localStorage.getItem('easyeng_current_session_id');
 
-    // Kiểm tra xung đột thiết bị định kỳ mỗi 40 giây
-    const conflictCheckTimer = setInterval(() => {
-      checkLearnerActiveSession(activeLearnerId, deviceId).then(res => {
-        if (res.isConflict) {
-          console.warn('Active session logged in on another device, logging out local session');
-          soundEffects.playError();
-          setActiveLearnerId(null);
-          localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
-        }
-      }).catch(() => {});
-    }, 40 * 1000);
+      // Nếu phiên bị Admin mở khóa hoặc thiết bị khác đã đăng nhập
+      const isTerminated =
+        !session.isLoggedIn ||
+        session.terminationReason === 'admin_unlocked' ||
+        session.terminationReason === 'device_conflict' ||
+        (curSessId && session.sessionId && session.sessionId !== curSessId);
+
+      if (isTerminated) {
+        console.warn('Active session revoked in real-time by admin or another device');
+        soundEffects.playError();
+        setActiveLearnerId(null);
+        setActiveGame('none');
+        localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
+        localStorage.removeItem('easyeng_current_session_id');
+        setSessionTerminatedNotice(
+          session.terminatedMessage ||
+          'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+        );
+      }
+    });
+
+    // 3. Gửi nhịp tim (heartbeat) định kỳ mỗi 30 giây (không ghi đè nếu phiên đã bị ngắt)
+    const heartbeatTimer = setInterval(() => {
+      const curSessId = localStorage.getItem('easyeng_current_session_id');
+      updateSessionHeartbeat(activeLearnerId, deviceId, curSessId);
+    }, 30 * 1000);
 
     return () => {
+      unsubscribeSession();
       clearInterval(heartbeatTimer);
-      clearInterval(conflictCheckTimer);
     };
   }, [activeLearnerId]);
 
@@ -888,6 +915,7 @@ export default function App() {
   };
 
   const handleSelectLearner = (learnerId: string) => {
+    setSessionTerminatedNotice(null);
     setActiveLearnerId(learnerId);
     setActiveGame('none');
 
@@ -921,8 +949,11 @@ export default function App() {
   const handleSwitchLearner = () => {
     soundEffects.playClick();
     if (activeLearnerId) {
-      clearAccountActiveSession(activeLearnerId).catch(() => {});
+      clearAccountActiveSession(activeLearnerId, 'logged_out').catch(() => {});
     }
+    try {
+      localStorage.removeItem('easyeng_current_session_id');
+    } catch {}
     setActiveLearnerId(null);
     setActiveGame('none');
   };
@@ -931,8 +962,11 @@ export default function App() {
     soundEffects.playSuccess();
     setShowExitModal(false);
     if (activeLearnerId) {
-      clearAccountActiveSession(activeLearnerId).catch(() => {});
+      clearAccountActiveSession(activeLearnerId, 'logged_out').catch(() => {});
     }
+    try {
+      localStorage.removeItem('easyeng_current_session_id');
+    } catch {}
     setActiveLearnerId(null);
     setActiveGame('none');
   };
@@ -1499,6 +1533,55 @@ export default function App() {
                 className="flex-1 py-2.5 px-3 rounded-2xl border border-slate-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-slate-600 font-bold text-sm transition cursor-pointer active:scale-95 order-2 sm:order-1"
               >
                 Rời khỏi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hộp thoại thông báo khi phiên đăng nhập bị ngắt do có báo cáo xác minh trên thiết bị lạ */}
+      {sessionTerminatedNotice && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-slate-900/75 backdrop-blur-sm animate-fadeIn">
+          <div
+            className="bg-white rounded-3xl max-w-md w-full shadow-2xl border-2 border-rose-300 overflow-hidden transform animate-scaleUp text-slate-800 text-center p-6 sm:p-7 space-y-4"
+            role="dialog"
+            aria-modal="true"
+          >
+            {/* Warning Icon */}
+            <div className="w-16 h-16 mx-auto rounded-3xl bg-rose-100 border border-rose-200 text-rose-600 flex items-center justify-center shadow-inner">
+              <ShieldAlert className="w-8 h-8 text-rose-600" />
+            </div>
+
+            {/* Header & Message */}
+            <div className="space-y-2">
+              <h3 className="font-display font-bold text-xl text-slate-900">
+                Thông báo ngắt phiên
+              </h3>
+              <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-sm font-semibold leading-relaxed">
+                {sessionTerminatedNotice}
+              </div>
+              <p className="text-xs text-slate-500 leading-relaxed pt-1">
+                Tài khoản này vừa được xử lý mở khóa hoặc xác minh quyền truy cập. Để bảo mật tài khoản, phiên làm việc hiện tại trên thiết bị này đã được kết thúc.
+              </p>
+            </div>
+
+            {/* Button */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playClick();
+                  setSessionTerminatedNotice(null);
+                  setActiveLearnerId(null);
+                  setActiveGame('none');
+                  try {
+                    localStorage.removeItem(STORAGE_KEY_ACTIVE_LEARNER);
+                    localStorage.removeItem('easyeng_current_session_id');
+                  } catch {}
+                }}
+                className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-display font-bold text-sm shadow-md shadow-rose-600/25 transition cursor-pointer active:scale-95"
+              >
+                Đã hiểu & Quay lại đăng nhập
               </button>
             </div>
           </div>

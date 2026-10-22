@@ -785,11 +785,18 @@ export async function deleteAccountVerificationRequestFromCloud(id: string): Pro
 
 /**
  * Kiểm tra xem tài khoản này có đang đăng nhập trên một thiết bị khác không
+ * Hoặc kiểm tra phiên hiện tại có còn hợp lệ không (có bị Admin ngắt/mở khóa không)
  */
 export async function checkLearnerActiveSession(
   learnerId: string,
-  currentDeviceId: string
-): Promise<{ isConflict: boolean; activeSession?: UserActiveSession }> {
+  currentDeviceId: string,
+  currentSessionId?: string | null
+): Promise<{
+  isConflict: boolean;
+  isTerminated?: boolean;
+  terminationMessage?: string;
+  activeSession?: UserActiveSession;
+}> {
   const path = `active_sessions/${learnerId}`;
   try {
     const docSnap = await getDoc(doc(db, 'active_sessions', learnerId));
@@ -797,14 +804,33 @@ export async function checkLearnerActiveSession(
       return { isConflict: false };
     }
     const data = docSnap.data() as UserActiveSession;
-    if (!data.isLoggedIn) {
-      return { isConflict: false };
+
+    // 1. Nếu tài khoản đã bị đánh dấu ngắt phiên (Admin mở khóa hoặc có yêu cầu xác minh)
+    if (!data.isLoggedIn || data.terminationReason === 'admin_unlocked' || data.terminationReason === 'device_conflict') {
+      return {
+        isConflict: false,
+        isTerminated: true,
+        terminationMessage: data.terminatedMessage || 'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ',
+        activeSession: data
+      };
     }
-    // Nếu cùng 1 thiết bị đang dùng -> cho phép vào tiếp
+
+    // 2. Nếu phiên hiện tại có sessionId khác với phiên mới nhất trên Firestore
+    if (currentSessionId && data.sessionId && data.sessionId !== currentSessionId) {
+      return {
+        isConflict: true,
+        isTerminated: true,
+        terminationMessage: 'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ',
+        activeSession: data
+      };
+    }
+
+    // 3. Nếu cùng 1 thiết bị đang dùng -> cho phép vào tiếp
     if (data.deviceId === currentDeviceId) {
       return { isConflict: false, activeSession: data };
     }
-    // Kiểm tra thời gian hoạt động gần nhất (nếu quá 45 phút không hoạt động -> coi như phiên cũ hết hạn)
+
+    // 4. Kiểm tra thời gian hoạt động gần nhất (nếu quá 30 phút không hoạt động -> coi như phiên cũ hết hạn)
     const lastActiveTime = new Date(data.lastHeartbeat || data.loginAt).getTime();
     const now = Date.now();
     const THIRTY_MINS = 30 * 60 * 1000;
@@ -812,12 +838,41 @@ export async function checkLearnerActiveSession(
       // Phiên cũ đã hết hạn
       return { isConflict: false };
     }
+
     // Đang có thiết bị khác đăng nhập hoạt động!
     return { isConflict: true, activeSession: data };
   } catch (error) {
-    // Nếu có lỗi mạng hoặc Firestore offline, vẫn hỗ trợ người dùng
     console.warn('Could not check active session from Firestore:', error);
     return { isConflict: false };
+  }
+}
+
+/**
+ * Lắng nghe thời gian thực thay đổi phiên đăng nhập của người học (onSnapshot)
+ * Khi Admin mở khóa hoặc khi thiết bị khác đăng nhập, thiết bị cũ sẽ nhận thông báo tức thì (<1s)
+ */
+export function subscribeToLearnerActiveSession(
+  learnerId: string,
+  callback: (session: UserActiveSession | null) => void
+): () => void {
+  const path = `active_sessions/${learnerId}`;
+  try {
+    return onSnapshot(
+      doc(db, 'active_sessions', learnerId),
+      (snap) => {
+        if (snap.exists()) {
+          callback(snap.data() as UserActiveSession);
+        } else {
+          callback(null);
+        }
+      },
+      (err) => {
+        console.warn('subscribeToLearnerActiveSession error:', err);
+      }
+    );
+  } catch (err) {
+    console.warn('subscribeToLearnerActiveSession init error:', err);
+    return () => {};
   }
 }
 
@@ -836,6 +891,9 @@ export async function setAccountActiveSession(session: UserActiveSession): Promi
       loginAt: session.loginAt || new Date().toISOString(),
       lastHeartbeat: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      terminationReason: null,
+      terminatedMessage: null,
+      terminatedAt: null
     });
     return true;
   } catch (error) {
@@ -846,11 +904,32 @@ export async function setAccountActiveSession(session: UserActiveSession): Promi
 
 /**
  * Cập nhật nhịp tim (heartbeat) định kỳ khi người dùng đang học
+ * Không tự ý hồi sinh phiên nếu đã bị Admin ngắt hoặc đã bị thiết bị khác thay thế!
  */
-export async function updateSessionHeartbeat(learnerId: string, deviceId: string): Promise<void> {
+export async function updateSessionHeartbeat(
+  learnerId: string,
+  deviceId: string,
+  currentSessionId?: string | null
+): Promise<void> {
   try {
+    const docRef = doc(db, 'active_sessions', learnerId);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      const data = snap.data() as UserActiveSession;
+      // Nếu phiên đã bị ngắt -> TUYỆT ĐỐI không ghi đè lại thành isLoggedIn: true
+      if (!data.isLoggedIn || data.terminationReason === 'admin_unlocked') {
+        return;
+      }
+      // Nếu sessionId trên Firestore không khớp với phiên hiện tại -> không ghi đè
+      if (currentSessionId && data.sessionId && data.sessionId !== currentSessionId) {
+        return;
+      }
+      if (deviceId && data.deviceId && data.deviceId !== deviceId) {
+        return;
+      }
+    }
     await setDoc(
-      doc(db, 'active_sessions', learnerId),
+      docRef,
       {
         deviceId,
         isLoggedIn: true,
@@ -864,15 +943,22 @@ export async function updateSessionHeartbeat(learnerId: string, deviceId: string
 }
 
 /**
- * Xóa phiên đăng nhập (khi người dùng đăng xuất hoặc khi Admin mở khóa)
+ * Xóa / Ngắt phiên đăng nhập (khi người dùng đăng xuất hoặc khi Admin mở khóa)
  */
-export async function clearAccountActiveSession(learnerId: string): Promise<boolean> {
+export async function clearAccountActiveSession(
+  learnerId: string,
+  reason = 'admin_unlocked',
+  customMessage = 'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+): Promise<boolean> {
   const path = `active_sessions/${learnerId}`;
   try {
     await setDoc(
       doc(db, 'active_sessions', learnerId),
       {
         isLoggedIn: false,
+        terminatedAt: new Date().toISOString(),
+        terminationReason: reason,
+        terminatedMessage: customMessage,
         lastHeartbeat: new Date().toISOString(),
         loggedOutAt: new Date().toISOString(),
       },

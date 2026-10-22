@@ -868,7 +868,7 @@ Quản trị viên EasyEng`;
       }
       setHasUnsavedExerciseChanges(false);
       soundEffects.playSuccess();
-      setExerciseSaveSuccess(`Đã lưu và đồng bộ thành công ${current.length} Học phần bài tập Lớp ${selectedExerciseGrade} lên Cloud Firestore! Dữ liệu đã có hiệu lực cho học sinh.`);
+      setExerciseSaveSuccess(`Đã lưu và đồng bộ thành công ${current.length} Học phần bài tập Lớp ${selectedExerciseGrade} lên Cloud Firestore! Dữ liệu đã có hiệu lực.`);
       setTimeout(() => setExerciseSaveSuccess(null), 6000);
     } catch (err: any) {
       soundEffects.playError();
@@ -3850,15 +3850,32 @@ Quản trị viên EasyEng`;
                             type="button"
                             onClick={async () => {
                               soundEffects.playClick();
+                              const cleanReqNick = (req.nickname || '').trim().toLowerCase();
+                              const cleanReqName = (req.fullName || '').trim().toLowerCase();
                               const matchedLearner = learners.find(l => {
-                                const nick = resolveValidUsername(l.username, l.name).toLowerCase();
-                                return nick === req.nickname.toLowerCase() || (l.username && l.username.toLowerCase() === req.nickname.toLowerCase());
+                                const u = (l.username || '').toLowerCase();
+                                const n = (l.nickname || '').toLowerCase();
+                                const name = (l.name || '').toLowerCase();
+                                const fn = (l.fullName || '').toLowerCase();
+                                const id = (l.learnerId || '').toLowerCase();
+                                return id === cleanReqNick || u === cleanReqNick || n === cleanReqNick || name === cleanReqNick || (cleanReqName && (fn === cleanReqName || name === cleanReqName));
                               });
                               const targetLearnerId = matchedLearner ? matchedLearner.learnerId : req.nickname;
-                              await clearAccountActiveSession(targetLearnerId);
+                              await clearAccountActiveSession(
+                                targetLearnerId,
+                                'admin_unlocked',
+                                'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                              );
+                              if (matchedLearner && req.nickname && req.nickname !== targetLearnerId) {
+                                await clearAccountActiveSession(
+                                  req.nickname,
+                                  'admin_unlocked',
+                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                );
+                              }
                               soundEffects.playSuccess();
                               setUnlockedSessionMsg(
-                                `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" (${req.fullName}) thành công! Học sinh có thể đăng nhập lại ngay.`
+                                `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" (${req.fullName}) thành công! Thiết bị lạ sẽ bị ngắt ngay lập tức.`
                               );
                               setTimeout(() => setUnlockedSessionMsg(null), 6000);
                             }}
