@@ -391,33 +391,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       // 1. Save request to Cloud Firestore
       await savePasswordResetRequestToCloud(reqData);
 
-      // 2. Open email client with pre-filled content to admin
-      const subject = encodeURIComponent(`[EasyEng] Yêu cầu cấp lại mật khẩu: ${cleanFullName} (${cleanNick})`);
-      const body = encodeURIComponent(
-        `Kính gửi Quản trị viên EasyEng (${ADMIN_EMAIL}),\n\n` +
-        `Tôi xin gửi yêu cầu hỗ trợ cấp lại mật khẩu tài khoản học tiếng Anh với thông tin chi tiết như sau:\n` +
-        `- Họ và tên: ${cleanFullName}\n` +
-        `- Nickname / Tên tài khoản: ${cleanNick}\n` +
-        `- Số điện thoại liên hệ: ${cleanPhone}\n` +
-        `- Email cá nhân nhận lại mật khẩu: ${cleanEmail}\n` +
-        `- Thời gian gửi yêu cầu: ${new Date().toLocaleString('vi-VN')}\n\n` +
-        `Kính mong Quản trị viên hỗ trợ kiểm tra và cấp lại mật khẩu vào địa chỉ email: ${cleanEmail}.\n` +
-        `Trân trọng cảm ơn!`
-      );
-
-      // Trigger mailto link
-      const mailtoUrl = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-      window.location.href = mailtoUrl;
-
       soundEffects.playSuccess();
       setResetSuccessMessage(
-        `Yêu cầu cấp lại mật khẩu đã được gửi. Chúng tôi sẽ kiểm tra và gửi mật khẩu mới vào email "${cleanEmail}" của bạn sớm nhất!`
+        `Yêu cầu cấp lại mật khẩu đã được gửi đi. Chúng tôi sẽ kiểm tra và phản hồi mật khẩu mới vào email "${cleanEmail}" của bạn sớm nhất!`
       );
     } catch (err) {
       console.error('Password reset request error:', err);
-      // Still display success because mailto was prepared
-      setResetSuccessMessage(
-        `Yêu cầu của bạn đã được ghi nhận. Chúng tôi sẽ xử lý và liên hệ lại với bạn qua email "${cleanEmail}"!`
+      soundEffects.playError();
+      setResetError(
+        'Đã có lỗi khi gửi yêu cầu lên hệ thống. Vui lòng kiểm tra lại kết nối mạng và thử lại sau ít phút!'
       );
     } finally {
       setIsSubmittingReset(false);
@@ -501,34 +483,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       // 1. Save request to Cloud Firestore
       await saveAccountVerificationRequestToCloud(reqData);
 
-      // 2. Open email client with pre-filled content to admin
-      const subject = encodeURIComponent(`[EasyEng] Yêu cầu xác minh tài khoản: ${cleanFullName} (${cleanNick})`);
-      const body = encodeURIComponent(
-        `Kính gửi Quản trị viên EasyEng (${ADMIN_EMAIL}),\n\n` +
-        `Tôi xin gửi yêu cầu hỗ trợ xác minh tài khoản học tiếng Anh do hệ thống thông báo tài khoản đang đăng nhập trên một thiết bị khác hoặc nghi ngờ bị truy cập trái phép, với thông tin chi tiết như sau:\n` +
-        `- Họ và tên: ${cleanFullName}\n` +
-        `- Nickname / Tên tài khoản: ${cleanNick}\n` +
-        `- Số điện thoại liên hệ: ${cleanPhone}\n` +
-        `- Email cá nhân nhận phản hồi: ${cleanEmail}\n` +
-        `- Thiết bị đang sử dụng: ${currentDevice}\n` +
-        `- Thời gian gửi yêu cầu: ${new Date().toLocaleString('vi-VN')}\n\n` +
-        `Kính mong Admin hỗ trợ kiểm tra, ngắt kết nối các thiết bị khác và xác minh quyền sở hữu tài khoản giúp tôi qua địa chỉ email: ${cleanEmail}.\n` +
-        `Trân trọng cảm ơn!`
-      );
-
-      // Trigger mailto link
-      const mailtoUrl = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
-      window.location.href = mailtoUrl;
-
       soundEffects.playSuccess();
       setVerificationSuccessMessage(
-        `Yêu cầu xác minh tài khoản đã được gửi. Chúng tôi sẽ kiểm tra và gửi kết quả xác minh vào email "${cleanEmail}" của bạn sớm nhất!`
+        `Yêu cầu xác minh tài khoản đã được gửi đi. Chúng tôi sẽ kiểm tra và phản hồi kết quả vào email "${cleanEmail}" của bạn sớm nhất!`
       );
     } catch (err) {
       console.error('Account verification request error:', err);
-      // Still display success because mailto was prepared
-      setVerificationSuccessMessage(
-        `Yêu cầu xác minh của bạn đã được ghi nhận. Chúng tôi sẽ xử lý và liên hệ lại với bạn qua email "${cleanEmail}"!`
+      soundEffects.playError();
+      setVerificationError(
+        'Đã có lỗi khi gửi yêu cầu xác minh lên hệ thống. Vui lòng kiểm tra lại kết nối mạng và thử lại sau ít phút!'
       );
     } finally {
       setIsSubmittingVerification(false);

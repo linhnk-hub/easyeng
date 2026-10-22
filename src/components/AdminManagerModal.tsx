@@ -32,7 +32,13 @@ import {
   Mail,
   User,
   KeyRound,
-  ShieldAlert
+  ShieldAlert,
+  CheckCircle2,
+  Search,
+  Clock,
+  Laptop,
+  ExternalLink,
+  Send
 } from 'lucide-react';
 import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest } from '../types';
 import { AVATARS } from '../data/unitsData';
@@ -220,6 +226,119 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [verificationRequests, setVerificationRequests] = useState<AccountVerificationRequest[]>([]);
   const [isLoadingVerificationRequests, setIsLoadingVerificationRequests] = useState(false);
   const [unlockedSessionMsg, setUnlockedSessionMsg] = useState<string | null>(null);
+
+  // Search terms for request tabs
+  const [resetSearchTerm, setResetSearchTerm] = useState('');
+  const [verificationSearchTerm, setVerificationSearchTerm] = useState('');
+
+  // Email Reply Modal State (Nội dung soạn sẵn, sao chép dán vào trình duyệt, KHÔNG mở mailto client)
+  interface EmailReplyModalState {
+    isOpen: boolean;
+    type: 'reset' | 'verification';
+    reqId: string;
+    recipient: string;
+    fullName: string;
+    nickname: string;
+    phone?: string;
+    subject: string;
+    body: string;
+    newPassword?: string;
+  }
+  const [emailReplyModal, setEmailReplyModal] = useState<EmailReplyModalState | null>(null);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  const handleCopyText = (fieldKey: string, text: string) => {
+    try {
+      navigator.clipboard.writeText(text);
+      soundEffects.playClick();
+      setCopiedField(fieldKey);
+      setTimeout(() => {
+        setCopiedField(prev => (prev === fieldKey ? null : prev));
+      }, 2500);
+    } catch (e) {
+      console.warn('Copy text error:', e);
+    }
+  };
+
+  const handleOpenResetEmailReply = (req: PasswordResetRequest) => {
+    soundEffects.playClick();
+    const defaultPassword = '123456';
+    const subject = `[EasyEng] Cấp lại mật khẩu tài khoản: ${req.fullName} (${req.nickname})`;
+    const body = `Xin chào ${req.fullName},
+
+Quản trị viên EasyEng đã tiếp nhận và xử lý yêu cầu cấp lại mật khẩu của bạn.
+
+Thông tin tài khoản:
+- Họ và tên: ${req.fullName}
+- Tên đăng nhập: ${req.nickname}
+- Mật khẩu mới được cấp lại: ${defaultPassword}
+
+👉 Bạn vui lòng truy cập ứng dụng EasyEng trên trình duyệt, đăng nhập bằng Tên đăng nhập và Mật khẩu mới ở trên. Sau khi đăng nhập thành công, bạn nên vào phần "Cài đặt tài khoản" để đổi lại mật khẩu cá nhân theo ý muốn.
+
+Nếu bạn cần hỗ trợ thêm, hãy phản hồi lại qua email này.
+
+Chúc bạn học tập thật tốt cùng EasyEng!
+Trân trọng,
+Quản trị viên EasyEng`;
+
+    setEmailReplyModal({
+      isOpen: true,
+      type: 'reset',
+      reqId: req.id,
+      recipient: req.email,
+      fullName: req.fullName,
+      nickname: req.nickname,
+      phone: req.phone,
+      subject,
+      body,
+      newPassword: defaultPassword
+    });
+  };
+
+  const handleOpenVerificationEmailReply = (req: AccountVerificationRequest) => {
+    soundEffects.playClick();
+    const subject = `[EasyEng] Xác minh tài khoản và hỗ trợ mở khóa: ${req.fullName} (${req.nickname})`;
+    const body = `Xin chào ${req.fullName},
+
+Quản trị viên EasyEng đã tiếp nhận và xử lý yêu cầu xác minh tài khoản "${req.nickname}" của bạn.
+
+Hệ thống đã tiến hành:
+1. Xác minh quyền sở hữu tài khoản thành công.
+2. Ngắt kết nối tất cả các phiên đăng nhập khác hoặc thiết bị lạ để bảo vệ an toàn cho tài khoản.
+3. Mở khóa trạng thái đăng nhập bình thường.
+
+👉 Hiện tại bạn đã có thể đăng nhập lại vào ứng dụng EasyEng bình thường trên thiết bị của mình.
+* Lưu ý: Nếu bạn nghi ngờ mật khẩu đã từng bị người khác biết, vui lòng đổi mật khẩu mới trong phần "Cài đặt tài khoản" ngay sau khi đăng nhập.
+
+Chúc bạn có những giờ học tập hiệu quả cùng EasyEng!
+Trân trọng,
+Quản trị viên EasyEng`;
+
+    setEmailReplyModal({
+      isOpen: true,
+      type: 'verification',
+      reqId: req.id,
+      recipient: req.email,
+      fullName: req.fullName,
+      nickname: req.nickname,
+      phone: req.phone,
+      subject,
+      body
+    });
+  };
+
+  const handleUpdateResetPassword = (newPass: string) => {
+    if (!emailReplyModal) return;
+    const oldPass = emailReplyModal.newPassword || '123456';
+    const updatedBody = emailReplyModal.body.includes(oldPass)
+      ? emailReplyModal.body.replace(oldPass, newPass)
+      : emailReplyModal.body;
+    setEmailReplyModal({
+      ...emailReplyModal,
+      newPassword: newPass,
+      body: updatedBody
+    });
+  };
 
   // Load password reset requests & account verification requests
   React.useEffect(() => {
@@ -3316,341 +3435,474 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
           {/* ========================================================= */}
           {/* TAB 5: PASSWORD RESET REQUESTS (CẤP LẠI MẬT KHẨU) */}
           {/* ========================================================= */}
-          {activeTab === 'resets' && (
-            <div className="space-y-6 max-w-4xl mx-auto">
-              {/* Header Box */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-200/70 border border-amber-300 flex items-center justify-center text-amber-900 shrink-0">
-                    <KeyRound className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-bold text-base text-slate-800">
-                      Yêu cầu Cấp lại mật khẩu
-                    </h3>
-                  </div>
-                </div>
+          {activeTab === 'resets' && (() => {
+            const filteredResets = resetRequests.filter(req => {
+              if (!resetSearchTerm.trim()) return true;
+              const q = resetSearchTerm.toLowerCase();
+              return (
+                (req.fullName || '').toLowerCase().includes(q) ||
+                (req.nickname || '').toLowerCase().includes(q) ||
+                (req.phone || '').toLowerCase().includes(q) ||
+                (req.email || '').toLowerCase().includes(q)
+              );
+            });
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    soundEffects.playClick();
-                    setIsLoadingResetRequests(true);
-                    fetchPasswordResetRequestsFromCloud().then(reqs => {
-                      setResetRequests(reqs);
-                      setIsLoadingResetRequests(false);
-                    });
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
-                >
-                  <RotateCcw className={`w-3.5 h-3.5 ${isLoadingResetRequests ? 'animate-spin' : ''}`} />
-                  <span>Làm mới</span>
-                </button>
-              </div>
-
-              {/* Requests List */}
-              {isLoadingResetRequests ? (
-                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
-                  <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                  <p className="text-xs font-bold text-slate-500">Đang tải danh sách yêu cầu từ Cloud Firestore...</p>
-                </div>
-              ) : resetRequests.length === 0 ? (
-                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
-                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
-                    <Check className="w-6 h-6" />
-                  </div>
-                  <h4 className="font-display font-bold text-base text-slate-800">
-                    Không có yêu cầu cấp lại mật khẩu nào
-                  </h4>
-                  <p className="text-xs text-slate-500 max-w-md mx-auto">
-                    Hiện tại tất cả học sinh và phụ huynh đều đăng nhập bình thường. Khi có người bấm "Cấp lại mật khẩu" ở màn hình đăng nhập, thông tin sẽ hiển thị ở đây và gửi đến email <span className="font-bold text-slate-700">linhnk.online@gmail.com</span>.
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {resetRequests.map((req) => (
-                    <div
-                      key={req.id}
-                      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-amber-300 transition shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-display font-bold text-base text-slate-900">
-                            {req.fullName}
-                          </span>
-                          <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full border border-amber-200">
-                            Nickname: {req.nickname}
-                          </span>
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
-                          <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200">
-                            <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>{req.phone}</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                navigator.clipboard.writeText(req.phone);
-                                soundEffects.playClick();
-                              }}
-                              className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer"
-                              title="Sao chép SĐT"
-                            >
-                              <Copy className="w-3 h-3" />
-                            </button>
-                          </span>
-
-                          <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-800 px-2.5 py-1 rounded-lg border border-sky-200">
-                            <Mail className="w-3.5 h-3.5 text-sky-600" />
-                            <span>{req.email}</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                navigator.clipboard.writeText(req.email);
-                                soundEffects.playClick();
-                              }}
-                              className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer"
-                              title="Sao chép Email"
-                            >
-                              <Copy className="w-3 h-3" />
-                            </button>
-                          </span>
-
-                          <span className="text-[11px] text-slate-400">
-                            Thời gian gửi: {new Date(req.createdAt).toLocaleString('vi-VN')}
-                          </span>
-                        </div>
+            return (
+              <div className="space-y-5 max-w-4xl mx-auto">
+                {/* Header & Controls Box */}
+                <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/5 border border-amber-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-sm shadow-amber-500/30 shrink-0">
+                      <KeyRound className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-display font-bold text-lg text-slate-800">
+                          Yêu cầu Cấp lại mật khẩu
+                        </h3>
+                        <span className="text-xs bg-amber-500 text-white font-extrabold px-2.5 py-0.5 rounded-full shadow-2xs">
+                          {resetRequests.length} yêu cầu
+                        </span>
                       </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Tất cả yêu cầu được học sinh gửi từ màn hình đăng nhập và lưu trực tiếp vào cơ sở dữ liệu
+                      </p>
+                    </div>
+                  </div>
 
-                      {/* Actions */}
-                      <div className="flex items-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
-                        <a
-                          href={`mailto:${req.email}?subject=${encodeURIComponent('[EasyEng] Cấp lại mật khẩu tài khoản học')}&body=${encodeURIComponent(`Xin chào ${req.fullName},\n\nQuản trị viên EasyEng đã nhận được yêu cầu cấp lại mật khẩu của bạn cho tài khoản "${req.nickname}".\n\nMật khẩu mới của bạn là: [Nhập mật khẩu mới từ 4-16 ký tự]\n\nBạn có thể đăng nhập ngay tại EasyEng và đổi lại mật khẩu trong phần cài đặt tài khoản.\n\nTrân trọng!`)}`}
-                          className="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
-                          title="Gửi email phản hồi mật khẩu mới cho học sinh"
-                        >
-                          <Mail className="w-3.5 h-3.5" />
-                          <span>Gửi email phản hồi</span>
-                        </a>
-
+                  <div className="flex items-center gap-2 self-end md:self-auto shrink-0 w-full sm:w-auto">
+                    {/* Search Input */}
+                    <div className="relative flex-1 sm:w-64">
+                      <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                      <input
+                        type="text"
+                        value={resetSearchTerm}
+                        onChange={(e) => setResetSearchTerm(e.target.value)}
+                        placeholder="Tìm theo tên, nickname, SĐT..."
+                        className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+                      />
+                      {resetSearchTerm && (
                         <button
                           type="button"
-                          onClick={async () => {
-                            if (window.confirm(`Xác nhận đã xử lý xong và xóa yêu cầu cấp lại mật khẩu của ${req.fullName}?`)) {
-                              soundEffects.playClick();
-                              setResetRequests(prev => prev.filter(r => r.id !== req.id));
-                              await deletePasswordResetRequestFromCloud(req.id);
-                            }
-                          }}
-                          className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
-                          title="Đã xử lý / Xóa yêu cầu"
+                          onClick={() => setResetSearchTerm('')}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          ✕
                         </button>
-                      </div>
+                      )}
                     </div>
-                  ))}
+
+                    {/* Refresh Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        soundEffects.playClick();
+                        setIsLoadingResetRequests(true);
+                        fetchPasswordResetRequestsFromCloud().then(reqs => {
+                          setResetRequests(reqs);
+                          setIsLoadingResetRequests(false);
+                        });
+                      }}
+                      className="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
+                      title="Làm mới danh sách từ Cloud"
+                    >
+                      <RotateCcw className={`w-3.5 h-3.5 ${isLoadingResetRequests ? 'animate-spin' : ''}`} />
+                      <span className="hidden sm:inline">Làm mới</span>
+                    </button>
+                  </div>
                 </div>
-              )}
-            </div>
-          )}
+
+                {/* Requests List */}
+                {isLoadingResetRequests ? (
+                  <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
+                    <div className="w-8 h-8 border-3 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                    <p className="text-xs font-bold text-slate-500">Đang tải danh sách yêu cầu từ cơ sở dữ liệu...</p>
+                  </div>
+                ) : resetRequests.length === 0 ? (
+                  <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
+                    <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+                      <CheckCircle2 className="w-6 h-6" />
+                    </div>
+                    <h4 className="font-display font-bold text-base text-slate-800">
+                      Không có yêu cầu cấp lại mật khẩu nào
+                    </h4>
+                    <p className="text-xs text-slate-500 max-w-md mx-auto">
+                      Hiện tại không có học sinh nào đang gửi yêu cầu cấp lại mật khẩu. Khi học sinh bấm gửi yêu cầu, thông tin sẽ được đẩy ngay vào đây.
+                    </p>
+                  </div>
+                ) : filteredResets.length === 0 ? (
+                  <div className="py-10 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
+                    <p className="text-sm font-bold text-slate-700">Không tìm thấy yêu cầu phù hợp với "{resetSearchTerm}"</p>
+                    <button
+                      type="button"
+                      onClick={() => setResetSearchTerm('')}
+                      className="text-xs text-amber-600 hover:underline font-bold"
+                    >
+                      Xóa bộ lọc tìm kiếm
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {filteredResets.map((req, idx) => (
+                      <div
+                        key={req.id}
+                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-amber-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                      >
+                        {/* Information Section */}
+                        <div className="space-y-2.5 flex-1">
+                          {/* Top row: STT, Name, Nickname, Time */}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center shrink-0">
+                              #{idx + 1}
+                            </span>
+                            <span className="font-display font-bold text-base text-slate-900">
+                              {req.fullName}
+                            </span>
+                            <span className="text-xs bg-amber-50 text-amber-800 font-bold px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
+                              <User className="w-3 h-3 text-amber-600" />
+                              <span>Nickname: <strong className="font-bold">{req.nickname}</strong></span>
+                            </span>
+                            <span className="text-[11px] text-slate-400 flex items-center gap-1 ml-auto sm:ml-0">
+                              <Clock className="w-3 h-3 text-slate-400" />
+                              <span>{new Date(req.createdAt).toLocaleString('vi-VN')}</span>
+                            </span>
+                          </div>
+
+                          {/* Contact Details: Phone & Email */}
+                          <div className="flex flex-wrap items-center gap-2.5 text-xs">
+                            <div className="inline-flex items-center gap-1.5 font-semibold bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200">
+                              <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                              <span>{req.phone}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyText(`phone_${req.id}`, req.phone)}
+                                className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
+                                title="Sao chép SĐT"
+                              >
+                                {copiedField === `phone_${req.id}` ? (
+                                  <Check className="w-3 h-3 text-emerald-700" />
+                                ) : (
+                                  <Copy className="w-3 h-3" />
+                                )}
+                              </button>
+                            </div>
+
+                            <div className="inline-flex items-center gap-1.5 font-semibold bg-sky-50 text-sky-800 px-3 py-1.5 rounded-xl border border-sky-200">
+                              <Mail className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                              <span className="max-w-[200px] sm:max-w-none truncate">{req.email}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyText(`email_${req.id}`, req.email)}
+                                className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer p-0.5 rounded transition"
+                                title="Sao chép Email"
+                              >
+                                {copiedField === `email_${req.id}` ? (
+                                  <Check className="w-3 h-3 text-sky-700" />
+                                ) : (
+                                  <Copy className="w-3 h-3" />
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons Group */}
+                        <div className="flex items-center gap-2 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100">
+                          {/* Nút Soạn email phản hồi (Hộp thoại có sẵn nội dung, KHÔNG mở mailto) */}
+                          <button
+                            type="button"
+                            onClick={() => handleOpenResetEmailReply(req)}
+                            className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-amber-500/20 transition active:scale-95 cursor-pointer"
+                            title="Mở hộp thoại có sẵn nội dung phản hồi mật khẩu mới cho học sinh"
+                          >
+                            <Mail className="w-3.5 h-3.5" />
+                            <span>Soạn email phản hồi</span>
+                          </button>
+
+                          {/* Nút Xóa yêu cầu */}
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu cấp lại mật khẩu của ${req.fullName}?`)) {
+                                soundEffects.playClick();
+                                setResetRequests(prev => prev.filter(r => r.id !== req.id));
+                                await deletePasswordResetRequestFromCloud(req.id);
+                              }
+                            }}
+                            className="p-2.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
+                            title="Đã xử lý / Xóa yêu cầu này"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* ========================================================= */}
           {/* TAB 6: ACCOUNT VERIFICATION REQUESTS (XÁC MINH TÀI KHOẢN) */}
           {/* ========================================================= */}
-          {activeTab === 'verifications' && (
-            <div className="space-y-4">
-              {/* Header Box */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-rose-50/70 border border-rose-200">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-rose-100 border border-rose-300 flex items-center justify-center text-rose-700 shrink-0">
-                    <ShieldAlert className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-display font-bold text-base text-slate-800">
-                      Yêu cầu xác minh
-                    </h3>
+          {activeTab === 'verifications' && (() => {
+            const filteredVerifications = verificationRequests.filter(req => {
+              if (!verificationSearchTerm.trim()) return true;
+              const q = verificationSearchTerm.toLowerCase();
+              return (
+                (req.fullName || '').toLowerCase().includes(q) ||
+                (req.nickname || '').toLowerCase().includes(q) ||
+                (req.phone || '').toLowerCase().includes(q) ||
+                (req.email || '').toLowerCase().includes(q) ||
+                (req.deviceInfo || '').toLowerCase().includes(q)
+              );
+            });
 
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    soundEffects.playClick();
-                    setIsLoadingVerificationRequests(true);
-                    fetchAccountVerificationRequestsFromCloud().then(reqs => {
-                      setVerificationRequests(reqs);
-                      setIsLoadingVerificationRequests(false);
-                    });
-                  }}
-                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
-                >
-                  <RotateCcw className={`w-3.5 h-3.5 ${isLoadingVerificationRequests ? 'animate-spin' : ''}`} />
-                  <span>Làm mới</span>
-                </button>
-              </div>
-
-              {/* Notification Banner when account session was unlocked */}
-              {unlockedSessionMsg && (
-                <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-600 shrink-0" />
-                    <span>{unlockedSessionMsg}</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setUnlockedSessionMsg(null)}
-                    className="text-emerald-700 hover:text-emerald-900 cursor-pointer text-xs"
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
-
-              {/* Requests List */}
-              {isLoadingVerificationRequests ? (
-                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
-                  <div className="w-8 h-8 border-3 border-rose-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                  <p className="text-xs font-bold text-slate-500">Đang tải danh sách yêu cầu từ Cloud Firestore...</p>
-                </div>
-              ) : verificationRequests.length === 0 ? (
-                <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
-                  <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
-                    <Check className="w-6 h-6" />
-                  </div>
-                  <h4 className="font-display font-bold text-base text-slate-800">
-                    Không có yêu cầu xác minh tài khoản nào
-                  </h4>
-                  <p className="text-xs text-slate-500 max-w-md mx-auto">
-                    Hiện tại các tài khoản đều đăng nhập bình thường. Khi học sinh hoặc phụ huynh gặp cảnh báo tài khoản đang đăng nhập trên thiết bị khác và bấm "Xác minh tài khoản", thông tin sẽ hiển thị ở đây và gửi tới email <span className="font-bold text-slate-700">{ADMIN_EMAIL}</span>.
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {verificationRequests.map((req) => (
-                    <div
-                      key={req.id}
-                      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-rose-300 transition shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4"
-                    >
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-display font-bold text-base text-slate-900">
-                            {req.fullName}
-                          </span>
-                          <span className="text-xs bg-rose-100 text-rose-800 font-bold px-2.5 py-0.5 rounded-full border border-rose-200">
-                            Nickname: {req.nickname}
-                          </span>
-                          {req.deviceInfo && (
-                            <span className="text-[11px] bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full border border-slate-200">
-                              Thiết bị gửi: {req.deviceInfo}
-                            </span>
-                          )}
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600">
-                          <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200">
-                            <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>{req.phone}</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                navigator.clipboard.writeText(req.phone);
-                                soundEffects.playClick();
-                              }}
-                              className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer"
-                              title="Sao chép SĐT"
-                            >
-                              <Copy className="w-3 h-3" />
-                            </button>
-                          </span>
-
-                          <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-800 px-2.5 py-1 rounded-lg border border-sky-200">
-                            <Mail className="w-3.5 h-3.5 text-sky-600" />
-                            <span>{req.email}</span>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                navigator.clipboard.writeText(req.email);
-                                soundEffects.playClick();
-                              }}
-                              className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer"
-                              title="Sao chép Email"
-                            >
-                              <Copy className="w-3 h-3" />
-                            </button>
-                          </span>
-
-                          <span className="text-[11px] text-slate-400">
-                            Thời gian gửi: {new Date(req.createdAt).toLocaleString('vi-VN')}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex flex-wrap items-center gap-2 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-slate-100">
-                        {/* Nút Mở khóa đăng nhập / Ngắt kết nối thiết bị khác */}
-                        <button
-                          type="button"
-                          onClick={async () => {
-                            soundEffects.playClick();
-                            const matchedLearner = learners.find(l => {
-                              const nick = resolveValidUsername(l.username, l.name).toLowerCase();
-                              return nick === req.nickname.toLowerCase() || (l.username && l.username.toLowerCase() === req.nickname.toLowerCase());
-                            });
-                            const targetLearnerId = matchedLearner ? matchedLearner.learnerId : req.nickname;
-                            await clearAccountActiveSession(targetLearnerId);
-                            soundEffects.playSuccess();
-                            setUnlockedSessionMsg(
-                              `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" (${req.fullName}) thành công! Học sinh có thể đăng nhập lại ngay.`
-                            );
-                            setTimeout(() => setUnlockedSessionMsg(null), 6000);
-                          }}
-                          className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
-                          title="Ngắt kết nối các thiết bị khác và cho phép học sinh đăng nhập lại ngay"
-                        >
-                          <Unlock className="w-3.5 h-3.5" />
-                          <span>Mở khóa phiên đăng nhập</span>
-                        </button>
-
-                        {/* Nút Gửi email phản hồi */}
-                        <a
-                          href={`mailto:${req.email}?subject=${encodeURIComponent(`[EasyEng] Xác minh tài khoản và hỗ trợ mở khóa: ${req.fullName}`)}&body=${encodeURIComponent(
-                            `Xin chào ${req.fullName},\n\n` +
-                            `Quản trị viên EasyEng đã tiếp nhận yêu cầu xác minh tài khoản "${req.nickname}" của bạn.\n\n` +
-                            `Hệ thống đã tiến hành ngắt kết nối các phiên đăng nhập trên thiết bị khác và bảo vệ an toàn cho tài khoản của bạn. Hiện tại bạn đã có thể đăng nhập lại bình thường.\n\n` +
-                            `Nếu bạn nghi ngờ mật khẩu đã bị lộ, vui lòng đổi mật khẩu mới trong phần Cài đặt tài khoản sau khi đăng nhập.\n\n` +
-                            `Trân trọng,\nQuản trị viên EasyEng`
-                          )}`}
-                          className="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition active:scale-95 cursor-pointer"
-                          title="Gửi email phản hồi xác nhận cho học sinh"
-                        >
-                          <Mail className="w-3.5 h-3.5" />
-                          <span>Gửi email phản hồi</span>
-                        </a>
-
-                        {/* Nút Xóa yêu cầu */}
-                        <button
-                          type="button"
-                          onClick={async () => {
-                            if (window.confirm(`Xác nhận đã xử lý xong và xóa yêu cầu xác minh tài khoản của ${req.fullName}?`)) {
-                              soundEffects.playClick();
-                              setVerificationRequests(prev => prev.filter(r => r.id !== req.id));
-                              await deleteAccountVerificationRequestFromCloud(req.id);
-                            }
-                          }}
-                          className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
-                          title="Đã xử lý / Xóa yêu cầu"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
+            return (
+              <div className="space-y-5 max-w-4xl mx-auto">
+                {/* Header & Controls Box */}
+                <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-rose-500/10 via-red-500/10 to-rose-500/5 border border-rose-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-11 h-11 rounded-2xl bg-rose-600 text-white flex items-center justify-center shadow-sm shadow-rose-600/30 shrink-0">
+                      <ShieldAlert className="w-6 h-6" />
                     </div>
-                  ))}
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-display font-bold text-lg text-slate-800">
+                          Yêu cầu xác minh tài khoản
+                        </h3>
+                        <span className="text-xs bg-rose-600 text-white font-extrabold px-2.5 py-0.5 rounded-full shadow-2xs">
+                          {verificationRequests.length} yêu cầu
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Người dùng báo cáo tài khoản đang đăng nhập trên thiết bị khác hoặc nghi ngờ bị đăng nhập trái phép
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 self-end md:self-auto shrink-0 w-full sm:w-auto">
+                    {/* Search Input */}
+                    <div className="relative flex-1 sm:w-64">
+                      <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                      <input
+                        type="text"
+                        value={verificationSearchTerm}
+                        onChange={(e) => setVerificationSearchTerm(e.target.value)}
+                        placeholder="Tìm theo tên, nickname, thiết bị..."
+                        className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
+                      />
+                      {verificationSearchTerm && (
+                        <button
+                          type="button"
+                          onClick={() => setVerificationSearchTerm('')}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Refresh Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        soundEffects.playClick();
+                        setIsLoadingVerificationRequests(true);
+                        fetchAccountVerificationRequestsFromCloud().then(reqs => {
+                          setVerificationRequests(reqs);
+                          setIsLoadingVerificationRequests(false);
+                        });
+                      }}
+                      className="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
+                      title="Làm mới danh sách từ Cloud"
+                    >
+                      <RotateCcw className={`w-3.5 h-3.5 ${isLoadingVerificationRequests ? 'animate-spin' : ''}`} />
+                      <span className="hidden sm:inline">Làm mới</span>
+                    </button>
+                  </div>
                 </div>
-              )}
-            </div>
-          )}
+
+                {/* Notification Banner when account session was unlocked */}
+                {unlockedSessionMsg && (
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{unlockedSessionMsg}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setUnlockedSessionMsg(null)}
+                      className="text-emerald-700 hover:text-emerald-900 cursor-pointer text-xs"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+
+                {/* Requests List */}
+                {isLoadingVerificationRequests ? (
+                  <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 space-y-3">
+                    <div className="w-8 h-8 border-3 border-rose-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                    <p className="text-xs font-bold text-slate-500">Đang tải danh sách yêu cầu từ cơ sở dữ liệu...</p>
+                  </div>
+                ) : verificationRequests.length === 0 ? (
+                  <div className="py-12 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
+                    <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+                      <CheckCircle2 className="w-6 h-6" />
+                    </div>
+                    <h4 className="font-display font-bold text-base text-slate-800">
+                      Không có yêu cầu xác minh tài khoản nào
+                    </h4>
+                    <p className="text-xs text-slate-500 max-w-md mx-auto">
+                      Hiện tại tất cả các tài khoản học đều đăng nhập bình thường. Khi học sinh bị báo lỗi tài khoản đang ở máy khác và bấm "Xác minh tài khoản", thông tin sẽ hiển thị ở đây.
+                    </p>
+                  </div>
+                ) : filteredVerifications.length === 0 ? (
+                  <div className="py-10 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
+                    <p className="text-sm font-bold text-slate-700">Không tìm thấy yêu cầu phù hợp với "{verificationSearchTerm}"</p>
+                    <button
+                      type="button"
+                      onClick={() => setVerificationSearchTerm('')}
+                      className="text-xs text-rose-600 hover:underline font-bold"
+                    >
+                      Xóa bộ lọc tìm kiếm
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {filteredVerifications.map((req, idx) => (
+                      <div
+                        key={req.id}
+                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-rose-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                      >
+                        {/* Information Section */}
+                        <div className="space-y-2.5 flex-1">
+                          {/* Top row: STT, Name, Nickname, Time */}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-rose-100 text-rose-900 font-bold text-xs flex items-center justify-center shrink-0">
+                              #{idx + 1}
+                            </span>
+                            <span className="font-display font-bold text-base text-slate-900">
+                              {req.fullName}
+                            </span>
+                            <span className="text-xs bg-rose-50 text-rose-800 font-bold px-2.5 py-0.5 rounded-full border border-rose-200 flex items-center gap-1">
+                              <User className="w-3 h-3 text-rose-600" />
+                              <span>Nickname: <strong className="font-bold">{req.nickname}</strong></span>
+                            </span>
+                            <span className="text-[11px] text-slate-400 flex items-center gap-1 ml-auto sm:ml-0">
+                              <Clock className="w-3 h-3 text-slate-400" />
+                              <span>{new Date(req.createdAt).toLocaleString('vi-VN')}</span>
+                            </span>
+                          </div>
+
+                          {/* Device information banner */}
+                          {req.deviceInfo && (
+                            <div className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-xs flex items-center gap-2">
+                              <Laptop className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                              <span>Thiết bị gửi yêu cầu: <strong className="text-slate-800 font-semibold">{req.deviceInfo}</strong></span>
+                            </div>
+                          )}
+
+                          {/* Contact Details: Phone & Email */}
+                          <div className="flex flex-wrap items-center gap-2.5 text-xs">
+                            <div className="inline-flex items-center gap-1.5 font-semibold bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200">
+                              <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                              <span>{req.phone}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyText(`phone_${req.id}`, req.phone)}
+                                className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
+                                title="Sao chép SĐT"
+                              >
+                                {copiedField === `phone_${req.id}` ? (
+                                  <Check className="w-3 h-3 text-emerald-700" />
+                                ) : (
+                                  <Copy className="w-3 h-3" />
+                                )}
+                              </button>
+                            </div>
+
+                            <div className="inline-flex items-center gap-1.5 font-semibold bg-sky-50 text-sky-800 px-3 py-1.5 rounded-xl border border-sky-200">
+                              <Mail className="w-3.5 h-3.5 text-sky-600 shrink-0" />
+                              <span className="max-w-[200px] sm:max-w-none truncate">{req.email}</span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyText(`email_${req.id}`, req.email)}
+                                className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer p-0.5 rounded transition"
+                                title="Sao chép Email"
+                              >
+                                {copiedField === `email_${req.id}` ? (
+                                  <Check className="w-3 h-3 text-sky-700" />
+                                ) : (
+                                  <Copy className="w-3 h-3" />
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons Group */}
+                        <div className="flex flex-wrap items-center gap-2 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100">
+                          {/* Nút Mở khóa đăng nhập / Ngắt kết nối thiết bị khác */}
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              soundEffects.playClick();
+                              const matchedLearner = learners.find(l => {
+                                const nick = resolveValidUsername(l.username, l.name).toLowerCase();
+                                return nick === req.nickname.toLowerCase() || (l.username && l.username.toLowerCase() === req.nickname.toLowerCase());
+                              });
+                              const targetLearnerId = matchedLearner ? matchedLearner.learnerId : req.nickname;
+                              await clearAccountActiveSession(targetLearnerId);
+                              soundEffects.playSuccess();
+                              setUnlockedSessionMsg(
+                                `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" (${req.fullName}) thành công! Học sinh có thể đăng nhập lại ngay.`
+                              );
+                              setTimeout(() => setUnlockedSessionMsg(null), 6000);
+                            }}
+                            className="px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition active:scale-95 cursor-pointer"
+                            title="Ngắt kết nối các thiết bị khác và cho phép học sinh đăng nhập lại ngay"
+                          >
+                            <Unlock className="w-3.5 h-3.5" />
+                            <span>Mở khóa phiên</span>
+                          </button>
+
+                          {/* Nút Soạn email phản hồi (Hộp thoại có sẵn nội dung, KHÔNG mở mailto) */}
+                          <button
+                            type="button"
+                            onClick={() => handleOpenVerificationEmailReply(req)}
+                            className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-rose-600/20 transition active:scale-95 cursor-pointer"
+                            title="Mở hộp thoại có sẵn nội dung phản hồi xác nhận cho học sinh"
+                          >
+                            <Mail className="w-3.5 h-3.5" />
+                            <span>Soạn email phản hồi</span>
+                          </button>
+
+                          {/* Nút Xóa yêu cầu */}
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu xác minh tài khoản của ${req.fullName}?`)) {
+                                soundEffects.playClick();
+                                setVerificationRequests(prev => prev.filter(r => r.id !== req.id));
+                                await deleteAccountVerificationRequestFromCloud(req.id);
+                              }
+                            }}
+                            className="p-2.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
+                            title="Đã xử lý / Xóa yêu cầu này"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       </div>
 
@@ -3803,6 +4055,264 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                 <Check className="w-4 h-4" />
                 <span>Áp dụng vào Học phần {clusterJsonModal.clusterIndex + 1}</span>
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* MODAL PHẢN HỒI EMAIL (NỘI DUNG SOẠN SẴN ĐỂ COPY & DÁN VÀO TRÌNH DUYỆT) */}
+      {emailReplyModal && emailReplyModal.isOpen && (
+        <div className="fixed inset-0 z-60 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border border-slate-200 space-y-4 max-h-[92vh] flex flex-col animate-scale-up">
+            {/* Header */}
+            <div className="flex items-start justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border ${
+                  emailReplyModal.type === 'reset'
+                    ? 'bg-amber-100 border-amber-300 text-amber-800'
+                    : 'bg-rose-100 border-rose-300 text-rose-800'
+                }`}>
+                  {emailReplyModal.type === 'reset' ? (
+                    <KeyRound className="w-5 h-5" />
+                  ) : (
+                    <ShieldAlert className="w-5 h-5" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-base sm:text-lg text-slate-800 flex items-center gap-2">
+                    <span>Hộp thoại phản hồi email</span>
+                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
+                      emailReplyModal.type === 'reset'
+                        ? 'bg-amber-50 text-amber-800 border-amber-200'
+                        : 'bg-rose-50 text-rose-800 border-rose-200'
+                    }`}>
+                      {emailReplyModal.type === 'reset' ? 'Cấp lại mật khẩu' : 'Xác minh tài khoản'}
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Học sinh: <span className="font-bold text-slate-700">{emailReplyModal.fullName}</span> (Tài khoản: <span className="font-bold text-slate-700">{emailReplyModal.nickname}</span>)
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEmailReplyModal(null)}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Sub-notice */}
+            <div className="p-3 rounded-2xl bg-sky-50 border border-sky-200 text-sky-900 text-xs flex items-start gap-2.5">
+              <Mail className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+              <div className="space-y-0.5">
+                <span className="font-bold">Cách gửi thư phản hồi bằng trình duyệt:</span>
+                <p className="text-[11px] text-sky-800 leading-relaxed">
+                  Bấm sao chép Email, Tiêu đề hoặc Nội dung thư ở dưới, sau đó mở web mail (như Gmail Web, Outlook...) trong trình duyệt của bạn, dán vào và bấm gửi. Không cần cài đặt hay bật phần mềm gửi thư trên máy tính!
+                </p>
+              </div>
+            </div>
+
+            {/* Scrollable Body */}
+            <div className="space-y-3.5 overflow-y-auto pr-1 flex-1 text-xs sm:text-sm">
+              {/* Field 1: Recipient Email */}
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  1. Địa chỉ email người nhận (To)
+                </label>
+                <div className="flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <Mail className="w-3.5 h-3.5" />
+                    </div>
+                    <input
+                      type="text"
+                      readOnly
+                      value={emailReplyModal.recipient}
+                      className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none select-all"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopyText('email', emailReplyModal.recipient)}
+                    className={`px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer border ${
+                      copiedField === 'email'
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                        : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+                    }`}
+                  >
+                    {copiedField === 'email' ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Đã chép</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Sao chép Email</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Field 2: Subject */}
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  2. Tiêu đề thư (Subject)
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={emailReplyModal.subject}
+                    onChange={(e) => setEmailReplyModal({ ...emailReplyModal, subject: e.target.value })}
+                    className="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleCopyText('subject', emailReplyModal.subject)}
+                    className={`px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5 transition cursor-pointer border ${
+                      copiedField === 'subject'
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-700'
+                        : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
+                    }`}
+                  >
+                    {copiedField === 'subject' ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Đã chép</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Sao chép Tiêu đề</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Quick Field for Password Reset */}
+              {emailReplyModal.type === 'reset' && (
+                <div className="p-3 rounded-2xl bg-amber-50/80 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                  <div className="space-y-0.5">
+                    <span className="font-bold text-xs text-amber-900 flex items-center gap-1.5">
+                      <KeyRound className="w-3.5 h-3.5 text-amber-700" />
+                      Mật khẩu mới cấp lại cho học sinh:
+                    </span>
+                    <p className="text-[11px] text-amber-700">
+                      Nhập mật khẩu bạn muốn cấp (thay đổi ở đây sẽ tự cập nhật vào nội dung thư bên dưới).
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <input
+                      type="text"
+                      value={emailReplyModal.newPassword || '123456'}
+                      onChange={(e) => handleUpdateResetPassword(e.target.value)}
+                      maxLength={16}
+                      className="w-32 px-2.5 py-1.5 bg-white border border-amber-300 rounded-lg text-amber-950 font-bold text-center text-xs focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleCopyText('pass', emailReplyModal.newPassword || '123456')}
+                      className="px-2.5 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 rounded-lg text-xs font-bold transition cursor-pointer"
+                    >
+                      {copiedField === 'pass' ? 'Đã chép' : 'Chép MK'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Field 3: Email Body */}
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    3. Nội dung email phản hồi (Body)
+                  </label>
+                  <span className="text-[11px] text-slate-400">
+                    Có thể sửa trực tiếp trước khi sao chép
+                  </span>
+                </div>
+                <textarea
+                  rows={8}
+                  value={emailReplyModal.body}
+                  onChange={(e) => setEmailReplyModal({ ...emailReplyModal, body: e.target.value })}
+                  className="w-full p-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 text-xs sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white resize-y leading-relaxed"
+                />
+              </div>
+            </div>
+
+            {/* Footer Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 pt-3 border-t border-slate-100">
+              <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                {/* Copy Entire Body Button */}
+                <button
+                  type="button"
+                  onClick={() => handleCopyText('all', emailReplyModal.body)}
+                  className={`w-full sm:w-auto px-4 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition active:scale-95 cursor-pointer ${
+                    copiedField === 'all'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white'
+                  }`}
+                >
+                  {copiedField === 'all' ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Đã sao chép toàn bộ nội dung!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      <span>Sao chép toàn bộ nội dung thư</span>
+                    </>
+                  )}
+                </button>
+
+                {/* Open in Gmail Web in new browser tab */}
+                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailReplyModal.recipient)}&su=${encodeURIComponent(emailReplyModal.subject)}&body=${encodeURIComponent(emailReplyModal.body)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto px-3.5 py-2.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+                  title="Mở sẵn thư này trong tab trình duyệt Gmail Web"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-rose-500" />
+                  <span>Mở nhanh trên Gmail Web</span>
+                </a>
+              </div>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                {/* Delete / Processed Button */}
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (window.confirm(`Xác nhận bạn đã gửi phản hồi cho ${emailReplyModal.fullName} và muốn hoàn tất (xóa) yêu cầu này khỏi danh sách?`)) {
+                      soundEffects.playSuccess();
+                      const targetId = emailReplyModal.reqId;
+                      if (emailReplyModal.type === 'reset') {
+                        setResetRequests(prev => prev.filter(r => r.id !== targetId));
+                        await deletePasswordResetRequestFromCloud(targetId);
+                      } else {
+                        setVerificationRequests(prev => prev.filter(r => r.id !== targetId));
+                        await deleteAccountVerificationRequestFromCloud(targetId);
+                      }
+                      setEmailReplyModal(null);
+                    }
+                  }}
+                  className="px-3 py-2 rounded-xl text-slate-500 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 text-xs font-bold transition cursor-pointer"
+                  title="Đánh dấu đã hoàn thành và xóa khỏi danh sách yêu cầu"
+                >
+                  Đã gửi & Xóa yêu cầu
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setEmailReplyModal(null)}
+                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition cursor-pointer"
+                >
+                  Đóng
+                </button>
+              </div>
             </div>
           </div>
         </div>
