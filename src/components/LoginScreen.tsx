@@ -393,7 +393,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
       soundEffects.playSuccess();
       setResetSuccessMessage(
-        `Yêu cầu cấp lại mật khẩu đã được gửi đi. Chúng tôi sẽ kiểm tra và phản hồi mật khẩu mới vào email "${cleanEmail}" của bạn sớm nhất!`
+        `Yêu cầu cấp lại mật khẩu đã được gửi đi. Chúng tôi sẽ kiểm tra và gửi mật khẩu mới về email "${cleanEmail}" của bạn trong thời gian sớm nhất!`
       );
     } catch (err) {
       console.error('Password reset request error:', err);
@@ -487,7 +487,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
       soundEffects.playSuccess();
       setVerificationSuccessMessage(
-        `Yêu cầu xác minh tài khoản đã được gửi đi. Chúng tôi sẽ kiểm tra và phản hồi kết quả vào email "${cleanEmail}" của bạn sớm nhất!`
+        `Yêu cầu xác minh tài khoản đã được gửi đi. Chúng tôi sẽ kiểm tra và gửi kết quả về email "${cleanEmail}" của bạn trong thời gian sớm nhất!`
       );
     } catch (err) {
       console.error('Account verification request error:', err);
