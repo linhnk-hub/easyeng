@@ -92,19 +92,62 @@ interface AdminManagerModalProps {
   onSaveExercises?: (grade: number, clusters: ExerciseCluster[]) => Promise<boolean> | void;
 }
 
-// Secure SHA-256 hash of password with cryptographic salt
-// View-source proof: Cannot be reversed to plain text
-const SECURE_AUTH_HASH = '2e6487f566d2d552ad781da83e1a8185185bdd7bfc8f882faedfab58a27ba5d6';
-const SECURE_SALT = 'easyeng_secret_salt_2026_linhnk';
+// Multi-layer Cryptographic Hashing for Admin Password Verification:
+// - Layer 1: Salted SHA-256 pre-hash with cryptographic pepper
+// - Layer 2: PBKDF2 key derivation using HMAC-SHA-512 with 100,000 iterations
+// - Layer 3: SHA-384 finalized cryptographic digest
+// - Layer 4: Constant-time string comparison to resist timing analysis
+// View-source proof: Mathematically one-way non-invertible; plaintext password cannot be decoded or reversed.
+const SECURE_PEPPER_L1 = 'EasyEng_Vothisau_Pepper_9a8b7c6d5e4f3a2b1c0d';
+const SECURE_SALT_L2 = 'EasyEng_Admin_PBKDF2_Salt_2026_x87y21z99';
+const SECURE_PBKDF2_ROUNDS = 100000;
+const SECURE_AUTH_DIGEST = '323b367a1c0e87feab70782941692c268fdff09fdee99e15909534c307cd247ff8a2f0f90fc1ff9d4bf8f089a513708a';
+
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
 
 async function verifySecurityKey(input: string): Promise<boolean> {
   try {
     const encoder = new TextEncoder();
-    const data = encoder.encode(`${input}:${SECURE_SALT}`);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex === SECURE_AUTH_HASH;
+
+    // Layer 1: Salted SHA-256 pre-hash
+    const l1Data = encoder.encode(`${input}:${SECURE_PEPPER_L1}`);
+    const l1Buffer = await crypto.subtle.digest('SHA-256', l1Data);
+
+    // Layer 2: PBKDF2 HMAC-SHA-512 with 100,000 rounds (512-bit key derivation)
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      l1Buffer,
+      { name: 'PBKDF2' },
+      false,
+      ['deriveBits']
+    );
+
+    const saltL2Buffer = encoder.encode(SECURE_SALT_L2);
+    const derivedBits = await crypto.subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        salt: saltL2Buffer,
+        iterations: SECURE_PBKDF2_ROUNDS,
+        hash: 'SHA-512'
+      },
+      keyMaterial,
+      512
+    );
+
+    // Layer 3: SHA-384 finalized digest
+    const finalBuffer = await crypto.subtle.digest('SHA-384', derivedBits);
+    const hashArray = Array.from(new Uint8Array(finalBuffer));
+    const computedHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+    // Layer 4: Constant-time comparison
+    return constantTimeEqual(computedHex, SECURE_AUTH_DIGEST);
   } catch {
     return false;
   }
@@ -3285,9 +3328,6 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                     <h3 className="font-display font-bold text-base text-slate-800">
                       Yêu cầu Cấp lại mật khẩu
                     </h3>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Danh sách người dùng đã gửi yêu cầu cấp lại mật khẩu
-                    </p>
                   </div>
                 </div>
 
@@ -3430,9 +3470,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                     <h3 className="font-display font-bold text-base text-slate-800">
                       Yêu cầu Xác minh tài khoản
                     </h3>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Danh sách người dùng báo cáo tài khoản đang đăng nhập trên thiết bị khác hoặc nghi ngờ bị truy cập trái phép
-                    </p>
+
                   </div>
                 </div>
 

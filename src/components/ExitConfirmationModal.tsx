@@ -34,7 +34,7 @@ export const ExitConfirmationModal: React.FC<ExitConfirmationModalProps> = ({
             {renderAvatarContent(user.avatar, isTy ? '🦊' : '🦄')}
           </div>
           <h2 className="font-display font-bold text-2xl text-white">
-            Xác nhận 
+            Xác nhận rời trang
           </h2>
         </div>
 
@@ -78,7 +78,7 @@ export const ExitConfirmationModal: React.FC<ExitConfirmationModalProps> = ({
               className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 active:scale-98 text-white font-display font-bold text-sm sm:text-base shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 cursor-pointer transition"
             >
               <Save className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>Thoát</span>
+              <span>Xác nhận</span>
             </button>
 
             {/* Secondary: Continue learning */}
@@ -90,7 +90,7 @@ export const ExitConfirmationModal: React.FC<ExitConfirmationModalProps> = ({
               className="w-full py-3 px-4 rounded-2xl bg-slate-100 hover:bg-slate-200 active:scale-98 text-slate-700 font-display font-bold text-sm flex items-center justify-center gap-2 cursor-pointer transition border border-slate-200"
             >
               <BookOpen className="w-4 h-4 text-slate-600" />
-              <span>Tiếp tục</span>
+              <span>Ở lại</span>
             </button>
           </div>
         </div>
