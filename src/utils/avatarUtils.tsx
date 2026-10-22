@@ -26,7 +26,7 @@ export function isImageAvatar(avatarStr?: string): boolean {
  * to its renderable asset (either image URL or emoji).
  */
 export function resolveAvatarIcon(avatarStr?: string, customList?: CustomAvatarItem[]): string {
-  if (!avatarStr) return '🦊';
+  if (!avatarStr) return '🎓';
 
   // Direct image URL
   if (isImageAvatar(avatarStr)) return avatarStr;
@@ -63,7 +63,7 @@ export function resolveAvatarIcon(avatarStr?: string, customList?: CustomAvatarI
 
 export function renderAvatarContent(
   avatarStr?: string,
-  fallback: string = '🦊',
+  fallback: string = '🎓',
   customList?: CustomAvatarItem[]
 ): React.ReactNode {
   if (!avatarStr) return <span>{fallback}</span>;

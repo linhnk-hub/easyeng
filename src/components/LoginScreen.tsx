@@ -103,7 +103,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
   // Password reset modal state
   const [showResetModal, setShowResetModal] = useState(false);
-  const [resetFullName, setResetFullName] = useState('');
   const [resetNickname, setResetNickname] = useState('');
   const [resetPhone, setResetPhone] = useState('');
   const [resetEmail, setResetEmail] = useState('');
@@ -116,7 +115,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const [deviceConflictSession, setDeviceConflictSession] = useState<UserActiveSession | null>(null);
   const [isDeviceConflict, setIsDeviceConflict] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
-  const [verificationFullName, setVerificationFullName] = useState('');
+  const [verificationLearnerId, setVerificationLearnerId] = useState('');
   const [verificationNickname, setVerificationNickname] = useState('');
   const [verificationPhone, setVerificationPhone] = useState('');
   const [verificationEmail, setVerificationEmail] = useState('');
@@ -215,6 +214,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       } catch {}
       await setAccountActiveSession({
         learnerId: matchedLearner.learnerId,
+        username: matchedLearner.username || '',
+        nickname: matchedLearner.nickname || matchedLearner.name || '',
         sessionId: newSessionId,
         deviceId: currentDeviceId,
         deviceDescription: getDeviceDescription(),
@@ -293,7 +294,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       username: cleanUser,
       name: cleanUser, // Displays next to avatar
       grade: regGrade,
-      avatar: '🦊',
+      avatar: '🎓',
       pin: cleanPass,
       level: 1,
       xp: 0,
@@ -313,6 +314,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     try {
       await setAccountActiveSession({
         learnerId: newId,
+        username: cleanUser,
+        nickname: cleanUser,
         sessionId: newSessionId,
         deviceId: currentDeviceId,
         deviceDescription: getDeviceDescription(),
@@ -335,7 +338,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   // Open password reset modal
   const handleOpenResetModal = () => {
     soundEffects.playClick();
-    setResetFullName('');
     setResetNickname(loginUsername.trim());
     setResetPhone('');
     setResetEmail('');
@@ -349,34 +351,25 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     e.preventDefault();
     setResetError(null);
 
-    const cleanFullName = resetFullName.trim();
     const cleanNick = resetNickname.trim();
     const cleanPhone = sanitizePhoneNumber(resetPhone);
     const cleanEmail = sanitizeEmailAddress(resetEmail);
 
-    // 1. Quy tắc họ tên: 4 - 16 kí tự, có thể viết hoa, không số hoặc ký tự đặc biệt
-    const nameValidation = validateFullName(cleanFullName);
-    if (!nameValidation.isValid) {
-      soundEffects.playError();
-      setResetError(nameValidation.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
-      return;
-    }
-
-    // 2. Tên đăng nhập / Nickname
+    // 1. Tên đăng nhập / Nickname
     if (!cleanNick) {
       soundEffects.playError();
       setResetError('Vui lòng nhập tên đăng nhập hoặc nickname!');
       return;
     }
 
-    // 3. Số điện thoại (9 đến 11 số)
+    // 2. Số điện thoại (9 đến 11 số)
     if (!cleanPhone || cleanPhone.length < 9 || cleanPhone.length > 11) {
       soundEffects.playError();
       setResetError('Vui lòng nhập số điện thoại hợp lệ (từ 9 đến 11 số)!');
       return;
     }
 
-    // 4. Email cá nhân dùng để nhận lại mật khẩu
+    // 3. Email cá nhân dùng để nhận lại mật khẩu
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       soundEffects.playError();
       setResetError('Vui lòng nhập địa chỉ email hợp lệ để nhận lại mật khẩu!');
@@ -387,7 +380,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
     const reqData: PasswordResetRequest = {
       id: `reset_${Date.now()}`,
-      fullName: cleanFullName,
       nickname: cleanNick,
       phone: cleanPhone,
       email: cleanEmail,
@@ -425,7 +417,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       (l.name || '').toLowerCase() === lower
     );
 
-    setVerificationFullName(matched?.fullName || matched?.name || '');
+    setVerificationLearnerId(matched?.learnerId || '');
     setVerificationNickname(targetUser);
     setVerificationPhone(matched?.phone || '');
     setVerificationEmail(matched?.email || '');
@@ -439,34 +431,25 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     e.preventDefault();
     setVerificationError(null);
 
-    const cleanFullName = verificationFullName.trim();
     const cleanNick = verificationNickname.trim();
     const cleanPhone = sanitizePhoneNumber(verificationPhone);
     const cleanEmail = sanitizeEmailAddress(verificationEmail);
 
-    // 1. Quy tắc họ tên: 4 - 16 kí tự, có thể viết hoa, không số hoặc ký tự đặc biệt
-    const nameValidation = validateFullName(cleanFullName);
-    if (!nameValidation.isValid) {
-      soundEffects.playError();
-      setVerificationError(nameValidation.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
-      return;
-    }
-
-    // 2. Tên đăng nhập / Nickname
+    // 1. Tên đăng nhập / Nickname
     if (!cleanNick) {
       soundEffects.playError();
       setVerificationError('Vui lòng nhập tên đăng nhập hoặc nickname!');
       return;
     }
 
-    // 3. Số điện thoại (9 đến 11 số)
+    // 2. Số điện thoại (9 đến 11 số)
     if (!cleanPhone || cleanPhone.length < 9 || cleanPhone.length > 11) {
       soundEffects.playError();
       setVerificationError('Vui lòng nhập số điện thoại hợp lệ (từ 9 đến 11 số)!');
       return;
     }
 
-    // 4. Email cá nhân dùng để nhận kết quả xác minh
+    // 3. Email cá nhân dùng để nhận kết quả xác minh
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       soundEffects.playError();
       setVerificationError('Vui lòng nhập địa chỉ email hợp lệ để nhận phản hồi xác minh!');
@@ -475,10 +458,20 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
     setIsSubmittingVerification(true);
 
+    // Match exact learnerId if available
+    const lowerNick = cleanNick.toLowerCase();
+    const matched = learners.find(l =>
+      (l.username || '').toLowerCase() === lowerNick ||
+      (l.nickname || '').toLowerCase() === lowerNick ||
+      (l.name || '').toLowerCase() === lowerNick ||
+      (l.learnerId || '').toLowerCase() === lowerNick
+    );
+    const resolvedLearnerId = verificationLearnerId || matched?.learnerId || cleanNick;
+
     const currentDevice = getDeviceDescription();
     const reqData: AccountVerificationRequest = {
       id: `verif_${Date.now()}`,
-      fullName: cleanFullName,
+      learnerId: resolvedLearnerId,
       nickname: cleanNick,
       phone: cleanPhone,
       email: cleanEmail,
@@ -929,29 +922,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </div>
                 )}
 
-                {/* 1. Họ và tên */}
+                {/* Tên đăng nhập / Nickname */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Họ tên hoặc Nickname <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    maxLength={32}
-                    value={resetFullName}
-                    onChange={(e) => {
-                      setResetFullName(e.target.value);
-                      setResetError(null);
-                    }}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
-                    required
-                  />
-
-                </div>
-
-                {/* 2. Tên đăng nhập / Username */}
-                <div className="space-y-1">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Tên đăng nhập<span className="text-rose-500">*</span>
+                    Tên đăng nhập / Nickname <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -961,10 +935,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setResetNickname(e.target.value);
                       setResetError(null);
                     }}
+                    placeholder="Nhập tên đăng nhập hoặc nickname..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
-
                 </div>
 
                 {/* 3. Số điện thoại */}
@@ -1113,29 +1087,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </div>
                 )}
 
-                {/* 1. Họ và tên */}
+                {/* Tên đăng nhập / Nickname */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Họ tên hoặc Nickname <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    maxLength={32}
-                    value={verificationFullName}
-                    onChange={(e) => {
-                      setVerificationFullName(e.target.value);
-                      setVerificationError(null);
-                    }}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
-                    required
-                  />
-
-                </div>
-
-                {/* 2. Username */}
-                <div className="space-y-1">
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Tên đăng nhập<span className="text-rose-500">*</span>
+                    Tên đăng nhập / Nickname <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -1145,10 +1100,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setVerificationNickname(e.target.value);
                       setVerificationError(null);
                     }}
+                    placeholder="Nhập tên đăng nhập hoặc nickname..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                     required
                   />
-
                 </div>
 
                 {/* 3. Số điện thoại */}

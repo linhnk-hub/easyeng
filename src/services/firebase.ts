@@ -718,6 +718,7 @@ export async function saveAccountVerificationRequestToCloud(req: AccountVerifica
   try {
     await setDoc(doc(db, 'account_verification_requests', req.id), {
       id: req.id,
+      learnerId: String(req.learnerId || '').slice(0, 64),
       fullName: String(req.fullName || '').slice(0, 64),
       nickname: String(req.nickname || '').slice(0, 64),
       phone: String(req.phone || '').slice(0, 20),
@@ -746,6 +747,7 @@ export async function fetchAccountVerificationRequestsFromCloud(): Promise<Accou
       const data = docSnap.data();
       list.push({
         id: data.id || docSnap.id,
+        learnerId: data.learnerId || '',
         fullName: data.fullName || '',
         nickname: data.nickname || '',
         phone: data.phone || '',
@@ -884,6 +886,8 @@ export async function setAccountActiveSession(session: UserActiveSession): Promi
   try {
     await setDoc(doc(db, 'active_sessions', session.learnerId), {
       learnerId: session.learnerId,
+      username: session.username || '',
+      nickname: session.nickname || '',
       sessionId: session.sessionId,
       deviceId: session.deviceId,
       deviceDescription: session.deviceDescription,
@@ -952,18 +956,37 @@ export async function clearAccountActiveSession(
 ): Promise<boolean> {
   const path = `active_sessions/${learnerId}`;
   try {
-    await setDoc(
-      doc(db, 'active_sessions', learnerId),
-      {
-        isLoggedIn: false,
-        terminatedAt: new Date().toISOString(),
-        terminationReason: reason,
-        terminatedMessage: customMessage,
-        lastHeartbeat: new Date().toISOString(),
-        loggedOutAt: new Date().toISOString(),
-      },
-      { merge: true }
-    );
+    const payload = {
+      isLoggedIn: false,
+      terminatedAt: new Date().toISOString(),
+      terminationReason: reason,
+      terminatedMessage: customMessage,
+      lastHeartbeat: new Date().toISOString(),
+      loggedOutAt: new Date().toISOString(),
+    };
+
+    // 1. Ghi ngắt phiên trực tiếp vào active_sessions/{learnerId}
+    await setDoc(doc(db, 'active_sessions', learnerId), payload, { merge: true });
+
+    // 2. Quét toàn bộ active_sessions để tìm bất kỳ document nào có learnerId hoặc username/nickname khớp
+    try {
+      const querySnap = await getDocs(collection(db, 'active_sessions'));
+      const targetLower = learnerId.trim().toLowerCase();
+      querySnap.forEach(d => {
+        const data = d.data();
+        const dLearnerId = (data.learnerId || '').toLowerCase();
+        const dUsername = (data.username || '').toLowerCase();
+        const dNickname = (data.nickname || '').toLowerCase();
+        const dDocId = d.id.toLowerCase();
+
+        if (dDocId === targetLower || dLearnerId === targetLower || dUsername === targetLower || dNickname === targetLower) {
+          setDoc(doc(db, 'active_sessions', d.id), payload, { merge: true }).catch(() => {});
+        }
+      });
+    } catch (scanErr) {
+      console.warn('clearAccountActiveSession scan notice:', scanErr);
+    }
+
     return true;
   } catch (error) {
     handleFirestoreError(error, OperationType.WRITE, path);

@@ -2131,3 +2131,6 @@ export const BADGES: { id: string; title: string; description: string; icon: str
     reqSummary: "Hoàn thành toàn bộ Unit"
   }
 ];
+
+export const AVATARS: Array<{ id: string; name: string; icon: string; color: string }> = [];
+

@@ -4,7 +4,7 @@ import { UserProfile } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
-import { resolveValidUsername, validatePassword, validateFullName, validateNickname } from '../utils/userUtils';
+import { resolveValidUsername, validatePassword, validateNickname } from '../utils/userUtils';
 
 interface AvatarModalProps {
   user: UserProfile;
@@ -32,8 +32,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'profile' | 'password'>('profile');
 
-  // Profile state (3 user info fields: Họ tên, Nickname, Tên đăng nhập)
-  const [fullName, setFullName] = useState(user.fullName || '');
+  // Profile state (Nickname, Tên đăng nhập, SĐT, Email)
   const [nickname, setNickname] = useState(user.nickname || user.name);
   const [phone, setPhone] = useState(user.phone || '');
   const [email, setEmail] = useState(user.email || '');
@@ -147,18 +146,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
     e.preventDefault();
     setProfileError(null);
 
-    // 1. Kiểm tra họ tên: 4 - 16 kí tự, tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số (nếu người dùng nhập)
-    const cleanFullName = fullName.trim();
-    if (cleanFullName) {
-      const nameValidation = validateFullName(cleanFullName);
-      if (!nameValidation.isValid) {
-        soundEffects.playError();
-        setProfileError(nameValidation.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
-        return;
-      }
-    }
-
-    // 2. Kiểm tra nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    // 1. Kiểm tra nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
     const cleanNickname = nickname.trim();
     const nickValidation = validateNickname(cleanNickname);
     if (!nickValidation.isValid) {
@@ -167,7 +155,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
       return;
     }
 
-    // 3. Kiểm tra số điện thoại (nếu có nhập)
+    // 2. Kiểm tra số điện thoại (nếu có nhập)
     const cleanPhone = phone.trim();
     if (cleanPhone) {
       if (cleanPhone.length < 9 || cleanPhone.length > 11) {
@@ -186,7 +174,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
       }
     }
 
-    // 4. Kiểm tra email (nếu có nhập)
+    // 3. Kiểm tra email (nếu có nhập)
     const cleanEmail = email.trim().toLowerCase();
     if (cleanEmail) {
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -214,7 +202,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
       cleanPhone,
       cleanEmail,
       userUploadedAvatar || undefined,
-      cleanFullName || undefined,
+      undefined,
       cleanNickname
     );
     onClose();
@@ -255,7 +243,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
       phone.trim(),
       email.trim(),
       userUploadedAvatar || undefined,
-      fullName.trim() || undefined,
+      undefined,
       nickname.trim()
     );
     setPinSuccess('Đổi mật khẩu thành công! Mật khẩu mới đã được cập nhật.');
@@ -348,7 +336,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </div>
             )}
 
-            {/* 3. Tên đăng nhập / Username (Cố định, người dùng không thể tự sửa, chỉ Quản lý có quyền đổi) */}
+            {/* Tên đăng nhập / Username (Cố định, người dùng không thể tự sửa, chỉ Quản lý có quyền đổi) */}
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
@@ -367,29 +355,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
               </div>
             </div>
 
-            {/* 1. Họ và tên */}
-            <div className="space-y-1">
-              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
-               <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" />Họ tên / Fullname:
-                </span>  
-              </label>
-              <input
-                type="text"
-                value={fullName}
-                onChange={(e) => {
-                  setFullName(e.target.value);
-                  setProfileError(null);
-                }}
-                maxLength={16}
-                className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-xs sm:text-sm"
-              />
-              <p className="text-[10px] text-slate-400">
-                4 - 16 kí tự (tên gọi đầy đủ, có thể viết hoa, không được có ký tự đặc biệt hoặc số)
-              </p>
-            </div>
-
-            {/* 2. Nickname */}
+            {/* Nickname / Tên hiển thị */}
             <div className="space-y-1">
               <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
                <span className="flex items-center gap-1.5">
@@ -503,63 +469,39 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 </div>
               )}
 
-              {/* Danh sách avatar có sẵn và avatar hệ thống (người dùng khác không thấy avatar riêng tư) */}
-              <div className="space-y-1">
-                <span className="text-[11px] font-bold text-slate-500 block">
-                  Hoặc chọn trong bộ sưu tập:
-                </span>
-                <div className="grid grid-cols-5 gap-2 max-h-40 overflow-y-auto p-1 bg-slate-50 rounded-2xl border border-slate-200">
-                  {/* Built-in avatars */}
-                  {builtInAvatarsList.map((av) => {
-                    const isSelected = selectedAvatar === av.id || selectedAvatar === av.icon;
-                    return (
-                      <button
-                        key={av.id}
-                        type="button"
-                        onClick={() => {
-                          soundEffects.playClick();
-                          setSelectedAvatar(av.icon || av.id);
-                        }}
-                        className={`p-1.5 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer aspect-square ${
-                          isSelected
-                            ? 'border-amber-500 bg-white shadow-md scale-105 ring-2 ring-amber-300'
-                            : 'border-transparent bg-white/70 hover:bg-white'
-                        }`}
-                        title={av.name}
-                      >
-                        <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-lg">
-                          {renderAvatarContent(av.icon, '🦊')}
-                        </div>
-                      </button>
-                    );
-                  })}
-
-                  {/* System custom avatars */}
-                  {visibleCustomAvatars.map((av) => {
-                    const isSelected = selectedAvatar === av.icon || selectedAvatar === av.id;
-                    return (
-                      <button
-                        key={av.id}
-                        type="button"
-                        onClick={() => {
-                          soundEffects.playClick();
-                          setSelectedAvatar(av.icon || av.id);
-                        }}
-                        className={`p-1.5 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer aspect-square ${
-                          isSelected
-                            ? 'border-amber-500 bg-white shadow-md scale-105 ring-2 ring-amber-300'
-                            : 'border-transparent bg-white/70 hover:bg-white'
-                        }`}
-                        title={av.name}
-                      >
-                        <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-lg">
-                          {renderAvatarContent(av.icon, '🦊')}
-                        </div>
-                      </button>
-                    );
-                  })}
+              {/* Danh sách avatar hệ thống (người dùng khác không thấy avatar riêng tư) */}
+              {visibleCustomAvatars.length > 0 && (
+                <div className="space-y-1">
+                  <span className="text-[11px] font-bold text-slate-500 block">
+                    Hoặc chọn trong bộ sưu tập ({visibleCustomAvatars.length}):
+                  </span>
+                  <div className="grid grid-cols-5 gap-2 max-h-40 overflow-y-auto p-1 bg-slate-50 rounded-2xl border border-slate-200">
+                    {visibleCustomAvatars.map((av) => {
+                      const isSelected = selectedAvatar === av.icon || selectedAvatar === av.id;
+                      return (
+                        <button
+                          key={av.id}
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playClick();
+                            setSelectedAvatar(av.icon || av.id);
+                          }}
+                          className={`p-1.5 rounded-xl border-2 transition-all flex items-center justify-center cursor-pointer aspect-square ${
+                            isSelected
+                              ? 'border-amber-500 bg-white shadow-md scale-105 ring-2 ring-amber-300'
+                              : 'border-transparent bg-white/70 hover:bg-white'
+                          }`}
+                          title={av.name}
+                        >
+                          <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-lg">
+                            {renderAvatarContent(av.icon, '🎓')}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <div className="pt-2 flex gap-2.5 shrink-0">

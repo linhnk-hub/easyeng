@@ -237,7 +237,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     type: 'reset' | 'verification';
     reqId: string;
     recipient: string;
-    fullName: string;
+    fullName?: string;
     nickname: string;
     phone?: string;
     subject: string;
@@ -263,17 +263,17 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const handleOpenResetEmailReply = (req: PasswordResetRequest) => {
     soundEffects.playClick();
     const defaultPassword = '123456';
-    const subject = `[EasyEng] Cấp lại mật khẩu tài khoản: ${req.fullName} (${req.nickname})`;
-    const body = `Xin chào ${req.fullName},
+    const greetingName = req.fullName || req.nickname;
+    const subject = `[EasyEng] Cấp lại mật khẩu tài khoản: ${req.nickname}`;
+    const body = `Xin chào ${greetingName},
 
 Quản trị viên EasyEng đã tiếp nhận và xử lý yêu cầu cấp lại mật khẩu của bạn.
 
 Thông tin tài khoản:
-- Họ và tên: ${req.fullName}
-- Tên đăng nhập: ${req.nickname}
+- Tên tài khoản: ${req.nickname}
 - Mật khẩu mới được cấp lại: ${defaultPassword}
 
-👉 Bạn vui lòng truy cập ứng dụng EasyEng trên trình duyệt, đăng nhập bằng Tên đăng nhập và Mật khẩu mới ở trên. Sau khi đăng nhập thành công, bạn nên vào phần "Cài đặt tài khoản" để đổi lại mật khẩu cá nhân theo ý muốn.
+👉 Bạn vui lòng truy cập ứng dụng EasyEng trên trình duyệt, đăng nhập bằng Tên tài khoản và Mật khẩu mới ở trên. Sau khi đăng nhập thành công, bạn nên vào phần "Cài đặt tài khoản" để đổi lại mật khẩu cá nhân theo ý muốn.
 
 Nếu bạn cần hỗ trợ thêm, hãy phản hồi lại qua email này.
 
@@ -286,7 +286,7 @@ Quản trị viên EasyEng`;
       type: 'reset',
       reqId: req.id,
       recipient: req.email,
-      fullName: req.fullName,
+      fullName: req.fullName || req.nickname,
       nickname: req.nickname,
       phone: req.phone,
       subject,
@@ -297,8 +297,9 @@ Quản trị viên EasyEng`;
 
   const handleOpenVerificationEmailReply = (req: AccountVerificationRequest) => {
     soundEffects.playClick();
-    const subject = `[EasyEng] Xác minh tài khoản và hỗ trợ mở khóa: ${req.fullName} (${req.nickname})`;
-    const body = `Xin chào ${req.fullName},
+    const greetingName = req.fullName || req.nickname;
+    const subject = `[EasyEng] Xác minh tài khoản và hỗ trợ mở khóa: ${req.nickname}`;
+    const body = `Xin chào ${greetingName},
 
 Quản trị viên EasyEng đã tiếp nhận và xử lý yêu cầu xác minh tài khoản "${req.nickname}" của bạn.
 
@@ -319,7 +320,7 @@ Quản trị viên EasyEng`;
       type: 'verification',
       reqId: req.id,
       recipient: req.email,
-      fullName: req.fullName,
+      fullName: req.fullName || req.nickname,
       nickname: req.nickname,
       phone: req.phone,
       subject,
@@ -926,18 +927,7 @@ Quản trị viên EasyEng`;
     setEditPinError(null);
     setEditFormError(null);
 
-    // 1. Validate Họ tên: 4 - 16 kí tự, là tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số (nếu có nhập)
-    const cleanFullName = editFullName.trim();
-    if (cleanFullName) {
-      const nameVal = validateFullName(cleanFullName);
-      if (!nameVal.isValid) {
-        soundEffects.playError();
-        setEditFormError(nameVal.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
-        return;
-      }
-    }
-
-    // 2. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    // 1. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar
     const cleanNick = (editNickname.trim() || editName.trim());
     const nickVal = validateNickname(cleanNick);
     if (!nickVal.isValid) {
@@ -1022,7 +1012,7 @@ Quản trị viên EasyEng`;
     soundEffects.playSuccess();
     onUpdateLearner({
       ...original,
-      fullName: cleanFullName,
+      fullName: '',
       nickname: cleanNick,
       username: cleanUsername,
       name: cleanNick,
@@ -1071,18 +1061,7 @@ Quản trị viên EasyEng`;
     setNewPinError(null);
     setNewFormError(null);
 
-    // 1. Validate Họ tên: 4 - 16 kí tự, là tên gọi đầy đủ, có thể viết hoa, không được có kí tự đặc biệt hoặc số (nếu có nhập)
-    const cleanFullName = newFullName.trim();
-    if (cleanFullName) {
-      const nameVal = validateFullName(cleanFullName);
-      if (!nameVal.isValid) {
-        soundEffects.playError();
-        setNewFormError(nameVal.error || 'Họ tên không hợp lệ (4 - 16 ký tự, không chứa số hoặc ký tự đặc biệt)!');
-        return;
-      }
-    }
-
-    // 2. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar: có thể viết hoa, có thể có số, không được có kí tự đặc biệt
+    // 1. Validate Nickname: Tên gọi thân mật hoặc tên viết tắt, hiển thị kế bên Avatar
     const cleanNick = (newNickname.trim() || newName.trim());
     const nickVal = validateNickname(cleanNick);
     if (!nickVal.isValid) {
@@ -1162,7 +1141,7 @@ Quản trị viên EasyEng`;
 
     const newProfile: UserProfile = {
       learnerId: newLearnerId,
-      fullName: cleanFullName,
+      fullName: '',
       nickname: cleanNick,
       username: cleanNewUsername,
       grade: Number(newGrade) || 4,
@@ -1760,26 +1739,10 @@ Quản trị viên EasyEng`;
                       </button>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-xs font-bold text-slate-600 mb-1">
-                          Họ tên:
-                        </label>
-                        <input
-                          type="text"
-                          value={newFullName}
-                          onChange={(e) => {
-                            setNewFullName(e.target.value);
-                            setNewFormError(null);
-                          }}
-                          maxLength={16}
-                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-bold text-slate-600 mb-1">
-                          Nickname:
+                          Nickname / Tên hiển thị <span className="text-rose-500">*</span>:
                         </label>
                         <input
                           type="text"
@@ -1990,28 +1953,10 @@ Quản trị viên EasyEng`;
                             </button>
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <div>
                               <label className="block text-xs font-bold text-slate-600 mb-1">
-                                1. Họ và tên:
-                              </label>
-                              <input
-                                type="text"
-                                value={editFullName}
-                                onChange={(e) => {
-                                  setEditFullName(e.target.value);
-                                  setEditFormError(null);
-                                }}
-                                placeholder="Nguyễn Văn An"
-                                maxLength={16}
-                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
-                              />
-                              <span className="text-[10px] text-slate-400">4-16 kí tự, không số/ký tự ĐB</span>
-                            </div>
-
-                            <div>
-                              <label className="block text-xs font-bold text-slate-600 mb-1">
-                                2. Nickname (cạnh Avatar) <span className="text-rose-500">*</span>:
+                                Nickname (cạnh Avatar) <span className="text-rose-500">*</span>:
                               </label>
                               <input
                                 type="text"
@@ -2237,11 +2182,6 @@ Quản trị viên EasyEng`;
                               <h4 className="font-display font-bold text-base text-slate-800">
                                 {learner.nickname || learner.name}
                               </h4>
-                              {learner.fullName && (
-                                <span className="text-xs text-slate-500 font-medium">
-                                  ({learner.fullName})
-                                </span>
-                              )}
                               <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-300">
                                 Lớp {learner.grade}
                               </span>
@@ -2292,9 +2232,20 @@ Quản trị viên EasyEng`;
                             type="button"
                             onClick={async () => {
                               soundEffects.playClick();
-                              await clearAccountActiveSession(learner.learnerId);
+                              await clearAccountActiveSession(
+                                learner.learnerId,
+                                'admin_unlocked',
+                                'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                              );
+                              if (learner.username && learner.username !== learner.learnerId) {
+                                await clearAccountActiveSession(
+                                  learner.username,
+                                  'admin_unlocked',
+                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                );
+                              }
                               soundEffects.playSuccess();
-                              setUnlockedSessionMsg(`Đã mở khóa phiên và đăng xuất mọi thiết bị cho học sinh "${learner.name}" thành công!`);
+                              setUnlockedSessionMsg(`Đã mở khóa phiên và ngắt kết nối thiết bị cho tài khoản "${learner.nickname || learner.name}" thành công!`);
                               setTimeout(() => setUnlockedSessionMsg(null), 5000);
                             }}
                             className="px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 hover:border-emerald-300 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
@@ -3556,11 +3507,7 @@ Quản trị viên EasyEng`;
                               #{idx + 1}
                             </span>
                             <span className="font-display font-bold text-base text-slate-900">
-                              {req.fullName}
-                            </span>
-                            <span className="text-xs bg-amber-50 text-amber-800 font-bold px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
-                              <User className="w-3 h-3 text-amber-600" />
-                              <span>Nickname: <strong className="font-bold">{req.nickname}</strong></span>
+                              {req.nickname}
                             </span>
                             <span className="text-[11px] text-slate-400 flex items-center gap-1 ml-auto sm:ml-0">
                               <Clock className="w-3 h-3 text-slate-400" />
@@ -3623,7 +3570,7 @@ Quản trị viên EasyEng`;
                           <button
                             type="button"
                             onClick={async () => {
-                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu cấp lại mật khẩu của ${req.fullName}?`)) {
+                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu cấp lại mật khẩu của tài khoản "${req.nickname}"?`)) {
                                 soundEffects.playClick();
                                 setResetRequests(prev => prev.filter(r => r.id !== req.id));
                                 await deletePasswordResetRequestFromCloud(req.id);
@@ -3785,11 +3732,7 @@ Quản trị viên EasyEng`;
                               #{idx + 1}
                             </span>
                             <span className="font-display font-bold text-base text-slate-900">
-                              {req.fullName}
-                            </span>
-                            <span className="text-xs bg-rose-50 text-rose-800 font-bold px-2.5 py-0.5 rounded-full border border-rose-200 flex items-center gap-1">
-                              <User className="w-3 h-3 text-rose-600" />
-                              <span>Nickname: <strong className="font-bold">{req.nickname}</strong></span>
+                              {req.nickname}
                             </span>
                             <span className="text-[11px] text-slate-400 flex items-center gap-1 ml-auto sm:ml-0">
                               <Clock className="w-3 h-3 text-slate-400" />
@@ -3851,31 +3794,40 @@ Quản trị viên EasyEng`;
                             onClick={async () => {
                               soundEffects.playClick();
                               const cleanReqNick = (req.nickname || '').trim().toLowerCase();
-                              const cleanReqName = (req.fullName || '').trim().toLowerCase();
+                              const reqLearnerId = (req.learnerId || '').trim();
                               const matchedLearner = learners.find(l => {
                                 const u = (l.username || '').toLowerCase();
                                 const n = (l.nickname || '').toLowerCase();
                                 const name = (l.name || '').toLowerCase();
-                                const fn = (l.fullName || '').toLowerCase();
                                 const id = (l.learnerId || '').toLowerCase();
-                                return id === cleanReqNick || u === cleanReqNick || n === cleanReqNick || name === cleanReqNick || (cleanReqName && (fn === cleanReqName || name === cleanReqName));
+                                return (reqLearnerId && id === reqLearnerId.toLowerCase()) || id === cleanReqNick || u === cleanReqNick || n === cleanReqNick || name === cleanReqNick;
                               });
-                              const targetLearnerId = matchedLearner ? matchedLearner.learnerId : req.nickname;
+
+                              const targetLearnerId = reqLearnerId || (matchedLearner ? matchedLearner.learnerId : req.nickname);
+
                               await clearAccountActiveSession(
                                 targetLearnerId,
                                 'admin_unlocked',
                                 'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
                               );
-                              if (matchedLearner && req.nickname && req.nickname !== targetLearnerId) {
+                              if (req.nickname && req.nickname !== targetLearnerId) {
                                 await clearAccountActiveSession(
                                   req.nickname,
                                   'admin_unlocked',
                                   'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
                                 );
                               }
+                              if (matchedLearner && matchedLearner.username && matchedLearner.username !== targetLearnerId) {
+                                await clearAccountActiveSession(
+                                  matchedLearner.username,
+                                  'admin_unlocked',
+                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                );
+                              }
+
                               soundEffects.playSuccess();
                               setUnlockedSessionMsg(
-                                `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" (${req.fullName}) thành công! Thiết bị lạ sẽ bị ngắt ngay lập tức.`
+                                `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${req.nickname}" thành công! Thiết bị lạ sẽ bị ngắt ngay lập tức.`
                               );
                               setTimeout(() => setUnlockedSessionMsg(null), 6000);
                             }}
@@ -3901,7 +3853,7 @@ Quản trị viên EasyEng`;
                           <button
                             type="button"
                             onClick={async () => {
-                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu xác minh tài khoản của ${req.fullName}?`)) {
+                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu xác minh tài khoản của "${req.nickname}"?`)) {
                                 soundEffects.playClick();
                                 setVerificationRequests(prev => prev.filter(r => r.id !== req.id));
                                 await deleteAccountVerificationRequestFromCloud(req.id);
