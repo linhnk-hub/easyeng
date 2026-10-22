@@ -127,7 +127,8 @@ export interface ExerciseCluster {
 export interface PasswordResetRequest {
   id: string;
   fullName?: string;
-  nickname: string;
+  username?: string;
+  nickname?: string;
   phone: string;
   email: string;
   createdAt: string;
@@ -138,7 +139,8 @@ export interface AccountVerificationRequest {
   id: string;
   learnerId?: string;
   fullName?: string;
-  nickname: string;
+  username?: string;
+  nickname?: string;
   phone: string;
   email: string;
   createdAt: string;

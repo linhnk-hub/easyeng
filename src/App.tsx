@@ -1250,13 +1250,13 @@ export default function App() {
     newNickname?: string
   ) => {
     if (!currentUser) return;
-    const finalNick = newNickname || newName;
+    const finalUsername = resolveValidUsername(currentUser.username, newNickname || newName);
     const updated: UserProfile = {
       ...currentUser,
-      name: finalNick,
-      nickname: finalNick,
+      name: finalUsername,
+      nickname: finalUsername,
       fullName: newFullName !== undefined ? newFullName : (currentUser.fullName || ''),
-      username: resolveValidUsername(currentUser.username, finalNick),
+      username: finalUsername,
       avatar: newAvatar,
       ...(newPin ? { pin: newPin } : {}),
       phone: newPhone !== undefined ? newPhone : (currentUser.phone || ''),
@@ -1271,7 +1271,7 @@ export default function App() {
     if (uploadedCustomAvatar) {
       const userCustomAvatarItem: CustomAvatarItem = {
         id: `custom_av_${currentUser.learnerId}`,
-        name: `Avatar ${newName}`,
+        name: `Avatar ${finalUsername}`,
         icon: uploadedCustomAvatar,
         isCustom: true,
         ownerLearnerId: currentUser.learnerId

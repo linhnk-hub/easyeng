@@ -98,13 +98,15 @@ function formatLearnerForFirestore(learner: UserProfile) {
     });
   }
 
+  const primaryUsername = resolveValidUsername(learner.username, learner.name || learner.nickname);
+
   return {
     id: String(learner.learnerId),
-    name: String(learner.nickname || learner.name || 'Học sinh').slice(0, 64),
+    name: primaryUsername,
     fullName: learner.fullName ? String(learner.fullName).trim().slice(0, 32) : '',
-    nickname: learner.nickname ? String(learner.nickname).trim().slice(0, 32) : String(learner.name || '').slice(0, 32),
+    nickname: primaryUsername,
     grade: Math.max(1, Math.min(12, Math.round(Number(learner.grade) || 4))),
-    avatar: String(learner.avatar || '🦊').slice(0, 350000),
+    avatar: String(learner.avatar || '🎓').slice(0, 350000),
     totalStars: Math.max(0, Math.round(Number(learner.totalStars || 0))),
     level: Math.max(1, Math.round(Number(learner.level || 1))),
     xp: Math.max(0, Math.round(Number(learner.xp || 0))),
@@ -113,7 +115,7 @@ function formatLearnerForFirestore(learner: UserProfile) {
     completedUnits: cleanCompletedUnits,
     unlockedBadges: Array.isArray(learner.unlockedBadges) ? learner.unlockedBadges.slice(0, 50) : [],
     pin: learner.pin !== undefined && learner.pin !== null ? String(learner.pin).trim() : '',
-    username: resolveValidUsername(learner.username, learner.nickname || learner.name),
+    username: primaryUsername,
     phone: learner.phone ? String(learner.phone).trim() : '',
     email: learner.email ? String(learner.email).trim().toLowerCase() : '',
     customAvatarUrl: learner.customAvatarUrl ? String(learner.customAvatarUrl).slice(0, 350000) : '',
@@ -138,15 +140,15 @@ function formatFirestoreToLearner(data: any): UserProfile {
     });
   }
 
-  const nickname = data.nickname || data.name || 'Học sinh';
+  const rawUsername = resolveValidUsername(data.username, data.name || data.nickname || 'hocsinh');
 
   return {
     learnerId: data.id || 'ty',
-    name: nickname,
+    name: rawUsername,
     fullName: data.fullName || '',
-    nickname: nickname,
+    nickname: rawUsername,
     grade: Math.max(1, Math.min(12, Math.round(Number(data.grade) || 4))),
-    avatar: data.avatar || '🦊',
+    avatar: data.avatar || '🎓',
     totalStars: Number(data.totalStars || 0),
     level: Number(data.level || 1),
     xp: Number(data.xp || 0),
@@ -155,7 +157,7 @@ function formatFirestoreToLearner(data: any): UserProfile {
     completedUnits,
     unlockedBadges: Array.isArray(data.unlockedBadges) ? data.unlockedBadges : [],
     pin: data.pin !== undefined && data.pin !== null ? String(data.pin).trim() : '',
-    username: resolveValidUsername(data.username, nickname),
+    username: rawUsername,
     phone: data.phone || '',
     email: data.email || '',
     customAvatarUrl: data.customAvatarUrl || '',
@@ -651,11 +653,13 @@ export function subscribeToBranding(callback: (settings: CloudBrandingSettings) 
  */
 export async function savePasswordResetRequestToCloud(request: PasswordResetRequest): Promise<boolean> {
   const path = `password_reset_requests/${request.id}`;
+  const cleanUsername = String(request.username || request.nickname || request.fullName || '').slice(0, 100);
   try {
     await setDoc(doc(db, 'password_reset_requests', request.id), {
       id: request.id,
-      fullName: String(request.fullName || '').slice(0, 100),
-      nickname: String(request.nickname || '').slice(0, 100),
+      username: cleanUsername,
+      fullName: cleanUsername,
+      nickname: cleanUsername,
       phone: String(request.phone || '').slice(0, 20),
       email: String(request.email || '').slice(0, 120),
       createdAt: request.createdAt || new Date().toISOString(),
@@ -678,10 +682,12 @@ export async function fetchPasswordResetRequestsFromCloud(): Promise<PasswordRes
     const list: PasswordResetRequest[] = [];
     colSnap.forEach(docSnap => {
       const data = docSnap.data();
+      const accountUser = data.username || data.nickname || data.fullName || '';
       list.push({
         id: data.id || docSnap.id,
-        fullName: data.fullName || '',
-        nickname: data.nickname || '',
+        username: accountUser,
+        fullName: accountUser,
+        nickname: accountUser,
         phone: data.phone || '',
         email: data.email || '',
         createdAt: data.createdAt || new Date().toISOString(),
@@ -715,12 +721,14 @@ export async function deletePasswordResetRequestFromCloud(id: string): Promise<b
  */
 export async function saveAccountVerificationRequestToCloud(req: AccountVerificationRequest): Promise<boolean> {
   const path = `account_verification_requests/${req.id}`;
+  const cleanUsername = String(req.username || req.nickname || req.fullName || '').slice(0, 64);
   try {
     await setDoc(doc(db, 'account_verification_requests', req.id), {
       id: req.id,
       learnerId: String(req.learnerId || '').slice(0, 64),
-      fullName: String(req.fullName || '').slice(0, 64),
-      nickname: String(req.nickname || '').slice(0, 64),
+      username: cleanUsername,
+      fullName: cleanUsername,
+      nickname: cleanUsername,
       phone: String(req.phone || '').slice(0, 20),
       email: String(req.email || '').slice(0, 120),
       createdAt: req.createdAt || new Date().toISOString(),
@@ -745,11 +753,13 @@ export async function fetchAccountVerificationRequestsFromCloud(): Promise<Accou
     const list: AccountVerificationRequest[] = [];
     colSnap.forEach(docSnap => {
       const data = docSnap.data();
+      const accountUser = data.username || data.nickname || data.fullName || '';
       list.push({
         id: data.id || docSnap.id,
         learnerId: data.learnerId || '',
-        fullName: data.fullName || '',
-        nickname: data.nickname || '',
+        username: accountUser,
+        fullName: accountUser,
+        nickname: accountUser,
         phone: data.phone || '',
         email: data.email || '',
         createdAt: data.createdAt || new Date().toISOString(),
