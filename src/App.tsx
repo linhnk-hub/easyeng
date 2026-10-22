@@ -862,7 +862,7 @@ export default function App() {
       } catch {}
       handleSetSessionNotice(
         message ||
-        'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+        'Phiên đăng nhập này sẽ bị ngắt do có yêu cầu xác minh tình trạng đăng nhập trên thiết bị lạ'
       );
     };
 
@@ -1306,14 +1306,11 @@ export default function App() {
           {/* Header & Message */}
           <div className="space-y-2">
             <h3 className="font-display font-bold text-xl text-slate-900">
-              Thông báo ngắt phiên
+              Thông báo dừng truy cập
             </h3>
             <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-sm font-semibold leading-relaxed">
               {sessionTerminatedNotice}
             </div>
-            <p className="text-xs text-slate-500 leading-relaxed pt-1">
-              Tài khoản này vừa được xử lý mở khóa hoặc xác minh tình trạng đăng nhập. Để bảo mật tài khoản, phiên làm việc hiện tại trên thiết bị này đã được kết thúc.
-            </p>
           </div>
 
           {/* Button */}
