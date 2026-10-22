@@ -900,7 +900,7 @@ export default function App() {
       if (isTerminated) {
         triggerTermination(
           session.terminatedMessage ||
-          'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+          'Phiên đăng nhập này sẽ bị ngắt do có yêu cầu xác minh tình trạng đăng nhập trên thiết bị lạ'
         );
       }
     });

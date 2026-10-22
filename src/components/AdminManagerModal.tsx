@@ -268,19 +268,19 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     const subject = `[EasyEng] Cấp lại mật khẩu tài khoản: ${accountUser}`;
     const body = `Xin chào ${greetingName},
 
-Quản trị viên EasyEng đã tiếp nhận và xử lý yêu cầu cấp lại mật khẩu của bạn.
+EasyEng đã tiếp nhận và xử lý yêu cầu cấp lại mật khẩu của bạn.
 
 Thông tin tài khoản:
 - Tên tài khoản: ${accountUser}
-- Mật khẩu mới được cấp lại: ${defaultPassword}
+- Mật khẩu cấp mới: ${defaultPassword}
 
-👉 Bạn vui lòng truy cập ứng dụng EasyEng trên trình duyệt, đăng nhập bằng Tên tài khoản và Mật khẩu mới ở trên. Sau khi đăng nhập thành công, bạn nên vào phần "Cài đặt tài khoản" để đổi lại mật khẩu cá nhân theo ý muốn.
+Bạn vui lòng truy cập website EasyEng trên trình duyệt, đăng nhập bằng Tên tài khoản và Mật khẩu mới ở trên. Sau khi đăng nhập thành công, bạn nên vào phần "Cài đặt tài khoản" để đổi lại mật khẩu cá nhân theo ý muốn.
 
 Nếu bạn cần hỗ trợ thêm, hãy phản hồi lại qua email này.
 
 Chúc bạn học tập thật tốt cùng EasyEng!
 Trân trọng,
-Quản trị viên EasyEng`;
+EasyEng`;
 
     setEmailReplyModal({
       isOpen: true,
@@ -304,19 +304,17 @@ Quản trị viên EasyEng`;
     const subject = `[EasyEng] Xác minh tài khoản và hỗ trợ mở khóa: ${accountUser}`;
     const body = `Xin chào ${greetingName},
 
-Quản trị viên EasyEng đã tiếp nhận và xử lý yêu cầu xác minh tài khoản "${accountUser}" của bạn.
+EasyEng đã tiếp nhận và xử lý yêu cầu xác minh tài khoản "${accountUser}" của bạn.
 
 Hệ thống đã tiến hành:
-1. Xác minh quyền sở hữu tài khoản thành công.
-2. Ngắt kết nối tất cả các phiên đăng nhập khác hoặc thiết bị lạ để bảo vệ an toàn cho tài khoản.
-3. Mở khóa trạng thái đăng nhập bình thường.
-
-👉 Hiện tại bạn đã có thể đăng nhập lại vào ứng dụng EasyEng bình thường trên thiết bị của mình.
+> Xác minh quyền sở hữu tài khoản thành công.
+> Ngắt kết nối phiên đăng nhập trên thiết bị lạ để bảo vệ an toàn cho tài khoản.
+> Hiện tại bạn đã có thể đăng nhập lại vào ứng dụng EasyEng bình thường trên thiết bị của mình.
 * Lưu ý: Nếu bạn nghi ngờ mật khẩu đã từng bị người khác biết, vui lòng đổi mật khẩu mới trong phần "Cài đặt tài khoản" ngay sau khi đăng nhập.
 
 Chúc bạn có những giờ học tập hiệu quả cùng EasyEng!
 Trân trọng,
-Quản trị viên EasyEng`;
+EasyEng`;
 
     setEmailReplyModal({
       isOpen: true,
@@ -2197,7 +2195,7 @@ Quản trị viên EasyEng`;
                             className="px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 hover:border-emerald-300 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
                             title="Ngắt kết nối các thiết bị khác đang đăng nhập tài khoản này"
                           >
-                            <Unlock className="w-3.5 h-3.5 text-emerald-600" /> Mở khóa
+                            <Unlock className="w-3.5 h-3.5 text-emerald-600" /> Ngắt phiên
                           </button>
 
                           {/* Nút Reset tài khoản */}
@@ -3783,7 +3781,7 @@ Quản trị viên EasyEng`;
                             title="Ngắt kết nối các thiết bị khác và cho phép học sinh đăng nhập lại ngay"
                           >
                             <Unlock className="w-3.5 h-3.5" />
-                            <span>Mở khóa phiên</span>
+                            <span>Ngắt phiên</span>
                           </button>
 
                           {/* Nút Soạn email phản hồi (Hộp thoại có sẵn nội dung, KHÔNG mở mailto) */}
