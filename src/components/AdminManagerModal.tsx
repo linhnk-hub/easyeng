@@ -3468,7 +3468,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
                   </div>
                   <div>
                     <h3 className="font-display font-bold text-base text-slate-800">
-                      Yêu cầu Xác minh tài khoản
+                      Yêu cầu xác minh
                     </h3>
 
                   </div>
