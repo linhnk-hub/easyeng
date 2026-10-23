@@ -38,6 +38,17 @@
   scrollbar-color: #fbbf24 #fffbeb;
 }
 
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none !important;
+}
+
 /* Custom 3D Card flip styles */
 .perspective-1000 {
   perspective: 1000px;

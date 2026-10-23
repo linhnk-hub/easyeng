@@ -1649,13 +1649,13 @@ EasyEng`;
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex px-4 sm:px-6 border-b border-slate-200 bg-white gap-1 sm:gap-2 overflow-x-auto shrink-0 scrollbar-none">
+        <div className="flex px-4 sm:px-6 border-b border-slate-200 bg-white gap-1 sm:gap-2 overflow-x-auto overflow-y-hidden shrink-0 h-14 sm:h-16 items-stretch scrollbar-none">
           <button
             onClick={() => {
               soundEffects.playClick();
               setActiveTab('learners');
             }}
-            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'learners'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -1670,7 +1670,7 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('branding');
             }}
-            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'branding'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -1685,7 +1685,7 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('classes');
             }}
-            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'classes'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -1700,7 +1700,7 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('curriculum');
             }}
-            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'curriculum'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -1715,7 +1715,7 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('resets');
             }}
-            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'resets'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -1735,7 +1735,7 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('verifications');
             }}
-            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'verifications'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
