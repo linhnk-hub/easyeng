@@ -656,28 +656,6 @@ EasyEng`;
     }
   };
 
-  const handleLoadOfficialGrade4Workbooks = () => {
-    soundEffects.playClick();
-    const defaults = createDefaultClusters(4, 4);
-    setExerciseClustersMap(prev => ({
-      ...prev,
-      [4]: defaults
-    }));
-    setHasUnsavedExerciseChanges(true);
-    setExerciseSaveSuccess('Đã nạp 4 học phần Sách bài tập Lớp 4 chuẩn (833 câu hỏi) vào biểu mẫu. Hãy nhấn nút "Lưu dữ liệu bài tập Lớp 4" bên dưới để áp dụng có hiệu lực!');
-  };
-
-  const handleLoadOfficialGrade7Workbooks = () => {
-    soundEffects.playClick();
-    const defaults = createDefaultClusters(7, 4);
-    setExerciseClustersMap(prev => ({
-      ...prev,
-      [7]: defaults
-    }));
-    setHasUnsavedExerciseChanges(true);
-    setExerciseSaveSuccess('Đã nạp 4 học phần Sách bài tập Lớp 7 chuẩn (910 câu hỏi) vào biểu mẫu. Hãy nhấn nút "Lưu dữ liệu bài tập Lớp 7" bên dưới để áp dụng có hiệu lực!');
-  };
-
   const handleAddCluster = () => {
     soundEffects.playClick();
     const current = getCurrentGradeClusters();
@@ -2886,31 +2864,6 @@ EasyEng`;
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
-                      {/* Nút nạp sẵn 4 file JSON cho Lớp 4 */}
-                      {selectedExerciseGrade === 4 && (
-                        <button
-                          type="button"
-                          onClick={handleLoadOfficialGrade4Workbooks}
-                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer active:scale-95"
-                          title="Tải lên và nạp sẵn 4 học phần Sách bài tập Global Success Lớp 4 (833 câu)"
-                        >
-                          <BookOpen className="w-3.5 h-3.5" />
-                          <span>Nạp 4 file JSON SGK Lớp 4 (833 câu)</span>
-                        </button>
-                      )}
-
-                      {/* Nút nạp sẵn 4 file JSON cho Lớp 7 */}
-                      {selectedExerciseGrade === 7 && (
-                        <button
-                          type="button"
-                          onClick={handleLoadOfficialGrade7Workbooks}
-                          className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition flex items-center gap-1.5 cursor-pointer active:scale-95"
-                          title="Tải lên và nạp sẵn 4 học phần Sách bài tập Global Success Lớp 7 (910 câu)"
-                        >
-                          <BookOpen className="w-3.5 h-3.5" />
-                          <span>Nạp 4 file JSON SGK Lớp 7 (910 câu)</span>
-                        </button>
-                      )}
 
                       {/* Nút Xóa tất cả học phần */}
                       {getCurrentGradeClusters().length > 0 && (
@@ -2968,7 +2921,7 @@ EasyEng`;
                           Chưa có học phần bài tập nào cho Lớp {selectedExerciseGrade}
                         </h4>
                         <p className="text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
-                          Hiện tại danh sách bài tập của lớp này đang trống (đã xóa hết bài tập). Bạn có thể bấm nút <strong>"Thêm học phần (+)"</strong> để tự tạo cụm bài tập mới hoặc nạp lại bộ bài tập mẫu chuẩn từ hệ thống.
+                          Hiện tại danh sách bài tập của lớp này đang trống. Bạn có thể bấm nút <strong>"Thêm học phần (+)"</strong> để thêm cụm bài tập mới.
                         </p>
                       </div>
                       <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
@@ -2979,24 +2932,6 @@ EasyEng`;
                         >
                           <Plus className="w-4 h-4" /> Thêm học phần mới
                         </button>
-                        {selectedExerciseGrade === 4 && (
-                          <button
-                            type="button"
-                            onClick={handleLoadOfficialGrade4Workbooks}
-                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
-                          >
-                            <BookOpen className="w-4 h-4" /> Nạp bài tập SGK Lớp 4 (833 câu)
-                          </button>
-                        )}
-                        {selectedExerciseGrade === 7 && (
-                          <button
-                            type="button"
-                            onClick={handleLoadOfficialGrade7Workbooks}
-                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
-                          >
-                            <BookOpen className="w-4 h-4" /> Nạp bài tập SGK Lớp 7 (910 câu)
-                          </button>
-                        )}
                       </div>
                     </div>
                   ) : (
