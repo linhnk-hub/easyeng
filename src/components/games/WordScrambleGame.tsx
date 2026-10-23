@@ -44,19 +44,30 @@ export const WordScrambleGame: React.FC<WordScrambleGameProps> = ({
   const [showHintModal, setShowHintModal] = useState(false);
   const [showMaxHintAlert, setShowMaxHintAlert] = useState(false);
 
-  // Khởi tạo danh sách 10 từ khi vào Unit
+  const DEFAULT_SCRAMBLE_VOCAB: VocabularyItem[] = [
+    { word: 'Hello', meaning: 'Xin chào', phonetic: '/həˈloʊ/', example: 'Hello, nice to meet you!', exampleMeaning: 'Xin chào, rất vui được gặp bạn!', imageEmoji: '👋' },
+    { word: 'Friend', meaning: 'Bạn bè', phonetic: '/frend/', example: 'She is my best friend.', exampleMeaning: 'Cô ấy là bạn thân nhất của tôi.', imageEmoji: '👫' },
+    { word: 'School', meaning: 'Trường học', phonetic: '/skuːl/', example: 'I go to school every day.', exampleMeaning: 'Tôi đi học mỗi ngày.', imageEmoji: '🏫' },
+    { word: 'Teacher', meaning: 'Giáo viên', phonetic: '/ˈtiːtʃər/', example: 'Our teacher is very kind.', exampleMeaning: 'Thầy cô giáo của chúng tôi rất tốt bụng.', imageEmoji: '👩‍🏫' },
+    { word: 'Book', meaning: 'Quyển sách', phonetic: '/bʊk/', example: 'I love reading books.', exampleMeaning: 'Tôi thích đọc sách.', imageEmoji: '📚' },
+    { word: 'Happy', meaning: 'Vui vẻ', phonetic: '/ˈhæpi/', example: 'We are very happy today.', exampleMeaning: 'Hôm nay chúng tôi rất vui vẻ.', imageEmoji: '😊' },
+    { word: 'Family', meaning: 'Gia đình', phonetic: '/ˈfæməli/', example: 'I love my family.', exampleMeaning: 'Tôi yêu gia đình mình.', imageEmoji: '👨‍👩‍👧‍👦' },
+    { word: 'Learn', meaning: 'Học tập', phonetic: '/lɜːrn/', example: 'We learn English together.', exampleMeaning: 'Chúng tôi cùng nhau học tiếng Anh.', imageEmoji: '💡' },
+    { word: 'Smile', meaning: 'Nụ cười', phonetic: '/smaɪl/', example: 'Always smile every day!', exampleMeaning: 'Hãy luôn mỉm cười mỗi ngày nhé!', imageEmoji: '✨' },
+    { word: 'Star', meaning: 'Ngôi sao', phonetic: '/stɑːr/', example: 'Look at the bright star!', exampleMeaning: 'Hãy nhìn ngôi sao sáng kìa!', imageEmoji: '⭐' }
+  ];
+
+  // Khởi tạo danh sách đúng 10 từ khi vào Unit
   useEffect(() => {
-    const baseVocab = [...unit.vocabulary];
-    let selected: VocabularyItem[] = [];
-    if (baseVocab.length > 0) {
-      const shuffled = [...baseVocab].sort(() => Math.random() - 0.5);
-      selected = [...shuffled];
-      while (selected.length < 10) {
-        const extra = [...baseVocab].sort(() => Math.random() - 0.5);
-        selected = selected.concat(extra);
-      }
-      selected = selected.slice(0, 10);
+    const baseVocab = unit.vocabulary && unit.vocabulary.length > 0 ? [...unit.vocabulary] : [...DEFAULT_SCRAMBLE_VOCAB];
+    const shuffled = [...baseVocab].sort(() => Math.random() - 0.5);
+    let selected: VocabularyItem[] = [...shuffled];
+    while (selected.length < 10) {
+      const extra = [...baseVocab].sort(() => Math.random() - 0.5);
+      selected = selected.concat(extra);
     }
+    selected = selected.slice(0, 10);
+
     setWordList(selected);
     setCurrentIndex(0);
     setStreak(0);

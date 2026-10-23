@@ -118,6 +118,7 @@ function formatLearnerForFirestore(learner: UserProfile) {
     username: primaryUsername,
     phone: learner.phone ? String(learner.phone).trim() : '',
     email: learner.email ? String(learner.email).trim().toLowerCase() : '',
+    securityNumber: learner.securityNumber !== undefined && learner.securityNumber !== null ? Math.max(0, Math.min(10, Math.round(Number(learner.securityNumber)))) : 0,
     customAvatarUrl: learner.customAvatarUrl ? String(learner.customAvatarUrl).slice(0, 350000) : '',
     lastActiveDate: learner.lastActiveDate || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -160,6 +161,7 @@ function formatFirestoreToLearner(data: any): UserProfile {
     username: rawUsername,
     phone: data.phone || '',
     email: data.email || '',
+    securityNumber: data.securityNumber !== undefined && data.securityNumber !== null ? Math.max(0, Math.min(10, Math.round(Number(data.securityNumber)))) : 0,
     customAvatarUrl: data.customAvatarUrl || '',
     lastActiveDate: data.lastActiveDate || new Date().toISOString(),
   };
@@ -662,6 +664,7 @@ export async function savePasswordResetRequestToCloud(request: PasswordResetRequ
       nickname: cleanUsername,
       phone: String(request.phone || '').slice(0, 20),
       email: String(request.email || '').slice(0, 120),
+      securityNumber: request.securityNumber !== undefined && request.securityNumber !== null ? Number(request.securityNumber) : null,
       createdAt: request.createdAt || new Date().toISOString(),
       status: request.status || 'pending',
     });
@@ -690,6 +693,7 @@ export async function fetchPasswordResetRequestsFromCloud(): Promise<PasswordRes
         nickname: accountUser,
         phone: data.phone || '',
         email: data.email || '',
+        securityNumber: data.securityNumber !== undefined && data.securityNumber !== null ? Number(data.securityNumber) : undefined,
         createdAt: data.createdAt || new Date().toISOString(),
         status: data.status || 'pending',
       });
@@ -731,6 +735,7 @@ export async function saveAccountVerificationRequestToCloud(req: AccountVerifica
       nickname: cleanUsername,
       phone: String(req.phone || '').slice(0, 20),
       email: String(req.email || '').slice(0, 120),
+      securityNumber: req.securityNumber !== undefined && req.securityNumber !== null ? Number(req.securityNumber) : null,
       createdAt: req.createdAt || new Date().toISOString(),
       status: req.status || 'pending',
       deviceInfo: req.deviceInfo || '',
@@ -762,6 +767,7 @@ export async function fetchAccountVerificationRequestsFromCloud(): Promise<Accou
         nickname: accountUser,
         phone: data.phone || '',
         email: data.email || '',
+        securityNumber: data.securityNumber !== undefined && data.securityNumber !== null ? Number(data.securityNumber) : undefined,
         createdAt: data.createdAt || new Date().toISOString(),
         status: data.status || 'pending',
         deviceInfo: data.deviceInfo || '',

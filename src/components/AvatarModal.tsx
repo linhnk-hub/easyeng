@@ -330,7 +330,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" />Tên tài khoản / Tên đăng nhập:
+                  <User className="w-3.5 h-3.5 text-amber-600" />Tên đăng nhập:
                 </span>
               </label>
               <div className="relative">
@@ -349,7 +349,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1">
-                  <Phone className="w-3.5 h-3.5 text-amber-600" />Số điện thoại / Phone Number:
+                  <Phone className="w-3.5 h-3.5 text-amber-600" />Số điện thoại:
                 </span>
               </label>
               <input
@@ -367,7 +367,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1">
-                  <Mail className="w-3.5 h-3.5 text-amber-600" />Địa chỉ Email / Email Address:
+                  <Mail className="w-3.5 h-3.5 text-amber-600" />Địa chỉ Email:
                 </span>
               </label>
               <input
@@ -383,7 +383,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-2 pt-1 border-t border-slate-100">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  Ảnh đại diện / Avatar:
+                  Hình đại diện:
                 </label>
                 <div>
                   <input
@@ -397,10 +397,10 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     type="button"
                     onClick={() => userAvatarFileInputRef.current?.click()}
                     className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold shadow-xs flex items-center gap-1 transition cursor-pointer active:scale-95"
-                    title="Tải lên avatar từ thiết bị của bạn"
+                    title="Tải hình lên"
                   >
                     <Upload className="w-3.5 h-3.5" />
-                    <span>{userUploadedAvatar ? 'Đổi avatar cá nhân' : 'Tải lên avatar'}</span>
+                    <span>{userUploadedAvatar ? 'Đổi hình' : 'Tải hình lên'}</span>
                   </button>
                 </div>
               </div>
@@ -414,7 +414,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     </div>
                     <div className="min-w-0 text-left">
                       <span className="block text-xs font-bold text-amber-900 truncate">
-                        Avatar của bạn
+                        Hình của bạn
                       </span>
                     </div>
                   </div>
@@ -431,7 +431,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                         : 'bg-white hover:bg-amber-100 text-amber-800 border border-amber-300'
                     }`}
                   >
-                    {selectedAvatar === userUploadedAvatar ? '✓ Đang chọn' : 'Chọn avatar này'}
+                    {selectedAvatar === userUploadedAvatar ? '✓ Đang chọn' : 'Chọn hình'}
                   </button>
                 </div>
               )}

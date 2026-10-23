@@ -70,13 +70,61 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({
       return result.slice(0, 10);
     }
 
-    return [
+    // Default fallback list of exactly 10 sentences if no sentences could be formed
+    const fallbackSentences: SentenceChallenge[] = [
       {
-        scrambledWords: ['I', 'love', 'English'],
-        correctSentence: 'I love English',
-        vietnameseMeaning: 'Tôi yêu tiếng Anh'
+        scrambledWords: ['I', 'love', 'learning', 'English'],
+        correctSentence: 'I love learning English',
+        vietnameseMeaning: 'Tôi yêu thích việc học tiếng Anh'
+      },
+      {
+        scrambledWords: ['This', 'is', 'my', 'classroom'],
+        correctSentence: 'This is my classroom',
+        vietnameseMeaning: 'Đây là lớp học của tôi'
+      },
+      {
+        scrambledWords: ['She', 'is', 'a', 'kind', 'teacher'],
+        correctSentence: 'She is a kind teacher',
+        vietnameseMeaning: 'Cô ấy là một giáo viên tốt bụng'
+      },
+      {
+        scrambledWords: ['We', 'read', 'books', 'every', 'day'],
+        correctSentence: 'We read books every day',
+        vietnameseMeaning: 'Chúng tôi đọc sách mỗi ngày'
+      },
+      {
+        scrambledWords: ['What', 'is', 'your', 'favorite', 'subject'],
+        correctSentence: 'What is your favorite subject',
+        vietnameseMeaning: 'Môn học yêu thích của bạn là gì'
+      },
+      {
+        scrambledWords: ['I', 'have', 'many', 'good', 'friends'],
+        correctSentence: 'I have many good friends',
+        vietnameseMeaning: 'Tôi có rất nhiều người bạn tốt'
+      },
+      {
+        scrambledWords: ['They', 'are', 'playing', 'in', 'the', 'schoolyard'],
+        correctSentence: 'They are playing in the schoolyard',
+        vietnameseMeaning: 'Họ đang chơi ở sân trường'
+      },
+      {
+        scrambledWords: ['Can', 'you', 'speak', 'English', 'slowly'],
+        correctSentence: 'Can you speak English slowly',
+        vietnameseMeaning: 'Bạn có thể nói tiếng Anh chậm lại không'
+      },
+      {
+        scrambledWords: ['Today', 'is', 'a', 'wonderful', 'day'],
+        correctSentence: 'Today is a wonderful day',
+        vietnameseMeaning: 'Hôm nay là một ngày tuyệt vời'
+      },
+      {
+        scrambledWords: ['Practice', 'makes', 'perfect', 'every', 'day'],
+        correctSentence: 'Practice makes perfect every day',
+        vietnameseMeaning: 'Luyện tập mỗi ngày sẽ tạo nên sự hoàn hảo'
       }
     ];
+
+    return fallbackSentences;
   }, [unit]);
 
   const [currentIndex, setCurrentIndex] = useState(0);

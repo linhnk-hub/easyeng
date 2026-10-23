@@ -32,6 +32,7 @@ import {
   Mail,
   User,
   KeyRound,
+  Shield,
   ShieldAlert,
   CheckCircle2,
   Search,
@@ -542,6 +543,7 @@ EasyEng`;
   const [editPinError, setEditPinError] = useState<string | null>(null);
   const [editPhone, setEditPhone] = useState('');
   const [editEmail, setEditEmail] = useState('');
+  const [editSecurityNumber, setEditSecurityNumber] = useState<number>(0);
   const [editFormError, setEditFormError] = useState<string | null>(null);
 
   // Add Learner state
@@ -556,6 +558,7 @@ EasyEng`;
   const [newPinError, setNewPinError] = useState<string | null>(null);
   const [newPhone, setNewPhone] = useState('');
   const [newEmail, setNewEmail] = useState('');
+  const [newSecurityNumber, setNewSecurityNumber] = useState<number>(0);
   const [newFormError, setNewFormError] = useState<string | null>(null);
 
   // Avatar upload state
@@ -917,6 +920,7 @@ EasyEng`;
     setEditPinConfirm(l.pin ? l.pin : '');
     setEditPhone(l.phone || '');
     setEditEmail(l.email || '');
+    setEditSecurityNumber(l.securityNumber !== undefined && l.securityNumber !== null ? Number(l.securityNumber) : 0);
     setEditPinError(null);
     setEditFormError(null);
   };
@@ -926,7 +930,7 @@ EasyEng`;
     setEditPinError(null);
     setEditFormError(null);
 
-    // 1. Validate Tên đăng nhập / Username: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
+    // 1. Validate Tên đăng nhập: 4 - 16 kí tự, dùng để đăng nhập, không được viết hoa, không được có kí tự đặc biệt, có thể có số
     const cleanUsername = editUsername.trim();
     const userVal = validateUsername(cleanUsername);
     if (!userVal.isValid) {
@@ -1010,7 +1014,8 @@ EasyEng`;
       avatar: editAvatar || original.avatar,
       pin: editPin,
       phone: cleanPhone,
-      email: cleanEmail
+      email: cleanEmail,
+      securityNumber: Math.max(0, Math.min(10, Math.round(Number(editSecurityNumber) || 0)))
     });
     setEditingLearnerId(null);
   };
@@ -1131,6 +1136,7 @@ EasyEng`;
       pin: newPin,
       phone: cleanPhone,
       email: cleanEmail,
+      securityNumber: Math.max(0, Math.min(10, Math.round(Number(newSecurityNumber) || 0))),
       level: 1,
       xp: 0,
       totalStars: 0,
@@ -1147,6 +1153,7 @@ EasyEng`;
     setNewPinConfirm('');
     setNewPhone('');
     setNewEmail('');
+    setNewSecurityNumber(0);
     setIsAddingLearner(false);
   };
 
@@ -1322,6 +1329,189 @@ EasyEng`;
     setJsonContent(JSON.stringify(units, null, 2));
     setJsonError(null);
     setJsonSuccess('Đã hủy thay đổi chưa lưu.');
+  };
+
+  // Hàm đối chiếu dữ liệu giữa thông tin người dùng gửi lên và thông tin có trong CSDL
+  const renderVerificationAuditCard = (req: PasswordResetRequest | AccountVerificationRequest) => {
+    const cleanUsername = (req.username || req.nickname || '').trim().toLowerCase();
+    const reqLearnerId = ('learnerId' in req && req.learnerId ? req.learnerId.trim() : '');
+
+    // Tìm tài khoản tương ứng trong CSDL
+    const matchedLearner = learners.find(l => {
+      const u = (l.username || '').toLowerCase();
+      const n = (l.name || '').toLowerCase();
+      const id = (l.learnerId || '').toLowerCase();
+      return (reqLearnerId && id === reqLearnerId.toLowerCase()) ||
+             (cleanUsername && (id === cleanUsername || u === cleanUsername || n === cleanUsername)) ||
+             (req.email && l.email && l.email.trim().toLowerCase() === req.email.trim().toLowerCase());
+    });
+
+    // 1. Kiểm tra username
+    const usernameEntered = req.username || req.nickname || '—';
+    const csdlUsername = matchedLearner ? (matchedLearner.username || matchedLearner.name) : 'Không tìm thấy';
+    const isUsernameMatch = !!(matchedLearner && (
+      (matchedLearner.username && matchedLearner.username.toLowerCase() === cleanUsername) ||
+      (matchedLearner.name && matchedLearner.name.toLowerCase() === cleanUsername) ||
+      (matchedLearner.learnerId && matchedLearner.learnerId.toLowerCase() === cleanUsername)
+    ));
+
+    // 2. Kiểm tra email
+    const emailEntered = (req.email || '').trim().toLowerCase();
+    const csdlEmail = (matchedLearner?.email || '').trim().toLowerCase();
+    const isEmailMatch = Boolean(emailEntered && csdlEmail && emailEntered === csdlEmail);
+
+    // 3. Kiểm tra số điện thoại (SĐT không bắt buộc)
+    const phoneEntered = (req.phone || '').trim();
+    const csdlPhone = (matchedLearner?.phone || '').trim();
+    const hasPhoneProvided = phoneEntered.length > 0;
+    const isPhoneMatch = hasPhoneProvided ? (csdlPhone.length > 0 && phoneEntered === csdlPhone) : null;
+
+    // 4. Kiểm tra số bảo mật (0 đến 10)
+    const secEntered = req.securityNumber;
+    const csdlSec = matchedLearner?.securityNumber !== undefined ? matchedLearner.securityNumber : 0;
+    const isSecMatch = secEntered !== undefined && secEntered === csdlSec;
+
+    // Tính điểm đối chiếu và mức độ tin cậy
+    let matchScore = 0;
+    let totalChecks = 3; // username, email, securityNumber
+    if (isUsernameMatch) matchScore += 1;
+    if (isEmailMatch) matchScore += 1;
+    if (isSecMatch) matchScore += 1;
+    if (hasPhoneProvided) {
+      totalChecks += 1;
+      if (isPhoneMatch) matchScore += 1;
+    }
+
+    let badgeText = '';
+    let badgeBg = '';
+    let badgeBorder = '';
+    let badgeTextCol = '';
+    let badgeIcon = '';
+
+    if (!matchedLearner) {
+      badgeText = 'Không tìm thấy tài khoản trong CSDL';
+      badgeBg = 'bg-rose-50';
+      badgeBorder = 'border-rose-200';
+      badgeTextCol = 'text-rose-700';
+      badgeIcon = '⚠️';
+    } else if (matchScore === totalChecks) {
+      badgeText = '100% Khớp - Đúng chính chủ tài khoản';
+      badgeBg = 'bg-emerald-50';
+      badgeBorder = 'border-emerald-300';
+      badgeTextCol = 'text-emerald-800';
+      badgeIcon = '🛡️';
+    } else if (isUsernameMatch && (isEmailMatch || isSecMatch)) {
+      badgeText = `Độ tin cậy cao (${matchScore}/${totalChecks} thông tin khớp)`;
+      badgeBg = 'bg-teal-50';
+      badgeBorder = 'border-teal-200';
+      badgeTextCol = 'text-teal-800';
+      badgeIcon = '✅';
+    } else if (isUsernameMatch) {
+      badgeText = `Cần kiểm tra lại (${matchScore}/${totalChecks} thông tin khớp)`;
+      badgeBg = 'bg-amber-50';
+      badgeBorder = 'border-amber-200';
+      badgeTextCol = 'text-amber-800';
+      badgeIcon = '🔍';
+    } else {
+      badgeText = 'Cảnh báo sai lệch thông tin CSDL';
+      badgeBg = 'bg-rose-50';
+      badgeBorder = 'border-rose-300';
+      badgeTextCol = 'text-rose-800';
+      badgeIcon = '❌';
+    }
+
+    return (
+      <div className="mt-3 bg-slate-50/90 rounded-2xl p-3 sm:p-4 border border-slate-200 space-y-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200">
+          <div className="flex items-center gap-1.5 font-bold text-xs text-slate-700">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+            <span>Đối chiếu dữ liệu xác minh với CSDL:</span>
+          </div>
+          <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${badgeBg} ${badgeBorder} ${badgeTextCol}`}>
+            <span>{badgeIcon}</span>
+            <span>{badgeText}</span>
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
+          {/* 1. Tên đăng nhập */}
+          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500">Tên đăng nhập:</span>
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                isUsernameMatch ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+              }`}>
+                {isUsernameMatch ? 'Khớp CSDL' : 'Không khớp'}
+              </span>
+            </div>
+            <p className="font-semibold text-slate-800 truncate" title={`Nhập: ${usernameEntered}`}>
+              Nhập: <span className="font-mono text-indigo-600">{usernameEntered}</span>
+            </p>
+            <p className="text-[11px] text-slate-500 truncate" title={`CSDL: ${csdlUsername}`}>
+              CSDL: <span className="font-mono font-medium">{csdlUsername}</span>
+            </p>
+          </div>
+
+          {/* 2. Địa chỉ Email */}
+          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500">Email:</span>
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                isEmailMatch ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+              }`}>
+                {isEmailMatch ? 'Khớp CSDL' : 'Không khớp'}
+              </span>
+            </div>
+            <p className="font-semibold text-slate-800 truncate" title={`Nhập: ${req.email}`}>
+              Nhập: <span className="font-mono text-indigo-600">{req.email || '—'}</span>
+            </p>
+            <p className="text-[11px] text-slate-500 truncate" title={`CSDL: ${csdlEmail || 'Chưa thiết lập'}`}>
+              CSDL: <span className="font-mono font-medium">{csdlEmail || 'Chưa thiết lập'}</span>
+            </p>
+          </div>
+
+          {/* 3. Số điện thoại (không bắt buộc) */}
+          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500">SĐT (k.bắt buộc):</span>
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                !hasPhoneProvided
+                  ? 'bg-slate-100 text-slate-500'
+                  : isPhoneMatch
+                  ? 'bg-emerald-100 text-emerald-700'
+                  : 'bg-rose-100 text-rose-700'
+              }`}>
+                {!hasPhoneProvided ? 'Bỏ trống' : isPhoneMatch ? 'Khớp CSDL' : 'Không khớp'}
+              </span>
+            </div>
+            <p className="font-semibold text-slate-800 truncate" title={`Nhập: ${phoneEntered || 'Bỏ trống'}`}>
+              Nhập: <span className="font-mono text-indigo-600">{phoneEntered || '— (Bỏ trống)'}</span>
+            </p>
+            <p className="text-[11px] text-slate-500 truncate" title={`CSDL: ${csdlPhone || 'Chưa thiết lập'}`}>
+              CSDL: <span className="font-mono font-medium">{csdlPhone || 'Chưa thiết lập'}</span>
+            </p>
+          </div>
+
+          {/* 4. Số bảo mật (0-10) */}
+          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500">Số bảo mật (0-10):</span>
+              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                isSecMatch ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+              }`}>
+                {isSecMatch ? 'Khớp CSDL' : 'Không khớp'}
+              </span>
+            </div>
+            <p className="font-semibold text-slate-800 truncate">
+              Nhập: <span className="font-mono text-indigo-600 font-bold">{secEntered !== undefined ? secEntered : 'Chưa có'}</span>
+            </p>
+            <p className="text-[11px] text-slate-500 truncate">
+              CSDL: <span className="font-mono font-medium">{csdlSec}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   // -------------------------------------------------------------
@@ -1730,6 +1920,9 @@ EasyEng`;
                         <input
                           type="text"
                           maxLength={16}
+                          autoCapitalize="none"
+                          autoCorrect="off"
+                          spellCheck={false}
                           value={newUsername}
                           onChange={(e) => {
                             setNewUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
@@ -1739,7 +1932,7 @@ EasyEng`;
                           required
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                         />
-                        <span className="text-[10px] text-slate-400">4-16 kí tự, không dấu, không ký tự ĐB</span>
+                        <span className="text-[10px] text-slate-400">4-16 kí tự, chữ thường và số (không viết hoa chữ đầu)</span>
                       </div>
 
                       <div>
@@ -1785,12 +1978,12 @@ EasyEng`;
                       </div>
                     </div>
 
-                    {/* Số điện thoại và Email cho học sinh mới */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200">
+                    {/* Số điện thoại, Email và Số bảo mật cho học sinh mới */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-200">
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                           <span className="flex items-center gap-1">
-                            <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
+                            <Phone className="w-3.5 h-3.5 text-amber-600" /> SĐT (không bắt buộc):
                           </span>
                         </label>
                         <input
@@ -1802,6 +1995,7 @@ EasyEng`;
                             setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
                             setNewFormError(null);
                           }}
+                          placeholder="Có thể bỏ trống..."
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
                       </div>
@@ -1825,8 +2019,27 @@ EasyEng`;
                             setNewEmail(sanitized);
                             setNewFormError(null);
                           }}
+                          placeholder="email@example.com"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
+                      </div>
+                      <div>
+                        <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                          <span className="flex items-center gap-1">
+                            <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật (0-10):
+                          </span>
+                        </label>
+                        <select
+                          value={newSecurityNumber}
+                          onChange={(e) => setNewSecurityNumber(Number(e.target.value))}
+                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+                        >
+                          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                            <option key={n} value={n}>
+                              Số bảo mật: {n}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
 
@@ -1929,6 +2142,9 @@ EasyEng`;
                               <input
                                 type="text"
                                 maxLength={16}
+                                autoCapitalize="none"
+                                autoCorrect="off"
+                                spellCheck={false}
                                 value={editUsername}
                                 onChange={(e) => {
                                   setEditUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
@@ -1938,7 +2154,7 @@ EasyEng`;
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                                 required
                               />
-                              <span className="text-[10px] text-slate-400">4-16 kí tự, không dấu, không ký tự ĐB</span>
+                              <span className="text-[10px] text-slate-400">4-16 kí tự, chữ thường và số (không viết hoa chữ đầu)</span>
                             </div>
 
                             <div>
@@ -1984,12 +2200,12 @@ EasyEng`;
                             </div>
                           </div>
 
-                          {/* SĐT và Email cho học sinh */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-amber-200/80">
+                          {/* SĐT, Email và Số bảo mật cho học sinh */}
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80">
                             <div>
                               <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                                 <span className="flex items-center gap-1">
-                                  <Phone className="w-3.5 h-3.5 text-amber-600" /> Số điện thoại:
+                                  <Phone className="w-3.5 h-3.5 text-amber-600" /> SĐT (không bắt buộc):
                                 </span>
                                 <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
                               </label>
@@ -2030,6 +2246,24 @@ EasyEng`;
                                 placeholder="Nhập email..."
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                               />
+                            </div>
+                            <div>
+                              <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+                                <span className="flex items-center gap-1">
+                                  <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật (0-10):
+                                </span>
+                              </label>
+                              <select
+                                value={editSecurityNumber}
+                                onChange={(e) => setEditSecurityNumber(Number(e.target.value))}
+                                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+                              >
+                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                                  <option key={n} value={n}>
+                                    Số bảo mật: {n}
+                                  </option>
+                                ))}
+                              </select>
                             </div>
                           </div>
 
@@ -2134,7 +2368,7 @@ EasyEng`;
                               </span>
                             </div>
 
-                            {/* Số điện thoại, Email */}
+                            {/* Số điện thoại, Email, Số bảo mật */}
                             <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
                               {learner.phone && (
                                 <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
@@ -2144,6 +2378,11 @@ EasyEng`;
                               {learner.email && (
                                 <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-700 px-2 py-0.5 rounded-md border border-sky-200">
                                   <Mail className="w-3.5 h-3.5 text-sky-600" /> {learner.email}
+                                </span>
+                              )}
+                              {learner.securityNumber !== undefined && (
+                                <span className="inline-flex items-center gap-1 font-semibold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200" title="Số bảo mật xác minh (0 - 10)">
+                                  <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật: {learner.securityNumber}
                                 </span>
                               )}
                             </div>
@@ -3442,10 +3681,10 @@ EasyEng`;
                     {filteredResets.map((req, idx) => (
                       <div
                         key={req.id}
-                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-amber-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-amber-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-start justify-between gap-4"
                       >
                         {/* Information Section */}
-                        <div className="space-y-2.5 flex-1">
+                        <div className="space-y-2.5 flex-1 min-w-0">
                           {/* Top row: STT, Username, Time */}
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="w-6 h-6 rounded-lg bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center shrink-0">
@@ -3460,23 +3699,25 @@ EasyEng`;
                             </span>
                           </div>
 
-                          {/* Contact Details: Phone & Email */}
+                          {/* Contact Details: Phone, Email, Số bảo mật */}
                           <div className="flex flex-wrap items-center gap-2.5 text-xs">
                             <div className="inline-flex items-center gap-1.5 font-semibold bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200">
                               <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                              <span>{req.phone}</span>
-                              <button
-                                type="button"
-                                onClick={() => handleCopyText(`phone_${req.id}`, req.phone)}
-                                className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
-                                title="Sao chép SĐT"
-                              >
-                                {copiedField === `phone_${req.id}` ? (
-                                  <Check className="w-3 h-3 text-emerald-700" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                              </button>
+                              <span>{req.phone || '(Không có SĐT)'}</span>
+                              {req.phone && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyText(`phone_${req.id}`, req.phone!)}
+                                  className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
+                                  title="Sao chép SĐT"
+                                >
+                                  {copiedField === `phone_${req.id}` ? (
+                                    <Check className="w-3 h-3 text-emerald-700" />
+                                  ) : (
+                                    <Copy className="w-3 h-3" />
+                                  )}
+                                </button>
+                              )}
                             </div>
 
                             <div className="inline-flex items-center gap-1.5 font-semibold bg-sky-50 text-sky-800 px-3 py-1.5 rounded-xl border border-sky-200">
@@ -3495,7 +3736,15 @@ EasyEng`;
                                 )}
                               </button>
                             </div>
+
+                            <div className="inline-flex items-center gap-1.5 font-semibold bg-indigo-50 text-indigo-800 px-3 py-1.5 rounded-xl border border-indigo-200">
+                              <Shield className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                              <span>Số bảo mật nhập: <strong>{req.securityNumber !== undefined ? req.securityNumber : 'Chưa nhập'}</strong></span>
+                            </div>
                           </div>
+
+                          {/* BẢNG ĐỐI CHIẾU DỮ LIỆU XÁC MINH CSDL */}
+                          {renderVerificationAuditCard(req)}
                         </div>
 
                         {/* Action Buttons Group */}
@@ -3667,10 +3916,10 @@ EasyEng`;
                     {filteredVerifications.map((req, idx) => (
                       <div
                         key={req.id}
-                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-rose-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-center justify-between gap-4"
+                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-rose-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-start justify-between gap-4"
                       >
                         {/* Information Section */}
-                        <div className="space-y-2.5 flex-1">
+                        <div className="space-y-2.5 flex-1 min-w-0">
                           {/* Top row: STT, Username, Time */}
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="w-6 h-6 rounded-lg bg-rose-100 text-rose-900 font-bold text-xs flex items-center justify-center shrink-0">
@@ -3693,23 +3942,25 @@ EasyEng`;
                             </div>
                           )}
 
-                          {/* Contact Details: Phone & Email */}
+                          {/* Contact Details: Phone, Email, Số bảo mật */}
                           <div className="flex flex-wrap items-center gap-2.5 text-xs">
                             <div className="inline-flex items-center gap-1.5 font-semibold bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200">
                               <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                              <span>{req.phone}</span>
-                              <button
-                                type="button"
-                                onClick={() => handleCopyText(`phone_${req.id}`, req.phone)}
-                                className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
-                                title="Sao chép SĐT"
-                              >
-                                {copiedField === `phone_${req.id}` ? (
-                                  <Check className="w-3 h-3 text-emerald-700" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                              </button>
+                              <span>{req.phone || '(Không có SĐT)'}</span>
+                              {req.phone && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyText(`phone_${req.id}`, req.phone!)}
+                                  className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
+                                  title="Sao chép SĐT"
+                                >
+                                  {copiedField === `phone_${req.id}` ? (
+                                    <Check className="w-3 h-3 text-emerald-700" />
+                                  ) : (
+                                    <Copy className="w-3 h-3" />
+                                  )}
+                                </button>
+                              )}
                             </div>
 
                             <div className="inline-flex items-center gap-1.5 font-semibold bg-sky-50 text-sky-800 px-3 py-1.5 rounded-xl border border-sky-200">
@@ -3728,7 +3979,15 @@ EasyEng`;
                                 )}
                               </button>
                             </div>
+
+                            <div className="inline-flex items-center gap-1.5 font-semibold bg-indigo-50 text-indigo-800 px-3 py-1.5 rounded-xl border border-indigo-200">
+                              <Shield className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
+                              <span>Số bảo mật nhập: <strong>{req.securityNumber !== undefined ? req.securityNumber : 'Chưa nhập'}</strong></span>
+                            </div>
                           </div>
+
+                          {/* BẢNG ĐỐI CHIẾU DỮ LIỆU XÁC MINH CSDL */}
+                          {renderVerificationAuditCard(req)}
                         </div>
 
                         {/* Action Buttons Group */}

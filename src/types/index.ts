@@ -64,6 +64,7 @@ export interface UserProfile {
   username?: string;
   phone?: string;
   email?: string;
+  securityNumber?: number;
   customAvatarUrl?: string;
 }
 
@@ -129,8 +130,9 @@ export interface PasswordResetRequest {
   fullName?: string;
   username?: string;
   nickname?: string;
-  phone: string;
+  phone?: string;
   email: string;
+  securityNumber?: number;
   createdAt: string;
   status?: 'pending' | 'resolved';
 }
@@ -141,8 +143,9 @@ export interface AccountVerificationRequest {
   fullName?: string;
   username?: string;
   nickname?: string;
-  phone: string;
+  phone?: string;
   email: string;
+  securityNumber?: number;
   createdAt: string;
   status?: 'pending' | 'resolved';
   deviceInfo?: string;

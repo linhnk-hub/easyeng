@@ -95,10 +95,77 @@ export const QuizArenaGame: React.FC<QuizArenaGameProps> = ({
       });
     }
 
-    // Ensure list has at least 10 questions
+    const DEFAULT_FALLBACK_QUIZZES: QuizQuestion[] = [
+      {
+        question: 'Từ "Hello" có nghĩa là gì trong tiếng Việt?',
+        options: ['Xin chào', 'Tạm biệt', 'Cảm ơn', 'Xin lỗi'],
+        answerIndex: 0,
+        explanation: '"Hello" có nghĩa là "Xin chào".'
+      },
+      {
+        question: 'Từ nào có nghĩa là "Giáo viên"?',
+        options: ['Doctor', 'Student', 'Teacher', 'Worker'],
+        answerIndex: 2,
+        explanation: '"Teacher" có nghĩa là "Giáo viên".'
+      },
+      {
+        question: 'Điền từ còn thiếu: "How are _____?"',
+        options: ['you', 'your', 'she', 'he'],
+        answerIndex: 0,
+        explanation: 'Câu chào hỏi thông dụng: "How are you?" (Bạn có khỏe không?)'
+      },
+      {
+        question: 'Từ "Book" nghĩa là gì?',
+        options: ['Bút chì', 'Quyển sách', 'Thước kẻ', 'Cái bàn'],
+        answerIndex: 1,
+        explanation: '"Book" nghĩa là "Quyển sách".'
+      },
+      {
+        question: 'Chọn từ trái nghĩa với "Big" (To lớn):',
+        options: ['Small', 'Huge', 'Large', 'Tall'],
+        answerIndex: 0,
+        explanation: '"Small" (nhỏ) là từ trái nghĩa với "Big".'
+      },
+      {
+        question: 'Từ "Good morning" dùng để chào vào thời gian nào?',
+        options: ['Buổi sáng', 'Buổi trưa', 'Buổi tối', 'Trước khi đi ngủ'],
+        answerIndex: 0,
+        explanation: '"Good morning" nghĩa là "Chào buổi sáng".'
+      },
+      {
+        question: 'Điền vào chỗ trống: "She _____ my best friend."',
+        options: ['are', 'is', 'am', 'be'],
+        answerIndex: 1,
+        explanation: 'Chủ ngữ "She" đi với động từ to be "is".'
+      },
+      {
+        question: 'Số 10 trong tiếng Anh đọc là gì?',
+        options: ['One', 'Five', 'Eight', 'Ten'],
+        answerIndex: 3,
+        explanation: 'Số 10 là "Ten".'
+      },
+      {
+        question: 'Màu đỏ trong tiếng Anh là gì?',
+        options: ['Blue', 'Red', 'Green', 'Yellow'],
+        answerIndex: 1,
+        explanation: '"Red" nghĩa là màu đỏ.'
+      },
+      {
+        question: 'Từ "Thank you" có nghĩa là gì?',
+        options: ['Cảm ơn', 'Không có chi', 'Tạm biệt', 'Hẹn gặp lại'],
+        answerIndex: 0,
+        explanation: '"Thank you" có nghĩa là "Cảm ơn bạn".'
+      }
+    ];
+
+    // Ensure pool has at least 10 questions
     let finalPool = [...list];
-    while (finalPool.length < 10 && list.length > 0) {
-      finalPool = finalPool.concat(list);
+    if (finalPool.length === 0) {
+      finalPool = [...DEFAULT_FALLBACK_QUIZZES];
+    } else {
+      while (finalPool.length < 10) {
+        finalPool = finalPool.concat(list);
+      }
     }
 
     const shuffledQuestions = finalPool.sort(() => Math.random() - 0.5).slice(0, 10);

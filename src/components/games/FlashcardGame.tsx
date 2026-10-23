@@ -11,11 +11,34 @@ interface FlashcardGameProps {
   onBack: () => void;
 }
 
+const DEFAULT_FLASHCARD_VOCAB: VocabularyItem[] = [
+  { word: 'Hello', meaning: 'Xin chào', phonetic: '/həˈloʊ/', example: 'Hello, nice to meet you!', exampleMeaning: 'Xin chào, rất vui được gặp bạn!', imageEmoji: '👋' },
+  { word: 'Friend', meaning: 'Bạn bè', phonetic: '/frend/', example: 'She is my best friend.', exampleMeaning: 'Cô ấy là bạn thân nhất của tôi.', imageEmoji: '👫' },
+  { word: 'School', meaning: 'Trường học', phonetic: '/skuːl/', example: 'I go to school every day.', exampleMeaning: 'Tôi đi học mỗi ngày.', imageEmoji: '🏫' },
+  { word: 'Teacher', meaning: 'Giáo viên', phonetic: '/ˈtiːtʃər/', example: 'Our teacher is very kind.', exampleMeaning: 'Thầy cô giáo của chúng tôi rất tốt bụng.', imageEmoji: '👩‍🏫' },
+  { word: 'Book', meaning: 'Quyển sách', phonetic: '/bʊk/', example: 'I love reading books.', exampleMeaning: 'Tôi thích đọc sách.', imageEmoji: '📚' },
+  { word: 'Happy', meaning: 'Vui vẻ', phonetic: '/ˈhæpi/', example: 'We are very happy today.', exampleMeaning: 'Hôm nay chúng tôi rất vui vẻ.', imageEmoji: '😊' },
+  { word: 'Family', meaning: 'Gia đình', phonetic: '/ˈfæməli/', example: 'I love my sweet family.', exampleMeaning: 'Tôi yêu gia đình thân thương của tôi.', imageEmoji: '👨‍👩‍👧‍👦' },
+  { word: 'Learn', meaning: 'Học tập', phonetic: '/lɜːrn/', example: 'We learn English together.', exampleMeaning: 'Chúng tôi cùng nhau học tiếng Anh.', imageEmoji: '💡' },
+  { word: 'Smile', meaning: 'Nụ cười', phonetic: '/smaɪl/', example: 'Always smile every day!', exampleMeaning: 'Hãy luôn mỉm cười mỗi ngày nhé!', imageEmoji: '✨' },
+  { word: 'Star', meaning: 'Ngôi sao', phonetic: '/stɑːr/', example: 'You are a shining star!', exampleMeaning: 'Bạn là một ngôi sao tỏa sáng!', imageEmoji: '⭐' }
+];
+
 export const FlashcardGame: React.FC<FlashcardGameProps> = ({
   unit,
   onComplete,
   onBack
 }) => {
+  // Ensure exactly 10 cards for all units of all classes
+  const cards: VocabularyItem[] = React.useMemo(() => {
+    const base = unit.vocabulary && unit.vocabulary.length > 0 ? [...unit.vocabulary] : [...DEFAULT_FLASHCARD_VOCAB];
+    let result = [...base];
+    while (result.length < 10) {
+      result = result.concat(base);
+    }
+    return result.slice(0, 10);
+  }, [unit]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [masteredWords, setMasteredWords] = useState<Set<number>>(new Set());
@@ -24,7 +47,16 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
   const [completionStars, setCompletionStars] = useState(0);
   const [masteredCountAtFinish, setMasteredCountAtFinish] = useState(0);
 
-  const currentVocab: VocabularyItem = unit.vocabulary[currentIndex] || unit.vocabulary[0];
+  // Reset when unit changes
+  useEffect(() => {
+    setCurrentIndex(0);
+    setIsFlipped(false);
+    setMasteredWords(new Set());
+    setShowFinishedModal(false);
+    setCompletionStars(0);
+  }, [unit]);
+
+  const currentVocab: VocabularyItem = cards[currentIndex] || cards[0];
 
   // Auto pronounce word on card change
   useEffect(() => {
@@ -35,7 +67,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
       }, 250);
       return () => clearTimeout(timer);
     }
-  }, [currentIndex, autoPronounce]);
+  }, [currentIndex, autoPronounce, currentVocab]);
 
   const handleFlip = () => {
     soundEffects.playFlip();
@@ -44,7 +76,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
 
   const handleNext = () => {
     soundEffects.playClick();
-    if (currentIndex < unit.vocabulary.length - 1) {
+    if (currentIndex < cards.length - 1) {
       setCurrentIndex(prev => prev + 1);
     }
   };
@@ -56,7 +88,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
     }
   };
 
-  const calculateStars = (masteredCount: number, totalCount: number): number => {
+  const calculateStars = (masteredCount: number, totalCount: number = 10): number => {
     if (masteredCount <= 0) return 0;
     if (masteredCount >= 10 || masteredCount >= totalCount) return 3;
     if (masteredCount >= 6 && masteredCount <= 9) return 2;
@@ -66,7 +98,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
 
   const handleFinish = (explicitCount?: number) => {
     const count = explicitCount !== undefined ? explicitCount : masteredWords.size;
-    const stars = calculateStars(count, unit.vocabulary.length);
+    const stars = calculateStars(count, cards.length);
     setMasteredCountAtFinish(count);
     setCompletionStars(stars);
 
@@ -97,10 +129,10 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
       soundEffects.playSuccess();
       setMasteredWords(updated);
 
-      if (updated.size === unit.vocabulary.length) {
+      if (updated.size === cards.length) {
         // Mastered all cards! Auto-complete with 3 stars
         handleFinish(updated.size);
-      } else if (currentIndex < unit.vocabulary.length - 1) {
+      } else if (currentIndex < cards.length - 1) {
         setCurrentIndex(prev => prev + 1);
       }
     }
@@ -146,15 +178,15 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
       {/* Progress Bar */}
       <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-xs space-y-1.5">
         <div className="flex justify-between text-xs font-bold text-slate-600">
-          <span>Tiến độ: {currentIndex + 1} / {unit.vocabulary.length}</span>
+          <span>Tiến độ: {currentIndex + 1} / {cards.length}</span>
           <span className="text-emerald-600 font-bold">
-            Đã thuộc: {masteredWords.size} / {unit.vocabulary.length} từ
+            Đã thuộc: {masteredWords.size} / {cards.length} từ
           </span>
         </div>
         <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
           <div
             className="bg-gradient-to-r from-amber-400 to-emerald-500 h-2.5 rounded-full transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / unit.vocabulary.length) * 100}%` }}
+            style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
           />
         </div>
       </div>
@@ -306,7 +338,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
           {masteredWords.has(currentIndex) ? 'Đã thuộc từ này!' : 'Đánh dấu đã thuộc'}
         </button>
 
-        {currentIndex === unit.vocabulary.length - 1 ? (
+        {currentIndex === cards.length - 1 ? (
           <button
             onClick={() => {
               soundEffects.playClick();
@@ -352,11 +384,11 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
 
             <p className="text-slate-600 text-sm">
               {completionStars === 0 ? (
-                <>Bạn chưa thuộc 0/{unit.vocabulary.length} từ, bạn sẽ không được cộng sao.</>
+                <>Bạn chưa thuộc 0/{cards.length} từ, bạn sẽ không được cộng sao.</>
               ) : completionStars === 3 ? (
-                <>Bạn đã ghi nhớ toàn bộ <strong>{masteredCountAtFinish}/{unit.vocabulary.length}</strong> từ vựng của <strong>Unit {unit.unit}: {unit.title}</strong>, bạn được cộng 3 sao!</>
+                <>Bạn đã ghi nhớ toàn bộ <strong>{masteredCountAtFinish}/{cards.length}</strong> từ vựng của <strong>Unit {unit.unit}: {unit.title}</strong>, bạn được cộng 3 sao!</>
               ) : (
-                <>Bạn đã thuộc <strong>{masteredCountAtFinish}/{unit.vocabulary.length}</strong> từ, bạn được cộng <strong>{completionStars} sao</strong>.</>
+                <>Bạn đã thuộc <strong>{masteredCountAtFinish}/{cards.length}</strong> từ, bạn được cộng <strong>{completionStars} sao</strong>.</>
               )}
             </p>
 

@@ -88,6 +88,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const [regUsername, setRegUsername] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regConfirmPassword, setRegConfirmPassword] = useState('');
+  const [regEmail, setRegEmail] = useState('');
+  const [regSecurityNumber, setRegSecurityNumber] = useState<number>(0);
   const [regGrade, setRegGrade] = useState<number>(() => classes[0]?.grade || 4);
   const [showRegPassword, setShowRegPassword] = useState(false);
   const [showRegConfirmPassword, setShowRegConfirmPassword] = useState(false);
@@ -105,6 +107,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const [resetUsername, setResetUsername] = useState('');
   const [resetPhone, setResetPhone] = useState('');
   const [resetEmail, setResetEmail] = useState('');
+  const [resetSecurityNumber, setResetSecurityNumber] = useState<number>(0);
   const [resetError, setResetError] = useState<string | null>(null);
   const [resetSuccessMessage, setResetSuccessMessage] = useState<string | null>(null);
   const [isSubmittingReset, setIsSubmittingReset] = useState(false);
@@ -118,6 +121,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   const [verificationUsername, setVerificationUsername] = useState('');
   const [verificationPhone, setVerificationPhone] = useState('');
   const [verificationEmail, setVerificationEmail] = useState('');
+  const [verificationSecurityNumber, setVerificationSecurityNumber] = useState<number>(0);
   const [verificationError, setVerificationError] = useState<string | null>(null);
   const [verificationSuccessMessage, setVerificationSuccessMessage] = useState<string | null>(null);
   const [isSubmittingVerification, setIsSubmittingVerification] = useState(false);
@@ -148,14 +152,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
     if (!cleanInputUser) {
       soundEffects.playError();
-      setLoginError('Vui lòng nhập tên đăng nhập / username!');
+      setLoginError('Vui lòng nhập tên đăng nhập!');
       triggerShake();
       return;
     }
 
     if (!cleanInputPass) {
       soundEffects.playError();
-      setLoginError('Vui lòng nhập mật khẩu / password!');
+      setLoginError('Vui lòng nhập mật khẩu!');
       triggerShake();
       return;
     }
@@ -199,7 +203,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         setIsDeviceConflict(true);
         setDeviceConflictSession(sessionResult.activeSession || null);
         setLoginError(
-          'Tài khoản đang đăng nhập trên 1 thiết bị khác, vui lòng kiểm tra lại các thiết bị bạn đang sử dụng hoặc liên hệ Admin để xác minh.'
+          'Tài khoản đang đăng nhập trên thiết bị khác, vui lòng kiểm tra lại các thiết bị bạn đang sử dụng hoặc liên hệ EasyEng để xác minh.'
         );
         triggerShake();
         setIsCheckingSession(false);
@@ -270,7 +274,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // 2. Validate Mật khẩu (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
+    // 2. Validate Email cá nhân dùng để xác minh / nhận mật khẩu
+    const cleanEmail = sanitizeEmailAddress(regEmail);
+    if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+      soundEffects.playError();
+      setRegError('Vui lòng nhập địa chỉ email hợp lệ!');
+      return;
+    }
+
+    // 3. Validate Số bảo mật (từ 0 đến 10)
+    const secNum = Number(regSecurityNumber);
+    if (isNaN(secNum) || secNum < 0 || secNum > 10) {
+      soundEffects.playError();
+      setRegError('Vui lòng chọn số bảo mật từ 0 đến 10!');
+      return;
+    }
+
+    // 4. Validate Mật khẩu (tối thiểu 4 kí tự, tối đa 16 kí tự bao gồm cả chữ, số và ký tự đặc biệt do người dùng đặt)
     const passValidation = validatePassword(cleanPass);
     if (!passValidation.isValid) {
       soundEffects.playError();
@@ -284,7 +304,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // Create new profile with username (Họ tên và Nickname có thể cập nhật sau trong phần cá nhân hoặc Quản lý)
+    // Create new profile with username, email, securityNumber
     const newId = `learner_${Date.now()}`;
     const newProfile: UserProfile = {
       learnerId: newId,
@@ -295,6 +315,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       grade: regGrade,
       avatar: '🎓',
       pin: cleanPass,
+      email: cleanEmail,
+      securityNumber: secNum,
       level: 1,
       xp: 0,
       totalStars: 0,
@@ -337,9 +359,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
   // Open password reset modal
   const handleOpenResetModal = () => {
     soundEffects.playClick();
+    const cleanLogin = loginUsername.trim().toLowerCase();
+    const matched = learners.find(l => (l.username || '').toLowerCase() === cleanLogin || (l.nickname || '').toLowerCase() === cleanLogin);
     setResetUsername(loginUsername.trim());
-    setResetPhone('');
-    setResetEmail('');
+    setResetPhone(matched?.phone || '');
+    setResetEmail(matched?.email || '');
+    setResetSecurityNumber(0);
     setResetError(null);
     setResetSuccessMessage(null);
     setShowResetModal(true);
@@ -361,10 +386,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // 2. Số điện thoại (9 đến 11 số)
-    if (!cleanPhone || cleanPhone.length < 9 || cleanPhone.length > 11) {
+    // 2. Số điện thoại (không bắt buộc, nếu nhập thì kiểm tra 9 đến 11 số)
+    if (cleanPhone && (cleanPhone.length < 9 || cleanPhone.length > 11)) {
       soundEffects.playError();
-      setResetError('Vui lòng nhập số điện thoại hợp lệ (từ 9 đến 11 số)!');
+      setResetError('Nếu cung cấp số điện thoại, vui lòng nhập hợp lệ từ 9 đến 11 số!');
       return;
     }
 
@@ -375,14 +400,23 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
+    // 4. Số bảo mật (0 đến 10)
+    const secNum = Number(resetSecurityNumber);
+    if (isNaN(secNum) || secNum < 0 || secNum > 10) {
+      soundEffects.playError();
+      setResetError('Vui lòng chọn số bảo mật từ 0 đến 10!');
+      return;
+    }
+
     setIsSubmittingReset(true);
 
     const reqData: PasswordResetRequest = {
       id: `reset_${Date.now()}`,
       username: cleanUser,
       nickname: cleanUser,
-      phone: cleanPhone,
+      phone: cleanPhone || '',
       email: cleanEmail,
+      securityNumber: secNum,
       createdAt: new Date().toISOString(),
       status: 'pending'
     };
@@ -393,7 +427,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
       soundEffects.playSuccess();
       setResetSuccessMessage(
-        `Yêu cầu cấp lại mật khẩu đã được gửi đi. Chúng tôi sẽ kiểm tra và gửi mật khẩu mới về email "${cleanEmail}" của bạn trong thời gian sớm nhất!`
+        `Yêu cầu cấp lại mật khẩu đã được gửi đi. Quản trị viên sẽ đối chiếu dữ liệu xác minh và gửi mật khẩu mới về email "${cleanEmail}" của bạn trong thời gian sớm nhất!`
       );
     } catch (err) {
       console.error('Password reset request error:', err);
@@ -421,6 +455,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     setVerificationUsername(targetUser);
     setVerificationPhone(matched?.phone || '');
     setVerificationEmail(matched?.email || '');
+    setVerificationSecurityNumber(0);
     setVerificationError(null);
     setVerificationSuccessMessage(null);
     setShowVerificationModal(true);
@@ -442,10 +477,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       return;
     }
 
-    // 2. Số điện thoại (9 đến 11 số)
-    if (!cleanPhone || cleanPhone.length < 9 || cleanPhone.length > 11) {
+    // 2. Số điện thoại (không bắt buộc, nếu nhập thì kiểm tra 9 đến 11 số)
+    if (cleanPhone && (cleanPhone.length < 9 || cleanPhone.length > 11)) {
       soundEffects.playError();
-      setVerificationError('Vui lòng nhập số điện thoại hợp lệ (từ 9 đến 11 số)!');
+      setVerificationError('Nếu cung cấp số điện thoại, vui lòng nhập hợp lệ từ 9 đến 11 số!');
       return;
     }
 
@@ -453,6 +488,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
       soundEffects.playError();
       setVerificationError('Vui lòng nhập địa chỉ email hợp lệ để nhận phản hồi xác minh!');
+      return;
+    }
+
+    // 4. Số bảo mật (0 đến 10)
+    const secNum = Number(verificationSecurityNumber);
+    if (isNaN(secNum) || secNum < 0 || secNum > 10) {
+      soundEffects.playError();
+      setVerificationError('Vui lòng chọn số bảo mật từ 0 đến 10!');
       return;
     }
 
@@ -474,8 +517,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       learnerId: resolvedLearnerId,
       username: cleanUser,
       nickname: cleanUser,
-      phone: cleanPhone,
+      phone: cleanPhone || '',
       email: cleanEmail,
+      securityNumber: secNum,
       deviceInfo: currentDevice,
       createdAt: new Date().toISOString(),
       status: 'pending'
@@ -487,7 +531,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
 
       soundEffects.playSuccess();
       setVerificationSuccessMessage(
-        `Yêu cầu xác minh tài khoản đã được gửi đi. Chúng tôi sẽ kiểm tra và gửi kết quả về email "${cleanEmail}" của bạn trong thời gian sớm nhất!`
+        `Yêu cầu xác minh tài khoản đã được gửi đi. Quản trị viên sẽ đối chiếu dữ liệu xác minh và gửi kết quả về email "${cleanEmail}" của bạn trong thời gian sớm nhất!`
       );
     } catch (err) {
       console.error('Account verification request error:', err);
@@ -570,7 +614,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         title="Gửi yêu cầu xác minh và mở khóa tài khoản tới Quản trị viên"
                       >
                         <ShieldAlert className="w-4 h-4" />
-                        <span>Liên hệ Admin</span>
+                        <span>Liên hệ EasyEng</span>
                       </button>
                     </div>
                   )}
@@ -581,7 +625,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* Tên đăng nhập / Username */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Tên đăng nhập / Username
+                    Tên đăng nhập
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -590,13 +634,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     <input
                       ref={loginInputRef}
                       type="text"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
                       value={loginUsername}
                       onChange={(e) => {
-                        setLoginUsername(e.target.value);
+                        setLoginUsername(e.target.value.toLowerCase());
                         setLoginError(null);
                         setIsDeviceConflict(false);
                       }}
-                      className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
+                      className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm lowercase"
                       autoComplete="username"
                       required
                     />
@@ -606,7 +653,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* Mật khẩu / Password */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Mật khẩu / Password
+                    Mật khẩu
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -703,7 +750,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                  {/* Tên đăng nhập / Username */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Tên đăng nhập / Username <span className="text-rose-500">*</span>
+                    Tên đăng nhập <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -713,6 +760,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       ref={regInputRef}
                       type="text"
                       maxLength={16}
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                      spellCheck={false}
                       value={regUsername}
                       onChange={(e) => {
                         setRegUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
@@ -723,7 +773,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     />
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Độ dài 4 - 16 kí tự, dùng chữ thường hoặc số
+                    Độ dài 4 - 16 kí tự, dùng chữ thường và số (không viết hoa chữ cái đầu)
                   </p>
                 </div>
 
@@ -732,7 +782,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 2. Mật khẩu / Password */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Mật khẩu / Password<span className="text-rose-500">*</span>
+                    Mật khẩu <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -790,6 +840,59 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       {showRegConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
+                </div>
+
+                {/* 4. Email cá nhân */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Địa chỉ Email <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <input
+                      type="email"
+                      value={regEmail}
+                      onChange={(e) => {
+                        setRegEmail(sanitizeEmailAddress(e.target.value));
+                        setRegError(null);
+                      }}
+                      className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* 5. Số bảo mật từ 0 đến 10 */}
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                    <span>Số bảo mật (0 - 10) <span className="text-rose-500">*</span></span>
+                    <span className="text-[11px] text-amber-700 font-normal lowercase">chọn một số bảo mật</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                      <Shield className="w-4 h-4 text-amber-600" />
+                    </div>
+                    <select
+                      value={regSecurityNumber}
+                      onChange={(e) => {
+                        setRegSecurityNumber(Number(e.target.value));
+                        setRegError(null);
+                      }}
+                      className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-200 rounded-2xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white transition text-sm cursor-pointer"
+                      required
+                    >
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                        <option key={n} value={n}>
+                          Số bảo mật: {n}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Số bảo mật từ 0 đến 10 dùng đối chiếu xác minh chủ tài khoản khi quên mật khẩu
+                  </p>
                 </div>
 
                  {/* Chọn trình độ tiếng Anh: Menu xổ xuống danh sách lớp từ CSDL */}
@@ -931,21 +1034,24 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   <input
                     type="text"
                     maxLength={16}
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
                     value={resetUsername}
                     onChange={(e) => {
-                      setResetUsername(e.target.value);
+                      setResetUsername(e.target.value.toLowerCase());
                       setResetError(null);
                     }}
                     placeholder="Nhập tên đăng nhập..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition lowercase"
                     required
                   />
                 </div>
 
-                {/* 3. Số điện thoại */}
+                {/* 3. Số điện thoại (không bắt buộc) */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Số điện thoại liên hệ <span className="text-rose-500">*</span>
+                    Số điện thoại liên hệ <span className="text-slate-400 text-[11px] font-normal lowercase">(không bắt buộc)</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -961,8 +1067,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setResetPhone(sanitizePhoneNumber(e.target.value));
                         setResetError(null);
                       }}
+                      placeholder="Có thể bỏ trống..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
-                      required
                     />
                   </div>
                 </div>
@@ -987,7 +1093,37 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       required
                     />
                   </div>
+                </div>
 
+                {/* 5. Số bảo mật (0 đến 10) */}
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                    <span>Số bảo mật (0 - 10) <span className="text-rose-500">*</span></span>
+                    <span className="text-[11px] text-amber-700 font-normal lowercase">đã chọn khi đăng ký</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <Shield className="w-3.5 h-3.5 text-amber-600" />
+                    </div>
+                    <select
+                      value={resetSecurityNumber}
+                      onChange={(e) => {
+                        setResetSecurityNumber(Number(e.target.value));
+                        setResetError(null);
+                      }}
+                      className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition cursor-pointer"
+                      required
+                    >
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                        <option key={n} value={n}>
+                          Số bảo mật: {n}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Hệ thống sẽ đối chiếu số bảo mật này với thông tin đã đăng ký trong CSDL
+                  </p>
                 </div>
 
                 {/* Buttons */}
@@ -1096,21 +1232,24 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   <input
                     type="text"
                     maxLength={16}
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
                     value={verificationUsername}
                     onChange={(e) => {
-                      setVerificationUsername(e.target.value);
+                      setVerificationUsername(e.target.value.toLowerCase());
                       setVerificationError(null);
                     }}
                     placeholder="Nhập tên đăng nhập..."
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition lowercase"
                     required
                   />
                 </div>
 
-                {/* 3. Số điện thoại */}
+                {/* 3. Số điện thoại (không bắt buộc) */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Số điện thoại liên hệ <span className="text-rose-500">*</span>
+                    Số điện thoại liên hệ <span className="text-slate-400 text-[11px] font-normal lowercase">(không bắt buộc)</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -1126,8 +1265,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setVerificationPhone(sanitizePhoneNumber(e.target.value));
                         setVerificationError(null);
                       }}
+                      placeholder="Có thể bỏ trống..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
-                      required
                     />
                   </div>
                 </div>
@@ -1154,6 +1293,37 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
                     Admin sẽ kiểm tra và phản hồi về email này.
+                  </p>
+                </div>
+
+                {/* 5. Số bảo mật (0 đến 10) */}
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
+                    <span>Số bảo mật (0 - 10) <span className="text-rose-500">*</span></span>
+                    <span className="text-[11px] text-rose-700 font-normal lowercase">đã chọn khi đăng ký</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <Shield className="w-3.5 h-3.5 text-rose-600" />
+                    </div>
+                    <select
+                      value={verificationSecurityNumber}
+                      onChange={(e) => {
+                        setVerificationSecurityNumber(Number(e.target.value));
+                        setVerificationError(null);
+                      }}
+                      className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-bold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition cursor-pointer"
+                      required
+                    >
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                        <option key={n} value={n}>
+                          Số bảo mật: {n}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Hệ thống sẽ đối chiếu số bảo mật này với thông tin đã đăng ký trong CSDL
                   </p>
                 </div>
 

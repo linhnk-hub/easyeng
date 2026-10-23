@@ -28,17 +28,17 @@ export function generateDefaultUsernameFromName(name?: string): string {
  */
 export function resolveValidUsername(username?: string, name?: string): string {
   if (username && typeof username === 'string') {
-    const trimmed = username.trim();
+    const trimmed = username.trim().toLowerCase();
     // Loại trừ hoàn toàn ID kỹ thuật csdl tự sinh dạng "learner" / "learner_..."
-    if (trimmed && !trimmed.toLowerCase().startsWith('learner')) {
+    if (trimmed && !trimmed.startsWith('learner')) {
       return trimmed;
     }
   }
-  // Đối với người dùng ban đầu chưa có tên đăng nhập thì tự động chọn tên nickname là tên đăng nhập
+  // Đối với người dùng ban đầu chưa có tên đăng nhập thì tự động chọn tên mặc định chữ thường
   if (name && typeof name === 'string' && name.trim()) {
-    const trimmedName = name.trim();
-    if (!trimmedName.toLowerCase().startsWith('learner')) {
-      return trimmedName;
+    const defaultUser = generateDefaultUsernameFromName(name).toLowerCase();
+    if (defaultUser && !defaultUser.startsWith('learner')) {
+      return defaultUser;
     }
   }
   return 'user';
@@ -162,7 +162,7 @@ export function validateNickname(nickname?: string): { isValid: boolean; error?:
  */
 export function validateUsername(username?: string): { isValid: boolean; error?: string } {
   if (!username || !username.trim()) {
-    return { isValid: false, error: 'Vui lòng nhập tên đăng nhập / username!' };
+    return { isValid: false, error: 'Vui lòng nhập tên đăng nhập!' };
   }
   const clean = username.trim();
   if (clean.length < 4) {
@@ -173,6 +173,9 @@ export function validateUsername(username?: string): { isValid: boolean; error?:
   }
   if (/\s/.test(clean)) {
     return { isValid: false, error: 'Tên đăng nhập không được chứa khoảng trắng (dấu cách)!' };
+  }
+  if (/^[A-Z]/.test(clean)) {
+    return { isValid: false, error: 'Không được viết hoa chữ cái đầu tiên trong tên đăng nhập (chỉ dùng chữ thường)!' };
   }
   if (/[A-Z]/.test(clean)) {
     return { isValid: false, error: 'Tên đăng nhập không được viết hoa (chỉ sử dụng chữ viết thường)!' };
