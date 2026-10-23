@@ -2269,7 +2269,7 @@ EasyEng`;
 
                           {/* Avatar preview */}
                           <div className="flex items-center gap-3 pt-1">
-                            <span className="text-xs font-bold text-slate-500">Avatar đang chọn:</span>
+                            <span className="text-xs font-bold text-slate-500">Hình đang chọn:</span>
                             <div className="w-10 h-10 rounded-xl bg-white border border-amber-300 flex items-center justify-center text-2xl overflow-hidden">
                               {renderAvatarContent(editAvatar || learner.avatar)}
                             </div>

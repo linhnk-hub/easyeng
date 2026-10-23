@@ -431,7 +431,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                         : 'bg-white hover:bg-amber-100 text-amber-800 border border-amber-300'
                     }`}
                   >
-                    {selectedAvatar === userUploadedAvatar ? '✓ Đang chọn' : 'Chọn hình'}
+                    {selectedAvatar === userUploadedAvatar ? '✓ Đang dùng' : 'Chọn hình'}
                   </button>
                 </div>
               )}
@@ -495,12 +495,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
         {/* TAB 2: CHANGE PIN PASSWORD */}
         {activeTab === 'password' && (
           <form onSubmit={handleChangePassword} className="space-y-3.5 overflow-y-auto pr-1 flex-1">
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 flex items-start gap-2">
-              <Lock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-              <span>
-                Độ dài mật khẩu: 4 - 16 kí tự
-              </span>
-            </div>
 
             {/* Old PIN */}
             <div className="space-y-1">
