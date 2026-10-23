@@ -52,27 +52,110 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
     return list;
   }, [units]);
 
+  // Helper to sanitize sentences: remove formula delimiters +, /, \, - and discard abstract grammar rules
+  const cleanSentenceChallenge = (challenge: SentenceChallenge): SentenceChallenge | null => {
+    // If pattern looks like an abstract grammar formula e.g. "S + V" or "Subject + ..." or "Verb-ing", reject it
+    const isGrammarFormula = /\b(S\b|Subject\b|V-ing\b|Verb\b|Object\b|Adj\b|Adv\b)/i.test(challenge.correctSentence);
+    if (isGrammarFormula) return null;
+
+    // Clean out +, /, \, and isolated hyphens from the target sentence
+    let cleanSentence = challenge.correctSentence
+      .replace(/[+/\\|]+/g, ' ')
+      .replace(/\s*-\s*/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+
+    // Clean raw words
+    const rawWords = (challenge.scrambledWords && challenge.scrambledWords.length > 0)
+      ? challenge.scrambledWords
+      : cleanSentence.split(/\s+/);
+
+    const cleanWords = rawWords
+      .flatMap(w => w.split(/[+/\\|]+/))
+      .map(w => w.replace(/^[+/\\|\-_]+|[+/\\|\-_]+$/g, '').trim())
+      .filter(w => w.length > 0 && !/^[+/\-\\=|_~*]+$/.test(w));
+
+    if (cleanWords.length < 2) return null;
+
+    // If correctSentence had symbols, reconstruct cleanSentence to match cleanWords
+    if (/[+/\\|]/.test(challenge.correctSentence) || /\s-\s/.test(challenge.correctSentence)) {
+      cleanSentence = cleanWords.join(' ');
+    }
+
+    return {
+      scrambledWords: cleanWords,
+      correctSentence: cleanSentence,
+      vietnameseMeaning: challenge.vietnameseMeaning
+    };
+  };
+
   const allSentences = useMemo(() => {
     const list: { challenge: SentenceChallenge; unitNum: number }[] = [];
     units.forEach(u => {
+      // 1. Existing sentence challenges
       if (u.sentenceChallenges && u.sentenceChallenges.length > 0) {
-        u.sentenceChallenges.forEach(s => list.push({ challenge: s, unitNum: u.unit }));
-      } else if (u.sentencePatterns && u.sentencePatterns.length > 0) {
-        u.sentencePatterns.forEach(sp => {
-          const words = sp.pattern.split(/\s+/).filter(Boolean);
-          if (words.length >= 3) {
-            list.push({
-              challenge: {
+        u.sentenceChallenges.forEach(s => {
+          const cleaned = cleanSentenceChallenge(s);
+          if (cleaned) list.push({ challenge: cleaned, unitNum: u.unit });
+        });
+      }
+
+      // 2. High quality natural sentences from vocabulary examples
+      if (u.vocabulary && u.vocabulary.length > 0) {
+        u.vocabulary.forEach(v => {
+          if (v.example && v.example.trim()) {
+            const words = v.example.trim().split(/\s+/).filter(Boolean);
+            if (words.length >= 3 && !list.some(item => item.challenge.correctSentence.toLowerCase() === v.example.trim().toLowerCase())) {
+              const cleaned = cleanSentenceChallenge({
                 scrambledWords: [...words].sort(() => Math.random() - 0.5),
-                correctSentence: sp.pattern,
-                vietnameseMeaning: sp.usage
-              },
-              unitNum: u.unit
+                correctSentence: v.example.trim(),
+                vietnameseMeaning: v.exampleMeaning || v.meaning
+              });
+              if (cleaned) list.push({ challenge: cleaned, unitNum: u.unit });
+            }
+          }
+        });
+      }
+
+      // 3. Sentence patterns (only valid real English sentences)
+      if (u.sentencePatterns && u.sentencePatterns.length > 0) {
+        u.sentencePatterns.forEach(sp => {
+          if (sp.pattern && sp.pattern.trim()) {
+            const cleaned = cleanSentenceChallenge({
+              scrambledWords: sp.pattern.trim().split(/\s+/).filter(Boolean),
+              correctSentence: sp.pattern.trim(),
+              vietnameseMeaning: sp.usage
             });
+            if (cleaned && cleaned.scrambledWords.length >= 3 && !list.some(item => item.challenge.correctSentence.toLowerCase() === cleaned.correctSentence.toLowerCase())) {
+              list.push({ challenge: cleaned, unitNum: u.unit });
+            }
           }
         });
       }
     });
+
+    // Fallback if list is empty
+    if (list.length === 0) {
+      list.push(
+        {
+          challenge: {
+            scrambledWords: ['I', 'love', 'learning', 'English'],
+            correctSentence: 'I love learning English',
+            vietnameseMeaning: 'Tôi yêu thích việc học tiếng Anh'
+          },
+          unitNum: 1
+        },
+        {
+          challenge: {
+            scrambledWords: ['This', 'is', 'my', 'classroom'],
+            correctSentence: 'This is my classroom',
+            vietnameseMeaning: 'Đây là lớp học của tôi'
+          },
+          unitNum: 1
+        }
+      );
+    }
+
     return list;
   }, [units]);
 
@@ -330,8 +413,12 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
       setStage('quiz');
       return;
     }
-    // Take words and ensure they are scrambled / shuffled, not in original order
-    const rawWords = [...item.challenge.scrambledWords];
+    // Clean and sanitize words: strip any +, -, /, \ characters
+    const rawWords = (item.challenge.scrambledWords || [])
+      .flatMap(w => w.split(/[+/\\|]+/))
+      .map(w => w.replace(/^[+/\\|\-_]+|[+/\\|\-_]+$/g, '').trim())
+      .filter(w => w.length > 0 && !/^[+/\-\\=|_~*]+$/.test(w));
+
     let shuffled = [...rawWords].sort(() => Math.random() - 0.5);
 
     // If shuffled order happens to equal original or if lengths > 1, guarantee permutation
@@ -374,8 +461,9 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
   const handleCheckSentence = () => {
     const target = sentenceItems[currentSentenceIdx];
     if (!target) return;
-    const constructed = userWords.map(w => w.word).join(' ').trim();
-    const isCorrect = constructed.toLowerCase() === target.challenge.correctSentence.trim().toLowerCase();
+    const constructed = userWords.map(w => w.word).join(' ').trim().toLowerCase();
+    const targetClean = target.challenge.correctSentence.replace(/[+/\\|]+/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+    const isCorrect = constructed === targetClean;
 
     if (isCorrect) {
       soundEffects.playSuccess();
@@ -602,10 +690,10 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
           </button>
           <button
             onClick={() => {
+              soundEffects.playVictory();
               onComplete(stars);
-              onBack();
             }}
-            className="flex-1 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-sm shadow-md shadow-amber-500/20 cursor-pointer"
+            className="flex-1 py-3 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-sm shadow-md shadow-amber-500/20 cursor-pointer transition active:scale-95"
           >
             Nhận Thưởng ✨
           </button>

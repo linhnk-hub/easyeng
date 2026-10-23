@@ -1345,21 +1345,19 @@ EasyEng`;
     const hasPhoneProvided = phoneEntered.length > 0;
     const isPhoneMatch = hasPhoneProvided ? (csdlPhone.length > 0 && phoneEntered === csdlPhone) : null;
 
-    // 4. Kiểm tra số bảo mật (0 đến 10)
+    // 4. Kiểm tra số bảo mật (câu hỏi bí mật, 0 đến 10)
     const secEntered = req.securityNumber;
     const csdlSec = matchedLearner?.securityNumber !== undefined ? matchedLearner.securityNumber : 0;
     const isSecMatch = secEntered !== undefined && secEntered === csdlSec;
 
-    // Tính điểm đối chiếu và mức độ tin cậy
+    // Tính điểm đối chiếu theo 4 tiêu chí chuẩn: Tên đăng nhập, Email, Số điện thoại, Số bảo mật (câu hỏi bí mật)
+    const isPhoneChecked = Boolean(hasPhoneProvided && isPhoneMatch);
     let matchScore = 0;
-    let totalChecks = 3; // username, email, securityNumber
     if (isUsernameMatch) matchScore += 1;
     if (isEmailMatch) matchScore += 1;
     if (isSecMatch) matchScore += 1;
-    if (hasPhoneProvided) {
-      totalChecks += 1;
-      if (isPhoneMatch) matchScore += 1;
-    }
+    if (isPhoneChecked) matchScore += 1;
+    const totalChecks = 4;
 
     let badgeText = '';
     let badgeBg = '';
@@ -1379,14 +1377,15 @@ EasyEng`;
       badgeBorder = 'border-emerald-300';
       badgeTextCol = 'text-emerald-800';
       badgeIcon = '🛡️';
-    } else if (isUsernameMatch && (isEmailMatch || isSecMatch)) {
-      badgeText = `Độ tin cậy cao (${matchScore}/${totalChecks} thông tin khớp)`;
+    } else if (matchScore >= 2 && isSecMatch) {
+      // Độ tin cậy cao: chỉ xác định khi có ít nhất 2/4 thông tin khớp đúng trong đó bắt buộc phải khớp đúng câu hỏi bí mật
+      badgeText = `Độ tin cậy cao (${matchScore}/4 thông tin khớp)`;
       badgeBg = 'bg-teal-50';
       badgeBorder = 'border-teal-200';
       badgeTextCol = 'text-teal-800';
       badgeIcon = '✅';
-    } else if (isUsernameMatch) {
-      badgeText = `Cần kiểm tra lại (${matchScore}/${totalChecks} thông tin khớp)`;
+    } else if (matchScore >= 1) {
+      badgeText = `Cần kiểm tra lại (${matchScore}/4 thông tin khớp)`;
       badgeBg = 'bg-amber-50';
       badgeBorder = 'border-amber-200';
       badgeTextCol = 'text-amber-800';
@@ -1425,7 +1424,7 @@ EasyEng`;
         copyVal: req.phone || ''
       },
       {
-        label: 'Số bảo mật',
+        label: 'Số bảo mật (câu hỏi bí mật)',
         entered: secEntered !== undefined ? `Số ${secEntered}` : 'Chưa có',
         csdl: `Số ${csdlSec}`,
         isMatch: isSecMatch,

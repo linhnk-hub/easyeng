@@ -20,22 +20,46 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({
   const challenges: SentenceChallenge[] = React.useMemo(() => {
     const list: SentenceChallenge[] = [];
 
+    const cleanChallenge = (sentence: string, meaning: string): SentenceChallenge | null => {
+      // Discard abstract grammar formulas like "S + V" or "Subject + ..."
+      if (/\b(S\b|Subject\b|V-ing\b|Verb\b|Object\b|Adj\b|Adv\b)/i.test(sentence)) return null;
+
+      const cleanedSentence = sentence
+        .replace(/[+/\\|]+/g, ' ')
+        .replace(/\s*-\s*/g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
+      const words = cleanedSentence
+        .split(/\s+/)
+        .flatMap(w => w.split(/[+/\\|]+/))
+        .map(w => w.replace(/^[+/\\|\-_]+|[+/\\|\-_]+$/g, '').trim())
+        .filter(w => w.length > 0 && !/^[+/\-\\=|_~*]+$/.test(w));
+
+      if (words.length < 2) return null;
+
+      return {
+        scrambledWords: [...words].sort(() => Math.random() - 0.5),
+        correctSentence: words.join(' '),
+        vietnameseMeaning: meaning
+      };
+    };
+
     // 1. Existing sentence challenges
     if (unit.sentenceChallenges && unit.sentenceChallenges.length > 0) {
-      list.push(...unit.sentenceChallenges);
+      unit.sentenceChallenges.forEach(sc => {
+        const cleaned = cleanChallenge(sc.correctSentence, sc.vietnameseMeaning);
+        if (cleaned) list.push(cleaned);
+      });
     }
 
     // 2. Vocabulary examples
     if (unit.vocabulary && unit.vocabulary.length > 0) {
       unit.vocabulary.forEach(v => {
         if (v.example && v.example.trim()) {
-          const words = v.example.trim().split(/\s+/).filter(Boolean);
-          if (words.length >= 2 && !list.some(c => c.correctSentence.toLowerCase() === v.example.trim().toLowerCase())) {
-            list.push({
-              scrambledWords: [...words].sort(() => Math.random() - 0.5),
-              correctSentence: v.example.trim(),
-              vietnameseMeaning: v.exampleMeaning || v.meaning
-            });
+          const cleaned = cleanChallenge(v.example.trim(), v.exampleMeaning || v.meaning);
+          if (cleaned && !list.some(c => c.correctSentence.toLowerCase() === cleaned.correctSentence.toLowerCase())) {
+            list.push(cleaned);
           }
         }
       });
@@ -45,13 +69,9 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({
     if (unit.sentencePatterns && unit.sentencePatterns.length > 0) {
       unit.sentencePatterns.forEach(p => {
         if (p.pattern && p.pattern.trim()) {
-          const words = p.pattern.trim().split(/\s+/).filter(Boolean);
-          if (words.length >= 2 && !list.some(c => c.correctSentence.toLowerCase() === p.pattern.trim().toLowerCase())) {
-            list.push({
-              scrambledWords: [...words].sort(() => Math.random() - 0.5),
-              correctSentence: p.pattern.trim(),
-              vietnameseMeaning: p.usage || ''
-            });
+          const cleaned = cleanChallenge(p.pattern.trim(), p.usage || '');
+          if (cleaned && !list.some(c => c.correctSentence.toLowerCase() === cleaned.correctSentence.toLowerCase())) {
+            list.push(cleaned);
           }
         }
       });

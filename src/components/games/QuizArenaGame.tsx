@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Volume2, Snail, Timer, Zap, CheckCircle2, XCircle, Star, Sparkles, HelpCircle, Trophy } from 'lucide-react';
+import { ArrowLeft, Timer, Zap, CheckCircle2, XCircle, Star, Sparkles, HelpCircle, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { UnitData, QuizQuestion } from '../../types';
-import { speechService } from '../../services/speechService';
 import { soundEffects } from '../../services/soundEffects';
-import { getFullEnglishSentenceForQuiz, getBlankParts, hasBlank } from '../../utils/quizSentenceHelper';
+import { getFullEnglishSentenceForQuiz, getBlankParts } from '../../utils/quizSentenceHelper';
 
 interface QuizArenaGameProps {
   unit: UnitData;
@@ -201,46 +200,8 @@ export const QuizArenaGame: React.FC<QuizArenaGameProps> = ({
     return () => clearInterval(timer);
   }, [isAnswered, gameFinished, currentQ]);
 
-// Helper function: Strictly extract English word or sentence to speak, never pronouncing Vietnamese sentences with English TTS voice
-function getEnglishSnippetToSpeak(question: string): string | null {
-  if (!question) return null;
-
-  // 1. If English word or phrase is enclosed in quotes: e.g. Từ "swimming" có nghĩa là gì...
-  const quoteMatch = question.match(/["'“]([A-Za-z\s\-',.!?]+)["'”]/);
-  if (quoteMatch && quoteMatch[1].trim()) {
-    return quoteMatch[1].trim();
-  }
-
-  // 2. Check if the question contains Vietnamese accent characters
-  const hasVietnamese = /[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđĐ]/i.test(question);
-  if (!hasVietnamese) {
-    // Pure English sentence (e.g. "What time is it?", "I like playing ______.")
-    // Remove blank placeholders like "______" or "___"
-    const cleaned = question.replace(/_+/g, '').trim();
-    return cleaned || null;
-  }
-
-  // 3. Check for pattern like: "Từ apple có nghĩa là..."
-  const wordMatch = question.match(/(?:từ|tiếng Anh|word)\s+([A-Za-z\-]+)/i);
-  if (wordMatch && wordMatch[1]) {
-    return wordMatch[1].trim();
-  }
-
-  // Pure Vietnamese question with no isolated English target word: do not pronounce
-  return null;
-}
-
-  // Stop speech when entering or leaving QuizArena
+  // Reset state on new question
   useEffect(() => {
-    speechService.cancel();
-    return () => {
-      speechService.cancel();
-    };
-  }, []);
-
-  // Reset state on new question without auto-speaking
-  useEffect(() => {
-    speechService.cancel();
     setTimeLeft(25);
     setSelectedOption(null);
     setIsAnswered(false);
@@ -264,18 +225,6 @@ function getEnglishSnippetToSpeak(question: string): string | null {
       // Combo bonus
       const bonus = newStreak >= 3 ? 150 : 100;
       setScore(s => s + bonus);
-
-      // Play the full English sentence with the correct answer inserted
-      const fullSentence = getFullEnglishSentenceForQuiz(
-        currentQ.question,
-        currentQ.options[currentQ.answerIndex],
-        currentQ.explanation
-      );
-      if (fullSentence) {
-        setTimeout(() => {
-          speechService.speakNormal(fullSentence);
-        }, 220);
-      }
     } else {
       soundEffects.playError();
       setStreak(0);
@@ -399,7 +348,7 @@ function getEnglishSnippetToSpeak(question: string): string | null {
 
       {/* Question Card */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-200 shadow-lg shadow-amber-900/5 space-y-6">
-        <div className="flex items-start justify-between gap-3">
+        <div>
           <h2 className="font-display font-bold text-xl sm:text-2xl text-slate-800 leading-snug">
             {(() => {
               if (isAnswered) {
@@ -419,35 +368,6 @@ function getEnglishSnippetToSpeak(question: string): string | null {
               return currentQ.question;
             })()}
           </h2>
-          {(() => {
-            const fullSentence = getFullEnglishSentenceForQuiz(
-              currentQ.question,
-              currentQ.options[currentQ.answerIndex],
-              currentQ.explanation
-            );
-            const snippet = isAnswered && fullSentence ? fullSentence : (!hasBlank(currentQ.question) ? getEnglishSnippetToSpeak(currentQ.question) : null);
-            if (!snippet) return null;
-            return (
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => speechService.speakNormal(snippet)}
-                  className="p-2 rounded-xl bg-amber-50 text-amber-700 hover:bg-amber-100 transition cursor-pointer"
-                  title={`Nghe phát âm chuẩn: "${snippet}"`}
-                >
-                  <Volume2 className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => speechService.speakSlowly(snippet)}
-                  className="px-2.5 py-2 rounded-xl bg-teal-50 text-teal-800 hover:bg-teal-100 transition cursor-pointer flex items-center gap-1 font-bold text-xs"
-                  title={`Nghe phát âm chậm: "${snippet}"`}
-                >
-                  <Snail className="w-5 h-5" />
-                </button>
-              </div>
-            );
-          })()}
         </div>
 
         {/* Options */}
@@ -503,35 +423,14 @@ function getEnglishSnippetToSpeak(question: string): string | null {
           return (
             <div className="pt-4 border-t border-slate-100 space-y-4">
               {fullSentence && (
-                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
-                  <div className="space-y-1 min-w-0">
-                    <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                      Câu tiếng Anh đầy đủ:
-                    </span>
-                    <p className="font-display font-bold text-slate-800 text-sm sm:text-base break-words">
-                      "{fullSentence}"
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-                    <button
-                      type="button"
-                      onClick={() => speechService.speakNormal(fullSentence)}
-                      className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white transition cursor-pointer shadow-xs active:scale-95 flex items-center gap-1.5 font-bold text-xs"
-                      title={`Nghe chuẩn: "${fullSentence}"`}
-                    >
-                      <Volume2 className="w-4 h-4" />
-                      <span>Nghe câu</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => speechService.speakSlowly(fullSentence)}
-                      className="px-2.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white transition cursor-pointer flex items-center gap-1 font-bold text-xs shadow-xs active:scale-95"
-                      title={`Nghe chậm: "${fullSentence}"`}
-                    >
-                      <Snail className="w-4 h-4" />
-                    </button>
-                  </div>
+                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 shadow-xs space-y-1">
+                  <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    Câu tiếng Anh đầy đủ:
+                  </span>
+                  <p className="font-display font-bold text-slate-800 text-sm sm:text-base break-words">
+                    "{fullSentence}"
+                  </p>
                 </div>
               )}
 
