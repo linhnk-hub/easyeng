@@ -227,9 +227,35 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   const [isLoadingVerificationRequests, setIsLoadingVerificationRequests] = useState(false);
   const [unlockedSessionMsg, setUnlockedSessionMsg] = useState<string | null>(null);
 
-  // Search terms for request tabs
+  // Search terms for request tabs & learners
   const [resetSearchTerm, setResetSearchTerm] = useState('');
   const [verificationSearchTerm, setVerificationSearchTerm] = useState('');
+  const [learnerSearchTerm, setLearnerSearchTerm] = useState('');
+
+  // Filtered learners list matching search input
+  const filteredLearners = React.useMemo(() => {
+    const q = learnerSearchTerm.trim().toLowerCase();
+    if (!q) return learners;
+    return learners.filter((learner) => {
+      const username = (learner.username || '').toLowerCase();
+      const name = (learner.name || '').toLowerCase();
+      const phone = (learner.phone || '').toLowerCase();
+      const email = (learner.email || '').toLowerCase();
+      const gradeStr = `lớp ${learner.grade}`;
+      const gradeNum = String(learner.grade);
+      const secNum = learner.securityNumber !== undefined ? String(learner.securityNumber) : '';
+
+      return (
+        username.includes(q) ||
+        name.includes(q) ||
+        phone.includes(q) ||
+        email.includes(q) ||
+        gradeStr.includes(q) ||
+        gradeNum === q ||
+        secNum === q
+      );
+    });
+  }, [learners, learnerSearchTerm]);
 
   // Email Reply Modal State (Nội dung soạn sẵn, sao chép dán vào trình duyệt, KHÔNG mở mailto client)
   interface EmailReplyModalState {
@@ -1868,25 +1894,51 @@ EasyEng`;
                   </div>
                 )}
 
-                <div className="flex items-center justify-between">
-                  <div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-display font-bold text-lg text-slate-800">
                       Danh sách tài khoản
                     </h3>
-
+                    <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2.5 py-0.5 rounded-full border border-slate-200">
+                      {learnerSearchTerm.trim() ? `${filteredLearners.length}/${learners.length}` : learners.length} tài khoản
+                    </span>
                   </div>
 
-                  {!isAddingLearner && (
-                    <button
-                      onClick={() => {
-                        soundEffects.playClick();
-                        setIsAddingLearner(true);
-                      }}
-                      className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer"
-                    >
-                      <Plus className="w-4 h-4" /> Thêm tài khoản
-                    </button>
-                  )}
+                  <div className="flex items-center gap-2 self-end sm:self-auto w-full sm:w-auto">
+                    {/* Search Input */}
+                    <div className="relative flex-1 sm:w-64">
+                      <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                      <input
+                        type="text"
+                        value={learnerSearchTerm}
+                        onChange={(e) => setLearnerSearchTerm(e.target.value)}
+                        placeholder="Tìm tên đăng nhập, họ tên, SĐT, lớp..."
+                        className="w-full pl-8 pr-7 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition shadow-2xs"
+                      />
+                      {learnerSearchTerm && (
+                        <button
+                          type="button"
+                          onClick={() => setLearnerSearchTerm('')}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs p-1 cursor-pointer"
+                          title="Xóa tìm kiếm"
+                        >
+                          ✕
+                        </button>
+                      )}
+                    </div>
+
+                    {!isAddingLearner && (
+                      <button
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setIsAddingLearner(true);
+                        }}
+                        className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer shrink-0"
+                      >
+                        <Plus className="w-4 h-4" /> Thêm tài khoản
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Add Learner Form */}
@@ -2103,8 +2155,28 @@ EasyEng`;
                 )}
 
                 {/* Learners List */}
-                <div className="grid grid-cols-1 gap-3">
-                  {learners.map((learner) => {
+                {filteredLearners.length === 0 ? (
+                  <div className="p-8 text-center bg-white border border-slate-200 rounded-2xl space-y-2.5 shadow-2xs">
+                    <div className="w-11 h-11 mx-auto rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+                      <Search className="w-5 h-5" />
+                    </div>
+                    <p className="text-sm font-bold text-slate-800">
+                      Không tìm thấy tài khoản phù hợp
+                    </p>
+                    <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                      Không có tài khoản nào khớp với từ khóa &ldquo;{learnerSearchTerm}&rdquo;. Vui lòng thử tìm với tên đăng nhập, họ tên, số điện thoại hoặc lớp khác.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setLearnerSearchTerm('')}
+                      className="mt-1 px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer"
+                    >
+                      Xóa bộ lọc tìm kiếm
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-3">
+                    {filteredLearners.map((learner) => {
                     const isEditing = editingLearnerId === learner.learnerId;
 
                     if (isEditing) {
@@ -2473,7 +2545,8 @@ EasyEng`;
                     );
                   })}
                 </div>
-              </div>
+              )}
+            </div>
 
             </div>
           )}
