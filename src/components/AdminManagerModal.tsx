@@ -1399,95 +1399,109 @@ EasyEng`;
       badgeIcon = '❌';
     }
 
+    const auditItems = [
+      {
+        label: 'Tên đăng nhập',
+        entered: usernameEntered,
+        csdl: csdlUsername,
+        isMatch: isUsernameMatch,
+        copyKey: null,
+        copyVal: ''
+      },
+      {
+        label: 'Địa chỉ Email',
+        entered: req.email || '— (Bỏ trống)',
+        csdl: csdlEmail || 'Chưa thiết lập',
+        isMatch: isEmailMatch,
+        copyKey: req.email ? `email_${req.id}` : null,
+        copyVal: req.email || ''
+      },
+      {
+        label: 'Số điện thoại',
+        entered: phoneEntered || '— (Bỏ trống)',
+        csdl: csdlPhone || 'Chưa thiết lập',
+        isMatch: !hasPhoneProvided ? null : isPhoneMatch,
+        copyKey: req.phone ? `phone_${req.id}` : null,
+        copyVal: req.phone || ''
+      },
+      {
+        label: 'Số bảo mật',
+        entered: secEntered !== undefined ? `Số ${secEntered}` : 'Chưa có',
+        csdl: `Số ${csdlSec}`,
+        isMatch: isSecMatch,
+        copyKey: null,
+        copyVal: ''
+      }
+    ];
+
     return (
-      <div className="mt-3 bg-slate-50/90 rounded-2xl p-3 sm:p-4 border border-slate-200 space-y-2.5">
-        <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200">
-          <div className="flex items-center gap-1.5 font-bold text-xs text-slate-700">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+      <div className="mt-2.5 bg-slate-50/70 rounded-xl border border-slate-200 overflow-hidden text-xs">
+        {/* Header đối chiếu */}
+        <div className="px-3.5 py-2 bg-white border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5 font-bold text-slate-700">
+            <span className="w-2 h-2 rounded-full bg-amber-500" />
             <span>Đối chiếu dữ liệu xác minh với CSDL:</span>
           </div>
-          <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${badgeBg} ${badgeBorder} ${badgeTextCol}`}>
+          <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeBg} ${badgeBorder} ${badgeTextCol}`}>
             <span>{badgeIcon}</span>
             <span>{badgeText}</span>
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs">
-          {/* 1. Tên đăng nhập */}
-          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500">Tên đăng nhập:</span>
-              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                isUsernameMatch ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
-              }`}>
-                {isUsernameMatch ? 'Khớp CSDL' : 'Không khớp'}
-              </span>
-            </div>
-            <p className="font-semibold text-slate-800 truncate" title={`Nhập: ${usernameEntered}`}>
-              Nhập: <span className="font-mono text-indigo-600">{usernameEntered}</span>
-            </p>
-            <p className="text-[11px] text-slate-500 truncate" title={`CSDL: ${csdlUsername}`}>
-              CSDL: <span className="font-mono font-medium">{csdlUsername}</span>
-            </p>
-          </div>
+        {/* Danh sách so sánh theo hàng gọn gàng, không bị tràn hay cắt chữ */}
+        <div className="divide-y divide-slate-200/60">
+          {auditItems.map((item, itemIdx) => (
+            <div key={itemIdx} className="px-3.5 py-2 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 hover:bg-white/80 transition">
+              {/* Mục */}
+              <div className="w-28 shrink-0 font-bold text-slate-500">
+                {item.label}:
+              </div>
 
-          {/* 2. Địa chỉ Email */}
-          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500">Email:</span>
-              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                isEmailMatch ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
-              }`}>
-                {isEmailMatch ? 'Khớp CSDL' : 'Không khớp'}
-              </span>
-            </div>
-            <p className="font-semibold text-slate-800 truncate" title={`Nhập: ${req.email}`}>
-              Nhập: <span className="font-mono text-indigo-600">{req.email || '—'}</span>
-            </p>
-            <p className="text-[11px] text-slate-500 truncate" title={`CSDL: ${csdlEmail || 'Chưa thiết lập'}`}>
-              CSDL: <span className="font-mono font-medium">{csdlEmail || 'Chưa thiết lập'}</span>
-            </p>
-          </div>
+              {/* Thông tin nhập & CSDL */}
+              <div className="flex-1 min-w-0 flex flex-wrap items-center gap-x-4 gap-y-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-400 font-medium">Nhập:</span>
+                  <span className="font-mono font-bold text-slate-800 break-all">{item.entered}</span>
+                  {item.copyKey && item.copyVal && (
+                    <button
+                      type="button"
+                      onClick={() => handleCopyText(item.copyKey!, item.copyVal)}
+                      className="text-slate-400 hover:text-amber-600 p-0.5 rounded cursor-pointer transition"
+                      title="Sao chép"
+                    >
+                      {copiedField === item.copyKey ? (
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  )}
+                </div>
 
-          {/* 3. Số điện thoại (không bắt buộc) */}
-          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500">SĐT (k.bắt buộc):</span>
-              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                !hasPhoneProvided
-                  ? 'bg-slate-100 text-slate-500'
-                  : isPhoneMatch
-                  ? 'bg-emerald-100 text-emerald-700'
-                  : 'bg-rose-100 text-rose-700'
-              }`}>
-                {!hasPhoneProvided ? 'Bỏ trống' : isPhoneMatch ? 'Khớp CSDL' : 'Không khớp'}
-              </span>
-            </div>
-            <p className="font-semibold text-slate-800 truncate" title={`Nhập: ${phoneEntered || 'Bỏ trống'}`}>
-              Nhập: <span className="font-mono text-indigo-600">{phoneEntered || '— (Bỏ trống)'}</span>
-            </p>
-            <p className="text-[11px] text-slate-500 truncate" title={`CSDL: ${csdlPhone || 'Chưa thiết lập'}`}>
-              CSDL: <span className="font-mono font-medium">{csdlPhone || 'Chưa thiết lập'}</span>
-            </p>
-          </div>
+                <div className="flex items-center gap-1.5 text-slate-500">
+                  <span className="text-slate-400 font-medium">CSDL:</span>
+                  <span className="font-medium text-slate-700 break-all">{item.csdl}</span>
+                </div>
+              </div>
 
-          {/* 4. Số bảo mật (0-10) */}
-          <div className="p-2.5 rounded-xl bg-white border border-slate-200 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500">Số bảo mật (0-10):</span>
-              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                isSecMatch ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
-              }`}>
-                {isSecMatch ? 'Khớp CSDL' : 'Không khớp'}
-              </span>
+              {/* Trạng thái đối chiếu */}
+              <div className="shrink-0 self-start sm:self-center">
+                {item.isMatch === null ? (
+                  <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-500 border border-slate-200">
+                    Bỏ trống
+                  </span>
+                ) : item.isMatch ? (
+                  <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 inline-flex items-center gap-1">
+                    <Check className="w-3 h-3 text-emerald-600" /> Khớp CSDL
+                  </span>
+                ) : (
+                  <span className="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200/80 inline-flex items-center gap-1">
+                    <X className="w-3 h-3 text-rose-500" /> Không khớp
+                  </span>
+                )}
+              </div>
             </div>
-            <p className="font-semibold text-slate-800 truncate">
-              Nhập: <span className="font-mono text-indigo-600 font-bold">{secEntered !== undefined ? secEntered : 'Chưa có'}</span>
-            </p>
-            <p className="text-[11px] text-slate-500 truncate">
-              CSDL: <span className="font-mono font-medium">{csdlSec}</span>
-            </p>
-          </div>
+          ))}
         </div>
       </div>
     );
@@ -1890,7 +1904,6 @@ EasyEng`;
                           <span className="flex items-center gap-1">
                             <User className="w-3.5 h-3.5 text-amber-600" />Tên đăng nhập <span className="text-rose-500">*</span>:
                           </span>
-                          <span className="text-[10px] text-slate-400 font-normal">(Chữ thường & số)</span>
                         </label>
                         <input
                           type="text"
@@ -1903,11 +1916,9 @@ EasyEng`;
                             setNewUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
                             setNewFormError(null);
                           }}
-                          placeholder="vanan, nam4a..."
                           required
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                         />
-                        <span className="text-[10px] text-slate-400">4-16 kí tự, chữ thường và số (không viết hoa chữ đầu)</span>
                       </div>
 
                       <div>
@@ -1932,7 +1943,7 @@ EasyEng`;
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-slate-600 mb-1">Ảnh đại diện/Avatar:</label>
+                        <label className="block text-xs font-bold text-slate-600 mb-1">Hình đại diện:</label>
                         <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 bg-white border border-slate-200 rounded-xl">
                           {allAvailableAvatars.map(av => {
                             const isSelected = newAvatar === av.icon || newAvatar === av.id;
@@ -1958,7 +1969,7 @@ EasyEng`;
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                           <span className="flex items-center gap-1">
-                            <Phone className="w-3.5 h-3.5 text-amber-600" /> SĐT (không bắt buộc):
+                            <Phone className="w-3.5 h-3.5 text-amber-600" /> SĐT:
                           </span>
                         </label>
                         <input
@@ -2179,7 +2190,6 @@ EasyEng`;
                                 <span className="flex items-center gap-1">
                                   <Phone className="w-3.5 h-3.5 text-amber-600" /> SĐT (không bắt buộc):
                                 </span>
-                                <span className="text-[10px] text-slate-400 font-normal">(Chỉ nhập số)</span>
                               </label>
                               <input
                                 type="tel"
@@ -2190,7 +2200,6 @@ EasyEng`;
                                   setEditPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
                                   setEditFormError(null);
                                 }}
-                                placeholder="Nhập SĐT..."
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                               />
                             </div>
@@ -2199,7 +2208,6 @@ EasyEng`;
                                 <span className="flex items-center gap-1">
                                   <Mail className="w-3.5 h-3.5 text-amber-600" /> Địa chỉ Email:
                                 </span>
-                                <span className="text-[10px] text-slate-400 font-normal">(Không dấu)</span>
                               </label>
                               <input
                                 type="email"
@@ -2215,14 +2223,13 @@ EasyEng`;
                                   setEditEmail(sanitized);
                                   setEditFormError(null);
                                 }}
-                                placeholder="Nhập email..."
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                               />
                             </div>
                             <div>
                               <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                                 <span className="flex items-center gap-1">
-                                  <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật (0-10):
+                                  <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật:
                                 </span>
                               </label>
                               <select
@@ -2232,7 +2239,7 @@ EasyEng`;
                               >
                                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                                   <option key={n} value={n}>
-                                    Số bảo mật: {n}
+                                    Số: {n}
                                   </option>
                                 ))}
                               </select>
@@ -2260,9 +2267,7 @@ EasyEng`;
                               <span className="text-xs font-bold text-amber-900">
                                 Đổi mật khẩu đăng nhập:
                               </span>
-                              <span className="text-[11px] text-slate-500 font-normal">
-                                (Từ 4 đến 16 ký tự, gồm cả chữ, số và ký tự đặc biệt)
-                              </span>
+
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <div>
@@ -2275,7 +2280,6 @@ EasyEng`;
                                     setEditPin(e.target.value);
                                     setEditPinError(null);
                                   }}
-                                  placeholder="Nhập mật khẩu mới..."
                                   className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                                 />
                               </div>
@@ -2327,7 +2331,7 @@ EasyEng`;
                         className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-3.5 shadow-2xs"
                       >
                         {/* Cụm thông tin định danh & chỉ số bên trái (Proximity Grouping) */}
-                        <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+                        <div className="flex items-center gap-3.5 min-w-0">
                           {/* Avatar: Khung trung tính 60% */}
                           <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
                             {renderAvatarContent(learner.avatar)}
@@ -2335,7 +2339,7 @@ EasyEng`;
 
                           {/* Định danh: Tên, Cấp lớp, Liên hệ & Chỉ số phụ */}
                           <div className="min-w-0 space-y-1">
-                            {/* Thông tin định danh: Tên và Cấp lớp */}
+                            {/* Hàng 1: Thông tin định danh, Cấp lớp & Bảo mật/Liên hệ gộp chung */}
                             <div className="flex items-center gap-2 flex-wrap">
                               <h4 className="font-display font-bold text-base text-slate-900 font-mono tracking-tight">
                                 {learner.username || resolveValidUsername(learner.username, learner.name)}
@@ -2348,53 +2352,49 @@ EasyEng`;
                               <span className="text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200/90 px-2 py-0.5 rounded-md">
                                 Lớp {learner.grade}
                               </span>
-                            </div>
-
-                            {/* Thông tin liên hệ & Số bảo mật (nếu có) */}
-                            {(learner.phone || learner.email || learner.securityNumber !== undefined) && (
-                              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-xs text-slate-500">
-                                {learner.phone && (
-                                  <span className="inline-flex items-center gap-1 font-medium text-slate-600">
-                                    <Phone className="w-3.5 h-3.5 text-slate-400" /> {learner.phone}
-                                  </span>
-                                )}
-                                {learner.phone && learner.email && <span className="text-slate-300">•</span>}
-                                {learner.email && (
-                                  <span className="inline-flex items-center gap-1 font-medium text-slate-600 truncate max-w-[200px]" title={learner.email}>
-                                    <Mail className="w-3.5 h-3.5 text-slate-400" /> {learner.email}
-                                  </span>
-                                )}
-                                {learner.securityNumber !== undefined && (
-                                  <>
-                                    {(learner.phone || learner.email) && <span className="text-slate-300">•</span>}
-                                    <span className="inline-flex items-center gap-1 font-medium text-slate-600" title="Số bảo mật xác minh (0 - 10)">
-                                      <Shield className="w-3.5 h-3.5 text-slate-400" /> Bảo mật: {learner.securityNumber}
-                                    </span>
-                                  </>
-                                )}
-                              </div>
-                            )}
-
-                            {/* Chỉ số phụ (Sao, XP, Bài học) dạng chuỗi ngắn gọn phân cách bằng dấu chấm tròn nhỏ • */}
-                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-600 pt-0.5">
-                              <span className="font-semibold text-slate-800">⭐ {learner.totalStars || 0} sao</span>
-                              <span className="text-slate-300 font-bold">•</span>
-                              <span className="font-semibold text-slate-800">⚡ {learner.xp || 0} XP (Lv.{learner.level || 1})</span>
-                              <span className="text-slate-300 font-bold">•</span>
-                              <span className="font-semibold text-slate-800">📚 {completedUnitsCount} bài đã học</span>
-                              {learner.currentStreak !== undefined && learner.currentStreak > 0 && (
-                                <>
-                                  <span className="text-slate-300 font-bold">•</span>
-                                  <span className="font-semibold text-slate-800">🔥 {learner.currentStreak} ngày</span>
-                                </>
+                              {learner.securityNumber !== undefined && (
+                                <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium ml-0.5" title="Số bảo mật">
+                                  <Shield className="w-3.5 h-3.5 text-slate-400" />
+                                  <span>Bảo mật: {learner.securityNumber}</span>
+                                </span>
                               )}
-                              {learner.unlockedBadges && learner.unlockedBadges.length > 0 && (
-                                <>
-                                  <span className="text-slate-300 font-bold">•</span>
-                                  <span className="font-semibold text-slate-800">🏅 {learner.unlockedBadges.length} huy hiệu</span>
-                                </>
+                              {learner.phone && (
+                                <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium">
+                                  <span className="text-slate-300">•</span>
+                                  <Phone className="w-3 h-3 text-slate-400" />
+                                  <span>{learner.phone}</span>
+                                </span>
+                              )}
+                              {learner.email && (
+                                <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium truncate max-w-[200px]" title={learner.email}>
+                                  <span className="text-slate-300">•</span>
+                                  <Mail className="w-3 h-3 text-slate-400" />
+                                  <span>{learner.email}</span>
+                                </span>
                               )}
                             </div>
+
+                            {/* Hàng 2: Chỉ số phụ dạng chuỗi ngắn gọn, ngăn cách thông minh bằng dấu chấm tròn nhỏ • */}
+                            {(() => {
+                              const statsItems = [
+                                `⭐ ${learner.totalStars || 0} sao`,
+                                `⚡ ${learner.xp || 0} XP (Lv.${learner.level || 1})`,
+                                `📚 ${completedUnitsCount} bài đã học`,
+                                learner.currentStreak && learner.currentStreak > 0 ? `🔥 ${learner.currentStreak} ngày` : null,
+                                learner.unlockedBadges && learner.unlockedBadges.length > 0 ? `🏅 ${learner.unlockedBadges.length} huy hiệu` : null
+                              ].filter(Boolean);
+
+                              return (
+                                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-slate-600 pt-0.5">
+                                  {statsItems.map((st, i) => (
+                                    <React.Fragment key={i}>
+                                      {i > 0 && <span className="text-slate-300 font-bold">•</span>}
+                                      <span className="font-semibold text-slate-700 whitespace-nowrap">{st}</span>
+                                    </React.Fragment>
+                                  ))}
+                                </div>
+                              );
+                            })()}
                           </div>
                         </div>
 
@@ -3534,21 +3534,20 @@ EasyEng`;
             return (
               <div className="space-y-5 max-w-4xl mx-auto">
                 {/* Header & Controls Box */}
-                <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/5 border border-amber-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-11 h-11 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-sm shadow-amber-500/30 shrink-0">
-                      <KeyRound className="w-6 h-6" />
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
+                      <KeyRound className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-display font-bold text-lg text-slate-800">
+                        <h3 className="font-display font-bold text-base text-slate-900">
                           Yêu cầu Cấp lại mật khẩu
                         </h3>
-                        <span className="text-xs bg-amber-500 text-white font-extrabold px-2.5 py-0.5 rounded-full shadow-2xs">
+                        <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
                           {resetRequests.length} yêu cầu
                         </span>
                       </div>
-
                     </div>
                   </div>
 
@@ -3560,8 +3559,8 @@ EasyEng`;
                         type="text"
                         value={resetSearchTerm}
                         onChange={(e) => setResetSearchTerm(e.target.value)}
-                        placeholder="Tìm theo tên đăng nhập, SĐT, Email..."
-                        className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
+                        placeholder="Tìm tên đăng nhập, SĐT, Email..."
+                        className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
                       />
                       {resetSearchTerm && (
                         <button
@@ -3585,7 +3584,7 @@ EasyEng`;
                           setIsLoadingResetRequests(false);
                         });
                       }}
-                      className="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
+                      className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
                       title="Làm mới danh sách từ Cloud"
                     >
                       <RotateCcw className={`w-3.5 h-3.5 ${isLoadingResetRequests ? 'animate-spin' : ''}`} />
@@ -3608,7 +3607,6 @@ EasyEng`;
                     <h4 className="font-display font-bold text-base text-slate-800">
                       Không có yêu cầu cấp lại mật khẩu nào
                     </h4>
-
                   </div>
                 ) : filteredResets.length === 0 ? (
                   <div className="py-10 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
@@ -3626,101 +3624,54 @@ EasyEng`;
                     {filteredResets.map((req, idx) => (
                       <div
                         key={req.id}
-                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-amber-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-start justify-between gap-4"
+                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-slate-300 shadow-2xs transition duration-200 space-y-3"
                       >
-                        {/* Information Section */}
-                        <div className="space-y-2.5 flex-1 min-w-0">
-                          {/* Top row: STT, Username, Time */}
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="w-6 h-6 rounded-lg bg-amber-100 text-amber-900 font-bold text-xs flex items-center justify-center shrink-0">
+                        {/* Header của thẻ yêu cầu: Định danh bên trái, Action buttons bên phải */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                          <div className="flex items-center gap-2.5 flex-wrap">
+                            <span className="w-6 h-6 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 font-bold text-xs flex items-center justify-center shrink-0">
                               #{idx + 1}
                             </span>
                             <span className="font-display font-bold text-base text-slate-900 font-mono">
                               {req.username || req.nickname}
                             </span>
-                            <span className="text-[11px] text-slate-400 flex items-center gap-1 ml-auto sm:ml-0">
-                              <Clock className="w-3 h-3 text-slate-400" />
+                            <span className="text-xs text-slate-400 flex items-center gap-1">
+                              <Clock className="w-3.5 h-3.5 text-slate-400" />
                               <span>{new Date(req.createdAt).toLocaleString('vi-VN')}</span>
                             </span>
                           </div>
 
-                          {/* Contact Details: Phone, Email, Số bảo mật */}
-                          <div className="flex flex-wrap items-center gap-2.5 text-xs">
-                            <div className="inline-flex items-center gap-1.5 font-semibold bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200">
-                              <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                              <span>{req.phone || '(Không có SĐT)'}</span>
-                              {req.phone && (
-                                <button
-                                  type="button"
-                                  onClick={() => handleCopyText(`phone_${req.id}`, req.phone!)}
-                                  className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
-                                  title="Sao chép SĐT"
-                                >
-                                  {copiedField === `phone_${req.id}` ? (
-                                    <Check className="w-3 h-3 text-emerald-700" />
-                                  ) : (
-                                    <Copy className="w-3 h-3" />
-                                  )}
-                                </button>
-                              )}
-                            </div>
+                          {/* Action Buttons */}
+                          <div className="flex items-center gap-2 shrink-0 self-end sm:self-center ml-auto">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenResetEmailReply(req)}
+                              className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+                              title="Soạn email phản hồi"
+                            >
+                              <Mail className="w-3.5 h-3.5" />
+                              <span>Soạn email phản hồi</span>
+                            </button>
 
-                            <div className="inline-flex items-center gap-1.5 font-semibold bg-sky-50 text-sky-800 px-3 py-1.5 rounded-xl border border-sky-200">
-                              <Mail className="w-3.5 h-3.5 text-sky-600 shrink-0" />
-                              <span className="max-w-[200px] sm:max-w-none truncate">{req.email}</span>
-                              <button
-                                type="button"
-                                onClick={() => handleCopyText(`email_${req.id}`, req.email)}
-                                className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer p-0.5 rounded transition"
-                                title="Sao chép Email"
-                              >
-                                {copiedField === `email_${req.id}` ? (
-                                  <Check className="w-3 h-3 text-sky-700" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                              </button>
-                            </div>
-
-                            <div className="inline-flex items-center gap-1.5 font-semibold bg-indigo-50 text-indigo-800 px-3 py-1.5 rounded-xl border border-indigo-200">
-                              <Shield className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                              <span>Số bảo mật nhập: <strong>{req.securityNumber !== undefined ? req.securityNumber : 'Chưa nhập'}</strong></span>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu cấp lại mật khẩu của tài khoản "${req.username || req.nickname}"?`)) {
+                                  soundEffects.playClick();
+                                  setResetRequests(prev => prev.filter(r => r.id !== req.id));
+                                  await deletePasswordResetRequestFromCloud(req.id);
+                                }
+                              }}
+                              className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
+                              title="Đã xử lý / Xóa yêu cầu này"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
                           </div>
-
-                          {/* BẢNG ĐỐI CHIẾU DỮ LIỆU XÁC MINH CSDL */}
-                          {renderVerificationAuditCard(req)}
                         </div>
 
-                        {/* Action Buttons Group */}
-                        <div className="flex items-center gap-2 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100">
-                          {/* Nút Soạn email phản hồi (Hộp thoại có sẵn nội dung, KHÔNG mở mailto) */}
-                          <button
-                            type="button"
-                            onClick={() => handleOpenResetEmailReply(req)}
-                            className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-amber-500/20 transition active:scale-95 cursor-pointer"
-                            title="Mở hộp thoại có sẵn nội dung phản hồi mật khẩu mới cho học sinh"
-                          >
-                            <Mail className="w-3.5 h-3.5" />
-                            <span>Soạn email phản hồi</span>
-                          </button>
-
-                          {/* Nút Xóa yêu cầu */}
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu cấp lại mật khẩu của tài khoản "${req.username || req.nickname}"?`)) {
-                                soundEffects.playClick();
-                                setResetRequests(prev => prev.filter(r => r.id !== req.id));
-                                await deletePasswordResetRequestFromCloud(req.id);
-                              }
-                            }}
-                            className="p-2.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
-                            title="Đã xử lý / Xóa yêu cầu này"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
+                        {/* BẢNG ĐỐI CHIẾU DỮ LIỆU XÁC MINH CSDL (Gọn gàng, không lặp lại pill thừa) */}
+                        {renderVerificationAuditCard(req)}
                       </div>
                     ))}
                   </div>
@@ -3748,21 +3699,20 @@ EasyEng`;
             return (
               <div className="space-y-5 max-w-4xl mx-auto">
                 {/* Header & Controls Box */}
-                <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-rose-500/10 via-red-500/10 to-rose-500/5 border border-rose-200/80 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-11 h-11 rounded-2xl bg-rose-600 text-white flex items-center justify-center shadow-sm shadow-rose-600/30 shrink-0">
-                      <ShieldAlert className="w-6 h-6" />
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0">
+                      <ShieldAlert className="w-4 h-4" />
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-display font-bold text-lg text-slate-800">
+                        <h3 className="font-display font-bold text-base text-slate-900">
                           Yêu cầu xác minh tài khoản
                         </h3>
-                        <span className="text-xs bg-rose-600 text-white font-extrabold px-2.5 py-0.5 rounded-full shadow-2xs">
+                        <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
                           {verificationRequests.length} yêu cầu
                         </span>
                       </div>
-
                     </div>
                   </div>
 
@@ -3774,8 +3724,8 @@ EasyEng`;
                         type="text"
                         value={verificationSearchTerm}
                         onChange={(e) => setVerificationSearchTerm(e.target.value)}
-                        placeholder="Tìm theo tên đăng nhập, thiết bị, SĐT..."
-                        className="w-full pl-8 pr-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
+                        placeholder="Tìm tên đăng nhập, thiết bị, SĐT..."
+                        className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 transition"
                       />
                       {verificationSearchTerm && (
                         <button
@@ -3799,7 +3749,7 @@ EasyEng`;
                           setIsLoadingVerificationRequests(false);
                         });
                       }}
-                      className="px-3 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
+                      className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0"
                       title="Làm mới danh sách từ Cloud"
                     >
                       <RotateCcw className={`w-3.5 h-3.5 ${isLoadingVerificationRequests ? 'animate-spin' : ''}`} />
@@ -3810,7 +3760,7 @@ EasyEng`;
 
                 {/* Notification Banner when account session was unlocked */}
                 {unlockedSessionMsg && (
-                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
+                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
                     <div className="flex items-center gap-2">
                       <Check className="w-4 h-4 text-emerald-600 shrink-0" />
                       <span>{unlockedSessionMsg}</span>
@@ -3839,7 +3789,6 @@ EasyEng`;
                     <h4 className="font-display font-bold text-base text-slate-800">
                       Không có yêu cầu xác minh tài khoản nào
                     </h4>
-
                   </div>
                 ) : filteredVerifications.length === 0 ? (
                   <div className="py-10 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
@@ -3857,161 +3806,114 @@ EasyEng`;
                     {filteredVerifications.map((req, idx) => (
                       <div
                         key={req.id}
-                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-rose-300 hover:shadow-md transition duration-200 flex flex-col md:flex-row md:items-start justify-between gap-4"
+                        className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 hover:border-slate-300 shadow-2xs transition duration-200 space-y-3"
                       >
-                        {/* Information Section */}
-                        <div className="space-y-2.5 flex-1 min-w-0">
-                          {/* Top row: STT, Username, Time */}
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="w-6 h-6 rounded-lg bg-rose-100 text-rose-900 font-bold text-xs flex items-center justify-center shrink-0">
+                        {/* Header của thẻ: Định danh & thiết bị bên trái, Action buttons bên phải */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                          <div className="flex items-center gap-2.5 flex-wrap">
+                            <span className="w-6 h-6 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 font-bold text-xs flex items-center justify-center shrink-0">
                               #{idx + 1}
                             </span>
                             <span className="font-display font-bold text-base text-slate-900 font-mono">
                               {req.username || req.nickname}
                             </span>
-                            <span className="text-[11px] text-slate-400 flex items-center gap-1 ml-auto sm:ml-0">
-                              <Clock className="w-3 h-3 text-slate-400" />
+                            <span className="text-xs text-slate-400 flex items-center gap-1">
+                              <Clock className="w-3.5 h-3.5 text-slate-400" />
                               <span>{new Date(req.createdAt).toLocaleString('vi-VN')}</span>
                             </span>
+                            {req.deviceInfo && (
+                              <span className="inline-flex items-center gap-1 text-[11px] text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                                <Laptop className="w-3 h-3 text-slate-500 shrink-0" />
+                                <span>{req.deviceInfo}</span>
+                              </span>
+                            )}
                           </div>
 
-                          {/* Device information banner */}
-                          {req.deviceInfo && (
-                            <div className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-xs flex items-center gap-2">
-                              <Laptop className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                              <span>Thiết bị gửi yêu cầu: <strong className="text-slate-800 font-semibold">{req.deviceInfo}</strong></span>
-                            </div>
-                          )}
-
-                          {/* Contact Details: Phone, Email, Số bảo mật */}
-                          <div className="flex flex-wrap items-center gap-2.5 text-xs">
-                            <div className="inline-flex items-center gap-1.5 font-semibold bg-emerald-50 text-emerald-800 px-3 py-1.5 rounded-xl border border-emerald-200">
-                              <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                              <span>{req.phone || '(Không có SĐT)'}</span>
-                              {req.phone && (
-                                <button
-                                  type="button"
-                                  onClick={() => handleCopyText(`phone_${req.id}`, req.phone!)}
-                                  className="ml-1 text-emerald-600 hover:text-emerald-900 cursor-pointer p-0.5 rounded transition"
-                                  title="Sao chép SĐT"
-                                >
-                                  {copiedField === `phone_${req.id}` ? (
-                                    <Check className="w-3 h-3 text-emerald-700" />
-                                  ) : (
-                                    <Copy className="w-3 h-3" />
-                                  )}
-                                </button>
-                              )}
-                            </div>
-
-                            <div className="inline-flex items-center gap-1.5 font-semibold bg-sky-50 text-sky-800 px-3 py-1.5 rounded-xl border border-sky-200">
-                              <Mail className="w-3.5 h-3.5 text-sky-600 shrink-0" />
-                              <span className="max-w-[200px] sm:max-w-none truncate">{req.email}</span>
-                              <button
-                                type="button"
-                                onClick={() => handleCopyText(`email_${req.id}`, req.email)}
-                                className="ml-1 text-sky-600 hover:text-sky-900 cursor-pointer p-0.5 rounded transition"
-                                title="Sao chép Email"
-                              >
-                                {copiedField === `email_${req.id}` ? (
-                                  <Check className="w-3 h-3 text-sky-700" />
-                                ) : (
-                                  <Copy className="w-3 h-3" />
-                                )}
-                              </button>
-                            </div>
-
-                            <div className="inline-flex items-center gap-1.5 font-semibold bg-indigo-50 text-indigo-800 px-3 py-1.5 rounded-xl border border-indigo-200">
-                              <Shield className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
-                              <span>Số bảo mật nhập: <strong>{req.securityNumber !== undefined ? req.securityNumber : 'Chưa nhập'}</strong></span>
-                            </div>
-                          </div>
-
-                          {/* BẢNG ĐỐI CHIẾU DỮ LIỆU XÁC MINH CSDL */}
-                          {renderVerificationAuditCard(req)}
-                        </div>
-
-                        {/* Action Buttons Group */}
-                        <div className="flex flex-wrap items-center gap-2 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-slate-100">
-                          {/* Nút Mở khóa đăng nhập / Ngắt kết nối thiết bị khác */}
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              soundEffects.playClick();
-                              const cleanAccountUser = (req.username || req.nickname || '').trim().toLowerCase();
-                              const reqLearnerId = (req.learnerId || '').trim();
-                              const matchedLearner = learners.find(l => {
-                                const u = (l.username || '').toLowerCase();
-                                const n = (l.nickname || '').toLowerCase();
-                                const name = (l.name || '').toLowerCase();
-                                const id = (l.learnerId || '').toLowerCase();
-                                return (reqLearnerId && id === reqLearnerId.toLowerCase()) || id === cleanAccountUser || u === cleanAccountUser || n === cleanAccountUser || name === cleanAccountUser;
-                              });
-
-                              const targetLearnerId = reqLearnerId || (matchedLearner ? matchedLearner.learnerId : (req.username || req.nickname || ''));
-
-                              await clearAccountActiveSession(
-                                targetLearnerId,
-                                'admin_unlocked',
-                                'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
-                              );
-                              if (cleanAccountUser && cleanAccountUser !== targetLearnerId) {
-                                await clearAccountActiveSession(
-                                  cleanAccountUser,
-                                  'admin_unlocked',
-                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
-                                );
-                              }
-                              if (matchedLearner && matchedLearner.username && matchedLearner.username !== targetLearnerId) {
-                                await clearAccountActiveSession(
-                                  matchedLearner.username,
-                                  'admin_unlocked',
-                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
-                                );
-                              }
-
-                              soundEffects.playSuccess();
-                              const displayUser = req.username || req.nickname;
-                              setUnlockedSessionMsg(
-                                `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${displayUser}" thành công! Thiết bị lạ sẽ bị ngắt ngay lập tức.`
-                              );
-                              setTimeout(() => setUnlockedSessionMsg(null), 6000);
-                            }}
-                            className="px-3 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-emerald-600/20 transition active:scale-95 cursor-pointer"
-                            title="Ngắt kết nối các thiết bị khác và cho phép học sinh đăng nhập lại ngay"
-                          >
-                            <Unlock className="w-3.5 h-3.5" />
-                            <span>Ngắt phiên</span>
-                          </button>
-
-                          {/* Nút Soạn email phản hồi (Hộp thoại có sẵn nội dung, KHÔNG mở mailto) */}
-                          <button
-                            type="button"
-                            onClick={() => handleOpenVerificationEmailReply(req)}
-                            className="px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm shadow-rose-600/20 transition active:scale-95 cursor-pointer"
-                            title="Mở hộp thoại có sẵn nội dung phản hồi xác nhận cho học sinh"
-                          >
-                            <Mail className="w-3.5 h-3.5" />
-                            <span>Soạn email phản hồi</span>
-                          </button>
-
-                          {/* Nút Xóa yêu cầu */}
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              const displayUser = req.username || req.nickname;
-                              if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu xác minh tài khoản của "${displayUser}"?`)) {
+                          {/* Action Buttons Group */}
+                          <div className="flex flex-wrap items-center gap-2 shrink-0 self-end sm:self-center ml-auto">
+                            {/* Nút Ngắt phiên */}
+                            <button
+                              type="button"
+                              onClick={async () => {
                                 soundEffects.playClick();
-                                setVerificationRequests(prev => prev.filter(r => r.id !== req.id));
-                                await deleteAccountVerificationRequestFromCloud(req.id);
-                              }
-                            }}
-                            className="p-2.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
-                            title="Đã xử lý / Xóa yêu cầu này"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                                const cleanAccountUser = (req.username || req.nickname || '').trim().toLowerCase();
+                                const reqLearnerId = (req.learnerId || '').trim();
+                                const matchedLearner = learners.find(l => {
+                                  const u = (l.username || '').toLowerCase();
+                                  const n = (l.nickname || '').toLowerCase();
+                                  const name = (l.name || '').toLowerCase();
+                                  const id = (l.learnerId || '').toLowerCase();
+                                  return (reqLearnerId && id === reqLearnerId.toLowerCase()) || id === cleanAccountUser || u === cleanAccountUser || n === cleanAccountUser || name === cleanAccountUser;
+                                });
+
+                                const targetLearnerId = reqLearnerId || (matchedLearner ? matchedLearner.learnerId : (req.username || req.nickname || ''));
+
+                                await clearAccountActiveSession(
+                                  targetLearnerId,
+                                  'admin_unlocked',
+                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                );
+                                if (cleanAccountUser && cleanAccountUser !== targetLearnerId) {
+                                  await clearAccountActiveSession(
+                                    cleanAccountUser,
+                                    'admin_unlocked',
+                                    'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                  );
+                                }
+                                if (matchedLearner && matchedLearner.username && matchedLearner.username !== targetLearnerId) {
+                                  await clearAccountActiveSession(
+                                    matchedLearner.username,
+                                    'admin_unlocked',
+                                    'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                  );
+                                }
+
+                                soundEffects.playSuccess();
+                                const displayUser = req.username || req.nickname;
+                                setUnlockedSessionMsg(
+                                  `Đã mở khóa phiên và ngắt kết nối các thiết bị khác cho tài khoản "${displayUser}" thành công! Thiết bị lạ sẽ bị ngắt ngay lập tức.`
+                                );
+                                setTimeout(() => setUnlockedSessionMsg(null), 6000);
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1 shadow-2xs transition active:scale-95 cursor-pointer"
+                              title="Ngắt kết nối các thiết bị khác và cho phép học sinh đăng nhập lại ngay"
+                            >
+                              <Unlock className="w-3.5 h-3.5 text-slate-500" />
+                              <span>Ngắt phiên</span>
+                            </button>
+
+                            {/* Nút Soạn email phản hồi */}
+                            <button
+                              type="button"
+                              onClick={() => handleOpenVerificationEmailReply(req)}
+                              className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+                              title="Mở hộp thoại có sẵn nội dung phản hồi xác nhận cho học sinh"
+                            >
+                              <Mail className="w-3.5 h-3.5" />
+                              <span>Soạn email phản hồi</span>
+                            </button>
+
+                            {/* Nút Xóa yêu cầu */}
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                const displayUser = req.username || req.nickname;
+                                if (window.confirm(`Xác nhận đã xử lý xong và muốn xóa yêu cầu xác minh tài khoản của "${displayUser}"?`)) {
+                                  soundEffects.playClick();
+                                  setVerificationRequests(prev => prev.filter(r => r.id !== req.id));
+                                  await deleteAccountVerificationRequestFromCloud(req.id);
+                                }
+                              }}
+                              className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 hover:border-rose-200 transition cursor-pointer"
+                              title="Đã xử lý / Xóa yêu cầu này"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
                         </div>
+
+                        {/* BẢNG ĐỐI CHIẾU DỮ LIỆU XÁC MINH CSDL */}
+                        {renderVerificationAuditCard(req)}
                       </div>
                     ))}
                   </div>
