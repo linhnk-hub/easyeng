@@ -1018,6 +1018,7 @@ export default function App() {
   };
 
   const handleLaunchGame = (unit: UnitData, gameType: 'flashcards' | 'memory' | 'wordScramble' | 'sentence' | 'quiz') => {
+    speechService.cancel();
     setSelectedUnit(unit);
     setActiveGame(gameType);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1452,6 +1453,7 @@ export default function App() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             onStartChallenge={() => {
+              speechService.cancel();
               setActiveGame('challenge');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}

@@ -115,9 +115,16 @@ export const WordScrambleGame: React.FC<WordScrambleGameProps> = ({
     setIsWordCorrect(false);
     setHintsUsedThisWord(0);
 
-    // Đọc phát âm chuẩn từ khóa
-    speechService.speakNormal(currentWordObj.word);
+    // Cancel any previous speech when switching or entering word; do not auto-pronounce
+    speechService.cancel();
   }, [currentIndex, currentWordObj]);
+
+  useEffect(() => {
+    speechService.cancel();
+    return () => {
+      speechService.cancel();
+    };
+  }, []);
 
   // Kiểm tra hoàn thành từ
   const checkWordCompletion = (currentSlots: LetterSlot[]) => {

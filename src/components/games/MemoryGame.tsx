@@ -83,7 +83,15 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
     setSeconds(0);
     setTimerActive(true);
     setGameWon(false);
+    speechService.cancel();
   };
+
+  useEffect(() => {
+    speechService.cancel();
+    return () => {
+      speechService.cancel();
+    };
+  }, []);
 
   useEffect(() => {
     initializeGame();

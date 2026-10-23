@@ -206,10 +206,16 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
   // -------------------------------------------------------------
   const currentVocab = vocabQuestions[currentVocabIdx];
 
+  // Stop speech when entering or leaving ComprehensiveChallenge
   useEffect(() => {
-    if (stage === 'vocab' && currentVocab) {
-      speakEnglish(currentVocab.word);
-    }
+    speechService.cancel();
+    return () => {
+      speechService.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    speechService.cancel();
   }, [stage, currentVocabIdx]);
 
   const handleSelectVocab = (idx: number) => {
@@ -267,7 +273,6 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
     setScrambledLetters(shuffled);
     setPickedSlots([]);
     setScrambleStatus('playing');
-    speakEnglish(item.word);
   };
 
   const handlePickLetter = (item: { id: string; char: string }) => {

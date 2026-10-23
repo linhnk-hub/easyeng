@@ -230,17 +230,17 @@ function getEnglishSnippetToSpeak(question: string): string | null {
   return null;
 }
 
-  // Read only English word/sentence if available and has no missing blank
+  // Stop speech when entering or leaving QuizArena
   useEffect(() => {
-    if (currentQ) {
-      // Do not auto-play incomplete questions with missing blanks before answering
-      if (!hasBlank(currentQ.question)) {
-        const englishSnippet = getEnglishSnippetToSpeak(currentQ.question);
-        if (englishSnippet) {
-          speechService.speakNormal(englishSnippet);
-        }
-      }
-    }
+    speechService.cancel();
+    return () => {
+      speechService.cancel();
+    };
+  }, []);
+
+  // Reset state on new question without auto-speaking
+  useEffect(() => {
+    speechService.cancel();
     setTimeLeft(25);
     setSelectedOption(null);
     setIsAnswered(false);

@@ -429,7 +429,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                         : 'bg-white hover:bg-amber-100 text-amber-800 border border-amber-300'
                     }`}
                   >
-                    {selectedAvatar === userUploadedAvatar ? '✓ Đang dùng' : 'Chọn hình'}
+                    {selectedAvatar === userUploadedAvatar ? '✓ Xác nhận' : 'Dùng hình này'}
                   </button>
                 </div>
               )}

@@ -42,10 +42,18 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [masteredWords, setMasteredWords] = useState<Set<number>>(new Set());
-  const [autoPronounce, setAutoPronounce] = useState(true);
+  const [autoPronounce, setAutoPronounce] = useState(false);
   const [showFinishedModal, setShowFinishedModal] = useState(false);
   const [completionStars, setCompletionStars] = useState(0);
   const [masteredCountAtFinish, setMasteredCountAtFinish] = useState(0);
+
+  // Stop any previous speech when entering the minigame
+  useEffect(() => {
+    speechService.cancel();
+    return () => {
+      speechService.cancel();
+    };
+  }, []);
 
   // Reset when unit changes
   useEffect(() => {
@@ -58,7 +66,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
 
   const currentVocab: VocabularyItem = cards[currentIndex] || cards[0];
 
-  // Auto pronounce word on card change
+  // Auto pronounce word on card change only if user explicitly turned autoPronounce ON
   useEffect(() => {
     setIsFlipped(false);
     if (autoPronounce && currentVocab) {
@@ -177,11 +185,26 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
 
       {/* Progress Bar */}
       <div className="bg-white rounded-2xl p-3 border border-slate-200 shadow-xs space-y-1.5">
-        <div className="flex justify-between text-xs font-bold text-slate-600">
+        <div className="flex justify-between items-center text-xs font-bold text-slate-600 gap-2 flex-wrap">
           <span>Tiến độ: {currentIndex + 1} / {cards.length}</span>
-          <span className="text-emerald-600 font-bold">
-            Đã thuộc: {masteredWords.size} / {cards.length} từ
-          </span>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setAutoPronounce(!autoPronounce)}
+              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer ${
+                autoPronounce
+                  ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                  : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+              }`}
+              title="Bật/Tắt tự động đọc từ khi chuyển thẻ (mặc định đã tắt)"
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+              <span>Tự đọc: {autoPronounce ? 'Bật' : 'Tắt'}</span>
+            </button>
+            <span className="text-emerald-600 font-bold">
+              Đã thuộc: {masteredWords.size} / {cards.length} từ
+            </span>
+          </div>
         </div>
         <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
           <div

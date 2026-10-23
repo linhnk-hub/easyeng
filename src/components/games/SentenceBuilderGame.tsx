@@ -137,6 +137,14 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({
   const currentChallenge = challenges[currentIndex] || challenges[0];
 
   useEffect(() => {
+    speechService.cancel();
+    return () => {
+      speechService.cancel();
+    };
+  }, []);
+
+  useEffect(() => {
+    speechService.cancel();
     if (!currentChallenge) return;
 
     // Split target sentence or scrambledWords

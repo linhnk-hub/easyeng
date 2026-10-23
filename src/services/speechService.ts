@@ -264,6 +264,24 @@ class SpeechService {
   public speakNormal(text: string) {
     this.speak(text, 1.0);
   }
+
+  /**
+   * Immediately cancel any running speech synthesis or audio fallback
+   */
+  public cancel() {
+    try {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (this.currentAudioFallback) {
+        this.currentAudioFallback.pause();
+        this.currentAudioFallback.removeAttribute('src');
+        this.currentAudioFallback.load();
+        this.currentAudioFallback = null;
+      }
+      this.activeUtterance = null;
+    } catch {}
+  }
 }
 
 export const speechService = new SpeechService();
