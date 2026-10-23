@@ -1677,7 +1677,7 @@ EasyEng`;
             }`}
           >
             <Sparkles className="w-4 h-4 shrink-0" />
-            <span>Cài đặt Logo</span>
+            <span>Logo</span>
           </button>
 
           <button
@@ -1707,7 +1707,7 @@ EasyEng`;
             }`}
           >
             <Code2 className="w-4 h-4 shrink-0" />
-            <span>Quản lý JSON</span>
+            <span>JSON</span>
           </button>
 
           <button
@@ -1722,7 +1722,7 @@ EasyEng`;
             }`}
           >
             <KeyRound className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>Cấp lại mật khẩu</span>
+            <span>Cấp MK</span>
             {resetRequests.length > 0 && (
               <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
                 {resetRequests.length}
@@ -1742,7 +1742,7 @@ EasyEng`;
             }`}
           >
             <ShieldAlert className="w-4 h-4 text-rose-500 shrink-0" />
-            <span>Xác minh tài khoản</span>
+            <span>Xác minh TK</span>
             {verificationRequests.length > 0 && (
               <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
                 {verificationRequests.length}
