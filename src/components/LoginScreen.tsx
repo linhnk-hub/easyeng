@@ -772,9 +772,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       required
                     />
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Độ dài 4 - 16 kí tự, dùng chữ thường và số (không viết hoa chữ cái đầu)
-                  </p>
                 </div>
 
 
@@ -807,15 +804,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       {showRegPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Độ dài 4 - 16 kí tự
-                  </p>
                 </div>
 
                 {/* 3. Xác nhận mật khẩu */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                    Xác nhận mật khẩu / Confirm password <span className="text-rose-500">*</span>
+                    Xác nhận mật khẩu <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -891,7 +885,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     </select>
                   </div>
                   <p className="text-[11px] text-slate-500 font-medium">
-                    Số bảo mật từ 0 đến 10 dùng đối chiếu xác minh chủ tài khoản khi quên mật khẩu
+                    Số bảo mật dùng để xác minh chủ tài khoản
                   </p>
                 </div>
 
