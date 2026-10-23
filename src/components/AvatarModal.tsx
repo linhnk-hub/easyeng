@@ -416,21 +416,6 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                       </span>
                     </div>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      soundEffects.playClick();
-                      setSelectedAvatar(userUploadedAvatar);
-                    }}
-                    className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 ${
-                      selectedAvatar === userUploadedAvatar
-                        ? 'bg-emerald-600 text-white shadow-2xs'
-                        : 'bg-white hover:bg-amber-100 text-amber-800 border border-amber-300'
-                    }`}
-                  >
-                    {selectedAvatar === userUploadedAvatar ? '✓ Xác nhận' : 'Dùng hình này'}
-                  </button>
                 </div>
               )}
 
