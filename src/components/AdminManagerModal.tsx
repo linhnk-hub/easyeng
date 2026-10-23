@@ -1603,19 +1603,18 @@ EasyEng`;
   // -------------------------------------------------------------
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
-      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100">
+      <div className="bg-[#F8FAFC] rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
         
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-white">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20">
               <Settings className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-display font-bold text-xl text-slate-800">
+              <h2 className="font-display font-bold text-xl text-slate-900">
                 Bảng quản lý EasyEng
               </h2>
-
             </div>
           </div>
 
@@ -1629,14 +1628,14 @@ EasyEng`;
               soundEffects.playClick();
               onClose();
             }}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 cursor-pointer"
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex px-6 pt-3 border-b border-slate-200 bg-white gap-2">
+        <div className="flex px-6 pt-3 border-b border-slate-200 bg-white gap-2 overflow-x-auto">
           <button
             onClick={() => {
               soundEffects.playClick();
@@ -1731,7 +1730,7 @@ EasyEng`;
         </div>
 
         {/* Tab Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#F8FAFC]">
 
           {/* ========================================================= */}
           {/* TAB 1: LEARNERS & AVATAR LIBRARY MANAGEMENT */}
@@ -1740,13 +1739,13 @@ EasyEng`;
             <div className="space-y-6">
               
               {/* SUBSECTION: AVATAR MANAGEMENT (THÊM, XÓA, UPLOAD ẢNH) */}
-              <div className="bg-amber-50/70 border border-amber-200 rounded-3xl p-4 sm:p-5 space-y-4">
+              <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
-                    <h4 className="font-display font-bold text-base text-amber-900 flex items-center gap-2">
-                      <ImageIcon className="w-5 h-5 text-amber-600" /> Quản lý hình đại diện
+                    <h4 className="font-display font-bold text-base text-slate-800 flex items-center gap-2">
+                      <ImageIcon className="w-5 h-5 text-amber-500" /> Quản lý hình đại diện
                     </h4>
-                    <p className="text-xs text-slate-600 mt-0.5">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       Upload hình kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
                     </p>
                   </div>
@@ -1762,7 +1761,7 @@ EasyEng`;
                     <button
                       type="button"
                       onClick={() => avatarFileInputRef.current?.click()}
-                      className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-bold text-xs rounded-xl shadow-sm flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+                      className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
                     >
                       <Upload className="w-4 h-4" /> Thêm hình
                     </button>
@@ -2092,10 +2091,10 @@ EasyEng`;
 
                     if (isEditing) {
                       return (
-                        <div key={learner.learnerId} className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-bold text-amber-800">
-                              Đang chỉnh sửa hồ sơ: {learner.name}
+                        <div key={learner.learnerId} className="p-4 sm:p-5 rounded-2xl bg-white border-2 border-amber-300 shadow-sm space-y-3.5">
+                          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                            <span className="text-xs font-bold text-slate-800">
+                              Đang chỉnh sửa hồ sơ: {learner.username || learner.name}
                             </span>
                             <button
                               onClick={() => setEditingLearnerId(null)}
@@ -2311,7 +2310,7 @@ EasyEng`;
                             </button>
                             <button
                               onClick={() => handleSaveEditLearner(learner)}
-                              className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-xs shadow-xs cursor-pointer flex items-center gap-1"
+                              className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-xs cursor-pointer flex items-center gap-1.5 transition active:scale-95"
                             >
                               <Save className="w-3.5 h-3.5" /> Lưu cập nhật
                             </button>
@@ -2325,65 +2324,83 @@ EasyEng`;
                     return (
                       <div
                         key={learner.learnerId}
-                        className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-amber-300 transition flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs"
+                        className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-3.5 shadow-2xs"
                       >
-                        <div className="flex items-start sm:items-center gap-3">
-                          <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-2xl shrink-0 overflow-hidden shadow-2xs">
+                        {/* Cụm thông tin định danh & chỉ số bên trái (Proximity Grouping) */}
+                        <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+                          {/* Avatar: Khung trung tính 60% */}
+                          <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
                             {renderAvatarContent(learner.avatar)}
                           </div>
-                          <div className="space-y-1.5">
-                            <div className="flex items-center gap-2">
-                              <h4 className="font-display font-bold text-base text-slate-800 font-mono">
+
+                          {/* Định danh: Tên, Cấp lớp, Liên hệ & Chỉ số phụ */}
+                          <div className="min-w-0 space-y-1">
+                            {/* Thông tin định danh: Tên và Cấp lớp */}
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <h4 className="font-display font-bold text-base text-slate-900 font-mono tracking-tight">
                                 {learner.username || resolveValidUsername(learner.username, learner.name)}
                               </h4>
-                              <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full border border-amber-300">
+                              {learner.name && learner.name.toLowerCase() !== (learner.username || '').toLowerCase() && (
+                                <span className="text-xs text-slate-500 font-medium">
+                                  ({learner.name})
+                                </span>
+                              )}
+                              <span className="text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200/90 px-2 py-0.5 rounded-md">
                                 Lớp {learner.grade}
                               </span>
                             </div>
 
-                            {/* Số điện thoại, Email, Số bảo mật */}
-                            <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600">
-                              {learner.phone && (
-                                <span className="inline-flex items-center gap-1 font-semibold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md border border-emerald-200">
-                                  <Phone className="w-3.5 h-3.5 text-emerald-600" /> {learner.phone}
-                                </span>
-                              )}
-                              {learner.email && (
-                                <span className="inline-flex items-center gap-1 font-semibold bg-sky-50 text-sky-700 px-2 py-0.5 rounded-md border border-sky-200">
-                                  <Mail className="w-3.5 h-3.5 text-sky-600" /> {learner.email}
-                                </span>
-                              )}
-                              {learner.securityNumber !== undefined && (
-                                <span className="inline-flex items-center gap-1 font-semibold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-200" title="Số bảo mật xác minh (0 - 10)">
-                                  <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật: {learner.securityNumber}
-                                </span>
-                              )}
-                            </div>
+                            {/* Thông tin liên hệ & Số bảo mật (nếu có) */}
+                            {(learner.phone || learner.email || learner.securityNumber !== undefined) && (
+                              <div className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-xs text-slate-500">
+                                {learner.phone && (
+                                  <span className="inline-flex items-center gap-1 font-medium text-slate-600">
+                                    <Phone className="w-3.5 h-3.5 text-slate-400" /> {learner.phone}
+                                  </span>
+                                )}
+                                {learner.phone && learner.email && <span className="text-slate-300">•</span>}
+                                {learner.email && (
+                                  <span className="inline-flex items-center gap-1 font-medium text-slate-600 truncate max-w-[200px]" title={learner.email}>
+                                    <Mail className="w-3.5 h-3.5 text-slate-400" /> {learner.email}
+                                  </span>
+                                )}
+                                {learner.securityNumber !== undefined && (
+                                  <>
+                                    {(learner.phone || learner.email) && <span className="text-slate-300">•</span>}
+                                    <span className="inline-flex items-center gap-1 font-medium text-slate-600" title="Số bảo mật xác minh (0 - 10)">
+                                      <Shield className="w-3.5 h-3.5 text-slate-400" /> Bảo mật: {learner.securityNumber}
+                                    </span>
+                                  </>
+                                )}
+                              </div>
+                            )}
 
-                            {/* Thành tích học tập chi tiết của tài khoản */}
-                            <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                              <span className="inline-flex items-center gap-1 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200/80">
-                                ⭐ {learner.totalStars || 0} sao
-                              </span>
-                              <span className="inline-flex items-center gap-1 font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-200/80">
-                                🏆 Lv. {learner.level || 1} ({learner.xp || 0} XP)
-                              </span>
-                              <span className="inline-flex items-center gap-1 font-bold text-orange-700 bg-orange-50 px-2 py-0.5 rounded-lg border border-orange-200/80">
-                                🔥 {learner.currentStreak || 0} ngày
-                              </span>
-                              <span className="inline-flex items-center gap-1 font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200/80">
-                                🏅 {learner.unlockedBadges?.length || 0} huy hiệu
-                              </span>
-                              <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200/80">
-                                📚 {completedUnitsCount} bài đã học
-                              </span>
+                            {/* Chỉ số phụ (Sao, XP, Bài học) dạng chuỗi ngắn gọn phân cách bằng dấu chấm tròn nhỏ • */}
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-600 pt-0.5">
+                              <span className="font-semibold text-slate-800">⭐ {learner.totalStars || 0} sao</span>
+                              <span className="text-slate-300 font-bold">•</span>
+                              <span className="font-semibold text-slate-800">⚡ {learner.xp || 0} XP (Lv.{learner.level || 1})</span>
+                              <span className="text-slate-300 font-bold">•</span>
+                              <span className="font-semibold text-slate-800">📚 {completedUnitsCount} bài đã học</span>
+                              {learner.currentStreak !== undefined && learner.currentStreak > 0 && (
+                                <>
+                                  <span className="text-slate-300 font-bold">•</span>
+                                  <span className="font-semibold text-slate-800">🔥 {learner.currentStreak} ngày</span>
+                                </>
+                              )}
+                              {learner.unlockedBadges && learner.unlockedBadges.length > 0 && (
+                                <>
+                                  <span className="text-slate-300 font-bold">•</span>
+                                  <span className="font-semibold text-slate-800">🏅 {learner.unlockedBadges.length} huy hiệu</span>
+                                </>
+                              )}
                             </div>
                           </div>
                         </div>
 
-                        {/* Các nút hành động: Mở khóa phiên, Reset tài khoản, Sửa, Xóa */}
-                        <div className="flex items-center gap-1.5 self-end md:self-center shrink-0">
-                          {/* Nút Mở khóa phiên thiết bị */}
+                        {/* Toàn bộ Action buttons đẩy hẳn về sát lề phải (ml-auto) */}
+                        <div className="flex items-center gap-1.5 self-end md:self-center ml-auto shrink-0 pt-2 md:pt-0">
+                          {/* Nút Mở khóa / Ngắt phiên thiết bị */}
                           <button
                             type="button"
                             onClick={async () => {
@@ -2404,17 +2421,17 @@ EasyEng`;
                               setUnlockedSessionMsg(`Đã mở khóa phiên và ngắt kết nối thiết bị cho tài khoản "${learner.username || learner.name}" thành công!`);
                               setTimeout(() => setUnlockedSessionMsg(null), 5000);
                             }}
-                            className="px-2.5 py-1.5 rounded-xl bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 hover:border-emerald-300 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
+                            className="px-2.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95 shadow-2xs"
                             title="Ngắt kết nối các thiết bị khác đang đăng nhập tài khoản này"
                           >
-                            <Unlock className="w-3.5 h-3.5 text-emerald-600" /> Ngắt phiên
+                            <Unlock className="w-3.5 h-3.5 text-slate-500" /> Ngắt phiên
                           </button>
 
-                          {/* Nút Reset tài khoản */}
+                          {/* Nút Reset tài khoản (Đỏ mờ theo quy chuẩn) */}
                           <button
                             type="button"
                             onClick={() => handleResetLearnerStats(learner)}
-                            className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
+                            className="px-2.5 py-1.5 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-700 border border-rose-200/70 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95"
                             title="Đặt lại toàn bộ thành tích của tài khoản này về 0"
                           >
                             <RotateCcw className="w-3.5 h-3.5 text-rose-600" /> Reset TK
@@ -2424,13 +2441,13 @@ EasyEng`;
                           <button
                             type="button"
                             onClick={() => handleStartEditLearner(learner)}
-                            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
+                            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-transparent hover:border-amber-200 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95"
                             title="Sửa tên, avatar, gán lớp"
                           >
-                            <Edit2 className="w-3.5 h-3.5" /> Sửa TK
+                            <Edit2 className="w-3.5 h-3.5 text-slate-500" /> Sửa TK
                           </button>
 
-                          {/* Nút Xóa tài khoản */}
+                          {/* Nút Xóa tài khoản (Đỏ mờ khi hover) */}
                           {learners.length > 1 && (
                             <button
                               type="button"
@@ -2603,9 +2620,11 @@ EasyEng`;
                                 {levelName}
                               </span>
                             </div>
-                            <p className="text-xs text-slate-500 mt-0.5 font-medium">
-                              {unitsCount} bài học (Units)
-                            </p>
+                            <div className="flex items-center gap-2 text-xs text-slate-500 mt-1">
+                              <span className="font-medium text-slate-700">{unitsCount} bài học (Units)</span>
+                              <span className="text-slate-300 font-bold">•</span>
+                              <span className="font-medium text-slate-700">{learnersInClass.length} học sinh</span>
+                            </div>
                           </div>
                         </div>
 
@@ -2630,7 +2649,7 @@ EasyEng`;
 
                       <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-semibold">
                         <span className="truncate max-w-[200px]">
-                          Học sinh: {learnersInClass.map(l => l.name).join(', ') || 'Chưa có'}
+                          Danh sách: {learnersInClass.map(l => l.name).join(', ') || 'Chưa có học sinh'}
                         </span>
                         <button
                           type="button"
@@ -2639,7 +2658,7 @@ EasyEng`;
                             handleSelectJsonGrade(cls.grade);
                             setActiveTab('curriculum');
                           }}
-                          className="text-amber-600 hover:text-amber-700 hover:underline cursor-pointer font-bold shrink-0 ml-2"
+                          className="text-amber-600 hover:text-amber-700 hover:underline cursor-pointer font-bold shrink-0 ml-auto"
                         >
                           Sửa JSON ➔
                         </button>
