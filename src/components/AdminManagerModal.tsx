@@ -45,7 +45,7 @@ import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVe
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
-import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES } from '../utils/gradeUtils';
+import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, normalizeGradeUnits } from '../utils/gradeUtils';
 import { clearAppCache } from '../utils/cacheUtils';
 import { parseExerciseJson, createDefaultClusters, createEmptyCluster, BUILT_IN_WORKBOOK_TEMPLATES } from '../utils/exerciseUtils';
 import { EasyEngLogo } from './EasyEngLogo';
@@ -1290,9 +1290,10 @@ EasyEng`;
           throw new Error(`Unit thứ ${i + 1} thiếu trường bắt buộc ('unit', 'title', hoặc 'vocabulary').`);
         }
       }
+      const normalized = normalizeGradeUnits(parsed);
       soundEffects.playSuccess();
-      onSaveCurriculum(selectedJsonGrade, parsed);
-      setJsonSuccess(`Đã lưu thành công ${parsed.length} Unit cho Lớp ${selectedJsonGrade}!`);
+      onSaveCurriculum(selectedJsonGrade, normalized);
+      setJsonSuccess(`Đã lưu thành công ${normalized.length} Unit cho Lớp ${selectedJsonGrade}!`);
     } catch (err: unknown) {
       soundEffects.playError();
       const msg = err instanceof Error ? err.message : 'Mã JSON không đúng cú pháp!';

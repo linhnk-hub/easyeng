@@ -26,7 +26,7 @@ import { soundEffects } from './services/soundEffects';
 import { speechService, VoiceGender } from './services/speechService';
 import { CustomAvatarItem } from './utils/avatarUtils';
 import { resolveValidUsername } from './utils/userUtils';
-import { getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, getGradeLevelName } from './utils/gradeUtils';
+import { getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, getGradeLevelName, normalizeGradeUnits } from './utils/gradeUtils';
 import { createDefaultClusters } from './utils/exerciseUtils';
 import { calculateUpdatedStreak } from './utils/streakUtils';
 import { calculateLevelFromXp } from './data/ranksData';
@@ -406,7 +406,16 @@ export default function App() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === 'object') return parsed;
+        if (parsed && typeof parsed === 'object') {
+          const normalizedMap: Record<number, UnitData[]> = {};
+          Object.entries(parsed).forEach(([gStr, uList]) => {
+            const g = Number(gStr);
+            if (Array.isArray(uList)) {
+              normalizedMap[g] = normalizeGradeUnits(uList as UnitData[]);
+            }
+          });
+          return normalizedMap;
+        }
       } catch {
         // fallback
       }
@@ -485,13 +494,16 @@ export default function App() {
   // Active Game Mode
   const [activeGame, setActiveGame] = useState<'none' | 'flashcards' | 'memory' | 'wordScramble' | 'sentence' | 'quiz' | 'challenge'>('none');
 
-  // Keep selectedUnit in sync when switching learner / grade
+  // Keep selectedUnit in sync when switching learner / grade or when currentUnits update
   useEffect(() => {
     if (currentUnits.length > 0) {
-      setSelectedUnit(currentUnits[0]);
+      const stillExists = currentUnits.some(u => u.unit === selectedUnit?.unit);
+      if (!stillExists || !selectedUnit) {
+        setSelectedUnit(currentUnits[0]);
+      }
     }
     setActiveGame('none');
-  }, [activeLearnerId, currentUser?.grade]);
+  }, [activeLearnerId, currentUser?.grade, currentUnits]);
 
   // Save learners to localStorage only (never auto-create on cloud!)
   useEffect(() => {
@@ -551,9 +563,25 @@ export default function App() {
     // 2. Fetch & sync custom curriculum from Cloud Firestore
     fetchCurriculumFromCloud().then(cloudCurriculum => {
       if (cloudCurriculum && Object.keys(cloudCurriculum).length > 0) {
+        const normalizedMap: Record<number, UnitData[]> = {};
+        Object.entries(cloudCurriculum).forEach(([gradeStr, units]) => {
+          const g = Number(gradeStr);
+          if (Array.isArray(units)) {
+            const normalized = normalizeGradeUnits(units);
+            normalizedMap[g] = normalized;
+
+            // Nếu dữ liệu trên mây có unit chưa chuẩn (ví dụ book: 'Sách học sinh' hay trống), đồng bộ ngược bản chuẩn lên Firestore
+            const hasLegacyBook = units.some(u => !u.book || (u.book as string) === 'Sách học sinh' || (u.book as string) === 'SGK');
+            if (hasLegacyBook) {
+              console.log(`Auto-repairing grade ${g} curriculum book fields to Cloud Firestore...`);
+              syncCurriculumToCloud(g, normalized).catch(() => {});
+            }
+          }
+        });
+
         setGradeUnitsMap(prev => ({
           ...prev,
-          ...cloudCurriculum
+          ...normalizedMap
         }));
       }
 
@@ -569,7 +597,8 @@ export default function App() {
                 const cloudUnits = cloudCurriculum ? cloudCurriculum[g] : undefined;
                 if (!cloudUnits || cloudUnits.length < units.length) {
                   console.log(`Auto-syncing grade ${g} curriculum (${units.length} units) to Cloud Firestore...`);
-                  syncCurriculumToCloud(g, units as UnitData[]).catch(err => {
+                  const normalized = normalizeGradeUnits(units as UnitData[]);
+                  syncCurriculumToCloud(g, normalized).catch(err => {
                     console.warn(`Auto-sync grade ${g} notice:`, err);
                   });
                 }
@@ -585,9 +614,16 @@ export default function App() {
     // Real-time subscription to curriculum across all devices
     const unsubscribeCurriculum = subscribeToCurriculum((cloudCurriculum) => {
       if (cloudCurriculum && Object.keys(cloudCurriculum).length > 0) {
+        const normalizedMap: Record<number, UnitData[]> = {};
+        Object.entries(cloudCurriculum).forEach(([gradeStr, units]) => {
+          const g = Number(gradeStr);
+          if (Array.isArray(units)) {
+            normalizedMap[g] = normalizeGradeUnits(units);
+          }
+        });
         setGradeUnitsMap(prev => ({
           ...prev,
-          ...cloudCurriculum
+          ...normalizedMap
         }));
       }
     });

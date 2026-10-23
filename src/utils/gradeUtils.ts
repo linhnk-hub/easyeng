@@ -148,3 +148,71 @@ export function getDefaultGradeDescription(grade: number): string {
 }
 
 export const ALL_12_GRADES = Array.from({ length: 12 }, (_, i) => i + 1);
+
+/**
+ * Xác định một unit thuộc Phần 1 hay Phần 2 một cách linh hoạt, thông minh:
+ * 1. Nhận diện các chuỗi: "Phần 1", "Tập 1", "Book 1", "Part 1", "HK1", "Học kì 1",...
+ * 2. Nhận diện các chuỗi: "Phần 2", "Tập 2", "Book 2", "Part 2", "HK2", "Học kì 2",...
+ * 3. Nếu giá trị book chung chung (ví dụ "Sách học sinh", "SGK", undefined...):
+ *    - Căn cứ theo số thứ tự unit (unit.unit) hoặc vị trí:
+ *    - Với sách có <= 16 unit (Lớp 1, 2): Unit 1-8 thuộc Phần 1, Unit 9-16 thuộc Phần 2.
+ *    - Với sách có > 16 unit (Lớp 3, 4, 5 có 20 unit): Unit 1-10 thuộc Phần 1, Unit 11-20 thuộc Phần 2.
+ */
+export function getUnitBookPart(unit: { unit: number; book?: string }, allUnits?: { unit: number; book?: string }[]): 1 | 2 {
+  const b = (unit.book || '').toLowerCase().trim();
+
+  // Kiểm tra chỉ định Phần 1
+  if (
+    b === 'phần 1' || b === 'tập 1' || b === 'tap 1' || b === 'phan 1' ||
+    b.includes('tập 1') || b.includes('phần 1') || b.includes('hk1') ||
+    b.includes('học kì 1') || b.includes('học kỳ 1') ||
+    b === 'book 1' || b === 'part 1' || b === '1'
+  ) {
+    return 1;
+  }
+
+  // Kiểm tra chỉ định Phần 2
+  if (
+    b === 'phần 2' || b === 'tập 2' || b === 'tap 2' || b === 'phan 2' ||
+    b.includes('tập 2') || b.includes('phần 2') || b.includes('hk2') ||
+    b.includes('học kì 2') || b.includes('học kỳ 2') ||
+    b === 'book 2' || b === 'part 2' || b === '2'
+  ) {
+    return 2;
+  }
+
+  // Fallback: căn cứ vào số thứ tự unit (unit.unit)
+  const maxUnit = allUnits && allUnits.length > 0
+    ? allUnits.reduce((max, u) => Math.max(max, u.unit || 0), 0)
+    : 16;
+  const splitPoint = maxUnit > 16 ? 10 : (maxUnit <= 16 ? 8 : 10);
+
+  return (unit.unit <= splitPoint) ? 1 : 2;
+}
+
+/**
+ * Chuẩn hóa danh sách các unit của một khối lớp, bảo đảm:
+ * - Có số thứ tự unit hợp lệ
+ * - Trường `book` được gán chính xác 'Phần 1' hoặc 'Phần 2' thay vì để 'Sách học sinh' hay undefined
+ * - Các mảng vocabulary, sentencePatterns, quizzes luôn tồn tại
+ */
+export function normalizeGradeUnits<T extends { unit: number; book?: string; vocabulary?: any[]; sentencePatterns?: any[]; quizzes?: any[] }>(units: T[]): T[] {
+  if (!Array.isArray(units) || units.length === 0) return [];
+  const maxUnit = units.reduce((max, u) => Math.max(max, u.unit || 0), 0) || units.length;
+  const splitPoint = maxUnit > 16 ? 10 : (maxUnit <= 16 ? 8 : Math.ceil(units.length / 2));
+
+  return units.map((u, idx) => {
+    const unitNum = Number(u.unit) || (idx + 1);
+    const part = getUnitBookPart({ ...u, unit: unitNum }, units);
+    const bookVal = part === 1 ? 'Phần 1' : 'Phần 2';
+
+    return {
+      ...u,
+      unit: unitNum,
+      book: bookVal,
+      vocabulary: Array.isArray(u.vocabulary) ? u.vocabulary : [],
+      sentencePatterns: Array.isArray(u.sentencePatterns) ? u.sentencePatterns : [],
+      quizzes: Array.isArray(u.quizzes) ? u.quizzes : []
+    };
+  });
+}

@@ -4,6 +4,7 @@ import { UnitData, UserProfile, ExerciseCluster } from '../types';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent } from '../utils/avatarUtils';
 import { filterExercisesForOnline } from '../utils/exerciseUtils';
+import { getUnitBookPart } from '../utils/gradeUtils';
 
 interface UnitSelectorProps {
   units: UnitData[];
@@ -54,20 +55,29 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   // Chương trình từ Cấp 2 (Lớp 6 - 12) hoặc danh sách <= 12 unit: hiển thị trọn vẹn toàn bộ 12 unit không chia 2 phần
   const isSecondaryOrHigher = user.grade >= 6 || units.length <= 12;
 
-  const isPart1 = (b?: string) => b === 'Phần 1' || b === 'Tập 1';
-  const isPart2 = (b?: string) => b === 'Phần 2' || b === 'Tập 2';
+  // Tính toán số lượng và danh sách unit cho từng phần (Phần 1 & Phần 2)
+  const maxUnit = units.reduce((max, u) => Math.max(max, u.unit || 0), 0) || units.length;
+  const splitPoint = maxUnit > 16 ? 10 : (maxUnit <= 16 ? 8 : Math.ceil(units.length / 2));
+
+  const part1Units = units.filter(u => getUnitBookPart(u, units) === 1);
+  const part2Units = units.filter(u => getUnitBookPart(u, units) === 2);
 
   const filteredUnits = units.filter(unit => {
-    const matchesBook = isSecondaryOrHigher
-      ? true
-      : (activeBookTab === 'Phần 1' ? isPart1(unit.book) : isPart2(unit.book));
+    if (!isSecondaryOrHigher) {
+      const part = getUnitBookPart(unit, units);
+      const isTargetPart = (activeBookTab === 'Phần 1' && part === 1) || (activeBookTab === 'Phần 2' && part === 2);
+      if (!isTargetPart) return false;
+    }
 
     const matchesQuery = searchQuery === '' || 
-      unit.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (unit.title && unit.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
       `unit ${unit.unit}`.includes(searchQuery.toLowerCase()) ||
-      unit.vocabulary.some(v => v.word.toLowerCase().includes(searchQuery.toLowerCase()) || v.meaning.toLowerCase().includes(searchQuery.toLowerCase()));
+      (Array.isArray(unit.vocabulary) && unit.vocabulary.some(v => 
+        (v.word && v.word.toLowerCase().includes(searchQuery.toLowerCase())) || 
+        (v.meaning && v.meaning.toLowerCase().includes(searchQuery.toLowerCase()))
+      ));
 
-    return matchesBook && matchesQuery;
+    return matchesQuery;
   });
 
   // Chỉ hiển thị các học phần thực sự có câu hỏi (bỏ qua học phần rỗng mặc định chưa có dữ liệu)
@@ -331,46 +341,77 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
         <div className="space-y-6">
           {/* Book Tabs for Primary (Cấp 1 có 20 Unit), Cấp 2 & 3 hiển thị trọn bộ 12 Unit */}
           {!isSecondaryOrHigher && (
-            <div className="flex bg-amber-100/70 p-1.5 rounded-2xl border border-amber-200 w-fit">
+            <div className="flex flex-wrap items-center gap-2 bg-amber-100/70 p-1.5 rounded-2xl border border-amber-200 w-fit">
               <button
+                type="button"
                 onClick={() => {
                   soundEffects.playClick();
                   setActiveBookTab('Phần 1');
                 }}
-                className={`px-5 py-2 rounded-xl font-display font-bold text-sm transition cursor-pointer flex items-center gap-2 ${
+                className={`px-4 sm:px-5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition cursor-pointer flex items-center gap-2 ${
                   activeBookTab === 'Phần 1'
                     ? 'bg-white text-slate-800 shadow-md shadow-slate-900/5'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <span>📘 Phần 1</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                  Unit 1 - 10
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">
+                  Unit 1 - {splitPoint} ({part1Units.length} bài)
                 </span>
               </button>
 
               <button
+                type="button"
                 onClick={() => {
                   soundEffects.playClick();
                   setActiveBookTab('Phần 2');
                 }}
-                className={`px-5 py-2 rounded-xl font-display font-bold text-sm transition cursor-pointer flex items-center gap-2 ${
+                className={`px-4 sm:px-5 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition cursor-pointer flex items-center gap-2 ${
                   activeBookTab === 'Phần 2'
                     ? 'bg-white text-slate-800 shadow-md shadow-slate-900/5'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 <span>📗 Phần 2</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">
-                  Unit 11 - 20
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">
+                  Unit {splitPoint + 1} - {maxUnit} ({part2Units.length} bài)
                 </span>
               </button>
             </div>
           )}
 
-      {/* Units Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
-        {filteredUnits.map((unit) => {
+      {/* Units Grid hoặc Thông báo khi không có bài học */}
+      {filteredUnits.length === 0 ? (
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-dashed border-amber-200 text-center space-y-3">
+          <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mx-auto shadow-2xs">
+            🔍
+          </div>
+          <h3 className="font-display font-bold text-lg text-slate-800">
+            {searchQuery 
+              ? `Không tìm thấy bài học nào phù hợp với từ khóa "${searchQuery}"`
+              : `Chưa có bài học nào trong ${activeBookTab}`}
+          </h3>
+          {searchQuery ? (
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-xs active:scale-95"
+            >
+              Xóa bộ lọc tìm kiếm
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setActiveBookTab(activeBookTab === 'Phần 1' ? 'Phần 2' : 'Phần 1')}
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-xs active:scale-95"
+            >
+              Chuyển sang {activeBookTab === 'Phần 1' ? 'Phần 2' : 'Phần 1'}
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6">
+          {filteredUnits.map((unit) => {
           const stars = getUnitStars(unit.unit);
           const maxStars = getUnitMaxStars();
           const isSelected = selectedUnitId === unit.unit;
@@ -489,7 +530,8 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
             </div>
           );
         })}
-      </div>
+        </div>
+      )}
     </div>
   )}
 
