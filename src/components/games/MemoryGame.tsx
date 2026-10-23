@@ -146,10 +146,6 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
           setStreak(newStreak);
           soundEffects.playStreak(newStreak);
 
-          // Find the english card to pronounce
-          const enCard = card1.type === 'english' ? card1 : card2;
-          speechService.speakNormal(enCard.text);
-
           const matchedCards = [...newCards];
           matchedCards[firstIdx].isMatched = true;
           matchedCards[secondIdx].isMatched = true;
@@ -222,7 +218,7 @@ export const MemoryGame: React.FC<MemoryGameProps> = ({
 
         <div className="text-center">
           <span className="text-xs font-bold text-rose-600 uppercase tracking-wider block">
-            Unit {unit.unit} • {unit.title}
+            Unit {unit.displayUnit || unit.unit} • {unit.title}
           </span>
           <span className="font-display font-bold text-slate-800 text-base sm:text-lg">
             🃏 Lật thẻ

@@ -196,7 +196,7 @@ export function getUnitBookPart(unit: { unit: number; book?: string }, allUnits?
  * - Trường `book` được gán chính xác 'Phần 1' hoặc 'Phần 2' thay vì để 'Sách học sinh' hay undefined
  * - Các mảng vocabulary, sentencePatterns, quizzes luôn tồn tại
  */
-export function normalizeGradeUnits<T extends { unit: number; book?: string; vocabulary?: any[]; sentencePatterns?: any[]; quizzes?: any[] }>(units: T[]): T[] {
+export function normalizeGradeUnits<T extends { unit: number; displayUnit?: number; book?: string; vocabulary?: any[]; sentencePatterns?: any[]; quizzes?: any[] }>(units: T[], grade?: number): T[] {
   if (!Array.isArray(units) || units.length === 0) return [];
   const maxUnit = units.reduce((max, u) => Math.max(max, u.unit || 0), 0) || units.length;
   const splitPoint = maxUnit > 16 ? 10 : (maxUnit <= 16 ? 8 : Math.ceil(units.length / 2));
@@ -205,10 +205,12 @@ export function normalizeGradeUnits<T extends { unit: number; book?: string; voc
     const unitNum = Number(u.unit) || (idx + 1);
     const part = getUnitBookPart({ ...u, unit: unitNum }, units);
     const bookVal = part === 1 ? 'Phần 1' : 'Phần 2';
+    const displayNum = (grade === 2 || (maxUnit <= 16 && units.length <= 16)) && unitNum > 8 ? unitNum - 8 : unitNum;
 
     return {
       ...u,
       unit: unitNum,
+      displayUnit: displayNum,
       book: bookVal,
       vocabulary: Array.isArray(u.vocabulary) ? u.vocabulary : [],
       sentencePatterns: Array.isArray(u.sentencePatterns) ? u.sentencePatterns : [],
@@ -216,3 +218,22 @@ export function normalizeGradeUnits<T extends { unit: number; book?: string; voc
     };
   });
 }
+
+/**
+ * Lấy số thứ tự hiển thị của Unit theo chương trình học:
+ * - Đối với Lớp 2:
+ *   Phần 1 gồm 8 unit (Unit 1 - 8)
+ *   Phần 2 gồm 8 unit (hiển thị Unit 1 - 8 thay vì Unit 9 - 16)
+ */
+export function getDisplayUnitNumber(unit: { unit: number; displayUnit?: number; book?: string }, grade?: number): number {
+  if (unit.displayUnit !== undefined) {
+    return unit.displayUnit;
+  }
+  const b = (unit.book || '').toLowerCase();
+  const isPart2 = b.includes('2') || b.includes('hai');
+  if ((grade === 2 || isPart2) && unit.unit > 8 && unit.unit <= 16) {
+    return unit.unit - 8;
+  }
+  return unit.unit;
+}
+

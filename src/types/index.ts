@@ -28,6 +28,7 @@ export interface SentenceChallenge {
 
 export interface UnitData {
   unit: number;
+  displayUnit?: number;
   book: "Phần 1" | "Phần 2" | "Tập 1" | "Tập 2" | (string & {});
   title: string;
   emoji: string;

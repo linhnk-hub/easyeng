@@ -4,7 +4,7 @@ import { UnitData, UserProfile, ExerciseCluster } from '../types';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent } from '../utils/avatarUtils';
 import { filterExercisesForOnline } from '../utils/exerciseUtils';
-import { getUnitBookPart } from '../utils/gradeUtils';
+import { getUnitBookPart, getDisplayUnitNumber } from '../utils/gradeUtils';
 
 interface UnitSelectorProps {
   units: UnitData[];
@@ -72,6 +72,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
     const matchesQuery = searchQuery === '' || 
       (unit.title && unit.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
       `unit ${unit.unit}`.includes(searchQuery.toLowerCase()) ||
+      `unit ${unit.displayUnit || getDisplayUnitNumber(unit, user.grade)}`.includes(searchQuery.toLowerCase()) ||
       (Array.isArray(unit.vocabulary) && unit.vocabulary.some(v => 
         (v.word && v.word.toLowerCase().includes(searchQuery.toLowerCase())) || 
         (v.meaning && v.meaning.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -356,7 +357,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
               >
                 <span>📘 Phần 1</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">
-                  Unit 1 - {splitPoint} ({part1Units.length} bài)
+                  {user.grade === 2 ? 'Unit 1 - 8' : `Unit 1 - ${splitPoint}`} ({part1Units.length} bài)
                 </span>
               </button>
 
@@ -374,7 +375,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
               >
                 <span>📗 Phần 2</span>
                 <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">
-                  Unit {splitPoint + 1} - {maxUnit} ({part2Units.length} bài)
+                  {user.grade === 2 ? 'Unit 1 - 8' : `Unit ${splitPoint + 1} - ${maxUnit}`} ({part2Units.length} bài)
                 </span>
               </button>
             </div>
@@ -435,7 +436,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-display font-bold text-amber-600 text-xs uppercase tracking-wider">
-                          Unit {unit.unit}
+                          Unit {unit.displayUnit || getDisplayUnitNumber(unit, user.grade)}
                         </span>
                       </div>
                       <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 leading-snug">

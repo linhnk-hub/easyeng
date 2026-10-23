@@ -152,6 +152,9 @@ class SpeechService {
   public speak(text: string, rate: number = 1.0) {
     if (!text || !text.trim()) return;
 
+    // Immediately stop any running speech synthesis or audio fallback to guarantee single-voice playback
+    this.cancel();
+
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
       this.playAudioFallback(text, rate);
       return;
@@ -164,7 +167,7 @@ class SpeechService {
       const voices = window.speechSynthesis.getVoices() || [];
       const hasEnVoice = voices.some(v => v.lang.toLowerCase().startsWith('en'));
 
-      // If Firefox has no native English voices available, immediately use online audio fallback
+      // If Firefox has no native English voices available, use online audio fallback
       if (isFirefox && (!hasEnVoice || voices.length === 0)) {
         this.playAudioFallback(text, safeRate);
         return;
@@ -184,7 +187,6 @@ class SpeechService {
       this.activeUtterance = utterance;
       (window as any)._easyEngActiveUtterance = utterance;
 
-      let started = false;
       let resumeInterval: any = null;
 
       const clearAll = () => {
@@ -198,7 +200,7 @@ class SpeechService {
       };
 
       utterance.onstart = () => {
-        started = true;
+        // Speech playback started
       };
 
       utterance.onend = () => {
@@ -206,16 +208,16 @@ class SpeechService {
       };
 
       utterance.onerror = (e) => {
-        console.warn('SpeechSynthesis error:', e.error);
         clearAll();
-        // If synthesis failed, immediately switch to audio fallback
+        // CRITICAL: Ignore user-initiated cancellation or interruption events!
+        // Do NOT trigger fallback when the utterance was stopped or replaced by another action.
+        if (e.error === 'canceled' || e.error === 'interrupted') {
+          return;
+        }
+        console.warn('SpeechSynthesis error:', e.error);
+        // Only trigger fallback if speech synthesis genuinely failed with a real error
         this.playAudioFallback(text, safeRate);
       };
-
-      // In non-Firefox browsers, cancel any active utterance
-      if (!isFirefox && window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-      }
 
       // Ensure speech synthesis is active
       if (window.speechSynthesis.paused) {
@@ -233,17 +235,6 @@ class SpeechService {
           }
         }, 150);
       }
-
-      // If synthesis fails to start within 350ms, unblock with audio fallback
-      setTimeout(() => {
-        if (!started && this.activeUtterance === utterance) {
-          clearAll();
-          try {
-            window.speechSynthesis.cancel();
-          } catch {}
-          this.playAudioFallback(text, safeRate);
-        }
-      }, 350);
 
     } catch (err) {
       console.warn('Speech error, using fallback:', err);

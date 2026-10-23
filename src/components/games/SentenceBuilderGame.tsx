@@ -172,8 +172,10 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({
     const newPlaced = [...placedWords, item];
     setPlacedWords(newPlaced);
 
-    // Speak single tapped word for phonics reinforcement
-    speechService.speakNormal(item.word);
+    // Speak single tapped word for phonics reinforcement unless it is the final word completing the sentence
+    if (newPlaced.length < availableWords.length) {
+      speechService.speakNormal(item.word);
+    }
 
     // If all words are placed, verify sentence
     if (newPlaced.length === availableWords.length) {
@@ -255,7 +257,7 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({
 
         <div className="text-center">
           <span className="text-xs font-bold text-teal-600 uppercase tracking-wider block">
-            Unit {unit.unit} • {unit.title}
+            Unit {unit.displayUnit || unit.unit} • {unit.title}
           </span>
           <span className="font-display font-bold text-slate-800 text-base sm:text-lg">
             🏰 Xếp câu

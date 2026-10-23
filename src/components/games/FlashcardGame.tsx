@@ -162,7 +162,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
 
         <div className="text-center truncate px-1">
           <span className="text-[11px] sm:text-xs font-bold text-amber-600 uppercase tracking-wider block truncate">
-            Unit {unit.unit} • {unit.title}
+            Unit {unit.displayUnit || unit.unit} • {unit.title}
           </span>
           <span className="font-display font-bold text-slate-800 text-sm sm:text-base">
            📖 Học từ
@@ -227,7 +227,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
           {/* Card Front (English word + IPA + Audio) */}
           <div className="absolute inset-0 backface-hidden bg-white rounded-3xl p-6 sm:p-8 border-2 border-amber-200 shadow-xl shadow-amber-900/5 flex flex-col justify-between items-center text-center">
             <div className="w-full flex justify-between items-center text-xs font-bold text-slate-400">
-              <span>Unit {unit.unit}</span>
+              <span>Unit {unit.displayUnit || unit.unit}</span>
               <span className="text-amber-500 font-semibold flex items-center gap-1">
                 <RotateCw className="w-3.5 h-3.5" /> Chạm để lật xem nghĩa
               </span>

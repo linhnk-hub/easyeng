@@ -340,7 +340,7 @@ function getEnglishSnippetToSpeak(question: string): string | null {
 
         <div className="text-center">
           <span className="text-xs font-bold text-amber-600 uppercase tracking-wider block">
-            Unit {unit.unit} • {unit.title}
+            Unit {unit.displayUnit || unit.unit} • {unit.title}
           </span>
           <span className="font-display font-bold text-slate-800 text-base sm:text-lg">
             ⚡ Trắc nghiệm
