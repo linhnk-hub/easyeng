@@ -2413,13 +2413,13 @@ EasyEng`;
                               await clearAccountActiveSession(
                                 learner.learnerId,
                                 'admin_unlocked',
-                                'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
                               );
                               if (learner.username && learner.username !== learner.learnerId) {
                                 await clearAccountActiveSession(
                                   learner.username,
                                   'admin_unlocked',
-                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                  'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
                                 );
                               }
                               soundEffects.playSuccess();
@@ -2427,7 +2427,7 @@ EasyEng`;
                               setTimeout(() => setUnlockedSessionMsg(null), 5000);
                             }}
                             className="px-2.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95 shadow-2xs"
-                            title="Ngắt kết nối các thiết bị khác đang đăng nhập tài khoản này"
+                            title="Ngắt kết nối thiết bị đang đăng nhập tài khoản này"
                           >
                             <Unlock className="w-3.5 h-3.5 text-slate-500" /> Ngắt phiên
                           </button>
