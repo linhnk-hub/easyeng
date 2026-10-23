@@ -1875,9 +1875,7 @@ EasyEng`;
                     <h3 className="font-display font-bold text-lg text-slate-800">
                       Danh sách tài khoản
                     </h3>
-                    <p className="text-xs text-slate-500">
-                      Sửa tên, gán lớp học hoặc chọn ảnh đại diện từ thư viện
-                    </p>
+
                   </div>
 
                   {!isAddingLearner && (
@@ -1888,7 +1886,7 @@ EasyEng`;
                       }}
                       className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer"
                     >
-                      <Plus className="w-4 h-4" /> Thêm người học mới
+                      <Plus className="w-4 h-4" /> Thêm tài khoản
                     </button>
                   )}
                 </div>
@@ -1898,7 +1896,7 @@ EasyEng`;
                   <form onSubmit={handleCreateLearner} className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-4">
                     <div className="flex items-center justify-between">
                       <h4 className="font-display font-bold text-sm text-slate-800">
-                        Tạo hồ sơ người học mới
+                        Tạo tài khoản mới
                       </h4>
                       <button
                         type="button"
@@ -1978,7 +1976,7 @@ EasyEng`;
                       </div>
                     </div>
 
-                    {/* Số điện thoại, Email và Số bảo mật cho học sinh mới */}
+                    {/* Số điện thoại, Email và Số bảo mật  */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-200">
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
@@ -1995,7 +1993,6 @@ EasyEng`;
                             setNewPhone(e.target.value.replace(/\D/g, '').slice(0, 11));
                             setNewFormError(null);
                           }}
-                          placeholder="Có thể bỏ trống..."
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
                       </div>
@@ -2049,7 +2046,7 @@ EasyEng`;
                       </p>
                     )}
 
-                    {/* Mật khẩu đăng nhập cho học sinh mới */}
+                    {/* Mật khẩu đăng nhập */}
                     <div className="pt-2 border-t border-slate-200">
                       <div className="flex items-center gap-1.5 mb-2">
                         <Lock className="w-4 h-4 text-slate-600" />
@@ -2081,7 +2078,6 @@ EasyEng`;
                               setNewPinConfirm(e.target.value);
                               setNewPinError(null);
                             }}
-                            placeholder="Nhập lại mật khẩu..."
                             className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold text-center focus:outline-none focus:ring-2 focus:ring-amber-400"
                           />
                         </div>
@@ -2150,7 +2146,6 @@ EasyEng`;
                                   setEditUsername(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''));
                                   setEditFormError(null);
                                 }}
-                                placeholder="Nhập tên đăng nhập..."
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                                 required
                               />
@@ -2200,7 +2195,7 @@ EasyEng`;
                             </div>
                           </div>
 
-                          {/* SĐT, Email và Số bảo mật cho học sinh */}
+                          {/* SĐT, Email và Số bảo mật  */}
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-amber-200/80">
                             <div>
                               <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
