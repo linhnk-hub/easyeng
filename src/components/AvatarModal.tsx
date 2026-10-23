@@ -412,7 +412,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                     </div>
                     <div className="min-w-0 text-left">
                       <span className="block text-xs font-bold text-amber-900 truncate">
-                        Hình đã tải lên
+                        Hình bạn đã tải lên
                       </span>
                     </div>
                   </div>
