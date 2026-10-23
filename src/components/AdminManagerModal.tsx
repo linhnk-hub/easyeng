@@ -194,7 +194,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   const handleClearCacheFromLogin = async () => {
     soundEffects.playClick();
-    if (!window.confirm('Bạn có chắc chắn muốn xóa bộ nhớ đệm (Cache) trên thiết bị này không? Sau khi xóa, trang web sẽ làm mới để đồng bộ lại dữ liệu mới nhất từ cơ sở dữ liệu.')) {
+    if (!window.confirm('Bạn có chắc chắn muốn xóa bộ nhớ đệm trên thiết bị này không? Sau khi xóa, trang web sẽ làm mới để đồng bộ lại dữ liệu mới nhất từ cơ sở dữ liệu.')) {
       return;
     }
     setIsClearingCache(true);
@@ -1553,7 +1553,6 @@ EasyEng`;
                     setPasswordInput(e.target.value);
                     if (authError) setAuthError(false);
                   }}
-                  placeholder="Nhập mật khẩu..."
                   autoFocus
                   className={`w-full pl-4 pr-10 py-2.5 bg-slate-50 border rounded-2xl font-bold text-slate-800 text-sm focus:outline-none focus:ring-2 focus:bg-white transition ${
                     authError
@@ -1606,7 +1605,7 @@ EasyEng`;
                 title="Xóa toàn bộ dữ liệu tạm trên thiết bị và tải mới từ cơ sở dữ liệu"
               >
                 <RotateCcw className={`w-3.5 h-3.5 text-slate-500 group-hover:text-rose-600 ${isClearingCache ? 'animate-spin' : ''}`} />
-                <span>{isClearingCache ? 'Đang dọn dẹp bộ nhớ đệm...' : 'Xóa bộ nhớ đệm (Clear Cache)'}</span>
+                <span>{isClearingCache ? 'Đang dọn dẹp bộ nhớ đệm...' : 'Xóa bộ nhớ đệm'}</span>
               </button>
               {clearCacheNotice && (
                 <p className="text-[11px] text-emerald-600 font-bold text-center">
