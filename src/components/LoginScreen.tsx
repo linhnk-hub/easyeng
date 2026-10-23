@@ -1230,7 +1230,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setVerificationUsername(e.target.value.toLowerCase());
                       setVerificationError(null);
                     }}
-                    placeholder="Nhập tên đăng nhập..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition lowercase"
                     required
                   />
@@ -1255,7 +1254,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setVerificationPhone(sanitizePhoneNumber(e.target.value));
                         setVerificationError(null);
                       }}
-                      placeholder="Có thể bỏ trống..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-rose-400 focus:bg-white text-xs sm:text-sm transition"
                     />
                   </div>
@@ -1281,16 +1279,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       required
                     />
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Admin sẽ kiểm tra và phản hồi về email này.
-                  </p>
+
                 </div>
 
                 {/* 5. Số bảo mật (0 đến 10) */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
-                    <span>Số bảo mật (0 - 10) <span className="text-rose-500">*</span></span>
-                    <span className="text-[11px] text-rose-700 font-normal lowercase">đã chọn khi đăng ký</span>
+                    <span>Số bảo mật <span className="text-rose-500">*</span></span>
+                    <span className="text-[11px] text-rose-700 font-normal lowercase">đã chọn khi tạo tài khoản</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -1307,14 +1303,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     >
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                         <option key={n} value={n}>
-                          Số bảo mật: {n}
+                          Số: {n}
                         </option>
                       ))}
                     </select>
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Hệ thống sẽ đối chiếu số bảo mật này với thông tin đã đăng ký trong CSDL
-                  </p>
+
                 </div>
 
                 {/* Buttons */}
