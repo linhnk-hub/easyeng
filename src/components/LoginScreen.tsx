@@ -879,7 +879,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     >
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                         <option key={n} value={n}>
-                          Số bảo mật: {n}
+                          Số: {n}
                         </option>
                       ))}
                     </select>
@@ -1091,7 +1091,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
                     <span>Số bảo mật <span className="text-rose-500">*</span></span>
-                    <span className="text-[11px] text-amber-700 font-normal lowercase">đã chọn khi đăng ký</span>
+                    <span className="text-[11px] text-amber-700 font-normal lowercase">đã chọn khi tạo tài khoản</span>
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -1108,7 +1108,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     >
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                         <option key={n} value={n}>
-                          Số bảo mật: {n}
+                          Số: {n}
                         </option>
                       ))}
                     </select>
