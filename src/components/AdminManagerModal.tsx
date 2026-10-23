@@ -3593,9 +3593,7 @@ EasyEng`;
                           {resetRequests.length} yêu cầu
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Tất cả yêu cầu được học sinh gửi từ màn hình đăng nhập và lưu trực tiếp vào cơ sở dữ liệu
-                      </p>
+
                     </div>
                   </div>
 
@@ -3655,9 +3653,7 @@ EasyEng`;
                     <h4 className="font-display font-bold text-base text-slate-800">
                       Không có yêu cầu cấp lại mật khẩu nào
                     </h4>
-                    <p className="text-xs text-slate-500 max-w-md mx-auto">
-                      Hiện tại không có học sinh nào đang gửi yêu cầu cấp lại mật khẩu. Khi học sinh bấm gửi yêu cầu, thông tin sẽ được đẩy ngay vào đây.
-                    </p>
+
                   </div>
                 ) : filteredResets.length === 0 ? (
                   <div className="py-10 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
@@ -3811,9 +3807,7 @@ EasyEng`;
                           {verificationRequests.length} yêu cầu
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Người dùng báo cáo tài khoản đang đăng nhập trên thiết bị khác hoặc nghi ngờ bị đăng nhập trái phép
-                      </p>
+
                     </div>
                   </div>
 
@@ -3890,9 +3884,7 @@ EasyEng`;
                     <h4 className="font-display font-bold text-base text-slate-800">
                       Không có yêu cầu xác minh tài khoản nào
                     </h4>
-                    <p className="text-xs text-slate-500 max-w-md mx-auto">
-                      Hiện tại tất cả các tài khoản học đều đăng nhập bình thường. Khi học sinh bị báo lỗi tài khoản đang ở máy khác và bấm "Xác minh tài khoản", thông tin sẽ hiển thị ở đây.
-                    </p>
+
                   </div>
                 ) : filteredVerifications.length === 0 ? (
                   <div className="py-10 text-center bg-white rounded-3xl border border-slate-200 p-6 space-y-2">
