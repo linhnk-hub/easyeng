@@ -313,8 +313,7 @@ export const FlashcardGame: React.FC<FlashcardGameProps> = ({
                         className="text-teal-600 hover:text-teal-800 px-1.5 py-0.5 rounded-lg hover:bg-teal-100 transition cursor-pointer flex items-center gap-0.5 text-xs font-bold"
                         title="Nghe câu ví dụ phát âm chậm"
                       >
-                        <Snail className="w-3.5 h-3.5 text-teal-600" />
-                        <span className="text-[10px]">Chậm</span>
+                        <Snail className="w-4 h-4" />
                       </button>
                     </div>
                   </div>

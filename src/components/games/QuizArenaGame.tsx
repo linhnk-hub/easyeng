@@ -443,8 +443,7 @@ function getEnglishSnippetToSpeak(question: string): string | null {
                   className="px-2.5 py-2 rounded-xl bg-teal-50 text-teal-800 hover:bg-teal-100 transition cursor-pointer flex items-center gap-1 font-bold text-xs"
                   title={`Nghe phát âm chậm: "${snippet}"`}
                 >
-                  <Snail className="w-4 h-4 text-teal-600" />
-                  <span className="text-[11px] hidden sm:inline">Chậm</span>
+                  <Snail className="w-5 h-5" />
                 </button>
               </div>
             );
@@ -530,8 +529,7 @@ function getEnglishSnippetToSpeak(question: string): string | null {
                       className="px-2.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white transition cursor-pointer flex items-center gap-1 font-bold text-xs shadow-xs active:scale-95"
                       title={`Nghe chậm: "${fullSentence}"`}
                     >
-                      <Snail className="w-3.5 h-3.5" />
-                      <span className="text-[11px] hidden sm:inline">Chậm</span>
+                      <Snail className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
