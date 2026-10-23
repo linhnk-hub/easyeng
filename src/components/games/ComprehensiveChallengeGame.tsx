@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import { UnitData, VocabularyItem, QuizQuestion, SentenceChallenge } from '../../types';
 import { speechService } from '../../services/speechService';
 import { soundEffects } from '../../services/soundEffects';
+import { getFullEnglishSentenceForQuiz, getBlankParts, hasBlank } from '../../utils/quizSentenceHelper';
 
 interface ComprehensiveChallengeGameProps {
   units: UnitData[];
@@ -418,9 +419,17 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
       if (newStreak > maxStreak) setMaxStreak(newStreak);
       setScore(s => s + 150 + newStreak * 25);
 
-      // If the option is in English, speak it
-      const optionText = currentQuiz.quiz.options[idx];
-      speakEnglish(optionText);
+      // Play the full English sentence with the correct answer inserted
+      const fullSentence = getFullEnglishSentenceForQuiz(
+        currentQuiz.quiz.question,
+        currentQuiz.quiz.options[currentQuiz.quiz.answerIndex],
+        currentQuiz.quiz.explanation
+      );
+      if (fullSentence) {
+        setTimeout(() => {
+          speakEnglish(fullSentence);
+        }, 220);
+      }
     } else {
       soundEffects.playError();
       setStreak(0);
@@ -913,11 +922,33 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
             </span>
             <div className="flex items-start justify-between gap-3">
               <h2 className="font-display font-bold text-xl sm:text-2xl text-slate-800 leading-snug">
-                {currentQuiz.quiz.question}
+                {(() => {
+                  if (isQuizAnswered) {
+                    const parts = getBlankParts(currentQuiz.quiz.question);
+                    if (parts) {
+                      return (
+                        <span>
+                          {parts.before}
+                          <span className="text-emerald-700 underline decoration-2 decoration-emerald-500 font-extrabold bg-emerald-50 px-1.5 py-0.5 rounded-lg border border-emerald-300 mx-1">
+                            {currentQuiz.quiz.options[currentQuiz.quiz.answerIndex]}
+                          </span>
+                          {parts.after}
+                        </span>
+                      );
+                    }
+                  }
+                  return currentQuiz.quiz.question;
+                })()}
               </h2>
               {(() => {
+                const fullSentence = getFullEnglishSentenceForQuiz(
+                  currentQuiz.quiz.question,
+                  currentQuiz.quiz.options[currentQuiz.quiz.answerIndex],
+                  currentQuiz.quiz.explanation
+                );
                 const enMatch = currentQuiz.quiz.question.match(/"([^"]+)"|'([^']+)'/);
-                const textToSpeak = enMatch ? (enMatch[1] || enMatch[2]) : null;
+                const fallbackSnippet = enMatch ? (enMatch[1] || enMatch[2]) : (!hasBlank(currentQuiz.quiz.question) ? currentQuiz.quiz.question : null);
+                const textToSpeak = isQuizAnswered && fullSentence ? fullSentence : (!hasBlank(currentQuiz.quiz.question) ? fallbackSnippet : null);
                 if (!textToSpeak) return null;
                 return (
                   <div className="flex items-center gap-1.5 shrink-0">
@@ -925,7 +956,7 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
                       type="button"
                       onClick={() => speakEnglish(textToSpeak)}
                       className="p-2 rounded-xl bg-amber-50 text-amber-700 hover:bg-amber-100 transition cursor-pointer"
-                      title="Nghe chuẩn"
+                      title={`Nghe chuẩn: "${textToSpeak}"`}
                     >
                       <Volume2 className="w-4 h-4" />
                     </button>
@@ -933,7 +964,7 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
                       type="button"
                       onClick={() => speakEnglishSlow(textToSpeak)}
                       className="px-2 py-1.5 rounded-xl bg-teal-50 text-teal-800 hover:bg-teal-100 transition cursor-pointer flex items-center gap-1 text-xs font-bold"
-                      title="Nghe chậm"
+                      title={`Nghe chậm: "${textToSpeak}"`}
                     >
                       <Snail className="w-3.5 h-3.5 text-teal-600" />
                       <span className="text-[10px] hidden sm:inline">Chậm</span>
@@ -971,16 +1002,64 @@ export const ComprehensiveChallengeGame: React.FC<ComprehensiveChallengeGameProp
             })}
           </div>
 
-          {isQuizAnswered && (
-            <div className="flex justify-end pt-2">
-              <button
-                onClick={handleNextQuiz}
-                className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-sm shadow-md shadow-amber-500/20 cursor-pointer"
-              >
-                {currentQuizIdx < quizQuestions.length - 1 ? 'Câu tiếp theo ➔' : 'Xem Kết Quả 🏆'}
-              </button>
-            </div>
-          )}
+          {isQuizAnswered && (() => {
+            const fullSentence = getFullEnglishSentenceForQuiz(
+              currentQuiz.quiz.question,
+              currentQuiz.quiz.options[currentQuiz.quiz.answerIndex],
+              currentQuiz.quiz.explanation
+            );
+            return (
+              <div className="space-y-3 pt-2 border-t border-slate-100">
+                {fullSentence && (
+                  <div className="p-3.5 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+                    <div className="space-y-1 min-w-0">
+                      <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                        Câu tiếng Anh đầy đủ:
+                      </span>
+                      <p className="font-display font-bold text-slate-800 text-sm sm:text-base break-words">
+                        "{fullSentence}"
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                      <button
+                        type="button"
+                        onClick={() => speakEnglish(fullSentence)}
+                        className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white transition cursor-pointer shadow-xs active:scale-95 flex items-center gap-1.5 font-bold text-xs"
+                        title={`Nghe chuẩn: "${fullSentence}"`}
+                      >
+                        <Volume2 className="w-4 h-4" />
+                        <span>Nghe câu</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => speakEnglishSlow(fullSentence)}
+                        className="px-2.5 py-1.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white transition cursor-pointer flex items-center gap-1 font-bold text-xs shadow-xs active:scale-95"
+                        title={`Nghe chậm: "${fullSentence}"`}
+                      >
+                        <Snail className="w-3.5 h-3.5" />
+                        <span className="text-[11px] hidden sm:inline">Chậm</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {currentQuiz.quiz.explanation && (
+                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700">
+                    <strong className="font-bold text-slate-900 block mb-0.5">💡 Lời giải thích:</strong>
+                    {currentQuiz.quiz.explanation}
+                  </div>
+                )}
+                <div className="flex justify-end pt-1">
+                  <button
+                    onClick={handleNextQuiz}
+                    className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-sm shadow-md shadow-amber-500/20 cursor-pointer"
+                  >
+                    {currentQuizIdx < quizQuestions.length - 1 ? 'Câu tiếp theo ➔' : 'Xem Kết Quả 🏆'}
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       )}
     </div>
