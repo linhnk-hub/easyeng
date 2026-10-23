@@ -265,9 +265,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <h2 className="font-display font-bold text-xl text-slate-800">
               Thông tin tài khoản
             </h2>
-            <p className="text-xs text-slate-500">
-              Cập nhật hồ sơ, số điện thoại, email và mật khẩu
-            </p>
+
           </div>
           <button
             onClick={() => {
