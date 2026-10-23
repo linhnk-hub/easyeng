@@ -600,7 +600,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                     <div className="pt-2.5 mt-1 border-t border-rose-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
                       {deviceConflictSession?.deviceDescription ? (
                         <div className="text-[11px] text-rose-700 font-normal">
-                          Thiết bị đang truy cập: <strong className="font-semibold text-rose-900">{deviceConflictSession.deviceDescription}</strong>
+                          Thiết bị đang truy cập: <p><strong className="font-semibold text-rose-900">{deviceConflictSession.deviceDescription}</strong></p>
                         </div>
                       ) : (
                         <div className="text-[11px] text-rose-700 font-normal">
