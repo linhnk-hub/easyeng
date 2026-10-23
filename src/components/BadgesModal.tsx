@@ -85,9 +85,9 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
 
   return (
     <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-5 sm:p-7 space-y-5 animate-float border border-slate-100">
-        {/* Header */}
-        <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-100 animate-float">
+        {/* Fixed Header */}
+        <div className="flex items-center justify-between p-4 sm:p-6 pb-3 sm:pb-4 border-b border-slate-100 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center text-xl shadow-sm">
               🏆
@@ -109,8 +109,10 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
           </button>
         </div>
 
-        {/* Bảng tóm tắt chỉ số: Tổng số sao, Chuỗi học tập, Huy hiệu */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+        {/* Scrollable Body - Contained strictly inside the board */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5">
+          {/* Bảng tóm tắt chỉ số: Tổng số sao, Chuỗi học tập, Huy hiệu */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
           {/* Ngôi sao */}
           <div className="bg-amber-50 border border-amber-200/90 rounded-2xl p-2.5 sm:p-3 text-center space-y-0.5 shadow-2xs">
             <div className="flex items-center justify-center">
@@ -246,7 +248,7 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
             </div>
 
             {/* Danh sách từng cấp bậc */}
-            <div className="space-y-2 max-h-[340px] overflow-y-auto pr-1">
+            <div className="space-y-2">
               {RANK_TIERS.map((tier) => {
                 const isCurrent = user.level === tier.level;
                 const isPassed = user.level > tier.level;
@@ -328,7 +330,7 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
               Bộ sưu tập huy hiệu ({user.unlockedBadges.length} / {BADGES.length})
             </h3>
 
-            <div className="grid grid-cols-1 gap-2.5 max-h-[340px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-1 gap-2.5">
               {BADGES.map((badge) => {
                 const isUnlocked = user.unlockedBadges.includes(badge.id);
                 const progress = getBadgeProgress(badge.id);
@@ -382,16 +384,20 @@ export const BadgesModal: React.FC<BadgesModalProps> = ({ user, units = [], onCl
             </div>
           </div>
         )}
+        </div>
 
-        <button
-          onClick={() => {
-            soundEffects.playClick();
-            onClose();
-          }}
-          className="w-full py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-display font-bold text-sm shadow-md shadow-purple-600/20 cursor-pointer transition active:scale-[0.99]"
-        >
-          Đóng lại
-        </button>
+        {/* Fixed Footer with Close Button */}
+        <div className="p-4 sm:p-5 pt-3 border-t border-slate-100 bg-white shrink-0">
+          <button
+            onClick={() => {
+              soundEffects.playClick();
+              onClose();
+            }}
+            className="w-full py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-display font-bold text-sm shadow-md shadow-purple-600/20 cursor-pointer transition active:scale-[0.99]"
+          >
+            Đóng lại
+          </button>
+        </div>
       </div>
     </div>
   );
