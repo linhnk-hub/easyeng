@@ -1669,7 +1669,7 @@ EasyEng`;
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Users className="w-4 h-4" /> Tài khoản & Avatar ({learners.length})
+            <Users className="w-4 h-4" /> Tài khoản({learners.length})
           </button>
 
           <button
@@ -1765,10 +1765,10 @@ EasyEng`;
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div>
                     <h4 className="font-display font-bold text-base text-amber-900 flex items-center gap-2">
-                      <ImageIcon className="w-5 h-5 text-amber-600" /> Danh sách Avatar
+                      <ImageIcon className="w-5 h-5 text-amber-600" /> Quản lý hình đại diện
                     </h4>
                     <p className="text-xs text-slate-600 mt-0.5">
-                      Upload ảnh kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
+                      Upload hình kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
                     </p>
                   </div>
 
@@ -1785,7 +1785,7 @@ EasyEng`;
                       onClick={() => avatarFileInputRef.current?.click()}
                       className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-bold text-xs rounded-xl shadow-sm flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
                     >
-                      <Upload className="w-4 h-4" /> Tải ảnh Avatar mới
+                      <Upload className="w-4 h-4" /> Thêm hình
                     </button>
                   </div>
                 </div>
@@ -1805,7 +1805,7 @@ EasyEng`;
                 {/* Avatar Gallery grid */}
                 <div className="space-y-2">
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                    Thư viện Avatar hiện có ({allAvailableAvatars.length}):
+                    Thư viện hình hiện có ({allAvailableAvatars.length}):
                   </span>
                   <div className="flex flex-wrap gap-2.5">
                     {allAvailableAvatars.map((av) => {
@@ -1816,7 +1816,7 @@ EasyEng`;
                         <div
                           key={av.id}
                           className="relative group p-1.5 bg-white rounded-2xl border border-amber-200 shadow-xs flex items-center justify-center w-14 h-14 text-center aspect-square"
-                          title={`${av.name}${owner ? ` (Upload bởi: ${owner.name})` : ''}`}
+                          title={`${av.name}${owner ? ` (Hình của: ${owner.name})` : ''}`}
                         >
                           <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-xl">
                             {renderAvatarContent(av.icon)}
@@ -1834,12 +1834,12 @@ EasyEng`;
                               type="button"
                               onClick={() => {
                                 soundEffects.playClick();
-                                if (window.confirm(`Xóa avatar "${av.name}" khỏi thư viện?`)) {
+                                if (window.confirm(`Xóa hình "${av.name}" khỏi thư viện?`)) {
                                   onDeleteCustomAvatar(av.id);
                                 }
                               }}
                               className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow-xs cursor-pointer hover:bg-rose-600"
-                              title="Xóa avatar này"
+                              title="Xóa hình"
                             >
                               ✕
                             </button>
@@ -2438,7 +2438,7 @@ EasyEng`;
                             className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
                             title="Đặt lại toàn bộ thành tích của tài khoản này về 0"
                           >
-                            <RotateCcw className="w-3.5 h-3.5 text-rose-600" /> Reset
+                            <RotateCcw className="w-3.5 h-3.5 text-rose-600" /> Reset TK
                           </button>
 
                           {/* Nút Sửa tài khoản */}
@@ -2448,7 +2448,7 @@ EasyEng`;
                             className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95"
                             title="Sửa tên, avatar, gán lớp"
                           >
-                            <Edit2 className="w-3.5 h-3.5" /> Sửa
+                            <Edit2 className="w-3.5 h-3.5" /> Sửa TK
                           </button>
 
                           {/* Nút Xóa tài khoản */}
