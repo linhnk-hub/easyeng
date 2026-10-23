@@ -968,7 +968,7 @@ export async function updateSessionHeartbeat(
 export async function clearAccountActiveSession(
   learnerId: string,
   reason = 'admin_unlocked',
-  customMessage = 'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+  customMessage = 'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
 ): Promise<boolean> {
   const path = `active_sessions/${learnerId}`;
   try {

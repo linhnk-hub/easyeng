@@ -898,7 +898,7 @@ export default function App() {
       } catch {}
       handleSetSessionNotice(
         message ||
-        'Phiên đăng nhập này sẽ bị ngắt do có yêu cầu xác minh tình trạng đăng nhập trên thiết bị lạ'
+        'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
       );
     };
 
@@ -936,7 +936,7 @@ export default function App() {
       if (isTerminated) {
         triggerTermination(
           session.terminatedMessage ||
-          'Phiên đăng nhập này sẽ bị ngắt do có yêu cầu xác minh tình trạng đăng nhập trên thiết bị lạ'
+          'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
         );
       }
     });
@@ -1367,7 +1367,7 @@ export default function App() {
               }}
               className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-700 hover:to-red-700 text-white font-display font-bold text-sm shadow-md shadow-rose-600/25 transition cursor-pointer active:scale-95"
             >
-              Đã hiểu & Quay lại đăng nhập
+              Đã hiểu
             </button>
           </div>
         </div>

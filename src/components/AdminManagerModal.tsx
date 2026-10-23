@@ -3857,20 +3857,20 @@ EasyEng`;
                                 await clearAccountActiveSession(
                                   targetLearnerId,
                                   'admin_unlocked',
-                                  'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                  'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
                                 );
                                 if (cleanAccountUser && cleanAccountUser !== targetLearnerId) {
                                   await clearAccountActiveSession(
                                     cleanAccountUser,
                                     'admin_unlocked',
-                                    'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                    'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
                                   );
                                 }
                                 if (matchedLearner && matchedLearner.username && matchedLearner.username !== targetLearnerId) {
                                   await clearAccountActiveSession(
                                     matchedLearner.username,
                                     'admin_unlocked',
-                                    'Phiên đăng nhập này sẽ bị ngắt do có báo cáo xác minh tình trạng đăng nhập trên thiết bị lạ'
+                                    'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
                                   );
                                 }
 
