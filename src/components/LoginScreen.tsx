@@ -52,7 +52,7 @@ interface LoginScreenProps {
   welcomeLogoSize?: number;
 }
 
-const ADMIN_EMAIL = 'linhnk.online@gmail.com';
+const ADMIN_EMAIL = 'admin@easyeng.online';
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({
   learners = [],
@@ -946,7 +946,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
         </div>
       </div>
 
-      {/* Footer: © 2026 LinhNK - giữ nguyên hiển thị và con trỏ chuột khi hover */}
+      {/* Footer: © 2026 EasyEng - giữ nguyên hiển thị và con trỏ chuột khi hover */}
       <footer className="text-center mt-2 sm:mt-2.5 py-1 text-xs font-semibold text-slate-500 shrink-0 select-none">
         © 2026{' '}
         <span
@@ -958,7 +958,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
           }}
           className="cursor-default"
         >
-          LinhNK
+          EasyEng
         </span>
       </footer>
 

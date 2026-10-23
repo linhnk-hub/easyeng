@@ -180,7 +180,7 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
           <div className="mx-auto w-full max-w-md py-8 text-center bg-white/80 backdrop-blur-md rounded-2xl border border-amber-200 p-6 shadow-sm space-y-2">
             <p className="text-slate-700 font-bold text-sm">Chưa có người học nào trong cơ sở dữ liệu.</p>
             <p className="text-slate-500 text-xs">
-              Bấm vào chữ <span className="font-semibold text-slate-700">LinhNK</span> ở chân trang để mở phần Quản lý và thêm người học mới.
+              Bấm vào chữ <span className="font-semibold text-slate-700">EasyEng</span> ở chân trang để mở phần Quản lý và thêm người học mới.
             </p>
           </div>
         ) : (
@@ -289,14 +289,14 @@ export const LearnerSelectScreen: React.FC<LearnerSelectScreenProps> = ({
         )}
       </div>
 
-      {/* Footer: Click chữ LinhNK để vào trang Quản lý - giữ nguyên hiển thị và con trỏ chuột khi hover */}
+      {/* Footer: Click chữ EasyEng để vào trang Quản lý - giữ nguyên hiển thị và con trỏ chuột khi hover */}
       <footer className="text-center py-2 text-xs font-semibold text-slate-500 shrink-0 select-none">
         © 2026{' '}
         <span
           onClick={onOpenAdminManager}
           className="cursor-default"
         >
-          LinhNK
+          EasyEng
         </span>
       </footer>
 

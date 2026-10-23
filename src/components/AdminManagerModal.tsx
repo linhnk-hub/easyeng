@@ -64,7 +64,7 @@ import {
   clearAccountActiveSession
 } from '../services/firebase';
 
-const ADMIN_EMAIL = 'linhnk.online@gmail.com';
+const ADMIN_EMAIL = 'admin@easyeng.online';
 
 interface AdminClassInfo {
   grade: number;

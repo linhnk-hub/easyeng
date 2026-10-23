@@ -1522,14 +1522,14 @@ export default function App() {
         )}
       </main>
 
-      {/* Footer: Click chữ LinhNK để vào trang Quản lý - giữ nguyên hiển thị và con trỏ chuột khi hover */}
+      {/* Footer: Click chữ EasyEng để vào trang Quản lý - giữ nguyên hiển thị và con trỏ chuột khi hover */}
       <footer className="mt-auto border-t border-amber-200/60 bg-white/70 backdrop-blur-xs py-4 text-center text-xs font-semibold text-slate-500 select-none">
         © 2026{' '}
         <span
           onClick={() => setShowAdminModal(true)}
           className="cursor-default"
         >
-          LinhNK
+          EasyEng
         </span>
       </footer>
 
