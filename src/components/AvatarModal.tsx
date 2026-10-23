@@ -294,7 +294,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             }`}
           >
             <User className="w-3.5 h-3.5 text-amber-500" />
-            <span>Hồ sơ & Avatar</span>
+            <span>Thông tin cá nhân</span>
           </button>
           <button
             type="button"
@@ -328,7 +328,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
             <div className="space-y-1">
               <label className="flex items-center justify-between text-xs font-bold text-slate-600 uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-amber-600" />Tên đăng nhập:
+                  <User className="w-3.5 h-3.5 text-amber-600"/>Tên đăng nhập:
                 </span>
               </label>
               <div className="relative">
