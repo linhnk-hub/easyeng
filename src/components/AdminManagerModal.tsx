@@ -1649,19 +1649,20 @@ EasyEng`;
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex px-6 pt-3 border-b border-slate-200 bg-white gap-2 overflow-x-auto">
+        <div className="flex px-4 sm:px-6 border-b border-slate-200 bg-white gap-1 sm:gap-2 overflow-x-auto shrink-0 scrollbar-none">
           <button
             onClick={() => {
               soundEffects.playClick();
               setActiveTab('learners');
             }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'learners'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Users className="w-4 h-4" /> Tài khoản({learners.length})
+            <Users className="w-4 h-4 shrink-0" />
+            <span>Tài khoản ({learners.length})</span>
           </button>
 
           <button
@@ -1669,13 +1670,14 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('branding');
             }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'branding'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Sparkles className="w-4 h-4" /> Cài đặt Logo
+            <Sparkles className="w-4 h-4 shrink-0" />
+            <span>Cài đặt Logo</span>
           </button>
 
           <button
@@ -1683,13 +1685,14 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('classes');
             }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'classes'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <GraduationCap className="w-4 h-4" /> Lớp học ({classes.length})
+            <GraduationCap className="w-4 h-4 shrink-0" />
+            <span>Lớp học ({classes.length})</span>
           </button>
 
           <button
@@ -1697,13 +1700,14 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('curriculum');
             }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'curriculum'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Code2 className="w-4 h-4" /> Quản lý JSON
+            <Code2 className="w-4 h-4 shrink-0" />
+            <span>Quản lý JSON</span>
           </button>
 
           <button
@@ -1711,14 +1715,16 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('resets');
             }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'resets'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <KeyRound className="w-4 h-4 text-amber-600" /> Cấp lại mật khẩu {resetRequests.length > 0 && (
-              <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full">
+            <KeyRound className="w-4 h-4 text-amber-600 shrink-0" />
+            <span>Cấp lại mật khẩu</span>
+            {resetRequests.length > 0 && (
+              <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
                 {resetRequests.length}
               </span>
             )}
@@ -1729,14 +1735,16 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('verifications');
             }}
-            className={`pb-3 px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer ${
+            className={`py-3 px-3.5 sm:px-4 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'verifications'
                 ? 'border-amber-500 text-amber-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <ShieldAlert className="w-4 h-4 text-rose-500" /> Xác minh tài khoản {verificationRequests.length > 0 && (
-              <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full">
+            <ShieldAlert className="w-4 h-4 text-rose-500 shrink-0" />
+            <span>Xác minh tài khoản</span>
+            {verificationRequests.length > 0 && (
+              <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
                 {verificationRequests.length}
               </span>
             )}
@@ -2121,7 +2129,6 @@ EasyEng`;
                                 <span className="flex items-center gap-1">
                                   <User className="w-3.5 h-3.5 text-amber-600" />Tên đăng nhập <span className="text-rose-500">*</span>:
                                 </span>
-                                <span className="text-[10px] text-slate-400 font-normal">(Chữ thường & số)</span>
                               </label>
                               <input
                                 type="text"
@@ -2137,7 +2144,6 @@ EasyEng`;
                                 className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-mono font-bold focus:outline-none focus:ring-2 focus:ring-amber-400 lowercase"
                                 required
                               />
-                              <span className="text-[10px] text-slate-400">4-16 kí tự, chữ thường và số (không viết hoa chữ đầu)</span>
                             </div>
 
                             <div>
@@ -2162,7 +2168,7 @@ EasyEng`;
                             </div>
 
                             <div>
-                              <label className="block text-xs font-bold text-slate-600 mb-1">Ảnh đại diện/Avatar:</label>
+                              <label className="block text-xs font-bold text-slate-600 mb-1">Hình đại diện:</label>
                               <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto p-1.5 bg-white border border-slate-200 rounded-xl">
                                 {allAvailableAvatars.map(av => {
                                   const isSelected = (editAvatar || learner.avatar) === av.icon || (editAvatar || learner.avatar) === av.id;
