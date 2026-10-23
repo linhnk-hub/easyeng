@@ -1036,7 +1036,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       setResetUsername(e.target.value.toLowerCase());
                       setResetError(null);
                     }}
-                    placeholder="Nhập tên đăng nhập..."
                     className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition lowercase"
                     required
                   />
@@ -1061,7 +1060,6 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                         setResetPhone(sanitizePhoneNumber(e.target.value));
                         setResetError(null);
                       }}
-                      placeholder="Có thể bỏ trống..."
                       className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 font-semibold focus:outline-none focus:ring-2 focus:ring-amber-400 focus:bg-white text-xs sm:text-sm transition"
                     />
                   </div>
@@ -1092,7 +1090,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 {/* 5. Số bảo mật (0 đến 10) */}
                 <div className="space-y-1">
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
-                    <span>Số bảo mật (0 - 10) <span className="text-rose-500">*</span></span>
+                    <span>Số bảo mật <span className="text-rose-500">*</span></span>
                     <span className="text-[11px] text-amber-700 font-normal lowercase">đã chọn khi đăng ký</span>
                   </label>
                   <div className="relative">
@@ -1115,9 +1113,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                       ))}
                     </select>
                   </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    Hệ thống sẽ đối chiếu số bảo mật này với thông tin đã đăng ký trong CSDL
-                  </p>
+
                 </div>
 
                 {/* Buttons */}
