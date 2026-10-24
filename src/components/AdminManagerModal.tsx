@@ -61,7 +61,8 @@ import {
   deletePasswordResetRequestFromCloud,
   fetchAccountVerificationRequestsFromCloud,
   deleteAccountVerificationRequestFromCloud,
-  clearAccountActiveSession
+  clearAccountActiveSession,
+  fetchLearnersFromCloud
 } from '../services/firebase';
 
 const ADMIN_EMAIL = 'admin@easyeng.online';
@@ -81,6 +82,7 @@ interface AdminManagerModalProps {
   onUpdateLearner: (learner: UserProfile) => void;
   onAddLearner: (learner: UserProfile) => void;
   onDeleteLearner: (learnerId: string) => void;
+  onRefreshLearners?: () => Promise<void> | void;
   onAddCustomAvatar: (newAvatar: CustomAvatarItem) => void;
   onDeleteCustomAvatar: (avatarId: string) => void;
   onAddClass: (newClass: AdminClassInfo, initialUnits: UnitData[]) => void;
@@ -167,6 +169,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   onUpdateLearner,
   onAddLearner,
   onDeleteLearner,
+  onRefreshLearners,
   onAddCustomAvatar,
   onDeleteCustomAvatar,
   onAddClass,
@@ -256,6 +259,33 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       );
     });
   }, [learners, learnerSearchTerm]);
+
+  // Refresh learners state & handler
+  const [isRefreshingLearners, setIsRefreshingLearners] = useState(false);
+  const [refreshLearnersSuccess, setRefreshLearnersSuccess] = useState<string | null>(null);
+
+  const handleRefreshLearnersList = async () => {
+    soundEffects.playClick();
+    setIsRefreshingLearners(true);
+    setRefreshLearnersSuccess(null);
+    try {
+      if (onRefreshLearners) {
+        await onRefreshLearners();
+      } else {
+        await fetchLearnersFromCloud();
+      }
+      soundEffects.playSuccess();
+      setRefreshLearnersSuccess('Đã làm mới danh sách tài khoản từ Cloud Firestore!');
+      setTimeout(() => setRefreshLearnersSuccess(null), 3500);
+    } catch (err) {
+      console.warn('Refresh learners error:', err);
+      soundEffects.playError();
+    } finally {
+      setTimeout(() => {
+        setIsRefreshingLearners(false);
+      }, 500);
+    }
+  };
 
   // Email Reply Modal State (Nội dung soạn sẵn, sao chép dán vào trình duyệt, KHÔNG mở mailto client)
   interface EmailReplyModalState {
@@ -1894,6 +1924,22 @@ EasyEng`;
                   </div>
                 )}
 
+                {refreshLearnersSuccess && (
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center justify-between gap-2 animate-in fade-in">
+                    <div className="flex items-center gap-2">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{refreshLearnersSuccess}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setRefreshLearnersSuccess(null)}
+                      className="text-emerald-700 hover:text-emerald-900 cursor-pointer text-xs"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-display font-bold text-lg text-slate-800">
@@ -1926,6 +1972,18 @@ EasyEng`;
                         </button>
                       )}
                     </div>
+
+                    {/* Refresh Button */}
+                    <button
+                      type="button"
+                      onClick={handleRefreshLearnersList}
+                      disabled={isRefreshingLearners}
+                      className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer shrink-0 disabled:opacity-60"
+                      title="Làm mới danh sách tài khoản từ Cloud"
+                    >
+                      <RotateCcw className={`w-3.5 h-3.5 ${isRefreshingLearners ? 'animate-spin text-amber-600' : 'text-slate-500'}`} />
+                      <span className="hidden sm:inline">Làm mới</span>
+                    </button>
 
                     {!isAddingLearner && (
                       <button

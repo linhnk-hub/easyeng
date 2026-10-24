@@ -1199,6 +1199,28 @@ export default function App() {
     }
   };
 
+  const handleRefreshLearners = async () => {
+    try {
+      const cloudList = await fetchLearnersFromCloud();
+      if (cloudList && cloudList.length > 0) {
+        const normalized = cloudList.map(l => {
+          const lUnits = gradeUnitsMap[l.grade] || getDefaultUnitsForGrade(l.grade);
+          return {
+            ...l,
+            username: resolveValidUsername(l.username, l.name),
+            level: calculateLevelFromXp(l.xp || 0),
+            unlockedBadges: computeLearnerBadges(l.completedUnits, l.unlockedBadges || [], lUnits)
+          };
+        });
+        setLearners(normalized);
+        localStorage.setItem(STORAGE_KEY_LEARNERS, JSON.stringify(normalized));
+      }
+    } catch (err) {
+      console.warn('Refresh learners notice:', err);
+      throw err;
+    }
+  };
+
   const handleAddCustomAvatar = (newAvatar: CustomAvatarItem) => {
     setCustomAvatars(prev => [...prev, newAvatar]);
     syncCustomAvatarToCloud(newAvatar).catch(err => {
@@ -1601,6 +1623,7 @@ export default function App() {
           onUpdateLearner={handleUpdateLearner}
           onAddLearner={handleAddLearner}
           onDeleteLearner={handleDeleteLearner}
+          onRefreshLearners={handleRefreshLearners}
           onAddCustomAvatar={handleAddCustomAvatar}
           onDeleteCustomAvatar={handleDeleteCustomAvatar}
           onAddClass={handleAddClass}
