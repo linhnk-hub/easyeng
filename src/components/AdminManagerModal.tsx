@@ -2063,14 +2063,13 @@ EasyEng`;
                             setNewEmail(sanitized);
                             setNewFormError(null);
                           }}
-                          placeholder="email@example.com"
                           className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
                         />
                       </div>
                       <div>
                         <label className="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
                           <span className="flex items-center gap-1">
-                            <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật (0-10):
+                            <Shield className="w-3.5 h-3.5 text-indigo-600" /> Số bảo mật:
                           </span>
                         </label>
                         <select
@@ -2432,7 +2431,7 @@ EasyEng`;
                               {learner.securityNumber !== undefined && (
                                 <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium ml-0.5" title="Số bảo mật">
                                   <Shield className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>Bảo mật: {learner.securityNumber}</span>
+                                  <span>Số bảo mật: {learner.securityNumber}</span>
                                 </span>
                               )}
                               {learner.phone && (
