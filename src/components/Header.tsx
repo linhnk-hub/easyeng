@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
       
           >
             <Award className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-purple-600" />
-            <span className="text-xs font-bold hidden sm:inline">Bảng thành tích</span>
+            <span className="text-xs font-bold hidden sm:inline">🏆 Bảng thành tích</span>
           </button>
         </div>
 

@@ -469,7 +469,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 type="submit"
                 className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 cursor-pointer active:scale-95 transition"
               >
-                Lưu thông tin ✨
+                Lưu thông tin
               </button>
             </div>
           </form>
@@ -585,7 +585,7 @@ export const AvatarModal: React.FC<AvatarModalProps> = ({
                 type="submit"
                 className="flex-1 py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-md shadow-amber-500/20 cursor-pointer"
               >
-                Đổi mật khẩu 🔐
+                Đổi mật khẩu
               </button>
             </div>
           </form>
