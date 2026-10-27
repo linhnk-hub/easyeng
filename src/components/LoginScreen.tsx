@@ -323,7 +323,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
       unlockedBadges: [],
       completedUnits: {},
       currentStreak: 1,
-      lastActiveDate: new Date().toISOString()
+      lastActiveDate: new Date().toISOString(),
+      lastLoginAt: new Date().toISOString()
     };
 
     // Record session for new profile

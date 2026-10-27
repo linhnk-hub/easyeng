@@ -39,7 +39,11 @@ import {
   Clock,
   Laptop,
   ExternalLink,
-  Send
+  Send,
+  ChevronDown,
+  Award,
+  Star,
+  Calendar
 } from 'lucide-react';
 import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest } from '../types';
 import { AVATARS } from '../data/unitsData';
@@ -284,6 +288,41 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       setTimeout(() => {
         setIsRefreshingLearners(false);
       }, 500);
+    }
+  };
+
+  // Member detail modal state & Action dropdown state
+  const [viewingDetailLearner, setViewingDetailLearner] = useState<UserProfile | null>(null);
+  const [activeActionMenuLearnerId, setActiveActionMenuLearnerId] = useState<string | null>(null);
+
+  // Format "Đăng nhập gần nhất"
+  const formatLastLogin = (dateStr?: string): string => {
+    if (!dateStr) return 'Chưa ghi nhận';
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return 'Chưa ghi nhận';
+      const now = new Date();
+      const isToday = d.toDateString() === now.toDateString();
+
+      const yesterday = new Date();
+      yesterday.setDate(now.getDate() - 1);
+      const isYesterday = d.toDateString() === yesterday.toDateString();
+
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+
+      if (isToday) {
+        return `Hôm nay ${hours}:${minutes}`;
+      }
+      if (isYesterday) {
+        return `Hôm qua ${hours}:${minutes}`;
+      }
+      return `${hours}:${minutes} ${day}/${month}/${year}`;
+    } catch {
+      return 'Chưa ghi nhận';
     }
   };
 
@@ -2457,151 +2496,190 @@ EasyEng`;
                       );
                     }
 
-                    const completedUnitsCount = Object.keys(learner.completedUnits || {}).length;
+                    const isMenuOpen = activeActionMenuLearnerId === learner.learnerId;
+                    const lastLoginDisplay = formatLastLogin(learner.lastLoginAt || learner.lastActiveDate);
 
                     return (
                       <div
                         key={learner.learnerId}
-                        className="p-4 rounded-2xl bg-white border border-slate-200 hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-3.5 shadow-2xs"
+                        className={`group relative p-3 sm:px-4 sm:py-3.5 rounded-2xl bg-white border ${
+                          isMenuOpen
+                            ? 'border-amber-400 ring-2 ring-amber-100 shadow-sm'
+                            : 'border-slate-200 hover:border-amber-300 hover:bg-amber-50/20'
+                        } transition-all duration-150 flex items-center justify-between gap-3 shadow-2xs`}
                       >
-                        {/* Cụm thông tin định danh & chỉ số bên trái (Proximity Grouping) */}
-                        <div className="flex items-center gap-3.5 min-w-0">
-                          {/* Avatar: Khung trung tính 60% */}
-                          <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+                        {/* Cụm thông tin tài khoản: Hình đại diện, Tên đăng nhập & Đăng nhập gần nhất */}
+                        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                          {/* Hình đại diện */}
+                          <div className="w-11 h-11 rounded-2xl bg-slate-100 border border-slate-200/90 flex items-center justify-center text-2xl shrink-0 overflow-hidden shadow-2xs">
                             {renderAvatarContent(learner.avatar)}
                           </div>
 
-                          {/* Định danh: Tên, Cấp lớp, Liên hệ & Chỉ số phụ */}
-                          <div className="min-w-0 space-y-1">
-                            {/* Hàng 1: Thông tin định danh, Cấp lớp & Bảo mật/Liên hệ gộp chung */}
+                          {/* Tên đăng nhập & Đăng nhập gần nhất */}
+                          <div className="min-w-0 space-y-0.5">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h4 className="font-display font-bold text-base text-slate-900 font-mono tracking-tight">
+                              <span className="font-display font-bold text-sm sm:text-base text-slate-900 font-mono tracking-tight">
                                 {learner.username || resolveValidUsername(learner.username, learner.name)}
-                              </h4>
+                              </span>
                               {learner.name && learner.name.toLowerCase() !== (learner.username || '').toLowerCase() && (
-                                <span className="text-xs text-slate-500 font-medium">
+                                <span className="text-xs text-slate-500 font-medium hidden xs:inline">
                                   ({learner.name})
                                 </span>
                               )}
-                              <span className="text-xs font-semibold text-slate-600 bg-slate-100 border border-slate-200/90 px-2 py-0.5 rounded-md">
+                              <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-md">
                                 Lớp {learner.grade}
                               </span>
-                              {learner.securityNumber !== undefined && (
-                                <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium ml-0.5" title="Số bảo mật">
-                                  <Shield className="w-3.5 h-3.5 text-slate-400" />
-                                  <span>Số bảo mật: {learner.securityNumber}</span>
-                                </span>
-                              )}
-                              {learner.phone && (
-                                <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium">
-                                  <span className="text-slate-300">•</span>
-                                  <Phone className="w-3 h-3 text-slate-400" />
-                                  <span>{learner.phone}</span>
-                                </span>
-                              )}
-                              {learner.email && (
-                                <span className="inline-flex items-center gap-1 text-xs text-slate-500 font-medium truncate max-w-[200px]" title={learner.email}>
-                                  <span className="text-slate-300">•</span>
-                                  <Mail className="w-3 h-3 text-slate-400" />
-                                  <span>{learner.email}</span>
-                                </span>
-                              )}
                             </div>
 
-                            {/* Hàng 2: Chỉ số phụ dạng chuỗi ngắn gọn, ngăn cách thông minh bằng dấu chấm tròn nhỏ • */}
-                            {(() => {
-                              const statsItems = [
-                                `⭐ ${learner.totalStars || 0} sao`,
-                                `⚡ ${learner.xp || 0} XP (Lv.${learner.level || 1})`,
-                                `📚 ${completedUnitsCount} bài đã học`,
-                                learner.currentStreak && learner.currentStreak > 0 ? `🔥 ${learner.currentStreak} ngày` : null,
-                                learner.unlockedBadges && learner.unlockedBadges.length > 0 ? `🏅 ${learner.unlockedBadges.length} huy hiệu` : null
-                              ].filter(Boolean);
-
-                              return (
-                                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-slate-600 pt-0.5">
-                                  {statsItems.map((st, i) => (
-                                    <React.Fragment key={i}>
-                                      {i > 0 && <span className="text-slate-300 font-bold">•</span>}
-                                      <span className="font-semibold text-slate-700 whitespace-nowrap">{st}</span>
-                                    </React.Fragment>
-                                  ))}
-                                </div>
-                              );
-                            })()}
+                            {/* Mục Đăng nhập gần nhất */}
+                            <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                              <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                              <span className="text-slate-500">Đăng nhập gần nhất:</span>
+                              <span className="font-semibold text-slate-700">{lastLoginDisplay}</span>
+                            </div>
                           </div>
                         </div>
 
-                        {/* Toàn bộ Action buttons đẩy hẳn về sát lề phải (ml-auto) */}
-                        <div className="flex items-center gap-1.5 self-end md:self-center ml-auto shrink-0 pt-2 md:pt-0">
-                          {/* Nút Mở khóa / Ngắt phiên thiết bị */}
+                        {/* Khi rà chuột lên hàng của tài khoản nào thì góc bên phải hiện nút Chi tiết và nút Hành động */}
+                        <div className={`flex items-center gap-1.5 shrink-0 transition-opacity duration-150 relative ${
+                          isMenuOpen ? 'opacity-100 z-30' : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100'
+                        }`}>
+                          {/* Nút Chi tiết */}
                           <button
                             type="button"
-                            onClick={async () => {
+                            onClick={() => {
                               soundEffects.playClick();
-                              await clearAccountActiveSession(
-                                learner.learnerId,
-                                'admin_unlocked',
-                                'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
-                              );
-                              if (learner.username && learner.username !== learner.learnerId) {
-                                await clearAccountActiveSession(
-                                  learner.username,
-                                  'admin_unlocked',
-                                  'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
-                                );
-                              }
-                              soundEffects.playSuccess();
-                              setUnlockedSessionMsg(`Đã mở khóa phiên và ngắt kết nối thiết bị cho tài khoản "${learner.username || learner.name}" thành công!`);
-                              setTimeout(() => setUnlockedSessionMsg(null), 5000);
+                              setViewingDetailLearner(learner);
+                              setActiveActionMenuLearnerId(null);
                             }}
-                            className="px-2.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95 shadow-2xs"
-                            title="Ngắt kết nối thiết bị đang đăng nhập tài khoản này"
+                            className="px-3 py-1.5 rounded-xl bg-white hover:bg-amber-50 text-amber-800 border border-amber-200/80 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+                            title="Xem chi tiết bảng thông tin thành viên"
                           >
-                            <Unlock className="w-3.5 h-3.5 text-slate-500" /> Ngắt phiên
+                            <Eye className="w-3.5 h-3.5 text-amber-600" />
+                            <span>Chi tiết</span>
                           </button>
 
-                          {/* Nút Reset tài khoản (Đỏ mờ theo quy chuẩn) */}
-                          <button
-                            type="button"
-                            onClick={() => handleResetLearnerStats(learner)}
-                            className="px-2.5 py-1.5 rounded-xl bg-rose-50/80 hover:bg-rose-100 text-rose-700 border border-rose-200/70 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95"
-                            title="Đặt lại toàn bộ thành tích của tài khoản này về 0"
-                          >
-                            <RotateCcw className="w-3.5 h-3.5 text-rose-600" /> Reset TK
-                          </button>
-
-                          {/* Nút Sửa tài khoản */}
-                          <button
-                            type="button"
-                            onClick={() => handleStartEditLearner(learner)}
-                            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-amber-50 text-slate-700 hover:text-amber-800 border border-transparent hover:border-amber-200 text-xs font-semibold flex items-center gap-1 transition cursor-pointer active:scale-95"
-                            title="Sửa tên, avatar, gán lớp"
-                          >
-                            <Edit2 className="w-3.5 h-3.5 text-slate-500" /> Sửa TK
-                          </button>
-
-                          {/* Nút Xóa tài khoản (Đỏ mờ khi hover) */}
-                          {learners.length > 1 && (
+                          {/* Nút Hành động */}
+                          <div className="relative">
                             <button
                               type="button"
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 soundEffects.playClick();
-                                if (window.confirm(`Bạn có chắc muốn xóa người học "${learner.username || learner.name}"?`)) {
-                                  onDeleteLearner(learner.learnerId);
-                                }
+                                setActiveActionMenuLearnerId(isMenuOpen ? null : learner.learnerId);
                               }}
-                              className="p-1.5 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer active:scale-95"
-                              title="Xóa người học"
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer ${
+                                isMenuOpen
+                                  ? 'bg-amber-500 text-white border border-amber-600 shadow-xs'
+                                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                              }`}
+                              title="Các thao tác quản lý tài khoản"
                             >
-                              <Trash2 className="w-4 h-4" />
+                              <SlidersHorizontal className="w-3.5 h-3.5" />
+                              <span>Hành động</span>
+                              <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`} />
                             </button>
-                          )}
+
+                            {/* Menu bung ra khi bấm vào Hành động: Ngắt phiên, Sửa thông tin, Reset TK, Xóa TK */}
+                            {isMenuOpen && (
+                              <div
+                                onClick={(e) => e.stopPropagation()}
+                                className="absolute right-0 top-full mt-2 w-44 bg-white border border-slate-200 rounded-2xl shadow-xl py-1.5 z-40 animate-in fade-in zoom-in-95 duration-100 space-y-0.5"
+                              >
+                                {/* Ngắt phiên */}
+                                <button
+                                  type="button"
+                                  onClick={async () => {
+                                    soundEffects.playClick();
+                                    setActiveActionMenuLearnerId(null);
+                                    await clearAccountActiveSession(
+                                      learner.learnerId,
+                                      'admin_unlocked',
+                                      'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
+                                    );
+                                    if (learner.username && learner.username !== learner.learnerId) {
+                                      await clearAccountActiveSession(
+                                        learner.username,
+                                        'admin_unlocked',
+                                        'Tài khoản này đang được yêu cầu xác minh tình trạng đăng nhập'
+                                      );
+                                    }
+                                    soundEffects.playSuccess();
+                                    setUnlockedSessionMsg(`Đã mở khóa phiên và ngắt kết nối thiết bị cho tài khoản "${learner.username || learner.name}" thành công!`);
+                                    setTimeout(() => setUnlockedSessionMsg(null), 5000);
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-amber-50 hover:text-amber-800 flex items-center gap-2.5 transition cursor-pointer"
+                                  title="Ngắt kết nối thiết bị đang đăng nhập tài khoản này"
+                                >
+                                  <Unlock className="w-4 h-4 text-amber-600 shrink-0" />
+                                  <span>Ngắt phiên</span>
+                                </button>
+
+                                {/* Sửa thông tin */}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    soundEffects.playClick();
+                                    setActiveActionMenuLearnerId(null);
+                                    handleStartEditLearner(learner);
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-sky-50 hover:text-sky-800 flex items-center gap-2.5 transition cursor-pointer"
+                                  title="Sửa tên đăng nhập, avatar, lớp, mật khẩu"
+                                >
+                                  <Edit2 className="w-4 h-4 text-sky-600 shrink-0" />
+                                  <span>Sửa thông tin</span>
+                                </button>
+
+                                {/* Reset TK */}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    soundEffects.playClick();
+                                    setActiveActionMenuLearnerId(null);
+                                    handleResetLearnerStats(learner);
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-rose-50 hover:text-rose-700 flex items-center gap-2.5 transition cursor-pointer"
+                                  title="Đặt lại toàn bộ thành tích của tài khoản này về 0"
+                                >
+                                  <RotateCcw className="w-4 h-4 text-rose-600 shrink-0" />
+                                  <span>Reset TK</span>
+                                </button>
+
+                                <div className="my-1 border-t border-slate-100" />
+
+                                {/* Xóa TK */}
+                                <button
+                                  type="button"
+                                  disabled={learners.length <= 1}
+                                  onClick={() => {
+                                    soundEffects.playClick();
+                                    setActiveActionMenuLearnerId(null);
+                                    if (window.confirm(`Bạn có chắc muốn xóa người học "${learner.username || learner.name}"? Thao tác này không thể hoàn tác.`)) {
+                                      onDeleteLearner(learner.learnerId);
+                                    }
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-rose-600 hover:bg-rose-50 disabled:opacity-40 disabled:hover:bg-transparent disabled:cursor-not-allowed flex items-center gap-2.5 transition cursor-pointer"
+                                  title={learners.length <= 1 ? 'Không thể xóa tài khoản duy nhất' : 'Xóa tài khoản này'}
+                                >
+                                  <Trash2 className="w-4 h-4 text-rose-600 shrink-0" />
+                                  <span>Xóa TK</span>
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </div>
                     );
                   })}
                 </div>
+              )}
+
+              {/* Backdrop để đóng menu Hành động khi click ra ngoài */}
+              {activeActionMenuLearnerId && (
+                <div
+                  className="fixed inset-0 z-20"
+                  onClick={() => setActiveActionMenuLearnerId(null)}
+                />
               )}
             </div>
 
@@ -4466,6 +4544,198 @@ EasyEng`;
                   Đóng
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* MODAL CHI TIẾT BẢNG THÔNG TIN THÀNH VIÊN */}
+      {/* ========================================================= */}
+      {viewingDetailLearner && (
+        <div
+          className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+          onClick={() => setViewingDetailLearner(null)}
+        >
+          <div
+            className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header modal */}
+            <div className="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 px-5 py-4 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center">
+                  <User className="w-4 h-4 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-display font-bold text-base leading-tight">
+                    Chi tiết bảng thông tin thành viên
+                  </h3>
+                  <p className="text-[11px] text-amber-100 font-medium">
+                    Hồ sơ định danh &amp; tiến trình học tập
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setViewingDetailLearner(null)}
+                className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition active:scale-95 cursor-pointer"
+                title="Đóng"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Profile banner & Avatar */}
+            <div className="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+              <div className="flex items-center gap-4 pb-4 border-b border-slate-100">
+                <div className="w-16 h-16 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-3xl shrink-0 overflow-hidden shadow-sm">
+                  {renderAvatarContent(viewingDetailLearner.avatar)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h4 className="font-display font-bold text-lg text-slate-900 font-mono tracking-tight">
+                      {viewingDetailLearner.username || resolveValidUsername(viewingDetailLearner.username, viewingDetailLearner.name)}
+                    </h4>
+                    <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-lg">
+                      Lớp {viewingDetailLearner.grade}
+                    </span>
+                  </div>
+                  {viewingDetailLearner.name && viewingDetailLearner.name.toLowerCase() !== (viewingDetailLearner.username || '').toLowerCase() && (
+                    <p className="text-xs text-slate-600 font-medium mt-0.5">
+                      Họ và tên: <span className="font-semibold text-slate-800">{viewingDetailLearner.name}</span>
+                    </p>
+                  )}
+                  {viewingDetailLearner.nickname && viewingDetailLearner.nickname !== viewingDetailLearner.name && (
+                    <p className="text-xs text-slate-500 font-medium">
+                      Biệt danh: <span className="font-semibold text-slate-700">{viewingDetailLearner.nickname}</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Bảng chi tiết 1: Thông tin tài khoản & Bảo mật */}
+              <div>
+                <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Shield className="w-3.5 h-3.5 text-amber-600" /> Thông tin tài khoản &amp; Liên hệ
+                </h5>
+                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Tên đăng nhập:</span>
+                    <span className="font-mono font-bold text-slate-800">{viewingDetailLearner.username || '—'}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Mật khẩu đăng nhập:</span>
+                    <span className="font-mono font-bold text-slate-800">{viewingDetailLearner.pin ? viewingDetailLearner.pin : '(Chưa đặt)'}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Cấp lớp học:</span>
+                    <span className="font-semibold text-slate-800">Lớp {viewingDetailLearner.grade} ({getGradeLevelName(viewingDetailLearner.grade)})</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Số bảo mật:</span>
+                    <span className="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
+                      {viewingDetailLearner.securityNumber !== undefined ? `Số ${viewingDetailLearner.securityNumber}` : 'Chưa thiết lập'}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Số điện thoại:</span>
+                    <span className="font-semibold text-slate-800">{viewingDetailLearner.phone || 'Chưa cập nhật'}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-1">
+                    <span className="text-slate-500 font-medium">Địa chỉ Email:</span>
+                    <span className="font-semibold text-slate-800 truncate max-w-[220px]" title={viewingDetailLearner.email}>
+                      {viewingDetailLearner.email || 'Chưa cập nhật'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bảng chi tiết 2: Thời gian đăng nhập & Phiên hoạt động */}
+              <div>
+                <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
+                </h5>
+                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Đăng nhập gần nhất:</span>
+                    <span className="font-semibold text-slate-800 flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      {formatLastLogin(viewingDetailLearner.lastLoginAt || viewingDetailLearner.lastActiveDate)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between py-1">
+                    <span className="text-slate-500 font-medium">Hoạt động gần nhất:</span>
+                    <span className="font-semibold text-slate-800 flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      {formatLastLogin(viewingDetailLearner.lastActiveDate)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bảng chi tiết 3: Thành tích học tập */}
+              <div>
+                <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                  <Star className="w-3.5 h-3.5 text-amber-500" /> Thành tích &amp; Tiến trình học
+                </h5>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5">
+                    <p className="text-lg font-bold text-amber-700">⭐ {viewingDetailLearner.totalStars || 0}</p>
+                    <p className="text-[11px] font-medium text-amber-900">Tổng sao</p>
+                  </div>
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-2.5">
+                    <p className="text-lg font-bold text-blue-700">⚡ {viewingDetailLearner.xp || 0}</p>
+                    <p className="text-[11px] font-medium text-blue-900">XP (Lv.{viewingDetailLearner.level || 1})</p>
+                  </div>
+                  <div className="bg-orange-50 border border-orange-200 rounded-xl p-2.5">
+                    <p className="text-lg font-bold text-orange-700">🔥 {viewingDetailLearner.currentStreak || 0}</p>
+                    <p className="text-[11px] font-medium text-orange-900">Chuỗi ngày</p>
+                  </div>
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5">
+                    <p className="text-lg font-bold text-emerald-700">📚 {Object.keys(viewingDetailLearner.completedUnits || {}).length}</p>
+                    <p className="text-[11px] font-medium text-emerald-900">Bài đã học</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Huy hiệu đã đạt */}
+              {viewingDetailLearner.unlockedBadges && viewingDetailLearner.unlockedBadges.length > 0 && (
+                <div>
+                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Award className="w-3.5 h-3.5 text-amber-500" /> Huy hiệu đã đạt ({viewingDetailLearner.unlockedBadges.length})
+                  </h5>
+                  <div className="flex flex-wrap gap-2 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl">
+                    {viewingDetailLearner.unlockedBadges.map((badgeId) => (
+                      <span key={badgeId} className="px-2.5 py-1 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-2xs">
+                        🏅 {badgeId}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer buttons */}
+            <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const l = viewingDetailLearner;
+                  setViewingDetailLearner(null);
+                  handleStartEditLearner(l);
+                }}
+                className="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+              >
+                <Edit2 className="w-3.5 h-3.5 text-sky-600" /> Sửa thông tin
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewingDetailLearner(null)}
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer"
+              >
+                Đóng
+              </button>
             </div>
           </div>
         </div>

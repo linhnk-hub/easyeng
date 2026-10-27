@@ -59,6 +59,7 @@ export interface UserProfile {
   currentStreak: number;
   highestStreak?: number;
   lastActiveDate: string;
+  lastLoginAt?: string;
   pin?: string;
   fullName?: string;
   nickname?: string;

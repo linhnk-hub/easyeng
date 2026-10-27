@@ -1012,19 +1012,18 @@ export default function App() {
         target.highestStreak
       );
       const correctLevel = calculateLevelFromXp(target.xp);
+      const nowIso = new Date().toISOString();
 
-      if (streakRes.streakUpdated || !target.lastActiveDate || target.level !== correctLevel) {
-        const updated: UserProfile = {
-          ...target,
-          level: correctLevel,
-          currentStreak: streakRes.currentStreak,
-          highestStreak: streakRes.highestStreak,
-          lastActiveDate: new Date().toISOString()
-        };
-        syncLearnerToCloud(updated).catch(() => {});
-        return prev.map(l => l.learnerId === learnerId ? updated : l);
-      }
-      return prev;
+      const updated: UserProfile = {
+        ...target,
+        level: correctLevel,
+        currentStreak: streakRes.currentStreak,
+        highestStreak: streakRes.highestStreak,
+        lastActiveDate: nowIso,
+        lastLoginAt: nowIso
+      };
+      syncLearnerToCloud(updated).catch(() => {});
+      return prev.map(l => l.learnerId === learnerId ? updated : l);
     });
   };
 
