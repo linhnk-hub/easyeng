@@ -294,6 +294,8 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   // Member detail modal state & Action dropdown state
   const [viewingDetailLearner, setViewingDetailLearner] = useState<UserProfile | null>(null);
   const [activeActionMenuLearnerId, setActiveActionMenuLearnerId] = useState<string | null>(null);
+  const [showDetailPin, setShowDetailPin] = useState(false);
+  const [showDetailSecNum, setShowDetailSecNum] = useState(false);
 
   // Format "Đăng nhập gần nhất"
   const formatLastLogin = (dateStr?: string): string => {
@@ -2549,6 +2551,8 @@ EasyEng`;
                             type="button"
                             onClick={() => {
                               soundEffects.playClick();
+                              setShowDetailPin(false);
+                              setShowDetailSecNum(false);
                               setViewingDetailLearner(learner);
                               setActiveActionMenuLearnerId(null);
                             }}
@@ -2605,11 +2609,10 @@ EasyEng`;
                                       );
                                     }
                                     soundEffects.playSuccess();
-                                    setUnlockedSessionMsg(`Đã mở khóa phiên và ngắt kết nối thiết bị cho tài khoản "${learner.username || learner.name}" thành công!`);
+                                    setUnlockedSessionMsg(`Đã ngắt phiên truy cập tài khoản "${learner.username || learner.name}" thành công!`);
                                     setTimeout(() => setUnlockedSessionMsg(null), 5000);
                                   }}
                                   className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-amber-50 hover:text-amber-800 flex items-center gap-2.5 transition cursor-pointer"
-                                  title="Ngắt kết nối thiết bị đang đăng nhập tài khoản này"
                                 >
                                   <Unlock className="w-4 h-4 text-amber-600 shrink-0" />
                                   <span>Ngắt phiên</span>
@@ -2624,7 +2627,6 @@ EasyEng`;
                                     handleStartEditLearner(learner);
                                   }}
                                   className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-sky-50 hover:text-sky-800 flex items-center gap-2.5 transition cursor-pointer"
-                                  title="Sửa tên đăng nhập, avatar, lớp, mật khẩu"
                                 >
                                   <Edit2 className="w-4 h-4 text-sky-600 shrink-0" />
                                   <span>Sửa thông tin</span>
@@ -4569,11 +4571,9 @@ EasyEng`;
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base leading-tight">
-                    Chi tiết bảng thông tin thành viên
+                    Chi tiết thông tin tài khoản
                   </h3>
-                  <p className="text-[11px] text-amber-100 font-medium">
-                    Hồ sơ định danh &amp; tiến trình học tập
-                  </p>
+                
                 </div>
               </div>
               <button
@@ -4617,7 +4617,7 @@ EasyEng`;
               {/* Bảng chi tiết 1: Thông tin tài khoản & Bảo mật */}
               <div>
                 <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-amber-600" /> Thông tin tài khoản &amp; Liên hệ
+                  <Shield className="w-3.5 h-3.5 text-amber-600" /> Thông tin tài khoản 
                 </h5>
                 <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
                   <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
@@ -4626,18 +4626,55 @@ EasyEng`;
                   </div>
                   <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
                     <span className="text-slate-500 font-medium">Mật khẩu đăng nhập:</span>
-                    <span className="font-mono font-bold text-slate-800">{viewingDetailLearner.pin ? viewingDetailLearner.pin : '(Chưa đặt)'}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Cấp lớp học:</span>
-                    <span className="font-semibold text-slate-800">Lớp {viewingDetailLearner.grade} ({getGradeLevelName(viewingDetailLearner.grade)})</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-mono font-bold text-slate-800 tracking-wider">
+                        {viewingDetailLearner.pin
+                          ? (showDetailPin ? viewingDetailLearner.pin : '••••••••')
+                          : '(Chưa đặt)'}
+                      </span>
+                      {Boolean(viewingDetailLearner.pin) && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playClick();
+                            setShowDetailPin(prev => !prev);
+                          }}
+                          className="p-1 rounded-lg hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 transition cursor-pointer"
+                          title={showDetailPin ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                        >
+                          {showDetailPin ? <EyeOff className="w-3.5 h-3.5 text-slate-600" /> : <Eye className="w-3.5 h-3.5 text-slate-500" />}
+                        </button>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
                     <span className="text-slate-500 font-medium">Số bảo mật:</span>
-                    <span className="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
-                      {viewingDetailLearner.securityNumber !== undefined ? `Số ${viewingDetailLearner.securityNumber}` : 'Chưa thiết lập'}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
+                        {viewingDetailLearner.securityNumber !== undefined
+                          ? (showDetailSecNum ? `Số ${viewingDetailLearner.securityNumber}` : 'Số ••')
+                          : 'Chưa thiết lập'}
+                      </span>
+                      {viewingDetailLearner.securityNumber !== undefined && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playClick();
+                            setShowDetailSecNum(prev => !prev);
+                          }}
+                          className="p-1 rounded-lg hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 transition cursor-pointer"
+                          title={showDetailSecNum ? 'Ẩn số bảo mật' : 'Hiện số bảo mật'}
+                        >
+                          {showDetailSecNum ? <EyeOff className="w-3.5 h-3.5 text-indigo-600" /> : <Eye className="w-3.5 h-3.5 text-indigo-500" />}
+                        </button>
+                      )}
+                    </div>
                   </div>
+                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                    <span className="text-slate-500 font-medium">Trình độ:</span>
+                    <span className="font-semibold text-slate-800">Lớp {viewingDetailLearner.grade} ({getGradeLevelName(viewingDetailLearner.grade)})</span>
+                  </div>
+
                   <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
                     <span className="text-slate-500 font-medium">Số điện thoại:</span>
                     <span className="font-semibold text-slate-800">{viewingDetailLearner.phone || 'Chưa cập nhật'}</span>

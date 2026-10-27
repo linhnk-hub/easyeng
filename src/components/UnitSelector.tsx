@@ -51,6 +51,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   const [activeBookTab, setActiveBookTab] = useState<'Phần 1' | 'Phần 2'>('Phần 1');
   const [searchQuery, setSearchQuery] = useState('');
   const [preGamePrompt, setPreGamePrompt] = useState<PreGamePrompt | null>(null);
+  const [userSelectedUnitId, setUserSelectedUnitId] = useState<number | null>(null);
 
   // Chương trình từ Cấp 2 (Lớp 6 - 12) hoặc danh sách <= 12 unit: hiển thị trọn vẹn toàn bộ 12 unit không chia 2 phần
   const isSecondaryOrHigher = user.grade >= 6 || units.length <= 12;
@@ -123,6 +124,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
   };
 
   const handleGameSelect = (unit: UnitData, gameType: 'flashcards' | 'memory' | 'wordScramble' | 'sentence' | 'quiz') => {
+    setUserSelectedUnitId(unit.unit);
     soundEffects.playClick();
     const currentStars = getGameStars(unit.unit, gameType);
 
@@ -415,14 +417,18 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
           {filteredUnits.map((unit) => {
           const stars = getUnitStars(unit.unit);
           const maxStars = getUnitMaxStars();
-          const isSelected = selectedUnitId === unit.unit;
+          const isSelected = userSelectedUnitId !== null && userSelectedUnitId === unit.unit;
           const unitStats = user.completedUnits[unit.unit];
           const hasLearnedVocab = unitStats?.flashcardsDone;
 
           return (
             <div
               key={unit.unit}
-              className={`group bg-white rounded-3xl border-2 transition-all duration-300 p-5 sm:p-6 shadow-sm hover:shadow-md relative overflow-hidden flex flex-col justify-between ${
+              onClick={() => {
+                setUserSelectedUnitId(unit.unit);
+                onSelectUnit(unit);
+              }}
+              className={`group bg-white rounded-3xl border-2 transition-all duration-300 p-5 sm:p-6 shadow-sm hover:shadow-md relative overflow-hidden flex flex-col justify-between cursor-pointer ${
                 isSelected
                   ? 'border-amber-400 ring-4 ring-amber-100'
                   : 'border-slate-100 hover:border-amber-200'
