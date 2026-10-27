@@ -82,24 +82,6 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop / Tablet (sm trở lên): Hiển thị đầy đủ 3 mục */}
         <div className="hidden sm:flex items-center gap-1.5 sm:gap-2.5">
-          {/* Stars */}
-          <div className="h-9 sm:h-10 flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 sm:px-3 rounded-2xl shadow-xs shrink-0">
-            <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-500 animate-pulse" />
-            <span className="font-display font-bold text-amber-900 text-xs sm:text-sm">
-              {user.totalStars}
-            </span>
-            <span className="text-xs text-amber-700/80 hidden xs:inline">sao</span>
-          </div>
-
-          {/* Streak */}
-          <div className="h-9 sm:h-10 flex items-center gap-1.5 bg-orange-50 border border-orange-200 px-2.5 sm:px-3 rounded-2xl shadow-xs shrink-0" title="Chuỗi học tập liên tục">
-            <Flame className="w-4 h-4 sm:w-5 sm:h-5 fill-orange-500 text-orange-500" />
-            <span className="font-display font-bold text-orange-900 text-xs sm:text-sm">
-              {user.currentStreak}
-            </span>
-            <span className="text-xs text-orange-700/80 hidden xs:inline">ngày</span>
-          </div>
-
           {/* Badges */}
           <button
             onClick={() => {
@@ -107,10 +89,10 @@ export const Header: React.FC<HeaderProps> = ({
               onOpenBadges();
             }}
             className="h-9 sm:h-10 flex items-center gap-1.5 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2.5 sm:px-3 rounded-2xl transition cursor-pointer text-purple-700 active:scale-95 shadow-xs shrink-0"
-            title="Bảng thành tích"
+      
           >
             <Award className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-purple-600" />
-            <span className="text-xs font-bold hidden sm:inline">Huy hiệu</span>
+            <span className="text-xs font-bold hidden sm:inline">Bảng thành tích</span>
             <span className="text-xs bg-purple-200 text-purple-800 font-bold px-1.5 py-0.2 rounded-full">
               {user.unlockedBadges.length}
             </span>
