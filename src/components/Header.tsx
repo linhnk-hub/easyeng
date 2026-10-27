@@ -91,8 +91,8 @@ export const Header: React.FC<HeaderProps> = ({
             className="h-9 sm:h-10 flex items-center gap-1.5 bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2.5 sm:px-3 rounded-2xl transition cursor-pointer text-purple-700 active:scale-95 shadow-xs shrink-0"
       
           >
-            <className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-orange-600" />
-            <span className="text-xs font-bold hidden sm:inline">🏆 Bảng thành tích</span>
+            <Award className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-orange-600" />
+            <span className="text-xs font-bold hidden sm:inline">Bảng thành tích</span>
           </button>
         </div>
 
