@@ -1081,10 +1081,21 @@ export default function App() {
       updateSessionHeartbeat(activeLearnerId, deviceId, curSessId);
     }, 30 * 1000);
 
+    // 6. Tự động dọn phiên khi người dùng đóng tab trình duyệt
+    const handleBeforeUnload = () => {
+      if (activeLearnerId) {
+        clearAccountActiveSession(activeLearnerId, 'logged_out').catch(() => {});
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('pagehide', handleBeforeUnload);
+
     return () => {
       unsubscribeSession();
       window.removeEventListener('focus', handleFocus);
       document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('pagehide', handleBeforeUnload);
       clearInterval(pollTimer);
       clearInterval(heartbeatTimer);
     };
@@ -1166,7 +1177,30 @@ export default function App() {
   const handleSwitchLearner = () => {
     soundEffects.playClick();
     if (activeLearnerId) {
-      clearAccountActiveSession(activeLearnerId, 'logged_out').catch(() => {});
+      const currentId = activeLearnerId;
+      clearAccountActiveSession(currentId, 'logged_out').catch(() => {});
+      const nowIso = new Date().toISOString();
+      setLearners(prev => prev.map(l => {
+        if (l.learnerId !== currentId) return l;
+        const existingLogs = Array.isArray(l.activityLogs) ? l.activityLogs : [];
+        const newLogs = [
+          ...existingLogs,
+          {
+            id: `${Date.now()}_logout`,
+            activity: 'Đã đăng xuất',
+            timestamp: nowIso,
+            type: 'login' as const
+          }
+        ].slice(-50);
+        const updated = {
+          ...l,
+          lastActiveDate: nowIso,
+          lastActiveActivity: 'Đã đăng xuất',
+          activityLogs: newLogs
+        };
+        syncLearnerToCloud(updated).catch(() => {});
+        return updated;
+      }));
     }
     try {
       localStorage.removeItem('easyeng_current_session_id');
@@ -1179,7 +1213,30 @@ export default function App() {
     soundEffects.playSuccess();
     setShowExitModal(false);
     if (activeLearnerId) {
-      clearAccountActiveSession(activeLearnerId, 'logged_out').catch(() => {});
+      const currentId = activeLearnerId;
+      clearAccountActiveSession(currentId, 'logged_out').catch(() => {});
+      const nowIso = new Date().toISOString();
+      setLearners(prev => prev.map(l => {
+        if (l.learnerId !== currentId) return l;
+        const existingLogs = Array.isArray(l.activityLogs) ? l.activityLogs : [];
+        const newLogs = [
+          ...existingLogs,
+          {
+            id: `${Date.now()}_logout`,
+            activity: 'Đã đăng xuất',
+            timestamp: nowIso,
+            type: 'login' as const
+          }
+        ].slice(-50);
+        const updated = {
+          ...l,
+          lastActiveDate: nowIso,
+          lastActiveActivity: 'Đã đăng xuất',
+          activityLogs: newLogs
+        };
+        syncLearnerToCloud(updated).catch(() => {});
+        return updated;
+      }));
     }
     try {
       localStorage.removeItem('easyeng_current_session_id');

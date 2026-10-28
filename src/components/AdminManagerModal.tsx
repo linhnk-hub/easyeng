@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   X,
   Lock,
@@ -45,9 +45,19 @@ import {
   Star,
   Calendar,
   Activity,
-  History
+  History,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
-import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest, UserActivityLogItem } from '../types';
+import {
+  UserProfile,
+  UnitData,
+  ExerciseCluster,
+  PasswordResetRequest,
+  AccountVerificationRequest,
+  UserActivityLogItem,
+  UserActiveSession
+} from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
@@ -68,7 +78,9 @@ import {
   fetchAccountVerificationRequestsFromCloud,
   deleteAccountVerificationRequestFromCloud,
   clearAccountActiveSession,
-  fetchLearnersFromCloud
+  fetchLearnersFromCloud,
+  subscribeToAllActiveSessions,
+  isLearnerOnline
 } from '../services/firebase';
 
 const ADMIN_EMAIL = 'admin@easyeng.online';
@@ -353,6 +365,75 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     } catch {
       return 'Chưa ghi nhận';
     }
+  };
+
+  // Real-time Active Sessions Map
+  const [activeSessionsMap, setActiveSessionsMap] = useState<Record<string, UserActiveSession>>({});
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const unsubscribe = subscribeToAllActiveSessions((sessions) => {
+      setActiveSessionsMap(sessions);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [isAuthenticated]);
+
+  /**
+   * Quy tắc xác định tình trạng đăng nhập và hoạt động:
+   * 1. Chỉ coi là "Trực tuyến" khi có bản ghi active_sessions, isLoggedIn === true,
+   *    không có terminationReason, và nhịp tim trong vòng 3 phút.
+   * 2. Nếu không trực tuyến -> Hiển thị "Ngoại tuyến", hoạt động hiển thị "Đã đăng xuất",
+   *    "Chưa đăng nhập" hoặc "Lần cuối: ...". Tuyệt đối không để "Đang ở Trang chủ" với chấm xanh hoạt động.
+   */
+  const getLearnerOnlineInfo = (learner: UserProfile) => {
+    const session =
+      activeSessionsMap[learner.learnerId] ||
+      activeSessionsMap[learner.learnerId.toLowerCase()] ||
+      (learner.username ? activeSessionsMap[learner.username.toLowerCase()] : undefined);
+
+    const isOnline = isLearnerOnline(session);
+
+    if (isOnline) {
+      const rawActivity = learner.lastActiveActivity;
+      const activityDisplay =
+        rawActivity && rawActivity !== 'Đã đăng xuất' && rawActivity !== 'Chưa có hoạt động'
+          ? rawActivity
+          : 'Đang ở Trang chủ';
+
+      return {
+        isOnline: true,
+        statusBadgeText: 'Trực tuyến',
+        statusBadgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+        dotClass: 'bg-emerald-500',
+        activityDisplay,
+        activityBadgeClass: 'text-emerald-700 bg-emerald-50 border-emerald-200/70',
+        activityIconColor: 'text-emerald-500',
+      };
+    }
+
+    // Tài khoản Ngoại tuyến
+    const rawActivity = learner.lastActiveActivity;
+    let activityDisplay = 'Chưa đăng nhập';
+    if (rawActivity === 'Đã đăng xuất') {
+      activityDisplay = 'Đã đăng xuất';
+    } else if (rawActivity && rawActivity !== 'Chưa có hoạt động') {
+      const cleaned = rawActivity.replace(/^Đang\s+/i, '');
+      activityDisplay = `Lần cuối: ${cleaned}`;
+    } else if (learner.lastLoginAt || learner.lastActiveDate) {
+      activityDisplay = 'Ngoại tuyến';
+    }
+
+    return {
+      isOnline: false,
+      statusBadgeText: 'Ngoại tuyến',
+      statusBadgeClass: 'bg-slate-100 text-slate-600 border-slate-200',
+      dotClass: 'bg-slate-400',
+      activityDisplay,
+      activityBadgeClass: 'text-slate-600 bg-slate-50 border-slate-200/70',
+      activityIconColor: 'text-slate-400',
+    };
   };
 
   // Email Reply Modal State (Nội dung soạn sẵn, sao chép dán vào trình duyệt, KHÔNG mở mailto client)
@@ -2527,6 +2608,7 @@ EasyEng`;
 
                     const isMenuOpen = activeActionMenuLearnerId === learner.learnerId;
                     const lastLoginDisplay = formatLastLogin(learner.lastLoginAt || learner.lastActiveDate);
+                    const onlineInfo = getLearnerOnlineInfo(learner);
 
                     return (
                       <div
@@ -2558,9 +2640,13 @@ EasyEng`;
                               <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-md">
                                 Lớp {learner.grade}
                               </span>
+                              <span className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md border ${onlineInfo.statusBadgeClass}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${onlineInfo.dotClass} ${onlineInfo.isOnline ? 'animate-pulse' : ''}`} />
+                                {onlineInfo.statusBadgeText}
+                              </span>
                             </div>
 
-                            {/* Mục Đăng nhập gần nhất & Hoạt động gần nhất */}
+                            {/* Mục Đăng nhập gần nhất & Hoạt động */}
                             <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs text-slate-500 font-medium">
                               <div className="flex items-center gap-1.5 shrink-0">
                                 <Clock className="w-3.5 h-3.5 text-blue-500 shrink-0" />
@@ -2568,13 +2654,13 @@ EasyEng`;
                                 <span className="font-semibold text-slate-700">{lastLoginDisplay}</span>
                               </div>
                               <div className="flex items-center gap-1.5 min-w-0">
-                                <Activity className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                                <Activity className={`w-3.5 h-3.5 ${onlineInfo.activityIconColor} shrink-0`} />
                                 <span className="text-slate-500">Hoạt động:</span>
                                 <span
-                                  className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/70 truncate max-w-[190px] sm:max-w-[280px]"
-                                  title={learner.lastActiveActivity || 'Đang ở Trang chủ'}
+                                  className={`font-semibold px-2 py-0.5 rounded-md border truncate max-w-[190px] sm:max-w-[280px] ${onlineInfo.activityBadgeClass}`}
+                                  title={onlineInfo.activityDisplay}
                                 >
-                                  {learner.lastActiveActivity || 'Đang ở Trang chủ'}
+                                  {onlineInfo.activityDisplay}
                                 </span>
                               </div>
                             </div>
@@ -4595,9 +4681,10 @@ EasyEng`;
       {/* ========================================================= */}
       {viewingDetailLearner && (() => {
         const targetDetail = learners.find(l => l.learnerId === viewingDetailLearner.learnerId) || viewingDetailLearner;
+        const onlineInfo = getLearnerOnlineInfo(targetDetail);
         const lastLoginTimeDisplay = formatLastLogin(targetDetail.lastLoginAt || targetDetail.lastActiveDate);
         const lastActivityTimeDisplay = formatActivityTime(targetDetail.lastActiveDate);
-        const currentActivityName = targetDetail.lastActiveActivity || 'Đang ở Trang chủ';
+        const currentActivityName = onlineInfo.activityDisplay;
         const activityLogsList: UserActivityLogItem[] = Array.isArray(targetDetail.activityLogs) && targetDetail.activityLogs.length > 0
           ? targetDetail.activityLogs
           : [
@@ -4605,7 +4692,7 @@ EasyEng`;
                 id: 'init_act',
                 activity: currentActivityName,
                 timestamp: targetDetail.lastActiveDate || new Date().toISOString(),
-                type: 'home'
+                type: onlineInfo.isOnline ? 'home' : 'system'
               }
             ];
 
@@ -4653,6 +4740,10 @@ EasyEng`;
                       </h4>
                       <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-lg">
                         Lớp {targetDetail.grade}
+                      </span>
+                      <span className={`inline-flex items-center gap-1 text-xs font-bold px-2.5 py-0.5 rounded-lg border ${onlineInfo.statusBadgeClass}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${onlineInfo.dotClass} ${onlineInfo.isOnline ? 'animate-pulse' : ''}`} />
+                        {onlineInfo.statusBadgeText}
                       </span>
                     </div>
                     {targetDetail.name && targetDetail.name.toLowerCase() !== (targetDetail.username || '').toLowerCase() && (
@@ -4748,6 +4839,18 @@ EasyEng`;
                     <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
                   </h5>
                   <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
+                    {/* Tình trạng kết nối hiện tại */}
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50 gap-2">
+                      <div>
+                        <span className="text-slate-700 font-semibold block">Tình trạng phiên</span>
+                        <span className="text-[11px] text-slate-400">Trạng thái đăng nhập thời gian thực</span>
+                      </div>
+                      <span className={`inline-flex items-center gap-1.5 font-bold px-2.5 py-1 rounded-lg border text-xs ${onlineInfo.statusBadgeClass} shadow-2xs`}>
+                        {onlineInfo.isOnline ? <Wifi className="w-3.5 h-3.5 text-emerald-600" /> : <WifiOff className="w-3.5 h-3.5 text-slate-400" />}
+                        {onlineInfo.statusBadgeText}
+                      </span>
+                    </div>
+
                     {/* Đăng nhập gần nhất */}
                     <div className="flex items-start justify-between py-1 border-b border-slate-200/50 gap-2">
                       <div>
@@ -4760,31 +4863,37 @@ EasyEng`;
                       </span>
                     </div>
 
-                    {/* Hoạt động gần nhất */}
+                    {/* Hoạt động */}
                     <div className="py-1 space-y-1.5">
                       <div className="flex items-center justify-between gap-2">
                         <div>
                           <span className="text-slate-700 font-semibold flex items-center gap-1.5">
-                            <Activity className="w-3.5 h-3.5 text-emerald-600" />
-                            Hoạt động gần nhất
+                            <Activity className={`w-3.5 h-3.5 ${onlineInfo.activityIconColor}`} />
+                            {onlineInfo.isOnline ? 'Hoạt động hiện tại' : 'Hoạt động ghi nhận gần nhất'}
                           </span>
-                          <span className="text-[11px] text-slate-400">Nội dung hoạt động mới nhất của tài khoản</span>
+                          <span className="text-[11px] text-slate-400">
+                            {onlineInfo.isOnline ? 'Nội dung đang thực hiện trong phiên này' : 'Nội dung hoạt động trước khi ngắt kết nối'}
+                          </span>
                         </div>
                         <span className="font-semibold text-slate-700 flex items-center gap-1 shrink-0 bg-white px-2 py-0.5 rounded-lg border border-slate-200/60 text-[11px] shadow-2xs">
-                          <Calendar className="w-3 h-3 text-emerald-500" />
+                          <Calendar className={`w-3 h-3 ${onlineInfo.activityIconColor}`} />
                           {lastActivityTimeDisplay}
                         </span>
                       </div>
 
-                      {/* Nội dung chi tiết hoạt động mới nhất */}
-                      <div className="p-2.5 rounded-xl bg-white border border-emerald-300 flex items-center gap-2.5 shadow-2xs">
+                      {/* Nội dung chi tiết hoạt động */}
+                      <div className={`p-2.5 rounded-xl bg-white border flex items-center gap-2.5 shadow-2xs ${
+                        onlineInfo.isOnline ? 'border-emerald-300' : 'border-slate-200'
+                      }`}>
                         <span className="relative flex h-2.5 w-2.5 shrink-0">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                          {onlineInfo.isOnline && (
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          )}
+                          <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${onlineInfo.dotClass}`}></span>
                         </span>
                         <div className="min-w-0 flex-1">
-                          <p className="font-bold text-slate-900 text-xs truncate" title={currentActivityName}>
-                            {currentActivityName}
+                          <p className="font-bold text-slate-900 text-xs truncate" title={onlineInfo.activityDisplay}>
+                            {onlineInfo.activityDisplay}
                           </p>
                         </div>
                       </div>

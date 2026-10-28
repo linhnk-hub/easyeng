@@ -140,7 +140,7 @@ function formatLearnerForFirestore(learner: UserProfile) {
     securityNumber: learner.securityNumber !== undefined && learner.securityNumber !== null ? Math.max(0, Math.min(10, Math.round(Number(learner.securityNumber)))) : 0,
     customAvatarUrl: learner.customAvatarUrl ? String(learner.customAvatarUrl).slice(0, 350000) : '',
     lastActiveDate: learner.lastActiveDate || new Date().toISOString(),
-    lastActiveActivity: learner.lastActiveActivity ? String(learner.lastActiveActivity).slice(0, 160) : 'Đang ở Trang chủ',
+    lastActiveActivity: learner.lastActiveActivity ? String(learner.lastActiveActivity).slice(0, 160) : 'Chưa có hoạt động',
     activityLogs: cleanActivityLogs,
     lastLoginAt: learner.lastLoginAt || learner.lastActiveDate || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -168,9 +168,9 @@ function formatFirestoreToLearner(data: any): UserProfile {
   const rawActivityLogs: UserActivityLogItem[] = Array.isArray(data.activityLogs)
     ? data.activityLogs.map((item: any) => ({
         id: String(item.id || `${Date.now()}`),
-        activity: String(item.activity || 'Đang ở Trang chủ'),
+        activity: String(item.activity || 'Chưa có hoạt động'),
         timestamp: String(item.timestamp || data.lastActiveDate || new Date().toISOString()),
-        type: item.type || 'home',
+        type: item.type || 'system',
         unitId: item.unitId !== undefined ? Number(item.unitId) : undefined
       }))
     : [];
@@ -197,7 +197,7 @@ function formatFirestoreToLearner(data: any): UserProfile {
     customAvatarUrl: data.customAvatarUrl || '',
     lastActiveDate: data.lastActiveDate || new Date().toISOString(),
     lastLoginAt: data.lastLoginAt || data.lastActiveDate || new Date().toISOString(),
-    lastActiveActivity: data.lastActiveActivity || 'Đang ở Trang chủ',
+    lastActiveActivity: data.lastActiveActivity || 'Chưa có hoạt động',
     activityLogs: rawActivityLogs,
   };
 }
@@ -1136,6 +1136,65 @@ export async function fetchAllActiveSessions(): Promise<UserActiveSession[]> {
     handleFirestoreError(error, OperationType.LIST, path);
     return [];
   }
+}
+
+/**
+ * Lắng nghe toàn bộ danh sách phiên đăng nhập (active_sessions) theo thời gian thực
+ */
+export function subscribeToAllActiveSessions(
+  callback: (sessionsMap: Record<string, UserActiveSession>) => void
+): () => void {
+  const path = 'active_sessions';
+  try {
+    return onSnapshot(
+      collection(db, 'active_sessions'),
+      (snapshot) => {
+        const map: Record<string, UserActiveSession> = {};
+        snapshot.forEach(docSnap => {
+          const data = docSnap.data() as UserActiveSession;
+          if (data) {
+            if (data.learnerId) {
+              map[data.learnerId] = data;
+              map[data.learnerId.toLowerCase()] = data;
+            }
+            if (data.username) {
+              map[data.username.toLowerCase()] = data;
+            }
+            if (docSnap.id) {
+              map[docSnap.id] = data;
+              map[docSnap.id.toLowerCase()] = data;
+            }
+          }
+        });
+        callback(map);
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.LIST, path);
+      }
+    );
+  } catch (err) {
+    handleFirestoreError(err, OperationType.LIST, path);
+    return () => {};
+  }
+}
+
+/**
+ * Quy tắc xác định một tài khoản có đang trực tuyến (Online / Đang đăng nhập) hay không:
+ * 1. Có phiên đăng nhập hợp lệ với isLoggedIn === true
+ * 2. Không có lý do ngắt phiên (terminationReason === null/undefined)
+ * 3. Nhịp tim gần nhất (lastHeartbeat hoặc loginAt) diễn ra trong vòng tối đa 3 phút (180.000 ms)
+ */
+export function isLearnerOnline(session?: UserActiveSession | null): boolean {
+  if (!session) return false;
+  if (!session.isLoggedIn) return false;
+  if (session.terminationReason) return false;
+
+  const lastTime = new Date(session.lastHeartbeat || session.loginAt).getTime();
+  if (isNaN(lastTime)) return false;
+
+  const now = Date.now();
+  const THREE_MINUTES = 3 * 60 * 1000;
+  return (now - lastTime) <= THREE_MINUTES;
 }
 
 
