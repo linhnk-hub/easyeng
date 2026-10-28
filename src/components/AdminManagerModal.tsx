@@ -3882,7 +3882,7 @@ EasyEng`;
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="font-display font-bold text-base text-slate-900">
-                          Yêu cầu Cấp lại mật khẩu
+                          Yêu cầu cấp lại mật khẩu
                         </h3>
                         <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
                           {resetRequests.length} yêu cầu
@@ -4339,45 +4339,8 @@ EasyEng`;
                   </span>
                 </div>
               </div>
-
-              {/* Quick Preset Selector */}
-              <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-200/60">
-                <span className="font-bold text-slate-700 shrink-0">
-                  ⚡ Nạp tệp JSON mẫu có sẵn:
-                </span>
-                <select
-                  onChange={(e) => {
-                    const idx = Number(e.target.value);
-                    if (isNaN(idx) || idx < 0) return;
-                    const tpl = BUILT_IN_WORKBOOK_TEMPLATES[idx];
-                    if (tpl) {
-                      soundEffects.playClick();
-                      handleClusterJsonTextChange(JSON.stringify(tpl.data, null, 2));
-                    }
-                  }}
-                  defaultValue=""
-                  className="px-2.5 py-1 bg-white border border-purple-200 text-purple-900 rounded-xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer flex-1 max-w-sm"
-                >
-                  <option value="" disabled>-- Chọn tệp bài tập mẫu ({BUILT_IN_WORKBOOK_TEMPLATES.length} tệp) --</option>
-                  {BUILT_IN_WORKBOOK_TEMPLATES.map((tpl, i) => (
-                    <option key={i} value={i}>
-                      {tpl.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
             </div>
 
-            {/* Guidance on JSON structure */}
-            <div className="bg-amber-50/80 border border-amber-200/90 rounded-2xl p-2.5 text-[11px] text-amber-900 leading-relaxed space-y-1">
-              <div className="font-bold flex items-center gap-1 text-amber-800">
-                💡 Cấu trúc JSON bài tập được hệ thống hỗ trợ:
-              </div>
-              <ul className="list-disc pl-4 space-y-0.5 text-amber-800/90">
-                <li><strong>Định dạng Workbook SGK:</strong> Gồm các trường <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">book_title</code>, <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">cluster_name / module_name</code> và mảng <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">units -&gt; sections -&gt; exercises -&gt; questions / pairs</code>.</li>
-                <li><strong>Định dạng Trắc nghiệm đơn giản:</strong> Mảng danh sách <code className="bg-amber-100 px-1 py-0.5 rounded font-mono">[ &#123; question, options: [...], answerIndex: 0, explanation: "..." &#125; ]</code>.</li>
-              </ul>
-            </div>
 
             {/* Textarea */}
             <textarea

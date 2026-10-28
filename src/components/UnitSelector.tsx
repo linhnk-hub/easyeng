@@ -256,7 +256,7 @@ export const UnitSelector: React.FC<UnitSelectorProps> = ({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="font-display font-bold text-lg sm:text-xl text-slate-800 flex items-center gap-2">
-                <span>📝 Danh sách Học phần của Sách bài tập Tiếng Anh Lớp {user.grade}</span>
+                <span>📝 Danh sách Học phần</span>
               </h2>
 
             </div>
