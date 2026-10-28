@@ -392,49 +392,75 @@ export const ExerciseClusterRunner: React.FC<ExerciseClusterRunnerProps> = ({
         </div>
       </div>
 
-      {/* Thông báo số câu hỏi đã bỏ theo yêu cầu */}
-      <div className="bg-amber-50/90 border border-amber-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 text-xs text-amber-900 shadow-2xs">
-        <span className="text-base shrink-0">📌</span>
-        <span className="leading-relaxed font-medium">
-          Đã lược bỏ các câu hỏi về hình ảnh, lắng nghe đoạn hội thoại
-        </span>
-      </div>
-
-      {/* Unit Selector Pills (if cluster contains multiple units) */}
-      {availableUnits.length > 1 && (
-        <div className="bg-white/80 backdrop-blur-xs p-2 rounded-2xl border border-slate-200/80 flex items-center gap-1.5 overflow-x-auto scrollbar-none text-xs">
-          <span className="text-[11px] font-bold text-slate-400 px-2 shrink-0 flex items-center gap-1">
-            <Filter className="w-3.5 h-3.5 text-purple-600" />
-            Lọc bài:
+      {/* Thông báo số câu hỏi đã bỏ theo yêu cầu nếu có */}
+      {(questionFilterStats.skippedImages > 0 || questionFilterStats.skippedAudio > 0) && (
+        <div className="bg-amber-50/90 border border-amber-200/90 rounded-2xl px-4 py-2.5 flex items-center gap-2.5 text-xs text-amber-900 shadow-2xs">
+          <span className="text-base shrink-0">📌</span>
+          <span className="leading-relaxed font-medium">
+            Đã lược bỏ các câu hỏi về hình ảnh, lắng nghe đoạn hội thoại
           </span>
+        </div>
+      )}
 
-          {availableUnits.map(u => {
-            const count = allQuestions.filter(q => matchesFilter(q, u.key)).length;
+      {/* Bộ lọc Unit: Chỉ hiện 'Tất cả Unit' và 'Chỉ làm Unit' (xổ danh sách các Unit) */}
+      {availableUnits.length > 1 && (
+        <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-1.5 font-bold text-slate-700">
+            <Filter className="w-4 h-4 text-purple-600" />
+            <span>Phạm vi bài tập:</span>
+          </div>
 
-            return (
-              <button
-                key={String(u.key)}
-                onClick={() => handleFilterChange(u.key)}
-                className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
-                  selectedUnitFilter === u.key
-                    ? 'bg-purple-600 text-white shadow-2xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+          <div className="flex flex-wrap items-center gap-2">
+            {/* Nút Tất cả Unit */}
+            <button
+              type="button"
+              onClick={() => handleFilterChange('all')}
+              className={`px-3.5 py-1.5 rounded-xl font-bold transition cursor-pointer flex items-center gap-1.5 ${
+                selectedUnitFilter === 'all'
+                  ? 'bg-purple-600 text-white shadow-xs'
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200/70'
+              }`}
+            >
+              <span>Tất cả Unit</span>
+              <span className={`text-[11px] px-1.5 py-0.5 rounded-md ${
+                selectedUnitFilter === 'all' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700 font-semibold'
+              }`}>
+                {allQuestions.length} câu
+              </span>
+            </button>
+
+            {/* Cụm Chỉ làm Unit (xổ danh sách các Unit) */}
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-xl border transition ${
+              selectedUnitFilter !== 'all'
+                ? 'bg-purple-50 border-purple-300 text-purple-900 ring-1 ring-purple-200'
+                : 'bg-slate-50 border-slate-200 text-slate-700'
+            }`}>
+              <span className="font-bold whitespace-nowrap">Chỉ làm Unit:</span>
+              <select
+                value={selectedUnitFilter === 'all' ? '' : String(selectedUnitFilter)}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (!val || val === 'all') {
+                    handleFilterChange('all');
+                  } else {
+                    const num = Number(val);
+                    handleFilterChange(isNaN(num) ? val : num);
+                  }
+                }}
+                className="bg-white border border-slate-200 font-bold text-slate-800 rounded-lg px-2.5 py-1 focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer text-xs"
               >
-                {u.label} ({count})
-              </button>
-            );
-          })}
-          <button
-            onClick={() => handleFilterChange('all')}
-            className={`px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
-              selectedUnitFilter === 'all'
-                ? 'bg-purple-600 text-white shadow-2xs'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }`}
-          >
-            Tất cả ({allQuestions.length})
-          </button>
+                <option value="" disabled={selectedUnitFilter !== 'all'}>-- Chọn Unit --</option>
+                {availableUnits.map(u => {
+                  const count = allQuestions.filter(q => matchesFilter(q, u.key)).length;
+                  return (
+                    <option key={String(u.key)} value={String(u.key)}>
+                      {u.label} ({count} câu)
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
         </div>
       )}
 

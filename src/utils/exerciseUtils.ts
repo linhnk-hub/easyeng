@@ -17,30 +17,50 @@ const COMMON_DISTRACTORS = [
 ];
 
 /**
+/**
  * Checks whether an exercise question requires looking at an image/picture
+ * Only returns true if it is an unanswerable picture question with no text prompt or options.
  */
 export function isImageQuestion(q: any, ex?: any, sec?: any): boolean {
-  if (q.image_url || q.image || q.imageUrl || q.image_description || q.character_image || q.imageDescription) return true;
-  if (ex && (ex.image_url || ex.image || ex.imageUrl || ex.pictures)) return true;
+  // If the question has explicit text prompt and answers/options, it's playable as a quiz!
+  const hasPrompt = Boolean(q?.question_text || q?.question || q?.prompt_text || q?.prompt || q?.sentence);
+  const hasOptionsOrAnswer = Boolean(
+    (Array.isArray(q?.options) && q?.options.length > 0) ||
+    q?.correct_answer !== undefined ||
+    q?.correctAnswer !== undefined ||
+    q?.answer !== undefined ||
+    (ex && Array.isArray(ex.word_bank) && ex.word_bank.length > 0)
+  );
+
+  // If it has text prompt and options/answers, do NOT consider it an unplayable image question
+  if (hasPrompt && hasOptionsOrAnswer) {
+    return false;
+  }
+
+  // Only consider it an unplayable image question if it has no prompt text
+  if (q?.image_url || q?.image || q?.imageUrl || q?.image_description || q?.character_image || q?.imageDescription) {
+    return !hasPrompt;
+  }
+  if (ex && (ex.image_url || ex.image || ex.imageUrl || ex.pictures)) {
+    return !hasPrompt;
+  }
 
   const combinedText = [
-    q.question,
-    q.question_text,
-    q.prompt_text,
-    q.sentence,
-    q.explanation,
-    q.explanation_vi,
+    q?.question,
+    q?.question_text,
+    q?.prompt_text,
+    q?.sentence,
+    q?.explanation,
+    q?.explanation_vi,
     ex?.instruction_vi,
     ex?.instruction_en,
+    ex?.instruction,
     sec?.section_title,
-    q.category
+    q?.category
   ].filter(Boolean).join(' ');
 
-  if (/(nhìn|xem)\s+(hình|tranh|ảnh)/i.test(combinedText)) return true;
-  if (/look\s+at\s+the\s+picture/i.test(combinedText)) return true;
-  if (/look\s+and\s+(match|read|complete|circle|write|tick|number|choose)/i.test(combinedText)) return true;
-  if (/\b(picture|image|photo)\s*([a-d]|\d+)\b/i.test(combinedText)) return true;
-  if (/\b(hình|tranh|ảnh)\s*([a-d]|\d+)\b/i.test(combinedText)) return true;
+  if (!hasPrompt && /(nhìn|xem)\s+(hình|tranh|ảnh)/i.test(combinedText)) return true;
+  if (!hasPrompt && /look\s+at\s+the\s+picture/i.test(combinedText)) return true;
 
   return false;
 }
@@ -49,27 +69,37 @@ export function isImageQuestion(q: any, ex?: any, sec?: any): boolean {
  * Checks whether an exercise question requires listening to audio or dialogue/conversation.
  */
 export function isAudioConversationQuestion(q: any, ex?: any, sec?: any): boolean {
-  if (q.simulated_audio || q.audioTranscript || ex?.simulated_audio) return true;
+  const hasPrompt = Boolean(q?.question_text || q?.question || q?.prompt_text || q?.prompt || q?.sentence);
+  const hasOptionsOrAnswer = Boolean(
+    (Array.isArray(q?.options) && q?.options.length > 0) ||
+    q?.correct_answer !== undefined ||
+    q?.correctAnswer !== undefined ||
+    q?.answer !== undefined
+  );
+
+  // If it already has text prompt and answers and is not a missing audio file, don't discard it
+  if (hasPrompt && hasOptionsOrAnswer && !q?.simulated_audio && !ex?.simulated_audio) {
+    return false;
+  }
+
+  if (q?.simulated_audio || q?.audioTranscript || ex?.simulated_audio) return true;
   if (sec && /section\s*c\b/i.test(sec.section_id || '') && /listening/i.test(sec.section_title || '')) return true;
 
   const combinedText = [
-    q.question,
-    q.question_text,
-    q.prompt_text,
-    q.sentence,
-    q.explanation,
-    q.explanation_vi,
+    q?.question,
+    q?.question_text,
+    q?.prompt_text,
+    q?.sentence,
+    q?.explanation,
+    q?.explanation_vi,
     ex?.instruction_vi,
     ex?.instruction_en,
     sec?.section_title,
-    q.category
+    q?.category
   ].filter(Boolean).join(' ');
 
-  if (/(lắng\s*nghe|băng\s*nghe|audio\s*track|file\s*nghe)/i.test(combinedText)) return true;
-  if (/track\s*\d+/i.test(combinedText)) return true;
-  if (/\b(nghe|listen)\b/i.test(combinedText)) return true;
-  if (/(đoạn\s+)?hội\s+thoại/i.test(combinedText)) return true;
-  if (/\b(dialogue|conversation)\b/i.test(combinedText)) return true;
+  if (!hasPrompt && /(lắng\s*nghe|băng\s*nghe|audio\s*track|file\s*nghe)/i.test(combinedText)) return true;
+  if (!hasPrompt && /track\s*\d+/i.test(combinedText)) return true;
 
   return false;
 }
@@ -84,17 +114,22 @@ export function parseWorkbookCluster(
   defaultGrade: number = 4
 ): ExerciseCluster {
   let grade = defaultGrade;
-  if (data.book_title) {
+  if (data.book_info && data.book_info.grade) {
+    grade = Number(data.book_info.grade);
+  } else if (data.grade) {
+    grade = Number(data.grade);
+  } else if (data.book_title) {
     const match = String(data.book_title).match(/(?:lớp|tiếng anh|grade)\s*(\d+)/i);
     if (match) grade = parseInt(match[1], 10);
   }
 
+  const bookTitle = data.book_info?.title || data.book_title || '';
   const title = data.cluster_name
     ? `Học phần ${clusterNumber}: ${data.cluster_name}`
-    : (data.title || `Học phần bài tập ${clusterNumber}`);
+    : (bookTitle ? bookTitle : (data.title || `Học phần bài tập ${clusterNumber}`));
 
   const unitsCount = Array.isArray(data.units) ? data.units.length : 0;
-  const description = `${data.book_title || 'Sách bài tập Tiếng Anh'} • Trọn bộ ${unitsCount} bài học`;
+  const description = `${bookTitle || 'Sách bài tập Tiếng Anh'} • Trọn bộ ${unitsCount} bài học`;
 
   const questions: ExerciseQuestion[] = [];
   let totalRawCount = 0;
@@ -149,8 +184,8 @@ export function parseWorkbookCluster(
     }
 
     sections.forEach((sec: any) => {
-      const secId = sec.section_id || '';
-      const secTitle = sec.section_title || '';
+      const secId = sec.section_id || sec.id || '';
+      const secTitle = sec.section_title || sec.section_name || sec.title || '';
 
       let exercises = Array.isArray(sec.exercises) ? sec.exercises : [];
       if (exercises.length === 0 && Array.isArray(sec.questions) && sec.questions.length > 0) {
@@ -158,29 +193,35 @@ export function parseWorkbookCluster(
       }
 
       exercises.forEach((ex: any) => {
-        const mechanic = ex.game_mechanic || 'multiple_choice';
-        const instVi = ex.instruction_vi || '';
-        const instEn = ex.instruction_en || '';
+        const mechanic = ex.exercise_type || ex.game_mechanic || ex.type || 'multiple_choice';
+        const instVi = ex.instruction || ex.instruction_vi || ex.instruction_en || '';
+        const instEn = ex.instruction_en || ex.instruction || '';
         const wordBank = (ex.word_bank || []).map((w: any) =>
           typeof w === 'object' ? (w.text || w.id) : String(w)
         );
-        const passage = ex.reading_passage || (ex.dialogue_lines ? ex.dialogue_lines.join('\n') : '');
+        const passage = ex.reading_passage || ex.passage_context || (ex.dialogue_lines ? ex.dialogue_lines.join('\n') : '');
 
         // 1. Multiple choice, fill_in_blank, fill_in_chars, true_false, word_bank_fill, sentence_reorder
         if (Array.isArray(ex.questions)) {
           ex.questions.forEach((q: any, qIdx: number) => {
             totalRawCount++;
-            if (isAudioConversationQuestion(q, ex, sec)) {
-              skippedAudioCount++;
-              return;
-            }
-            if (isImageQuestion(q, ex, sec)) {
-              skippedImageCount++;
-              return;
+            const hasExplicitText = Boolean(q.question_text || q.question || q.prompt_text || q.prompt || q.sentence);
+            const hasAnswers = Boolean((Array.isArray(q.options) && q.options.length > 0) || q.correct_answer !== undefined || q.correctAnswer !== undefined || q.answer !== undefined);
+
+            // Only skip audio/image if it does not have playable text and options
+            if (!hasExplicitText || !hasAnswers) {
+              if (isAudioConversationQuestion(q, ex, sec)) {
+                skippedAudioCount++;
+                return;
+              }
+              if (isImageQuestion(q, ex, sec)) {
+                skippedImageCount++;
+                return;
+              }
             }
 
-            const qId = q.question_id || `${ex.exercise_id}_q${qIdx + 1}`;
-            let prompt = q.prompt_text || q.sentence || '';
+            const qId = `${ex.exercise_id || 'ex'}_q${q.question_id || (qIdx + 1)}`;
+            let prompt = q.question_text || q.question || q.prompt_text || q.prompt || q.sentence || q.content || '';
             if (!prompt && q.speaker_a) {
               prompt = `${q.speaker_a}\n${q.speaker_b_prompt || '___'}`;
             } else if (!prompt && q.name) {
@@ -195,59 +236,98 @@ export function parseWorkbookCluster(
 
             const audioTranscript = q.simulated_audio?.full_transcript || ex.simulated_audio?.full_transcript || '';
             const imageDesc = q.image_description || q.character_image || '';
-            const explanation = q.explanation_vi || ex.explanation_vi || '';
+            const explanation = q.explanation || q.explanation_vi || ex.explanation_vi || ex.explanation || '';
 
             // Determine options and answerIndex
             let options: string[] = [];
             let answerIndex = 0;
             let correctText = '';
 
-            if (mechanic === 'true_false') {
-              options = ['✓ True (Đúng)', '✗ False (Sai)'];
-              answerIndex = q.correct_answer === true ? 0 : 1;
-              correctText = q.correct_answer ? 'True' : 'False';
-            } else if (Array.isArray(q.options) && q.options.length > 0) {
+            const rawCorr = q.correct_answer !== undefined
+              ? q.correct_answer
+              : (q.correctAnswer !== undefined ? q.correctAnswer : q.answer);
+            const corrStr = String(rawCorr ?? '').trim();
+
+            if (Array.isArray(q.options) && q.options.length > 0) {
               options = q.options.map((opt: any) =>
                 typeof opt === 'object' ? (opt.text || opt.image_description || opt.id) : String(opt)
               );
-              const corr = q.correct_answer !== undefined ? q.correct_answer : q.answer;
-              correctText = String(corr ?? '');
 
-              // Find matching option
-              const found = options.findIndex(opt =>
-                opt.toLowerCase() === correctText.toLowerCase() ||
-                (typeof corr === 'string' && corr.length === 1 && opt.toLowerCase().startsWith(corr.toLowerCase() + '.'))
-              );
+              // 1. Direct match
+              let found = options.findIndex(opt => opt.trim().toLowerCase() === corrStr.toLowerCase());
+
+              // 2. Letter prefix match: e.g. corrStr is "a" and option is "a. bike" or "a) bike"
+              if (found < 0 && /^[a-f]$/i.test(corrStr)) {
+                const letter = corrStr.toLowerCase();
+                found = options.findIndex(opt => {
+                  const clean = opt.trim().toLowerCase();
+                  return clean.startsWith(`${letter}.`) || clean.startsWith(`${letter})`) || clean.startsWith(`${letter} `);
+                });
+              }
+
+              // 3. Substring match
+              if (found < 0 && corrStr.length > 0) {
+                found = options.findIndex(opt => {
+                  const clean = opt.trim().toLowerCase();
+                  const stripped = clean.replace(/^[a-f][.)\s]\s*/i, '');
+                  return stripped === corrStr.toLowerCase() || clean.includes(corrStr.toLowerCase());
+                });
+              }
+
               if (found >= 0) {
                 answerIndex = found;
-              } else if (typeof q.correct_answer === 'string' && q.options[0]?.id) {
-                const idMatch = q.options.findIndex((o: any) => o.id === q.correct_answer);
-                if (idMatch >= 0) answerIndex = idMatch;
+                correctText = options[found];
+              } else {
+                answerIndex = 0;
+                correctText = options[0] || corrStr;
               }
+            } else if (mechanic === 'true_false' || (corrStr && /^(true|false|đúng|sai)/i.test(corrStr))) {
+              options = ['True (Đúng)', 'False (Sai)'];
+              const isTrue = rawCorr === true || /^true/i.test(corrStr) || /^đúng/i.test(corrStr);
+              answerIndex = isTrue ? 0 : 1;
+              correctText = options[answerIndex];
             } else if (wordBank.length > 0) {
               options = [...wordBank];
-              correctText = String(q.correct_answer || '');
+              correctText = corrStr;
               const found = options.findIndex(w => w.toLowerCase() === correctText.toLowerCase());
               if (found >= 0) answerIndex = found;
-            } else if (q.shuffled_parts && q.correct_answer) {
-              correctText = q.correct_answer;
+              else {
+                options.unshift(correctText);
+                answerIndex = 0;
+              }
+            } else if (q.shuffled_parts && corrStr) {
+              correctText = corrStr;
               const fake1 = [...q.shuffled_parts].reverse().join(' ') + (q.punctuation || '.');
               const fake2 = [...q.shuffled_parts].sort().join(' ') + (q.punctuation || '.');
               options = [correctText, fake1, fake2].filter((v, i, a) => a.indexOf(v) === i);
               if (options.length < 4) options.push('Lựa chọn khác');
               answerIndex = 0;
-            } else if (q.correct_answer) {
-              correctText = String(q.correct_answer);
-              const distractors = COMMON_DISTRACTORS.filter(d => d.toLowerCase() !== correctText.toLowerCase()).slice(0, 3);
-              options = [correctText, ...distractors];
-              answerIndex = 0;
+            } else if (corrStr) {
+              correctText = corrStr;
+              const siblingAnswers = (ex.questions || [])
+                .map((sq: any) => String(sq.correct_answer || sq.correctAnswer || sq.answer || '').trim())
+                .filter((s: string) => s && s.toLowerCase() !== correctText.toLowerCase());
+
+              const uniqueSiblings: string[] = Array.from(new Set<string>(siblingAnswers));
+              let pool: string[] = [...uniqueSiblings];
+              if (pool.length < 3) {
+                const distractors = COMMON_DISTRACTORS.filter(d => d.toLowerCase() !== correctText.toLowerCase());
+                pool = [...pool, ...distractors];
+              }
+
+              const choices: string[] = [correctText, ...pool.slice(0, 3)];
+              const offset = (qIdx % choices.length);
+              const rotated: string[] = [...choices.slice(offset), ...choices.slice(0, offset)];
+              options = rotated;
+              answerIndex = rotated.indexOf(correctText);
             } else if (q.correct_age && q.correct_country) {
               correctText = `${q.name}: ${q.correct_age[0]} tuổi, ${q.correct_country}`;
               options = [correctText, `${q.name}: 10 tuổi, England`, `${q.name}: 7 tuổi, Canada`];
               answerIndex = 0;
             } else {
-              options = ['Lựa chọn A', 'Lựa chọn B', 'Lựa chọn C'];
+              options = ['Lựa chọn A', 'Lựa chọn B', 'Lựa chọn C', 'Lựa chọn D'];
               answerIndex = 0;
+              correctText = options[0];
             }
 
             questions.push({
@@ -381,7 +461,7 @@ function collectQuestionsRecursively(obj: any, collected: any[] = [], depth: num
     return collected;
   }
   const hasPrompt = Boolean(
-    obj.question || obj.prompt || obj.prompt_text || obj.sentence || 
+    obj.question_text || obj.question || obj.prompt || obj.prompt_text || obj.sentence || 
     obj.cauHoi || obj.cau_hoi || obj.câu_hỏi || obj.content
   );
   const hasOptionsOrAnswer = Boolean(
@@ -638,7 +718,7 @@ export function parseExerciseJson(
         }
       }
 
-      const qText = item.question || item.prompt || item.prompt_text || item.content || 
+      const qText = item.question_text || item.question || item.prompt || item.prompt_text || item.content || 
                     item.cauHoi || item.cau_hoi || item['câu_hỏi'] || item.title || 
                     item.sentence || item.full_completed_text || `Câu hỏi số ${idx + 1}`;
 
@@ -931,6 +1011,12 @@ export function filterExercisesForOnline(questions: ExerciseQuestion[]): Exercis
   const validQuestions: ExerciseQuestion[] = [];
 
   (questions || []).forEach(q => {
+    // If it has text question and interactive options, it is completely playable!
+    if (q.question && Array.isArray(q.options) && q.options.length > 0) {
+      validQuestions.push(q);
+      return;
+    }
+
     if (isImageQuestion(q)) {
       removedImagesCount++;
     } else if (isDialogueAudioQuestion(q)) {
@@ -944,7 +1030,7 @@ export function filterExercisesForOnline(questions: ExerciseQuestion[]): Exercis
     originalTotal,
     removedImagesCount,
     removedDialoguesCount,
-    validQuestions
+    validQuestions: validQuestions.length > 0 ? validQuestions : (questions || [])
   };
 }
 

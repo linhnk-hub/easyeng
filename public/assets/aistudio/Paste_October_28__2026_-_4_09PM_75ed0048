@@ -1,0 +1,2159 @@
+{
+  "book_info": {
+    "title": "Sách bài tập Tiếng Anh 1 - Global Success",
+    "grade": 1,
+    "publisher": "NXB Giáo Dục Việt Nam"
+  },
+  "units": [
+    {
+      "unit_number": 1,
+      "unit_title": "In the school playground",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U1_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "bike",
+                "Bill",
+                "book",
+                "ball"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 1 trong bức tranh:",
+                  "options": [
+                    "a. bike",
+                    "b. Bill",
+                    "c. book",
+                    "d. ball"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Hình 1 chỉ chiếc xe đạp, từ tương ứng là 'bike'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 2 trong bức tranh:",
+                  "options": [
+                    "a. bike",
+                    "b. Bill",
+                    "c. book",
+                    "d. ball"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Hình 2 chỉ bạn Bill, tên tương ứng là 'Bill'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 3 trong bức tranh:",
+                  "options": [
+                    "a. bike",
+                    "b. Bill",
+                    "c. book",
+                    "d. ball"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Hình 3 chỉ cuốn sách, từ tương ứng là 'book'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 4 trong bức tranh:",
+                  "options": [
+                    "a. bike",
+                    "b. Bill",
+                    "c. book",
+                    "d. ball"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Hình 4 chỉ quả bóng, từ tương ứng là 'ball'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U1_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. _ike",
+                  "options": [],
+                  "correct_answer": "bike",
+                  "explanation": "Điền chữ 'b' để hoàn thành từ 'bike'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __ook",
+                  "options": [],
+                  "correct_answer": "book",
+                  "explanation": "Điền chữ 'b' để hoàn thành từ 'book'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __ill",
+                  "options": [],
+                  "correct_answer": "Bill",
+                  "explanation": "Điền chữ 'B' để hoàn thành tên 'Bill'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __all",
+                  "options": [],
+                  "correct_answer": "ball",
+                  "explanation": "Điền chữ 'b' để hoàn thành từ 'ball'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U1_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and match.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn hình ảnh phản hồi phù hợp với câu: 1. Hi, Bill.",
+                  "options": [
+                    "a. Hình hai bạn chào gặp mặt nhau",
+                    "b. Hình hai bạn vẫy tay chào tạm biệt"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "'Hi, Bill' là lời chào khi gặp mặt."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn hình ảnh phản hồi phù hợp với câu: 2. Bye, Bill.",
+                  "options": [
+                    "a. Hình hai bạn chào gặp mặt nhau",
+                    "b. Hình hai bạn vẫy tay chào tạm biệt"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "'Bye, Bill' là lời chào khi tạm biệt."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U1_Ex6",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Game: Do the puzzle. Then point and say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Giải ô chữ hàng ngang số 1 mô tả cuốn sách:",
+                  "options": [],
+                  "correct_answer": "BOOK",
+                  "explanation": "Cuốn sách trong tiếng Anh là BOOK."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Giải ô chữ hàng dọc số 2 mô tả quả bóng:",
+                  "options": [],
+                  "correct_answer": "BALL",
+                  "explanation": "Quả bóng trong tiếng Anh là BALL."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 2,
+      "unit_title": "In the dining room",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U2_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "cat",
+                "car",
+                "cake",
+                "cup"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 1 trên bàn:",
+                  "options": [
+                    "a. cat",
+                    "b. car",
+                    "c. cake",
+                    "d. cup"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Hình 1 chỉ chiếc tách/cốc, từ tương ứng là 'cup'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 2 trên bàn:",
+                  "options": [
+                    "a. cat",
+                    "b. car",
+                    "c. cake",
+                    "d. cup"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Hình 2 chỉ chiếc bánh ngọt, từ tương ứng là 'cake'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 3 trên sàn:",
+                  "options": [
+                    "a. cat",
+                    "b. car",
+                    "c. cake",
+                    "d. cup"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Hình 3 chỉ chiếc ô đồ chơi, từ tương ứng là 'car'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả hình ảnh/chi tiết số 4:",
+                  "options": [
+                    "a. cat",
+                    "b. car",
+                    "c. cake",
+                    "d. cup"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Hình 4 chỉ con mèo, từ tương ứng là 'cat'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U2_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __up",
+                  "options": [],
+                  "correct_answer": "cup",
+                  "explanation": "Điền chữ 'c' để tạo thành từ 'cup'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __ar",
+                  "options": [],
+                  "correct_answer": "car",
+                  "explanation": "Điền chữ 'c' để tạo thành từ 'car'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __at",
+                  "options": [],
+                  "correct_answer": "cat",
+                  "explanation": "Điền chữ 'c' để tạo thành từ 'cat'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __ake",
+                  "options": [],
+                  "correct_answer": "cake",
+                  "explanation": "Điền chữ 'c' để tạo thành từ 'cake'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U2_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and match.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn bức tranh tương ứng với cụm từ: 1. a cat",
+                  "options": [
+                    "a. Bức tranh bạn nhỏ cầm chiếc tách",
+                    "b. Bức tranh bạn nhỏ ôm con mèo"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "'a cat' là con mèo, tương ứng với tranh b."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn bức tranh tương ứng với cụm từ: 2. a car",
+                  "options": [
+                    "a. Bức tranh bạn nhỏ cầm chiếc ô tô đồ chơi",
+                    "b. Bức tranh bạn nhỏ cầm miếng bánh"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "'a car' là ô tô đồ chơi, tương ứng với tranh a."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 3,
+      "unit_title": "At the street market",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U3_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "apple",
+                "hat",
+                "bag",
+                "can"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/hoa quả số 1:",
+                  "options": [
+                    "a. apple",
+                    "b. hat",
+                    "c. bag",
+                    "d. can"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Số 1 là quả táo ('apple')."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/hoa quả số 2:",
+                  "options": [
+                    "a. apple",
+                    "b. hat",
+                    "c. bag",
+                    "d. can"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Số 2 là cái mũ ('hat')."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/hoa quả số 3:",
+                  "options": [
+                    "a. apple",
+                    "b. hat",
+                    "c. bag",
+                    "d. can"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Số 3 là lon nước ('can')."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/hoa quả số 4:",
+                  "options": [
+                    "a. apple",
+                    "b. hat",
+                    "c. bag",
+                    "d. can"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Số 4 là cái cặp/túi ('bag')."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U3_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __pple",
+                  "options": [],
+                  "correct_answer": "apple",
+                  "explanation": "Điền chữ 'a' để tạo thành từ 'apple'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. h__t",
+                  "options": [],
+                  "correct_answer": "hat",
+                  "explanation": "Điền chữ 'a' để tạo thành từ 'hat'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. c__n",
+                  "options": [],
+                  "correct_answer": "can",
+                  "explanation": "Điền chữ 'a' để tạo thành từ 'can'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. b__g",
+                  "options": [],
+                  "correct_answer": "bag",
+                  "explanation": "Điền chữ 'a' để tạo thành từ 'bag'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U3_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and match.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 1. my can",
+                  "options": [
+                    "a. Bạn cầm quả táo",
+                    "b. Bạn cầm lon nước",
+                    "c. Bạn mang cái cặp",
+                    "d. Bạn cầm cái mũ"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "'my can' nghĩa là 'lon nước của tớ', tương ứng với tranh b."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 2. my hat",
+                  "options": [
+                    "a. Bạn cầm quả táo",
+                    "b. Bạn cầm lon nước",
+                    "c. Bạn mang cái cặp",
+                    "d. Bạn cầm cái mũ"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "'my hat' nghĩa là 'cái mũ của tớ', tương ứng với tranh d."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 3. my apple",
+                  "options": [
+                    "a. Bạn cầm quả táo",
+                    "b. Bạn cầm lon nước",
+                    "c. Bạn mang cái cặp",
+                    "d. Bạn cầm cái mũ"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "'my apple' nghĩa là 'quả táo của tớ', tương ứng với tranh a."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 4. my bag",
+                  "options": [
+                    "a. Bạn cầm quả táo",
+                    "b. Bạn cầm lon nước",
+                    "c. Bạn mang cái cặp",
+                    "d. Bạn cầm cái mũ"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "'my bag' nghĩa là 'cái cặp của tớ', tương ứng với tranh c."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 4,
+      "unit_title": "In the bedroom",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U4_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "door",
+                "desk",
+                "dog",
+                "duck"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/con vật số 1 (cánh cửa):",
+                  "options": [
+                    "a. door",
+                    "b. desk",
+                    "c. dog",
+                    "d. duck"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Cánh cửa trong tiếng Anh là 'door'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/con vật số 2 (bàn học):",
+                  "options": [
+                    "a. door",
+                    "b. desk",
+                    "c. dog",
+                    "d. duck"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Bàn học trong tiếng Anh là 'desk'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/con vật số 3 (con chó):",
+                  "options": [
+                    "a. door",
+                    "b. desk",
+                    "c. dog",
+                    "d. duck"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Con chó trong tiếng Anh là 'dog'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/con vật số 4 (con vịt):",
+                  "options": [
+                    "a. door",
+                    "b. desk",
+                    "c. dog",
+                    "d. duck"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Con vịt trong tiếng Anh là 'duck'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U4_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __oor",
+                  "options": [],
+                  "correct_answer": "door",
+                  "explanation": "Điền chữ 'd' để tạo thành từ 'door'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __esk",
+                  "options": [],
+                  "correct_answer": "desk",
+                  "explanation": "Điền chữ 'd' để tạo thành từ 'desk'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __og",
+                  "options": [],
+                  "correct_answer": "dog",
+                  "explanation": "Điền chữ 'd' để tạo thành từ 'dog'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __uck",
+                  "options": [],
+                  "correct_answer": "duck",
+                  "explanation": "Điền chữ 'd' để tạo thành từ 'duck'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U4_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and match.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 1. a dog",
+                  "options": [
+                    "a. Bàn học",
+                    "b. Cánh cửa",
+                    "c. Con chó",
+                    "d. Con vịt"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "'a dog' chỉ con chó, tương ứng với tranh c."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 2. a duck",
+                  "options": [
+                    "a. Bàn học",
+                    "b. Cánh cửa",
+                    "c. Con chó",
+                    "d. Con vịt"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "'a duck' chỉ con vịt, tương ứng với tranh d."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 3. a desk",
+                  "options": [
+                    "a. Bàn học",
+                    "b. Cánh cửa",
+                    "c. Con chó",
+                    "d. Con vịt"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "'a desk' chỉ bàn học, tương ứng với tranh a."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn bức tranh phù hợp với cụm từ: 4. a door",
+                  "options": [
+                    "a. Bàn học",
+                    "b. Cánh cửa",
+                    "c. Con chó",
+                    "d. Con vịt"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "'a door' chỉ cánh cửa, tương ứng với tranh b."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 5,
+      "unit_title": "At the fish and chip shop",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U5_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "chips",
+                "milk",
+                "chicken",
+                "fish"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn/thức uống số 1 (hộp sữa):",
+                  "options": [
+                    "a. chips",
+                    "b. milk",
+                    "c. chicken",
+                    "d. fish"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Hộp sữa tương ứng với từ 'milk'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn/thức uống số 2 (món gà):",
+                  "options": [
+                    "a. chips",
+                    "b. milk",
+                    "c. chicken",
+                    "d. fish"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Thịt gà/món gà tương ứng với 'chicken'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn/thức uống số 3 (món cá):",
+                  "options": [
+                    "a. chips",
+                    "b. milk",
+                    "c. chicken",
+                    "d. fish"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Món cá tương ứng với 'fish'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn/thức uống số 4 (khoai tây chiên):",
+                  "options": [
+                    "a. chips",
+                    "b. milk",
+                    "c. chicken",
+                    "d. fish"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Khoai tây chiên tương ứng với 'chips'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U5_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. m__lk",
+                  "options": [],
+                  "correct_answer": "milk",
+                  "explanation": "Điền chữ 'i' để tạo thành từ 'milk'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. f__sh",
+                  "options": [],
+                  "correct_answer": "fish",
+                  "explanation": "Điền chữ 'i' để tạo thành từ 'fish'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. ch__ps",
+                  "options": [],
+                  "correct_answer": "chips",
+                  "explanation": "Điền chữ 'i' để tạo thành từ 'chips'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. ch__cken",
+                  "options": [],
+                  "correct_answer": "chicken",
+                  "explanation": "Điền chữ 'i' để tạo thành từ 'chicken'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U5_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and match.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn hình ảnh tương ứng với cụm từ: 1. chicken and milk",
+                  "options": [
+                    "a. Gà chiên và khoai tây chiên",
+                    "b. Gà chiên và hộp sữa",
+                    "c. Hộp sữa và đĩa cá",
+                    "d. Đĩa cá và khoai tây chiên"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "'chicken and milk' tương ứng với hình ảnh gà và sữa."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn hình ảnh tương ứng với cụm từ: 2. fish and chips",
+                  "options": [
+                    "a. Gà chiên và khoai tây chiên",
+                    "b. Gà chiên và hộp sữa",
+                    "c. Hộp sữa và đĩa cá",
+                    "d. Đĩa cá và khoai tây chiên"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "'fish and chips' tương ứng với đĩa cá và khoai tây chiên."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 6,
+      "unit_title": "In the classroom",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U6_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "bell",
+                "desk",
+                "pencil",
+                "pen"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật số 1 (bút chì):",
+                  "options": [
+                    "a. bell",
+                    "b. desk",
+                    "c. pencil",
+                    "d. pen"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Bút chì là 'pencil'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật số 2 (bút mực):",
+                  "options": [
+                    "a. bell",
+                    "b. desk",
+                    "c. pencil",
+                    "d. pen"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Bút mực là 'pen'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật số 3 (cái chuông):",
+                  "options": [
+                    "a. bell",
+                    "b. desk",
+                    "c. pencil",
+                    "d. pen"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Cái chuông là 'bell'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật số 4 (bàn học):",
+                  "options": [
+                    "a. bell",
+                    "b. desk",
+                    "c. pencil",
+                    "d. pen"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Bàn học là 'desk'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U6_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. b__ll",
+                  "options": [],
+                  "correct_answer": "bell",
+                  "explanation": "Điền chữ 'e' để hoàn thành từ 'bell'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. p__ncil",
+                  "options": [],
+                  "correct_answer": "pencil",
+                  "explanation": "Điền chữ 'e' để hoàn thành từ 'pencil'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. p__n",
+                  "options": [],
+                  "correct_answer": "pen",
+                  "explanation": "Điền chữ 'e' để hoàn thành từ 'pen'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. d__sk",
+                  "options": [],
+                  "correct_answer": "desk",
+                  "explanation": "Điền chữ 'e' để hoàn thành từ 'desk'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U6_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and circle.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn hình ảnh tương ứng với từ: 1. a pen",
+                  "options": [
+                    "a. Bút mực",
+                    "b. Bút chì"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "'a pen' chỉ bút mực, chọn a."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn hình ảnh tương ứng với từ: 2. a bell",
+                  "options": [
+                    "a. Bút chì",
+                    "b. Cái chuông"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "'a bell' chỉ cái chuông, chọn b."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 7,
+      "unit_title": "In the garden",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U7_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "girl",
+                "gate",
+                "garden",
+                "goat"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả chi tiết số 1 (khu vườn):",
+                  "options": [
+                    "a. girl",
+                    "b. gate",
+                    "c. garden",
+                    "d. goat"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Khu vườn tương ứng với từ 'garden'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả chi tiết số 2 (con dê):",
+                  "options": [
+                    "a. girl",
+                    "b. gate",
+                    "c. garden",
+                    "d. goat"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Con dê tương ứng với từ 'goat'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả chi tiết số 3 (cô bé):",
+                  "options": [
+                    "a. girl",
+                    "b. gate",
+                    "c. garden",
+                    "d. goat"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Cô bé tương ứng với từ 'girl'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả chi tiết số 4 (cánh cổng):",
+                  "options": [
+                    "a. girl",
+                    "b. gate",
+                    "c. garden",
+                    "d. goat"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Cánh cổng tương ứng với từ 'gate'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U7_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __arden",
+                  "options": [],
+                  "correct_answer": "garden",
+                  "explanation": "Điền chữ 'g' để hoàn thành từ 'garden'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __ate",
+                  "options": [],
+                  "correct_answer": "gate",
+                  "explanation": "Điền chữ 'g' để hoàn thành từ 'gate'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __irl",
+                  "options": [],
+                  "correct_answer": "girl",
+                  "explanation": "Điền chữ 'g' để hoàn thành từ 'girl'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __oat",
+                  "options": [],
+                  "correct_answer": "goat",
+                  "explanation": "Điền chữ 'g' để hoàn thành từ 'goat'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U7_Ex5",
+              "exercise_type": "true_false",
+              "instruction": "Read and tick or cross.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Kiểm tra xem hình ảnh cô bé có khớp với từ: '1. a girl'",
+                  "options": [
+                    "True (Tick)",
+                    "False (Cross)"
+                  ],
+                  "correct_answer": "True (Tick)",
+                  "explanation": "Tranh vẽ cô bé, khớp với 'a girl'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Kiểm tra xem hình ảnh con chó có khớp với từ: '2. a goat'",
+                  "options": [
+                    "True (Tick)",
+                    "False (Cross)"
+                  ],
+                  "correct_answer": "False (Cross)",
+                  "explanation": "Tranh vẽ con chó nhưng từ lại là 'a goat' (con dê), nên chọn False."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 8,
+      "unit_title": "In the park",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U8_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "head",
+                "horse",
+                "hair",
+                "hand"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh chỉ bộ phận/đồ vật số 1 (mái tóc):",
+                  "options": [
+                    "a. head",
+                    "b. horse",
+                    "c. hair",
+                    "d. hand"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Mái tóc tương ứng với 'hair'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh chỉ bộ phận/đồ vật số 2 (con ngựa gỗ):",
+                  "options": [
+                    "a. head",
+                    "b. horse",
+                    "c. hair",
+                    "d. hand"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Con ngựa tương ứng với 'horse'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh chỉ bộ phận/đồ vật số 3 (bàn tay):",
+                  "options": [
+                    "a. head",
+                    "b. horse",
+                    "c. hair",
+                    "d. hand"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Bàn tay tương ứng với 'hand'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh chỉ bộ phận/đồ vật số 4 (cái đầu):",
+                  "options": [
+                    "a. head",
+                    "b. horse",
+                    "c. hair",
+                    "d. hand"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Cái đầu tương ứng với 'head'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U8_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __ead",
+                  "options": [],
+                  "correct_answer": "head",
+                  "explanation": "Điền chữ 'h' để tạo thành từ 'head'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __orse",
+                  "options": [],
+                  "correct_answer": "horse",
+                  "explanation": "Điền chữ 'h' để tạo thành từ 'horse'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __and",
+                  "options": [],
+                  "correct_answer": "hand",
+                  "explanation": "Điền chữ 'h' để tạo thành từ 'hand'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __air",
+                  "options": [],
+                  "correct_answer": "hair",
+                  "explanation": "Điền chữ 'h' để tạo thành từ 'hair'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U8_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and number.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Đánh số vào tranh tương ứng với cụm từ: 1. your head",
+                  "options": [
+                    "a. Tóc",
+                    "b. Đầu",
+                    "c. Tay"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "'your head' tương ứng với hình b (chỉ vào đầu)."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Đánh số vào tranh tương ứng với cụm từ: 2. your hand",
+                  "options": [
+                    "a. Tóc",
+                    "b. Đầu",
+                    "c. Tay"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "'your hand' tương ứng với hình c (chỉ vào tay)."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Đánh số vào tranh tương ứng với cụm từ: 3. your hair",
+                  "options": [
+                    "a. Tóc",
+                    "b. Đầu",
+                    "c. Tay"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "'your hair' tương ứng với hình a (chỉ vào tóc)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 9,
+      "unit_title": "In the shop",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U9_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "clocks",
+                "mops",
+                "locks",
+                "pots"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh số nhiều mô tả đồ vật số 1 (ổ khóa):",
+                  "options": [
+                    "a. clocks",
+                    "b. mops",
+                    "c. locks",
+                    "d. pots"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Các ổ khóa là 'locks'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh số nhiều mô tả đồ vật số 2 (cây lau nhà):",
+                  "options": [
+                    "a. clocks",
+                    "b. mops",
+                    "c. locks",
+                    "d. pots"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Các cây lau nhà là 'mops'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh số nhiều mô tả đồ vật số 3 (các cái nồi):",
+                  "options": [
+                    "a. clocks",
+                    "b. mops",
+                    "c. locks",
+                    "d. pots"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Các cái nồi là 'pots'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh số nhiều mô tả đồ vật số 4 (đồng hồ):",
+                  "options": [
+                    "a. clocks",
+                    "b. mops",
+                    "c. locks",
+                    "d. pots"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Các đồng hồ là 'clocks'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U9_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. m__ps",
+                  "options": [],
+                  "correct_answer": "mops",
+                  "explanation": "Điền chữ 'o' để hoàn thành từ 'mops'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. cl__cks",
+                  "options": [],
+                  "correct_answer": "clocks",
+                  "explanation": "Điền chữ 'o' để hoàn thành từ 'clocks'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. p__ts",
+                  "options": [],
+                  "correct_answer": "pots",
+                  "explanation": "Điền chữ 'o' để hoàn thành từ 'pots'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. l__cks",
+                  "options": [],
+                  "correct_answer": "locks",
+                  "explanation": "Điền chữ 'o' để hoàn thành từ 'locks'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U9_Ex5",
+              "exercise_type": "matching",
+              "instruction": "Read and match.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn hình ảnh phù hợp với số lượng: 1. two mops",
+                  "options": [
+                    "a. 4 đồng hồ",
+                    "b. 3 ổ khóa",
+                    "c. 3 cái nồi",
+                    "d. 2 cây lau nhà"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "'two mops' tương ứng với 2 cây lau nhà (hình d)."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn hình ảnh phù hợp với số lượng: 2. three pots",
+                  "options": [
+                    "a. 4 đồng hồ",
+                    "b. 3 ổ khóa",
+                    "c. 3 cái nồi",
+                    "d. 2 cây lau nhà"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "'three pots' tương ứng với 3 cái nồi (hình c)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 10,
+      "unit_title": "At the zoo",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U10_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "mouse",
+                "mother",
+                "mango",
+                "monkey"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đồ vật/đối tượng số 1 (quả xoài):",
+                  "options": [
+                    "a. mouse",
+                    "b. mother",
+                    "c. mango",
+                    "d. monkey"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Quả xoài tương ứng với 'mango'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đối tượng số 2 (con khỉ):",
+                  "options": [
+                    "a. mouse",
+                    "b. mother",
+                    "c. mango",
+                    "d. monkey"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Con khỉ tương ứng với 'monkey'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đối tượng số 3 (người mẹ):",
+                  "options": [
+                    "a. mouse",
+                    "b. mother",
+                    "c. mango",
+                    "d. monkey"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Người mẹ tương ứng với 'mother'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả đối tượng số 4 (con chuột):",
+                  "options": [
+                    "a. mouse",
+                    "b. mother",
+                    "c. mango",
+                    "d. monkey"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Con chuột tương ứng với 'mouse'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U10_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __ango",
+                  "options": [],
+                  "correct_answer": "mango",
+                  "explanation": "Điền chữ 'm' để tạo thành từ 'mango'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __ouse",
+                  "options": [],
+                  "correct_answer": "mouse",
+                  "explanation": "Điền chữ 'm' để tạo thành từ 'mouse'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __onkey",
+                  "options": [],
+                  "correct_answer": "monkey",
+                  "explanation": "Điền chữ 'm' để tạo thành từ 'monkey'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __other",
+                  "options": [],
+                  "correct_answer": "mother",
+                  "explanation": "Điền chữ 'm' để tạo thành từ 'mother'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U10_Ex5",
+              "exercise_type": "true_false",
+              "instruction": "Read and tick or cross.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Xác định xem hình người mẹ có đúng với từ '1. my mother' không:",
+                  "options": [
+                    "True (Tick)",
+                    "False (Cross)"
+                  ],
+                  "correct_answer": "True (Tick)",
+                  "explanation": "Tranh vẽ người mẹ, khớp với từ 'my mother'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Xác định xem hình con khỉ có đúng với từ '2. a monkey' không:",
+                  "options": [
+                    "True (Tick)",
+                    "False (Cross)"
+                  ],
+                  "correct_answer": "True (Tick)",
+                  "explanation": "Tranh vẽ con khỉ, khớp với từ 'a monkey'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 11,
+      "unit_title": "At the bus stop",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U11_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "running",
+                "truck",
+                "sun",
+                "bus"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh chỉ hình ảnh số 1 (ông mặt trời):",
+                  "options": [
+                    "a. running",
+                    "b. truck",
+                    "c. sun",
+                    "d. bus"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Mặt trời tương ứng với 'sun'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh chỉ hình ảnh số 2 (xe buýt):",
+                  "options": [
+                    "a. running",
+                    "b. truck",
+                    "c. sun",
+                    "d. bus"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Xe buýt tương ứng với 'bus'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh chỉ hành động số 3 (chạy):",
+                  "options": [
+                    "a. running",
+                    "b. truck",
+                    "c. sun",
+                    "d. bus"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Hành động chạy tương ứng với 'running'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh chỉ hình ảnh số 4 (xe tải):",
+                  "options": [
+                    "a. running",
+                    "b. truck",
+                    "c. sun",
+                    "d. bus"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Xe tải tương ứng với 'truck'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U11_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. r__nning",
+                  "options": [],
+                  "correct_answer": "running",
+                  "explanation": "Điền chữ 'u' để tạo thành từ 'running'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. tr__ck",
+                  "options": [],
+                  "correct_answer": "truck",
+                  "explanation": "Điền chữ 'u' để tạo thành từ 'truck'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. b__s",
+                  "options": [],
+                  "correct_answer": "bus",
+                  "explanation": "Điền chữ 'u' để tạo thành từ 'bus'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. s__n",
+                  "options": [],
+                  "correct_answer": "sun",
+                  "explanation": "Điền chữ 'u' để tạo thành từ 'sun'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 12,
+      "unit_title": "At the lake",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U12_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "Lucy",
+                "lemons",
+                "leaf",
+                "lake"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ/tên Tiếng Anh chỉ đối tượng số 1 (bạn Lucy):",
+                  "options": [
+                    "a. Lucy",
+                    "b. lemons",
+                    "c. leaf",
+                    "d. lake"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Bạn nhỏ tên là Lucy."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ vật/hoa quả số 2 (những quả chanh):",
+                  "options": [
+                    "a. Lucy",
+                    "b. lemons",
+                    "c. leaf",
+                    "d. lake"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Những quả chanh là 'lemons'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ vật số 3 (chiếc lá):",
+                  "options": [
+                    "a. Lucy",
+                    "b. lemons",
+                    "c. leaf",
+                    "d. lake"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Chiếc lá là 'leaf'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh chỉ cảnh vật số 4 (hồ nước):",
+                  "options": [
+                    "a. Lucy",
+                    "b. lemons",
+                    "c. leaf",
+                    "d. lake"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Hồ nước là 'lake'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U12_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện tên: 1. __ucy",
+                  "options": [],
+                  "correct_answer": "Lucy",
+                  "explanation": "Điền chữ 'L' để tạo thành tên 'Lucy'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __emons",
+                  "options": [],
+                  "correct_answer": "lemons",
+                  "explanation": "Điền chữ 'l' để tạo thành từ 'lemons'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __ake",
+                  "options": [],
+                  "correct_answer": "lake",
+                  "explanation": "Điền chữ 'l' để tạo thành từ 'lake'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __eaf",
+                  "options": [],
+                  "correct_answer": "leaf",
+                  "explanation": "Điền chữ 'l' để tạo thành từ 'leaf'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 13,
+      "unit_title": "In the school canteen",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U13_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "Nick",
+                "nuts",
+                "bananas",
+                "noodles"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn số 1 (mì/phở):",
+                  "options": [
+                    "a. Nick",
+                    "b. nuts",
+                    "c. bananas",
+                    "d. noodles"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Mì/món mì tương ứng với 'noodles'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn số 2 (những quả chuối):",
+                  "options": [
+                    "a. Nick",
+                    "b. nuts",
+                    "c. bananas",
+                    "d. noodles"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Những quả chuối tương ứng với 'bananas'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ/tên Tiếng Anh mô tả đối tượng số 3 (bạn Nick):",
+                  "options": [
+                    "a. Nick",
+                    "b. nuts",
+                    "c. bananas",
+                    "d. noodles"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Tên bạn nhỏ là Nick."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh mô tả món ăn số 4 (các hạt ngũ cốc/đậu):",
+                  "options": [
+                    "a. Nick",
+                    "b. nuts",
+                    "c. bananas",
+                    "d. noodles"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Các loại hạt là 'nuts'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U13_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __oodles",
+                  "options": [],
+                  "correct_answer": "noodles",
+                  "explanation": "Điền chữ 'n' để hoàn thành 'noodles'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện tên: 2. __ick",
+                  "options": [],
+                  "correct_answer": "Nick",
+                  "explanation": "Điền chữ 'N' để hoàn thành tên 'Nick'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. ba__anas",
+                  "options": [],
+                  "correct_answer": "bananas",
+                  "explanation": "Điền chữ 'n' để hoàn thành 'bananas'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __uts",
+                  "options": [],
+                  "correct_answer": "nuts",
+                  "explanation": "Điền chữ 'n' để hoàn thành 'nuts'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 14,
+      "unit_title": "In the toy shop",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U14_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "teddy bear",
+                "top",
+                "turtle",
+                "tiger"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh chỉ con vật/đồ chơi số 1 (con rùa):",
+                  "options": [
+                    "a. teddy bear",
+                    "b. top",
+                    "c. turtle",
+                    "d. tiger"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Con rùa tương ứng với 'turtle'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ chơi số 2 (gấu bông):",
+                  "options": [
+                    "a. teddy bear",
+                    "b. top",
+                    "c. turtle",
+                    "d. tiger"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Gấu bông tương ứng với 'teddy bear'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh chỉ con vật/đồ chơi số 3 (con hổ):",
+                  "options": [
+                    "a. teddy bear",
+                    "b. top",
+                    "c. turtle",
+                    "d. tiger"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Con hổ tương ứng với 'tiger'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ chơi số 4 (con quay):",
+                  "options": [
+                    "a. teddy bear",
+                    "b. top",
+                    "c. turtle",
+                    "d. tiger"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Con quay tương ứng với 'top'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U14_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __op",
+                  "options": [],
+                  "correct_answer": "top",
+                  "explanation": "Điền chữ 't' để tạo thành 'top'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __urtle",
+                  "options": [],
+                  "correct_answer": "turtle",
+                  "explanation": "Điền chữ 't' để tạo thành 'turtle'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __iger",
+                  "options": [],
+                  "correct_answer": "tiger",
+                  "explanation": "Điền chữ 't' để tạo thành 'tiger'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __eddy bear",
+                  "options": [],
+                  "correct_answer": "teddy bear",
+                  "explanation": "Điền chữ 't' để tạo thành 'teddy bear'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 15,
+      "unit_title": "At the football match",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U15_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "face",
+                "father",
+                "foot",
+                "football"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ Tiếng Anh chỉ bộ phận/đồ vật số 1 (bàn chân):",
+                  "options": [
+                    "a. face",
+                    "b. father",
+                    "c. foot",
+                    "d. football"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Bàn chân tương ứng với 'foot'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ vật số 2 (quả bóng đá):",
+                  "options": [
+                    "a. face",
+                    "b. father",
+                    "c. foot",
+                    "d. football"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Quả bóng đá tương ứng với 'football'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh chỉ bộ phận số 3 (Khuôn mặt):",
+                  "options": [
+                    "a. face",
+                    "b. father",
+                    "c. foot",
+                    "d. football"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Khuôn mặt tương ứng với 'face'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đối tượng số 4 (người bố):",
+                  "options": [
+                    "a. face",
+                    "b. father",
+                    "c. foot",
+                    "d. football"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Người bố tương ứng với 'father'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U15_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __ather",
+                  "options": [],
+                  "correct_answer": "father",
+                  "explanation": "Điền chữ 'f' để hoàn thành từ 'father'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 2. __ace",
+                  "options": [],
+                  "correct_answer": "face",
+                  "explanation": "Điền chữ 'f' để hoàn thành từ 'face'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __oot",
+                  "options": [],
+                  "correct_answer": "foot",
+                  "explanation": "Điền chữ 'f' để hoàn thành từ 'foot'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __ootball",
+                  "options": [],
+                  "correct_answer": "football",
+                  "explanation": "Điền chữ 'f' để hoàn thành từ 'football'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "unit_number": 16,
+      "unit_title": "At home",
+      "sections": [
+        {
+          "section_name": "Vocabulary & Practice",
+          "exercises": [
+            {
+              "exercise_id": "U16_Ex1",
+              "exercise_type": "matching",
+              "instruction": "Look and match.",
+              "word_bank": [
+                "water",
+                "washing",
+                "window",
+                "Wendy"
+              ],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Chọn từ/tên Tiếng Anh chỉ người/đối tượng số 1 (bạn Wendy):",
+                  "options": [
+                    "a. water",
+                    "b. washing",
+                    "c. window",
+                    "d. Wendy"
+                  ],
+                  "correct_answer": "d",
+                  "explanation": "Tên bạn nhỏ là Wendy."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Chọn từ Tiếng Anh chỉ hành động số 2 (lau rửa/rửa):",
+                  "options": [
+                    "a. water",
+                    "b. washing",
+                    "c. window",
+                    "d. Wendy"
+                  ],
+                  "correct_answer": "b",
+                  "explanation": "Hành động lau rửa tương ứng với 'washing'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ vật số 3 (cửa sổ):",
+                  "options": [
+                    "a. water",
+                    "b. washing",
+                    "c. window",
+                    "d. Wendy"
+                  ],
+                  "correct_answer": "c",
+                  "explanation": "Cửa sổ tương ứng với 'window'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Chọn từ Tiếng Anh chỉ đồ vật/chất lỏng số 4 (nước):",
+                  "options": [
+                    "a. water",
+                    "b. washing",
+                    "c. window",
+                    "d. Wendy"
+                  ],
+                  "correct_answer": "a",
+                  "explanation": "Nước tương ứng với 'water'."
+                }
+              ]
+            },
+            {
+              "exercise_id": "U16_Ex4",
+              "exercise_type": "fill_in_blank",
+              "instruction": "Look and write. Then say.",
+              "word_bank": [],
+              "passage_context": null,
+              "questions": [
+                {
+                  "question_id": 1,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 1. __indow",
+                  "options": [],
+                  "correct_answer": "window",
+                  "explanation": "Điền chữ 'w' để hoàn thành từ 'window'."
+                },
+                {
+                  "question_id": 2,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện tên: 2. __endy",
+                  "options": [],
+                  "correct_answer": "Wendy",
+                  "explanation": "Điền chữ 'W' để hoàn thành tên 'Wendy'."
+                },
+                {
+                  "question_id": 3,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 3. __ashing",
+                  "options": [],
+                  "correct_answer": "washing",
+                  "explanation": "Điền chữ 'w' để hoàn thành từ 'washing'."
+                },
+                {
+                  "question_id": 4,
+                  "question_text": "Điền chữ cái còn thiếu để hoàn thiện từ: 4. __ater",
+                  "options": [],
+                  "correct_answer": "water",
+                  "explanation": "Điền chữ 'w' để hoàn thành từ 'water'."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
