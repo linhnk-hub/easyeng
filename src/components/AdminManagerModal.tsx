@@ -4693,21 +4693,33 @@ EasyEng`;
                 <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
                 </h5>
-                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Đăng nhập gần nhất:</span>
-                    <span className="font-semibold text-slate-800 flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
+                  <div className="flex items-start justify-between py-1 border-b border-slate-200/50 gap-2">
+                    <div>
+                      <span className="text-slate-700 font-semibold block">Đăng nhập gần nhất</span>
+                      <span className="text-[11px] text-slate-400">Thời điểm đăng nhập vào hệ thống</span>
+                    </div>
+                    <span className="font-semibold text-slate-800 flex items-center gap-1 shrink-0 bg-white px-2 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
+                      <Clock className="w-3.5 h-3.5 text-blue-500" />
                       {formatLastLogin(viewingDetailLearner.lastLoginAt || viewingDetailLearner.lastActiveDate)}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between py-1">
-                    <span className="text-slate-500 font-medium">Hoạt động gần nhất:</span>
-                    <span className="font-semibold text-slate-800 flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  <div className="flex items-start justify-between py-1 gap-2">
+                    <div>
+                      <span className="text-slate-700 font-semibold block">Hoạt động gần nhất</span>
+                      <span className="text-[11px] text-slate-400">Thời điểm học bài, chơi minigame/thử thách</span>
+                    </div>
+                    <span className="font-semibold text-slate-800 flex items-center gap-1 shrink-0 bg-white px-2 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
+                      <Calendar className="w-3.5 h-3.5 text-emerald-500" />
                       {formatLastLogin(viewingDetailLearner.lastActiveDate)}
                     </span>
                   </div>
+                  {(!viewingDetailLearner.lastLoginAt || viewingDetailLearner.lastLoginAt === viewingDetailLearner.lastActiveDate) && (
+                    <div className="pt-1 border-t border-slate-200/50 text-[11px] text-slate-500 flex items-center gap-1.5 italic">
+                      <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                      <span>Hai mốc trùng nhau do tài khoản chưa hoàn thành thêm bài học/mini-game nào sau khi đăng nhập.</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
