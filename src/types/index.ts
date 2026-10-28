@@ -39,6 +39,14 @@ export interface UnitData {
   sentenceChallenges?: SentenceChallenge[];
 }
 
+export interface UserActivityLogItem {
+  id: string;
+  activity: string;
+  timestamp: string;
+  type?: 'home' | 'game' | 'exercise' | 'profile' | 'badges' | 'login' | 'system';
+  unitId?: number;
+}
+
 export interface UserProfile {
   learnerId: 'ty' | 'na' | string;
   grade: number;
@@ -60,6 +68,8 @@ export interface UserProfile {
   highestStreak?: number;
   lastActiveDate: string;
   lastLoginAt?: string;
+  lastActiveActivity?: string;
+  activityLogs?: UserActivityLogItem[];
   pin?: string;
   fullName?: string;
   nickname?: string;

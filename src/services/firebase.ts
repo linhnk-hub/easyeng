@@ -12,7 +12,15 @@ import {
   getDocFromServer
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
-import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest, UserActiveSession } from '../types';
+import {
+  UserProfile,
+  UnitData,
+  ExerciseCluster,
+  PasswordResetRequest,
+  AccountVerificationRequest,
+  UserActiveSession,
+  UserActivityLogItem
+} from '../types';
 import { resolveValidUsername } from '../utils/userUtils';
 
 export enum OperationType {
@@ -100,6 +108,17 @@ function formatLearnerForFirestore(learner: UserProfile) {
 
   const primaryUsername = resolveValidUsername(learner.username, learner.name || learner.nickname);
 
+  // Clean activity logs (max 50 to keep document fast and compact)
+  const cleanActivityLogs = Array.isArray(learner.activityLogs)
+    ? learner.activityLogs.slice(-50).map(item => ({
+        id: String(item.id || `${Date.now()}_${Math.random().toString(36).slice(2, 6)}`),
+        activity: String(item.activity || '').slice(0, 160),
+        timestamp: String(item.timestamp || new Date().toISOString()),
+        type: String(item.type || 'home'),
+        ...(item.unitId !== undefined ? { unitId: Number(item.unitId) } : {})
+      }))
+    : [];
+
   return {
     id: String(learner.learnerId),
     name: primaryUsername,
@@ -121,6 +140,9 @@ function formatLearnerForFirestore(learner: UserProfile) {
     securityNumber: learner.securityNumber !== undefined && learner.securityNumber !== null ? Math.max(0, Math.min(10, Math.round(Number(learner.securityNumber)))) : 0,
     customAvatarUrl: learner.customAvatarUrl ? String(learner.customAvatarUrl).slice(0, 350000) : '',
     lastActiveDate: learner.lastActiveDate || new Date().toISOString(),
+    lastActiveActivity: learner.lastActiveActivity ? String(learner.lastActiveActivity).slice(0, 160) : 'Đang ở Trang chủ',
+    activityLogs: cleanActivityLogs,
+    lastLoginAt: learner.lastLoginAt || learner.lastActiveDate || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
 }
@@ -143,6 +165,16 @@ function formatFirestoreToLearner(data: any): UserProfile {
 
   const rawUsername = resolveValidUsername(data.username, data.name || data.nickname || 'hocsinh');
 
+  const rawActivityLogs: UserActivityLogItem[] = Array.isArray(data.activityLogs)
+    ? data.activityLogs.map((item: any) => ({
+        id: String(item.id || `${Date.now()}`),
+        activity: String(item.activity || 'Đang ở Trang chủ'),
+        timestamp: String(item.timestamp || data.lastActiveDate || new Date().toISOString()),
+        type: item.type || 'home',
+        unitId: item.unitId !== undefined ? Number(item.unitId) : undefined
+      }))
+    : [];
+
   return {
     learnerId: data.id || 'ty',
     name: rawUsername,
@@ -164,7 +196,82 @@ function formatFirestoreToLearner(data: any): UserProfile {
     securityNumber: data.securityNumber !== undefined && data.securityNumber !== null ? Math.max(0, Math.min(10, Math.round(Number(data.securityNumber)))) : 0,
     customAvatarUrl: data.customAvatarUrl || '',
     lastActiveDate: data.lastActiveDate || new Date().toISOString(),
+    lastLoginAt: data.lastLoginAt || data.lastActiveDate || new Date().toISOString(),
+    lastActiveActivity: data.lastActiveActivity || 'Đang ở Trang chủ',
+    activityLogs: rawActivityLogs,
   };
+}
+
+/**
+ * Throttle map to prevent multiple writes for the same activity in a short period
+ */
+const lastLoggedCache: Record<string, { activity: string; timestamp: number }> = {};
+
+/**
+ * Ghi lại nhật ký hoạt động (activity log) của người dùng lên Cloud Firestore
+ */
+export async function logUserActivityToCloud(
+  learnerId: string,
+  activity: string,
+  type: 'home' | 'game' | 'exercise' | 'profile' | 'badges' | 'login' | 'system' = 'system',
+  unitId?: number
+): Promise<UserProfile | null> {
+  if (!learnerId || !activity) return null;
+  const now = Date.now();
+  const cached = lastLoggedCache[learnerId];
+
+  // Nếu cùng 1 activity và diễn ra trong vòng 4 giây -> bỏ qua ghi lặp
+  if (cached && cached.activity === activity && now - cached.timestamp < 4000) {
+    return null;
+  }
+  lastLoggedCache[learnerId] = { activity, timestamp: now };
+
+  const nowIso = new Date().toISOString();
+  const logItem: UserActivityLogItem = {
+    id: `${now}_${Math.random().toString(36).slice(2, 6)}`,
+    activity: activity.slice(0, 160),
+    timestamp: nowIso,
+    type,
+    ...(unitId !== undefined ? { unitId } : {})
+  };
+
+  const path = `learners/${learnerId}`;
+  try {
+    const docRef = doc(db, 'learners', learnerId);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) return null;
+
+    const currentData = snap.data();
+    const existingLogs: UserActivityLogItem[] = Array.isArray(currentData.activityLogs)
+      ? currentData.activityLogs
+      : [];
+
+    // Chỉ thêm vào danh sách log nếu khác với log gần nhất
+    const lastItem = existingLogs[existingLogs.length - 1];
+    let newLogs = [...existingLogs];
+    if (!lastItem || lastItem.activity !== activity) {
+      newLogs.push(logItem);
+      if (newLogs.length > 50) {
+        newLogs = newLogs.slice(-50);
+      }
+    }
+
+    const payload = {
+      lastActiveDate: nowIso,
+      lastActiveActivity: activity,
+      activityLogs: newLogs,
+      updatedAt: nowIso
+    };
+
+    await setDoc(docRef, payload, { merge: true });
+    return formatFirestoreToLearner({
+      ...currentData,
+      ...payload
+    });
+  } catch (err) {
+    console.warn('logUserActivityToCloud notice:', err);
+    return null;
+  }
 }
 
 /**

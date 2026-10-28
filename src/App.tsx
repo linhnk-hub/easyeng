@@ -57,7 +57,8 @@ import {
   clearAccountActiveSession,
   updateSessionHeartbeat,
   checkLearnerActiveSession,
-  subscribeToLearnerActiveSession
+  subscribeToLearnerActiveSession,
+  logUserActivityToCloud
 } from './services/firebase';
 import { getOrCreateDeviceId } from './utils/sessionUtils';
 import { fireGrandFireworks } from './utils/confettiFireworks';
@@ -505,6 +506,106 @@ export default function App() {
     setActiveGame('none');
   }, [activeLearnerId, currentUser?.grade, currentUnits]);
 
+  // Helper to record user activity locally and sync to Cloud Firestore
+  const recordActivity = (
+    activity: string,
+    type: 'home' | 'game' | 'exercise' | 'profile' | 'badges' | 'login' | 'system' = 'system',
+    unitId?: number
+  ) => {
+    if (!activeLearnerId) return;
+    const nowIso = new Date().toISOString();
+
+    setLearners(prev => prev.map(l => {
+      if (l.learnerId !== activeLearnerId) return l;
+      const existingLogs = Array.isArray(l.activityLogs) ? l.activityLogs : [];
+      const lastItem = existingLogs[existingLogs.length - 1];
+
+      let newLogs = [...existingLogs];
+      if (!lastItem || lastItem.activity !== activity) {
+        newLogs.push({
+          id: `${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+          activity,
+          timestamp: nowIso,
+          type,
+          ...(unitId !== undefined ? { unitId } : {})
+        });
+        if (newLogs.length > 50) newLogs = newLogs.slice(-50);
+      }
+
+      return {
+        ...l,
+        lastActiveDate: nowIso,
+        lastActiveActivity: activity,
+        activityLogs: newLogs
+      };
+    }));
+
+    logUserActivityToCloud(activeLearnerId, activity, type, unitId).catch(() => {});
+  };
+
+  // Theo dõi mọi hoạt động của tài khoản theo yêu cầu:
+  // (đang xem thông tin tài khoản, đang làm minigame nào, ở unit nào...,
+  // nếu đang ở trang chủ, chưa bấm vào nội dung nào thì ghi hoạt động là đang ở trang chủ)
+  useEffect(() => {
+    if (!activeLearnerId || !currentUser) return;
+
+    let currentActivityDesc = 'Đang ở Trang chủ';
+    let currentType: 'home' | 'game' | 'exercise' | 'profile' | 'badges' | 'login' | 'system' = 'home';
+    let currentUnitId: number | undefined = undefined;
+
+    if (showAvatarModal) {
+      currentActivityDesc = 'Đang xem thông tin tài khoản';
+      currentType = 'profile';
+    } else if (showBadgesModal) {
+      currentActivityDesc = 'Đang xem bảng thành tích';
+      currentType = 'badges';
+    } else if (showAdminModal) {
+      currentActivityDesc = 'Đang ở Trang quản lý hệ thống';
+      currentType = 'system';
+    } else if (activeGame === 'challenge') {
+      currentActivityDesc = `Đang làm Thử thách toàn diện - Lớp ${currentUser.grade}`;
+      currentType = 'game';
+    } else if (activeGame === 'flashcards' && selectedUnit) {
+      currentActivityDesc = `Đang học Flashcards - Unit ${selectedUnit.unit}: ${selectedUnit.title}`;
+      currentType = 'game';
+      currentUnitId = selectedUnit.unit;
+    } else if (activeGame === 'memory' && selectedUnit) {
+      currentActivityDesc = `Đang chơi Lật thẻ - Unit ${selectedUnit.unit}: ${selectedUnit.title}`;
+      currentType = 'game';
+      currentUnitId = selectedUnit.unit;
+    } else if (activeGame === 'wordScramble' && selectedUnit) {
+      currentActivityDesc = `Đang chơi Sắp xếp từ - Unit ${selectedUnit.unit}: ${selectedUnit.title}`;
+      currentType = 'game';
+      currentUnitId = selectedUnit.unit;
+    } else if (activeGame === 'sentence' && selectedUnit) {
+      currentActivityDesc = `Đang chơi Ghép câu - Unit ${selectedUnit.unit}: ${selectedUnit.title}`;
+      currentType = 'game';
+      currentUnitId = selectedUnit.unit;
+    } else if (activeGame === 'quiz' && selectedUnit) {
+      currentActivityDesc = `Đang làm Trắc nghiệm - Unit ${selectedUnit.unit}: ${selectedUnit.title}`;
+      currentType = 'game';
+      currentUnitId = selectedUnit.unit;
+    } else if (activeExerciseCluster) {
+      currentActivityDesc = `Đang làm bài tập: ${activeExerciseCluster.title} - Lớp ${currentUser.grade}`;
+      currentType = 'exercise';
+    } else {
+      currentActivityDesc = 'Đang ở Trang chủ';
+      currentType = 'home';
+    }
+
+    recordActivity(currentActivityDesc, currentType, currentUnitId);
+  }, [
+    activeLearnerId,
+    activeGame,
+    activeExerciseCluster?.id,
+    showAvatarModal,
+    showBadgesModal,
+    showAdminModal,
+    selectedUnit?.unit,
+    selectedUnit?.title,
+    currentUser?.grade
+  ]);
+
   // Save learners to localStorage only (never auto-create on cloud!)
   useEffect(() => {
     if (learners.length > 0) {
@@ -857,6 +958,20 @@ export default function App() {
       currentUser.highestStreak
     );
 
+    const nowIso = new Date().toISOString();
+    const completedActivity = `Hoàn thành bài tập: ${activeExerciseCluster?.title || 'Bài tập'} (${starsEarned} sao)`;
+
+    const existingLogs = Array.isArray(currentUser.activityLogs) ? currentUser.activityLogs : [];
+    const updatedLogs = [
+      ...existingLogs,
+      {
+        id: `${Date.now()}_ex_done`,
+        activity: completedActivity,
+        timestamp: nowIso,
+        type: 'exercise' as const
+      }
+    ].slice(-50);
+
     const updatedUser: UserProfile = {
       ...currentUser,
       xp: newXp,
@@ -864,7 +979,9 @@ export default function App() {
       totalStars: newTotalStars,
       currentStreak: streakResult.currentStreak,
       highestStreak: streakResult.highestStreak,
-      lastActiveDate: new Date().toISOString()
+      lastActiveDate: nowIso,
+      lastActiveActivity: completedActivity,
+      activityLogs: updatedLogs
     };
 
     setLearners(prev => prev.map(l => l.learnerId === updatedUser.learnerId ? updatedUser : l));
@@ -1014,13 +1131,32 @@ export default function App() {
       const correctLevel = calculateLevelFromXp(target.xp);
       const nowIso = new Date().toISOString();
 
+      const existingLogs = Array.isArray(target.activityLogs) ? target.activityLogs : [];
+      const updatedLogs = [
+        ...existingLogs,
+        {
+          id: `${Date.now()}_login`,
+          activity: 'Đăng nhập vào hệ thống',
+          timestamp: nowIso,
+          type: 'login' as const
+        },
+        {
+          id: `${Date.now()}_home`,
+          activity: 'Đang ở Trang chủ',
+          timestamp: nowIso,
+          type: 'home' as const
+        }
+      ].slice(-50);
+
       const updated: UserProfile = {
         ...target,
         level: correctLevel,
         currentStreak: streakRes.currentStreak,
         highestStreak: streakRes.highestStreak,
         lastActiveDate: nowIso,
-        lastLoginAt: nowIso
+        lastLoginAt: nowIso,
+        lastActiveActivity: 'Đang ở Trang chủ',
+        activityLogs: updatedLogs
       };
       syncLearnerToCloud(updated).catch(() => {});
       return prev.map(l => l.learnerId === learnerId ? updated : l);
@@ -1147,6 +1283,31 @@ export default function App() {
     // - "Trạng nguyên tiếng Anh": Đạt 3 sao trắc nghiệm tất cả các Unit
     const newBadges = computeLearnerBadges(newCompletedUnits, currentUser.unlockedBadges, currentUnits);
 
+    const nowIso = new Date().toISOString();
+    const gameNames: Record<string, string> = {
+      flashcards: 'Flashcards',
+      memory: 'Lật thẻ',
+      wordScramble: 'Sắp xếp từ',
+      sentence: 'Ghép câu',
+      quiz: 'Trắc nghiệm',
+      challenge: 'Thử thách toàn diện'
+    };
+    const completedActivity = activeGame === 'challenge'
+      ? `Hoàn thành Thử thách toàn diện - Lớp ${currentUser.grade} (${starsEarned} sao)`
+      : `Hoàn thành ${gameNames[activeGame] || 'bài học'} - Unit ${unitNum} (${starsEarned} sao)`;
+
+    const existingLogs = Array.isArray(currentUser.activityLogs) ? currentUser.activityLogs : [];
+    const updatedLogs = [
+      ...existingLogs,
+      {
+        id: `${Date.now()}_game_done`,
+        activity: completedActivity,
+        timestamp: nowIso,
+        type: 'game' as const,
+        unitId: unitNum
+      }
+    ].slice(-50);
+
     const updatedProfile: UserProfile = {
       ...currentUser,
       xp: newXp,
@@ -1156,7 +1317,9 @@ export default function App() {
       highestStreak: streakResult.highestStreak,
       completedUnits: newCompletedUnits,
       unlockedBadges: newBadges,
-      lastActiveDate: new Date().toISOString()
+      lastActiveDate: nowIso,
+      lastActiveActivity: completedActivity,
+      activityLogs: updatedLogs
     };
 
     setLearners(prev => prev.map(l => l.learnerId === currentUser.learnerId ? updatedProfile : l));
@@ -1309,6 +1472,20 @@ export default function App() {
   ) => {
     if (!currentUser) return;
     const finalUsername = resolveValidUsername(currentUser.username, newNickname || newName);
+    const nowIso = new Date().toISOString();
+    const updateActivity = 'Cập nhật thông tin tài khoản';
+
+    const existingLogs = Array.isArray(currentUser.activityLogs) ? currentUser.activityLogs : [];
+    const updatedLogs = [
+      ...existingLogs,
+      {
+        id: `${Date.now()}_profile_save`,
+        activity: updateActivity,
+        timestamp: nowIso,
+        type: 'profile' as const
+      }
+    ].slice(-50);
+
     const updated: UserProfile = {
       ...currentUser,
       name: finalUsername,
@@ -1319,7 +1496,10 @@ export default function App() {
       ...(newPin ? { pin: newPin } : {}),
       phone: newPhone !== undefined ? newPhone : (currentUser.phone || ''),
       email: newEmail !== undefined ? newEmail : (currentUser.email || ''),
-      ...(uploadedCustomAvatar ? { customAvatarUrl: uploadedCustomAvatar } : {})
+      ...(uploadedCustomAvatar ? { customAvatarUrl: uploadedCustomAvatar } : {}),
+      lastActiveDate: nowIso,
+      lastActiveActivity: updateActivity,
+      activityLogs: updatedLogs
     };
     setLearners(prev => prev.map(l => l.learnerId === currentUser.learnerId ? updated : l));
     syncLearnerToCloud(updated).catch(err => {

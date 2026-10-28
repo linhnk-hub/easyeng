@@ -43,9 +43,11 @@ import {
   ChevronDown,
   Award,
   Star,
-  Calendar
+  Calendar,
+  Activity,
+  History
 } from 'lucide-react';
-import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest } from '../types';
+import { UserProfile, UnitData, ExerciseCluster, PasswordResetRequest, AccountVerificationRequest, UserActivityLogItem } from '../types';
 import { AVATARS } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
@@ -323,6 +325,31 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
         return `Hôm qua ${hours}:${minutes}`;
       }
       return `${hours}:${minutes} ${day}/${month}/${year}`;
+    } catch {
+      return 'Chưa ghi nhận';
+    }
+  };
+
+  // Format thời gian chi tiết cho nhật ký hoạt động (có cả giây)
+  const formatActivityTime = (dateStr?: string): string => {
+    if (!dateStr) return 'Chưa ghi nhận';
+    try {
+      const d = new Date(dateStr);
+      if (isNaN(d.getTime())) return 'Chưa ghi nhận';
+      const now = new Date();
+      const isToday = d.toDateString() === now.toDateString();
+
+      const hours = String(d.getHours()).padStart(2, '0');
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const seconds = String(d.getSeconds()).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+
+      if (isToday) {
+        return `Hôm nay ${hours}:${minutes}:${seconds}`;
+      }
+      return `${hours}:${minutes}:${seconds} • ${day}/${month}/${year}`;
     } catch {
       return 'Chưa ghi nhận';
     }
@@ -2533,11 +2560,23 @@ EasyEng`;
                               </span>
                             </div>
 
-                            {/* Mục Đăng nhập gần nhất */}
-                            <div className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-                              <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                              <span className="text-slate-500">Đăng nhập gần nhất:</span>
-                              <span className="font-semibold text-slate-700">{lastLoginDisplay}</span>
+                            {/* Mục Đăng nhập gần nhất & Hoạt động gần nhất */}
+                            <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs text-slate-500 font-medium">
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <Clock className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                                <span className="text-slate-500">Đăng nhập:</span>
+                                <span className="font-semibold text-slate-700">{lastLoginDisplay}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <Activity className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                                <span className="text-slate-500">Hoạt động:</span>
+                                <span
+                                  className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/70 truncate max-w-[190px] sm:max-w-[280px]"
+                                  title={learner.lastActiveActivity || 'Đang ở Trang chủ'}
+                                >
+                                  {learner.lastActiveActivity || 'Đang ở Trang chủ'}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -4554,241 +4593,327 @@ EasyEng`;
       {/* ========================================================= */}
       {/* MODAL CHI TIẾT BẢNG THÔNG TIN THÀNH VIÊN */}
       {/* ========================================================= */}
-      {viewingDetailLearner && (
-        <div
-          className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
-          onClick={() => setViewingDetailLearner(null)}
-        >
+      {viewingDetailLearner && (() => {
+        const targetDetail = learners.find(l => l.learnerId === viewingDetailLearner.learnerId) || viewingDetailLearner;
+        const lastLoginTimeDisplay = formatLastLogin(targetDetail.lastLoginAt || targetDetail.lastActiveDate);
+        const lastActivityTimeDisplay = formatActivityTime(targetDetail.lastActiveDate);
+        const currentActivityName = targetDetail.lastActiveActivity || 'Đang ở Trang chủ';
+        const activityLogsList: UserActivityLogItem[] = Array.isArray(targetDetail.activityLogs) && targetDetail.activityLogs.length > 0
+          ? targetDetail.activityLogs
+          : [
+              {
+                id: 'init_act',
+                activity: currentActivityName,
+                timestamp: targetDetail.lastActiveDate || new Date().toISOString(),
+                type: 'home'
+              }
+            ];
+
+        return (
           <div
-            className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+            onClick={() => setViewingDetailLearner(null)}
           >
-            {/* Header modal */}
-            <div className="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 px-5 py-4 text-white flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center">
-                  <User className="w-4 h-4 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-display font-bold text-base leading-tight">
-                    Chi tiết thông tin tài khoản
-                  </h3>
-                
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => setViewingDetailLearner(null)}
-                className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition active:scale-95 cursor-pointer"
-                title="Đóng"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Profile banner & Avatar */}
-            <div className="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
-              <div className="flex items-center gap-4 pb-4 border-b border-slate-100">
-                <div className="w-16 h-16 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-3xl shrink-0 overflow-hidden shadow-sm">
-                  {renderAvatarContent(viewingDetailLearner.avatar)}
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h4 className="font-display font-bold text-lg text-slate-900 font-mono tracking-tight">
-                      {viewingDetailLearner.username || resolveValidUsername(viewingDetailLearner.username, viewingDetailLearner.name)}
-                    </h4>
-                    <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-lg">
-                      Lớp {viewingDetailLearner.grade}
-                    </span>
+            <div
+              className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header modal */}
+              <div className="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 px-5 py-4 text-white flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center">
+                    <User className="w-4 h-4 text-white" />
                   </div>
-                  {viewingDetailLearner.name && viewingDetailLearner.name.toLowerCase() !== (viewingDetailLearner.username || '').toLowerCase() && (
-                    <p className="text-xs text-slate-600 font-medium mt-0.5">
-                      Họ và tên: <span className="font-semibold text-slate-800">{viewingDetailLearner.name}</span>
-                    </p>
-                  )}
-                  {viewingDetailLearner.nickname && viewingDetailLearner.nickname !== viewingDetailLearner.name && (
-                    <p className="text-xs text-slate-500 font-medium">
-                      Biệt danh: <span className="font-semibold text-slate-700">{viewingDetailLearner.nickname}</span>
-                    </p>
-                  )}
+                  <div>
+                    <h3 className="font-display font-bold text-base leading-tight">
+                      Chi tiết thông tin tài khoản
+                    </h3>
+                  </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setViewingDetailLearner(null)}
+                  className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition active:scale-95 cursor-pointer"
+                  title="Đóng"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              {/* Bảng chi tiết 1: Thông tin tài khoản & Bảo mật */}
-              <div>
-                <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-amber-600" /> Thông tin tài khoản 
-                </h5>
-                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Tên đăng nhập:</span>
-                    <span className="font-mono font-bold text-slate-800">{viewingDetailLearner.username || '—'}</span>
+              {/* Profile banner & Avatar */}
+              <div className="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+                <div className="flex items-center gap-4 pb-4 border-b border-slate-100">
+                  <div className="w-16 h-16 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-3xl shrink-0 overflow-hidden shadow-sm">
+                    {renderAvatarContent(targetDetail.avatar)}
                   </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Mật khẩu đăng nhập:</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-mono font-bold text-slate-800 tracking-wider">
-                        {viewingDetailLearner.pin
-                          ? (showDetailPin ? viewingDetailLearner.pin : '••••••••')
-                          : '(Chưa đặt)'}
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="font-display font-bold text-lg text-slate-900 font-mono tracking-tight">
+                        {targetDetail.username || resolveValidUsername(targetDetail.username, targetDetail.name)}
+                      </h4>
+                      <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-lg">
+                        Lớp {targetDetail.grade}
                       </span>
-                      {Boolean(viewingDetailLearner.pin) && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            soundEffects.playClick();
-                            setShowDetailPin(prev => !prev);
-                          }}
-                          className="p-1 rounded-lg hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 transition cursor-pointer"
-                          title={showDetailPin ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
-                        >
-                          {showDetailPin ? <EyeOff className="w-3.5 h-3.5 text-slate-600" /> : <Eye className="w-3.5 h-3.5 text-slate-500" />}
-                        </button>
-                      )}
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Số bảo mật:</span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
-                        {viewingDetailLearner.securityNumber !== undefined
-                          ? (showDetailSecNum ? `Số ${viewingDetailLearner.securityNumber}` : 'Số ••')
-                          : 'Chưa thiết lập'}
-                      </span>
-                      {viewingDetailLearner.securityNumber !== undefined && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            soundEffects.playClick();
-                            setShowDetailSecNum(prev => !prev);
-                          }}
-                          className="p-1 rounded-lg hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 transition cursor-pointer"
-                          title={showDetailSecNum ? 'Ẩn số bảo mật' : 'Hiện số bảo mật'}
-                        >
-                          {showDetailSecNum ? <EyeOff className="w-3.5 h-3.5 text-indigo-600" /> : <Eye className="w-3.5 h-3.5 text-indigo-500" />}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Trình độ:</span>
-                    <span className="font-semibold text-slate-800">Lớp {viewingDetailLearner.grade} ({getGradeLevelName(viewingDetailLearner.grade)})</span>
-                  </div>
-
-                  <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
-                    <span className="text-slate-500 font-medium">Số điện thoại:</span>
-                    <span className="font-semibold text-slate-800">{viewingDetailLearner.phone || 'Chưa cập nhật'}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-1">
-                    <span className="text-slate-500 font-medium">Địa chỉ Email:</span>
-                    <span className="font-semibold text-slate-800 truncate max-w-[220px]" title={viewingDetailLearner.email}>
-                      {viewingDetailLearner.email || 'Chưa cập nhật'}
-                    </span>
+                    {targetDetail.name && targetDetail.name.toLowerCase() !== (targetDetail.username || '').toLowerCase() && (
+                      <p className="text-xs text-slate-600 font-medium mt-0.5">
+                        Họ và tên: <span className="font-semibold text-slate-800">{targetDetail.name}</span>
+                      </p>
+                    )}
+                    {targetDetail.nickname && targetDetail.nickname !== targetDetail.name && (
+                      <p className="text-xs text-slate-500 font-medium">
+                        Biệt danh: <span className="font-semibold text-slate-700">{targetDetail.nickname}</span>
+                      </p>
+                    )}
                   </div>
                 </div>
-              </div>
 
-              {/* Bảng chi tiết 2: Thời gian đăng nhập & Phiên hoạt động */}
-              <div>
-                <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
-                </h5>
-                <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
-                  <div className="flex items-start justify-between py-1 border-b border-slate-200/50 gap-2">
-                    <div>
-                      <span className="text-slate-700 font-semibold block">Đăng nhập gần nhất</span>
-                      <span className="text-[11px] text-slate-400">Thời điểm đăng nhập vào hệ thống</span>
-                    </div>
-                    <span className="font-semibold text-slate-800 flex items-center gap-1 shrink-0 bg-white px-2 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
-                      <Clock className="w-3.5 h-3.5 text-blue-500" />
-                      {formatLastLogin(viewingDetailLearner.lastLoginAt || viewingDetailLearner.lastActiveDate)}
-                    </span>
-                  </div>
-                  <div className="flex items-start justify-between py-1 gap-2">
-                    <div>
-                      <span className="text-slate-700 font-semibold block">Hoạt động gần nhất</span>
-                      <span className="text-[11px] text-slate-400">Thời điểm học bài, chơi minigame/thử thách</span>
-                    </div>
-                    <span className="font-semibold text-slate-800 flex items-center gap-1 shrink-0 bg-white px-2 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
-                      <Calendar className="w-3.5 h-3.5 text-emerald-500" />
-                      {formatLastLogin(viewingDetailLearner.lastActiveDate)}
-                    </span>
-                  </div>
-                  {(!viewingDetailLearner.lastLoginAt || viewingDetailLearner.lastLoginAt === viewingDetailLearner.lastActiveDate) && (
-                    <div className="pt-1 border-t border-slate-200/50 text-[11px] text-slate-500 flex items-center gap-1.5 italic">
-                      <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                      <span>Hai mốc trùng nhau do tài khoản chưa hoàn thành thêm bài học/mini-game nào sau khi đăng nhập.</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Bảng chi tiết 3: Thành tích học tập */}
-              <div>
-                <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                  <Star className="w-3.5 h-3.5 text-amber-500" /> Thành tích &amp; Tiến trình học
-                </h5>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5">
-                    <p className="text-lg font-bold text-amber-700">⭐ {viewingDetailLearner.totalStars || 0}</p>
-                    <p className="text-[11px] font-medium text-amber-900">Tổng sao</p>
-                  </div>
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-2.5">
-                    <p className="text-lg font-bold text-blue-700">⚡ {viewingDetailLearner.xp || 0}</p>
-                    <p className="text-[11px] font-medium text-blue-900">XP (Lv.{viewingDetailLearner.level || 1})</p>
-                  </div>
-                  <div className="bg-orange-50 border border-orange-200 rounded-xl p-2.5">
-                    <p className="text-lg font-bold text-orange-700">🔥 {viewingDetailLearner.currentStreak || 0}</p>
-                    <p className="text-[11px] font-medium text-orange-900">Chuỗi ngày</p>
-                  </div>
-                  <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5">
-                    <p className="text-lg font-bold text-emerald-700">📚 {Object.keys(viewingDetailLearner.completedUnits || {}).length}</p>
-                    <p className="text-[11px] font-medium text-emerald-900">Bài đã học</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Huy hiệu đã đạt */}
-              {viewingDetailLearner.unlockedBadges && viewingDetailLearner.unlockedBadges.length > 0 && (
+                {/* Bảng chi tiết 1: Thông tin tài khoản & Bảo mật */}
                 <div>
                   <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <Award className="w-3.5 h-3.5 text-amber-500" /> Huy hiệu đã đạt ({viewingDetailLearner.unlockedBadges.length})
+                    <Shield className="w-3.5 h-3.5 text-amber-600" /> Thông tin tài khoản 
                   </h5>
-                  <div className="flex flex-wrap gap-2 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl">
-                    {viewingDetailLearner.unlockedBadges.map((badgeId) => (
-                      <span key={badgeId} className="px-2.5 py-1 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-2xs">
-                        🏅 {badgeId}
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2 text-xs">
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                      <span className="text-slate-500 font-medium">Tên đăng nhập:</span>
+                      <span className="font-mono font-bold text-slate-800">{targetDetail.username || '—'}</span>
+                    </div>
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                      <span className="text-slate-500 font-medium">Mật khẩu đăng nhập:</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono font-bold text-slate-800 tracking-wider">
+                          {targetDetail.pin
+                            ? (showDetailPin ? targetDetail.pin : '••••••••')
+                            : '(Chưa đặt)'}
+                        </span>
+                        {Boolean(targetDetail.pin) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playClick();
+                              setShowDetailPin(prev => !prev);
+                            }}
+                            className="p-1 rounded-lg hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 transition cursor-pointer"
+                            title={showDetailPin ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                          >
+                            {showDetailPin ? <EyeOff className="w-3.5 h-3.5 text-slate-600" /> : <Eye className="w-3.5 h-3.5 text-slate-500" />}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                      <span className="text-slate-500 font-medium">Số bảo mật:</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-semibold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200">
+                          {targetDetail.securityNumber !== undefined
+                            ? (showDetailSecNum ? `Số ${targetDetail.securityNumber}` : 'Số ••')
+                            : 'Chưa thiết lập'}
+                        </span>
+                        {targetDetail.securityNumber !== undefined && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playClick();
+                              setShowDetailSecNum(prev => !prev);
+                            }}
+                            className="p-1 rounded-lg hover:bg-slate-200/80 text-slate-500 hover:text-slate-800 transition cursor-pointer"
+                            title={showDetailSecNum ? 'Ẩn số bảo mật' : 'Hiện số bảo mật'}
+                          >
+                            {showDetailSecNum ? <EyeOff className="w-3.5 h-3.5 text-indigo-600" /> : <Eye className="w-3.5 h-3.5 text-indigo-500" />}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                      <span className="text-slate-500 font-medium">Trình độ:</span>
+                      <span className="font-semibold text-slate-800">Lớp {targetDetail.grade} ({getGradeLevelName(targetDetail.grade)})</span>
+                    </div>
+
+                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50">
+                      <span className="text-slate-500 font-medium">Số điện thoại:</span>
+                      <span className="font-semibold text-slate-800">{targetDetail.phone || 'Chưa cập nhật'}</span>
+                    </div>
+                    <div className="flex items-center justify-between py-1">
+                      <span className="text-slate-500 font-medium">Địa chỉ Email:</span>
+                      <span className="font-semibold text-slate-800 truncate max-w-[220px]" title={targetDetail.email}>
+                        {targetDetail.email || 'Chưa cập nhật'}
                       </span>
-                    ))}
+                    </div>
                   </div>
                 </div>
-              )}
-            </div>
 
-            {/* Footer buttons */}
-            <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  const l = viewingDetailLearner;
-                  setViewingDetailLearner(null);
-                  handleStartEditLearner(l);
-                }}
-                className="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
-              >
-                <Edit2 className="w-3.5 h-3.5 text-sky-600" /> Sửa thông tin
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewingDetailLearner(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer"
-              >
-                Đóng
-              </button>
+                {/* Bảng chi tiết 2: Thời gian đăng nhập & Phiên hoạt động */}
+                <div>
+                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
+                  </h5>
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
+                    {/* Đăng nhập gần nhất */}
+                    <div className="flex items-start justify-between py-1 border-b border-slate-200/50 gap-2">
+                      <div>
+                        <span className="text-slate-700 font-semibold block">Đăng nhập gần nhất</span>
+                        <span className="text-[11px] text-slate-400">Thời điểm đăng nhập vào hệ thống</span>
+                      </div>
+                      <span className="font-semibold text-slate-800 flex items-center gap-1 shrink-0 bg-white px-2.5 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
+                        <Clock className="w-3.5 h-3.5 text-blue-500" />
+                        {lastLoginTimeDisplay}
+                      </span>
+                    </div>
+
+                    {/* Hoạt động gần nhất */}
+                    <div className="py-1 space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <div>
+                          <span className="text-slate-700 font-semibold flex items-center gap-1.5">
+                            <Activity className="w-3.5 h-3.5 text-emerald-600" />
+                            Hoạt động gần nhất
+                          </span>
+                          <span className="text-[11px] text-slate-400">Nội dung hoạt động mới nhất của tài khoản</span>
+                        </div>
+                        <span className="font-semibold text-slate-700 flex items-center gap-1 shrink-0 bg-white px-2 py-0.5 rounded-lg border border-slate-200/60 text-[11px] shadow-2xs">
+                          <Calendar className="w-3 h-3 text-emerald-500" />
+                          {lastActivityTimeDisplay}
+                        </span>
+                      </div>
+
+                      {/* Nội dung chi tiết hoạt động mới nhất */}
+                      <div className="p-2.5 rounded-xl bg-white border border-emerald-300 flex items-center gap-2.5 shadow-2xs">
+                        <span className="relative flex h-2.5 w-2.5 shrink-0">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-bold text-slate-900 text-xs truncate" title={currentActivityName}>
+                            {currentActivityName}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bảng chi tiết 3: Nhật ký hoạt động (Activity Logs Timeline) */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                      <History className="w-3.5 h-3.5 text-indigo-600" /> Nhật ký hoạt động
+                    </h5>
+                    <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-2 py-0.5 rounded-full">
+                      {activityLogsList.length} ghi nhận
+                    </span>
+                  </div>
+
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 space-y-1.5 max-h-52 overflow-y-auto">
+                    {[...activityLogsList].reverse().map((logItem, idx) => {
+                      const typeConfig: Record<string, { label: string; badgeCol: string; dotCol: string }> = {
+                        home: { label: 'Trang chủ', badgeCol: 'bg-slate-100 text-slate-700 border-slate-200', dotCol: 'bg-slate-400' },
+                        game: { label: 'Minigame', badgeCol: 'bg-amber-100 text-amber-800 border-amber-200', dotCol: 'bg-amber-500' },
+                        exercise: { label: 'Bài tập', badgeCol: 'bg-sky-100 text-sky-800 border-sky-200', dotCol: 'bg-sky-500' },
+                        profile: { label: 'Tài khoản', badgeCol: 'bg-purple-100 text-purple-800 border-purple-200', dotCol: 'bg-purple-500' },
+                        badges: { label: 'Thành tích', badgeCol: 'bg-pink-100 text-pink-800 border-pink-200', dotCol: 'bg-pink-500' },
+                        login: { label: 'Đăng nhập', badgeCol: 'bg-emerald-100 text-emerald-800 border-emerald-200', dotCol: 'bg-emerald-500' },
+                        system: { label: 'Hệ thống', badgeCol: 'bg-slate-100 text-slate-700 border-slate-200', dotCol: 'bg-slate-500' },
+                      };
+                      const cfg = typeConfig[logItem.type || 'home'] || typeConfig.home;
+                      const isLatest = idx === 0;
+
+                      return (
+                        <div
+                          key={logItem.id || idx}
+                          className={`p-2.5 rounded-xl text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 transition ${
+                            isLatest
+                              ? 'bg-white border border-emerald-300 shadow-2xs'
+                              : 'bg-white/70 border border-slate-200/60 hover:bg-white'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2 min-w-0">
+                            <span className={`w-2 h-2 rounded-full shrink-0 ${cfg.dotCol} ${isLatest ? 'ring-2 ring-emerald-200' : ''}`} />
+                            <span className="font-semibold text-slate-800 truncate" title={logItem.activity}>
+                              {logItem.activity}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md border ${cfg.badgeCol}`}>
+                              {cfg.label}
+                            </span>
+                            <span className="text-[11px] text-slate-400 font-mono">
+                              {formatActivityTime(logItem.timestamp)}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Bảng chi tiết 4: Thành tích học tập */}
+                <div>
+                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Star className="w-3.5 h-3.5 text-amber-500" /> Thành tích &amp; Tiến trình học
+                  </h5>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5">
+                      <p className="text-lg font-bold text-amber-700">⭐ {targetDetail.totalStars || 0}</p>
+                      <p className="text-[11px] font-medium text-amber-900">Tổng sao</p>
+                    </div>
+                    <div className="bg-blue-50 border border-blue-200 rounded-xl p-2.5">
+                      <p className="text-lg font-bold text-blue-700">⚡ {targetDetail.xp || 0}</p>
+                      <p className="text-[11px] font-medium text-blue-900">XP (Lv.{targetDetail.level || 1})</p>
+                    </div>
+                    <div className="bg-orange-50 border border-orange-200 rounded-xl p-2.5">
+                      <p className="text-lg font-bold text-orange-700">🔥 {targetDetail.currentStreak || 0}</p>
+                      <p className="text-[11px] font-medium text-orange-900">Chuỗi ngày</p>
+                    </div>
+                    <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-2.5">
+                      <p className="text-lg font-bold text-emerald-700">📚 {Object.keys(targetDetail.completedUnits || {}).length}</p>
+                      <p className="text-[11px] font-medium text-emerald-900">Bài đã học</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Huy hiệu đã đạt */}
+                {targetDetail.unlockedBadges && targetDetail.unlockedBadges.length > 0 && (
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <Award className="w-3.5 h-3.5 text-amber-500" /> Huy hiệu đã đạt ({targetDetail.unlockedBadges.length})
+                    </h5>
+                    <div className="flex flex-wrap gap-2 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl">
+                      {targetDetail.unlockedBadges.map((badgeId) => (
+                        <span key={badgeId} className="px-2.5 py-1 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-2xs">
+                          🏅 {badgeId}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Footer buttons */}
+              <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const l = targetDetail;
+                    setViewingDetailLearner(null);
+                    handleStartEditLearner(l);
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+                >
+                  <Edit2 className="w-3.5 h-3.5 text-sky-600" /> Sửa thông tin
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewingDetailLearner(null)}
+                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer"
+                >
+                  Đóng
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 };

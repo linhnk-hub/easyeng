@@ -26,7 +26,9 @@ service cloud.firestore {
         (!('phone' in data) || (data.phone is string && data.phone.size() <= 20)) &&
         (!('email' in data) || (data.email is string && data.email.size() <= 120)) &&
         (!('username' in data) || (data.username is string && data.username.size() <= 64)) &&
-        (!('customAvatarUrl' in data) || (data.customAvatarUrl is string && data.customAvatarUrl.size() <= 350000));
+        (!('customAvatarUrl' in data) || (data.customAvatarUrl is string && data.customAvatarUrl.size() <= 350000)) &&
+        (!('lastActiveActivity' in data) || (data.lastActiveActivity is string && data.lastActiveActivity.size() <= 200)) &&
+        (!('activityLogs' in data) || (data.activityLogs is list && data.activityLogs.size() <= 60));
     }
 
     // Collection for learner profiles & cross-device progress sync

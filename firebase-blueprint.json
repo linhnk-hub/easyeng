@@ -57,6 +57,14 @@
           "description": "4-digit numeric login PIN",
           "maxLength": 4
         },
+        "lastActiveActivity": {
+          "type": "string",
+          "description": "Latest user activity description"
+        },
+        "activityLogs": {
+          "type": "array",
+          "description": "Log history of recent account activities"
+        },
         "updatedAt": {
           "type": "string",
           "description": "ISO timestamp of last update"
