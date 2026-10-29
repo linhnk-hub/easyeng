@@ -534,9 +534,9 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
   /**
    * Quy tắc xác định tình trạng đăng nhập và hoạt động:
-   * 1. Chỉ coi là "Trực tuyến" khi có bản ghi active_sessions, isLoggedIn === true,
+   * 1. Chỉ coi là "Online" khi có bản ghi active_sessions, isLoggedIn === true,
    *    không có terminationReason, và nhịp tim trong vòng 3 phút.
-   * 2. Nếu không trực tuyến -> Hiển thị "Ngoại tuyến", hoạt động hiển thị "Đã đăng xuất",
+   * 2. Nếu không trực tuyến -> Hiển thị "Offline", hoạt động hiển thị "Đã đăng xuất",
    *    "Chưa đăng nhập" hoặc "Lần cuối: ...". Tuyệt đối không để "Đang ở Trang chủ" với chấm xanh hoạt động.
    */
   const getLearnerOnlineInfo = (learner: UserProfile) => {
@@ -556,7 +556,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
       return {
         isOnline: true,
-        statusBadgeText: 'Trực tuyến',
+        statusBadgeText: 'Online',
         statusBadgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
         dotClass: 'bg-emerald-500',
         activityDisplay,
@@ -565,7 +565,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       };
     }
 
-    // Tài khoản Ngoại tuyến
+    // Tài khoản Offline
     const rawActivity = learner.lastActiveActivity;
     let activityDisplay = 'Chưa đăng nhập';
     if (rawActivity === 'Đã đăng xuất') {
@@ -574,12 +574,12 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       const cleaned = rawActivity.replace(/^Đang\s+/i, '');
       activityDisplay = `Lần cuối: ${cleaned}`;
     } else if (learner.lastLoginAt || learner.lastActiveDate) {
-      activityDisplay = 'Ngoại tuyến';
+      activityDisplay = 'Offline';
     }
 
     return {
       isOnline: false,
-      statusBadgeText: 'Ngoại tuyến',
+      statusBadgeText: 'Offline',
       statusBadgeClass: 'bg-slate-100 text-slate-600 border-slate-200',
       dotClass: 'bg-slate-400',
       activityDisplay,
@@ -2786,8 +2786,8 @@ EasyEng`;
                               </span>
                             </div>
 
-                            {/* Mục Đăng nhập gần nhất & Hoạt động */}
-                            <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs text-slate-500 font-medium">
+                            {/* Mục Đăng nhập gần nhất & Hoạt động: ẩn trên điện thoại (<sm), hiện từ sm trở lên */}
+                            <div className="hidden sm:flex flex-wrap items-center gap-x-3.5 gap-y-1 text-xs text-slate-500 font-medium">
                               <div className="flex items-center gap-1.5 shrink-0">
                                 <Clock className="w-3.5 h-3.5 text-blue-500 shrink-0" />
                                 <span className="text-slate-500">Đăng nhập:</span>
@@ -2897,34 +2897,7 @@ EasyEng`;
                                   <span>Sửa thông tin</span>
                                 </button>
 
-                                {/* Chi tiết log hoạt động */}
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    soundEffects.playClick();
-                                    setActiveActionMenuLearnerId(null);
-                                    setViewingLogsLearner(learner);
-                                  }}
-                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-800 flex items-center gap-2.5 transition cursor-pointer"
-                                >
-                                  <History className="w-4 h-4 text-indigo-600 shrink-0" />
-                                  <span>Chi tiết log</span>
-                                </button>
-
-                                {/* Xuất log */}
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    soundEffects.playClick();
-                                    setActiveActionMenuLearnerId(null);
-                                    handleExportLearnerLog(learner);
-                                  }}
-                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition cursor-pointer"
-                                >
-                                  <Download className="w-4 h-4 text-emerald-600 shrink-0" />
-                                  <span>Xuất log (.txt)</span>
-                                </button>
-
+                            
                                 {/* Reset TK */}
                                 <button
                                   type="button"
