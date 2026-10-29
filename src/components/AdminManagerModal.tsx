@@ -237,7 +237,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   };
 
   // Active Admin Tab
-  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'branding' | 'resets' | 'verifications'>('learners');
+  const [activeTab, setActiveTab] = useState<'learners' | 'classes' | 'curriculum' | 'avatars' | 'branding' | 'resets' | 'verifications'>('learners');
 
   // Password Reset Requests submitted to admin (linhnk.online@gmail.com)
   const [resetRequests, setResetRequests] = useState<PasswordResetRequest[]>([]);
@@ -1831,7 +1831,7 @@ EasyEng`;
             </div>
             <div>
               <h2 className="font-display font-bold text-xl text-slate-900">
-                Bảng quản lý EasyEng
+                Cài đặt hệ thống
               </h2>
             </div>
           </div>
@@ -1852,8 +1852,9 @@ EasyEng`;
           </button>
         </div>
 
-        {/* Tab Navigation */}
+        {/* Tab Navigation - 4 Nhóm chính */}
         <div className="flex px-4 sm:px-6 border-b border-slate-200 bg-white gap-1 sm:gap-2 overflow-x-auto overflow-y-hidden shrink-0 h-14 sm:h-16 items-stretch scrollbar-none">
+          {/* 1. Tài khoản */}
           <button
             onClick={() => {
               soundEffects.playClick();
@@ -1861,7 +1862,7 @@ EasyEng`;
             }}
             className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'learners'
-                ? 'border-amber-500 text-amber-700'
+                ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
@@ -1869,192 +1870,199 @@ EasyEng`;
             <span>Tài khoản ({learners.length})</span>
           </button>
 
+          {/* 2. Nhóm Lớp học (Lớp học + Json) */}
           <button
             onClick={() => {
               soundEffects.playClick();
-              setActiveTab('branding');
+              if (activeTab !== 'classes' && activeTab !== 'curriculum') {
+                setActiveTab('classes');
+              }
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
-              activeTab === 'branding'
-                ? 'border-amber-500 text-amber-700'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <Sparkles className="w-4 h-4 shrink-0" />
-            <span>Logo</span>
-          </button>
-
-          <button
-            onClick={() => {
-              soundEffects.playClick();
-              setActiveTab('classes');
-            }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
-              activeTab === 'classes'
-                ? 'border-amber-500 text-amber-700'
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+              activeTab === 'classes' || activeTab === 'curriculum'
+                ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
             <GraduationCap className="w-4 h-4 shrink-0" />
-            <span>Lớp học ({classes.length})</span>
+            <span>Lớp học</span>
           </button>
 
+          {/* 3. Nhóm Hình ảnh (Hình đại diện + Logo) */}
           <button
             onClick={() => {
               soundEffects.playClick();
-              setActiveTab('curriculum');
+              if (activeTab !== 'avatars' && activeTab !== 'branding') {
+                setActiveTab('avatars');
+              }
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
-              activeTab === 'curriculum'
-                ? 'border-amber-500 text-amber-700'
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+              activeTab === 'avatars' || activeTab === 'branding'
+                ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Code2 className="w-4 h-4 shrink-0" />
-            <span>JSON</span>
+            <ImageIcon className="w-4 h-4 shrink-0" />
+            <span>Hình ảnh</span>
           </button>
 
+          {/* 4. Nhóm Hỗ trợ (Cấp mật khẩu + Xác minh tài khoản) */}
           <button
             onClick={() => {
               soundEffects.playClick();
-              setActiveTab('resets');
+              if (activeTab !== 'resets' && activeTab !== 'verifications') {
+                setActiveTab('resets');
+              }
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
-              activeTab === 'resets'
-                ? 'border-amber-500 text-amber-700'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
-            }`}
-          >
-            <KeyRound className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>Cấp MK</span>
-            {resetRequests.length > 0 && (
-              <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
-                {resetRequests.length}
-              </span>
-            )}
-          </button>
-
-          <button
-            onClick={() => {
-              soundEffects.playClick();
-              setActiveTab('verifications');
-            }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
-              activeTab === 'verifications'
-                ? 'border-amber-500 text-amber-700'
+            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+              activeTab === 'resets' || activeTab === 'verifications'
+                ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
             <ShieldAlert className="w-4 h-4 text-rose-500 shrink-0" />
-            <span>Xác minh TK</span>
-            {verificationRequests.length > 0 && (
+            <span>Hỗ trợ</span>
+            {(resetRequests.length + verificationRequests.length) > 0 && (
               <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
-                {verificationRequests.length}
+                {resetRequests.length + verificationRequests.length}
               </span>
             )}
           </button>
         </div>
 
+        {/* Thanh Menu con cho các Nhóm (Sub-bars) */}
+        {(activeTab === 'classes' || activeTab === 'curriculum') && (
+          <div className="bg-slate-100/90 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1 shrink-0">
+              Mục:
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playClick();
+                setActiveTab('classes');
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                activeTab === 'classes'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>Lớp học ({classes.length})</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playClick();
+                setActiveTab('curriculum');
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                activeTab === 'curriculum'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <Code2 className="w-3.5 h-3.5" />
+              <span>Json</span>
+            </button>
+          </div>
+        )}
+
+        {(activeTab === 'avatars' || activeTab === 'branding') && (
+          <div className="bg-slate-100/90 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1 shrink-0">
+              Mục:
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playClick();
+                setActiveTab('avatars');
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                activeTab === 'avatars'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <ImageIcon className="w-3.5 h-3.5" />
+              <span>Quản lý hình đại diện ({allAvailableAvatars.length})</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playClick();
+                setActiveTab('branding');
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                activeTab === 'branding'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Quản lý Logo</span>
+            </button>
+          </div>
+        )}
+
+        {(activeTab === 'resets' || activeTab === 'verifications') && (
+          <div className="bg-slate-100/90 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1 shrink-0">
+              Mục:
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playClick();
+                setActiveTab('resets');
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                activeTab === 'resets'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <KeyRound className="w-3.5 h-3.5 text-amber-500" />
+              <span>Cấp mật khẩu</span>
+              {resetRequests.length > 0 && (
+                <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full leading-none">
+                  {resetRequests.length}
+                </span>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playClick();
+                setActiveTab('verifications');
+              }}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+                activeTab === 'verifications'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <ShieldAlert className="w-3.5 h-3.5 text-rose-500" />
+              <span>Xác minh tài khoản</span>
+              {verificationRequests.length > 0 && (
+                <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full leading-none">
+                  {verificationRequests.length}
+                </span>
+              )}
+            </button>
+          </div>
+        )}
+
         {/* Tab Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#F8FAFC]">
 
           {/* ========================================================= */}
-          {/* TAB 1: LEARNERS & AVATAR LIBRARY MANAGEMENT */}
+          {/* TAB 1: LEARNERS ACCOUNT MANAGEMENT */}
           {/* ========================================================= */}
           {activeTab === 'learners' && (
             <div className="space-y-6">
-              
-              {/* SUBSECTION: AVATAR MANAGEMENT (THÊM, XÓA, UPLOAD ẢNH) */}
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xs">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <h4 className="font-display font-bold text-base text-slate-800 flex items-center gap-2">
-                      <ImageIcon className="w-5 h-5 text-amber-500" /> Quản lý hình đại diện
-                    </h4>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Upload hình kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
-                    </p>
-                  </div>
-
-                  <div>
-                    <input
-                      type="file"
-                      ref={avatarFileInputRef}
-                      accept="image/*"
-                      onChange={handleAvatarFileChange}
-                      className="hidden"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => avatarFileInputRef.current?.click()}
-                      className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
-                    >
-                      <Upload className="w-4 h-4" /> Thêm hình
-                    </button>
-                  </div>
-                </div>
-
-                {/* Upload Feedback */}
-                {avatarUploadError && (
-                  <div className="p-3 rounded-xl bg-rose-100 border border-rose-300 text-rose-800 text-xs font-semibold flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {avatarUploadError}
-                  </div>
-                )}
-                {avatarUploadSuccess && (
-                  <div className="p-3 rounded-xl bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-semibold flex items-center gap-2">
-                    <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {avatarUploadSuccess}
-                  </div>
-                )}
-
-                {/* Avatar Gallery grid */}
-                <div className="space-y-2">
-                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
-                    Thư viện hình hiện có ({allAvailableAvatars.length}):
-                  </span>
-                  <div className="flex flex-wrap gap-2.5">
-                    {allAvailableAvatars.map((av) => {
-                      const owner = (av as any).ownerLearnerId
-                        ? learners.find(l => l.learnerId === (av as any).ownerLearnerId)
-                        : null;
-                      return (
-                        <div
-                          key={av.id}
-                          className="relative group p-1.5 bg-white rounded-2xl border border-amber-200 shadow-xs flex items-center justify-center w-14 h-14 text-center aspect-square"
-                          title={`${av.name}${owner ? ` (Hình của: ${owner.name})` : ''}`}
-                        >
-                          <div className="w-10 h-10 flex items-center justify-center text-2xl overflow-hidden rounded-xl">
-                            {renderAvatarContent(av.icon)}
-                          </div>
-
-                          {owner && (
-                            <span className="absolute -bottom-1 -left-1 px-1 py-0.2 bg-indigo-600 text-[8px] font-bold text-white rounded-full shadow-2xs">
-                              user
-                            </span>
-                          )}
-
-                          {/* Delete button only for custom uploaded avatars */}
-                          {av.isCustom && (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                soundEffects.playClick();
-                                if (window.confirm(`Xóa hình "${av.name}" khỏi thư viện?`)) {
-                                  onDeleteCustomAvatar(av.id);
-                                }
-                              }}
-                              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow-xs cursor-pointer hover:bg-rose-600"
-                              title="Xóa hình"
-                            >
-                              ✕
-                            </button>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
               {/* SUBSECTION: LEARNERS LIST */}
               <div className="space-y-4">
                 {unlockedSessionMsg && (
@@ -3389,7 +3397,125 @@ EasyEng`;
           )}
 
           {/* ========================================================= */}
-          {/* TAB 4: APP LOGO & BRANDING SETTINGS */}
+          {/* TAB 3A: QUẢN LÝ HÌNH ĐẠI DIỆN (NHÓM HÌNH ẢNH) */}
+          {/* ========================================================= */}
+          {activeTab === 'avatars' && (
+            <div className="space-y-6 max-w-4xl mx-auto">
+              {/* Header Box */}
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start gap-3 shadow-2xs">
+                <ImageIcon className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="font-bold text-sm text-amber-950">Quản lý Thư viện Hình đại diện hệ thống</p>
+                  <p className="text-xs text-amber-800">
+                    Upload hình đại diện cho học sinh hoặc xóa các hình tự tải lên khỏi thư viện dùng chung.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+                  <div>
+                    <h3 className="font-display font-bold text-base text-slate-800 flex items-center gap-2">
+                      <Upload className="w-4 h-4 text-amber-500" /> Tải lên hình đại diện mới
+                    </h3>
+                    <p className="text-xs text-slate-500 mt-1">
+                      Kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
+                    </p>
+                  </div>
+
+                  <div>
+                    <input
+                      type="file"
+                      ref={avatarFileInputRef}
+                      accept="image/*"
+                      onChange={handleAvatarFileChange}
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => avatarFileInputRef.current?.click()}
+                      className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs rounded-xl shadow-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer"
+                    >
+                      <Upload className="w-4 h-4" /> Thêm hình mới
+                    </button>
+                  </div>
+                </div>
+
+                {/* Upload Feedback */}
+                {avatarUploadError && (
+                  <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" /> {avatarUploadError}
+                  </div>
+                )}
+                {avatarUploadSuccess && (
+                  <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                    <Check className="w-4 h-4 shrink-0 text-emerald-600" /> {avatarUploadSuccess}
+                  </div>
+                )}
+
+                {/* Avatar Gallery grid */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                      Thư viện hình hiện có ({allAvailableAvatars.length}):
+                    </span>
+                    <span className="text-xs text-slate-400">
+                      Rà chuột vào hình tự tải lên để xóa
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-3">
+                    {allAvailableAvatars.map((av) => {
+                      const owner = (av as any).ownerLearnerId
+                        ? learners.find(l => l.learnerId === (av as any).ownerLearnerId)
+                        : null;
+                      return (
+                        <div
+                          key={av.id}
+                          className="relative group p-2 bg-white rounded-2xl border border-slate-200 hover:border-amber-400 shadow-2xs hover:shadow-xs transition flex flex-col items-center justify-center aspect-square text-center"
+                          title={`${av.name}${owner ? ` (Hình của: ${owner.name})` : ''}`}
+                        >
+                          <div className="w-12 h-12 flex items-center justify-center text-3xl overflow-hidden rounded-xl">
+                            {renderAvatarContent(av.icon)}
+                          </div>
+
+                          <span className="text-[10px] text-slate-500 font-medium truncate w-full mt-1">
+                            {av.name}
+                          </span>
+
+                          {owner && (
+                            <span className="absolute -bottom-1 -left-1 px-1.5 py-0.2 bg-indigo-600 text-[8px] font-bold text-white rounded-full shadow-2xs">
+                              user
+                            </span>
+                          )}
+
+                          {/* Delete button only for custom uploaded avatars */}
+                          {av.isCustom && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                soundEffects.playClick();
+                                if (window.confirm(`Xóa hình "${av.name}" khỏi thư viện?`)) {
+                                  onDeleteCustomAvatar(av.id);
+                                }
+                              }}
+                              className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow-xs cursor-pointer hover:bg-rose-600"
+                              title="Xóa hình"
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================= */}
+          {/* TAB 3B: APP LOGO & BRANDING SETTINGS */}
           {/* ========================================================= */}
           {activeTab === 'branding' && (
             <div className="space-y-6 max-w-2xl mx-auto">
