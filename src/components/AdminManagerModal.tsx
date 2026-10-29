@@ -41,6 +41,9 @@ import {
   ExternalLink,
   Send,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Download,
   Award,
   Star,
   Calendar,
@@ -278,6 +281,22 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     });
   }, [learners, learnerSearchTerm]);
 
+  // Phân trang danh sách tài khoản: Tối đa 5 tài khoản 1 trang
+  const LEARNERS_PER_PAGE = 5;
+  const [learnerPage, setLearnerPage] = useState(1);
+
+  // Tự động chuyển về trang 1 khi thay đổi từ khóa tìm kiếm
+  useEffect(() => {
+    setLearnerPage(1);
+  }, [learnerSearchTerm]);
+
+  const totalLearnerPages = Math.max(1, Math.ceil(filteredLearners.length / LEARNERS_PER_PAGE));
+  const safeLearnerPage = Math.min(Math.max(1, learnerPage), totalLearnerPages);
+  const paginatedLearners = React.useMemo(() => {
+    const start = (safeLearnerPage - 1) * LEARNERS_PER_PAGE;
+    return filteredLearners.slice(start, start + LEARNERS_PER_PAGE);
+  }, [filteredLearners, safeLearnerPage]);
+
   // Refresh learners state & handler
   const [isRefreshingLearners, setIsRefreshingLearners] = useState(false);
   const [refreshLearnersSuccess, setRefreshLearnersSuccess] = useState<string | null>(null);
@@ -365,6 +384,95 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     } catch {
       return 'Chưa ghi nhận';
     }
+  };
+
+  // Modal xem chi tiết toàn bộ log hoạt động & Xuất log
+  const [viewingLogsLearner, setViewingLogsLearner] = useState<UserProfile | null>(null);
+  const [logSearchQuery, setLogSearchQuery] = useState('');
+  const [exportNotice, setExportNotice] = useState<string | null>(null);
+
+  // Xuất log ra file log_têntk_ngày xuất(dd-mm-yyyy).txt
+  const handleExportLearnerLog = (learner: UserProfile) => {
+    soundEffects.playClick();
+    const rawLogs: UserActivityLogItem[] = Array.isArray(learner.activityLogs) && learner.activityLogs.length > 0
+      ? learner.activityLogs
+      : [
+          {
+            id: 'init_act',
+            activity: learner.lastActiveActivity || 'Chưa có hoạt động',
+            timestamp: learner.lastActiveDate || new Date().toISOString(),
+            type: 'system'
+          }
+        ];
+
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    // Tên file theo đúng yêu cầu: log_têntk_ngày xuất(dd-mm-yyyy).txt
+    const tentk = (learner.username || learner.name || 'taikhoan')
+      .trim()
+      .replace(/\s+/g, '_');
+    const fileName = `log_${tentk}_${dd}-${mm}-${yyyy}.txt`;
+
+    const reversedLogs = [...rawLogs].reverse();
+
+    const typeConfig: Record<string, string> = {
+      home: 'Trang chủ',
+      game: 'Minigame',
+      exercise: 'Bài tập',
+      profile: 'Tài khoản',
+      badges: 'Thành tích',
+      login: 'Đăng nhập',
+      system: 'Hệ thống'
+    };
+
+    const lines: string[] = [
+      '================================================================================',
+      `NHẬT KÝ HOẠT ĐỘNG TÀI KHOẢN: ${learner.username || learner.name}`,
+      '================================================================================',
+      `Tên đăng nhập:       ${learner.username || '—'}`,
+      `Họ và tên:           ${learner.name || '—'}`,
+      `Lớp:                 Lớp ${learner.grade}`,
+      `Số điện thoại:       ${learner.phone || 'Chưa cập nhật'}`,
+      `Email:               ${learner.email || 'Chưa cập nhật'}`,
+      `Thời gian xuất log:  ${hours}:${minutes}:${seconds} ngày ${dd}/${mm}/${yyyy}`,
+      `Tổng số hoạt động:   ${reversedLogs.length} ghi nhận`,
+      '================================================================================',
+      '',
+      'DANH SÁCH CHI TIẾT CÁC HOẠT ĐỘNG (XẾP TỪ MỚI NHẤT ĐẾN CŨ NHẤT):',
+      '--------------------------------------------------------------------------------'
+    ];
+
+    reversedLogs.forEach((log, index) => {
+      const typeLabel = typeConfig[log.type || 'home'] || 'Hoạt động';
+      const timeFormatted = formatActivityTime(log.timestamp);
+      lines.push(`[${String(index + 1).padStart(3, ' ')}] [${timeFormatted}] [${typeLabel}] ${log.activity}`);
+    });
+
+    lines.push('');
+    lines.push('--------------------------------------------------------------------------------');
+    lines.push('EasyEng - Hệ thống học tiếng Anh tương tác tiểu học');
+    lines.push('================================================================================');
+
+    const fileContent = lines.join('\r\n');
+    const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    soundEffects.playSuccess();
+    setExportNotice(`Đã xuất file log "${fileName}" thành công!`);
+    setTimeout(() => setExportNotice(null), 4000);
   };
 
   // Real-time Active Sessions Map
@@ -2374,8 +2482,9 @@ EasyEng`;
                     </button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 gap-3">
-                    {filteredLearners.map((learner) => {
+                  <>
+                    <div className="grid grid-cols-1 gap-3">
+                    {paginatedLearners.map((learner) => {
                     const isEditing = editingLearnerId === learner.learnerId;
 
                     if (isEditing) {
@@ -2750,6 +2859,34 @@ EasyEng`;
                                   <span>Sửa thông tin</span>
                                 </button>
 
+                                {/* Chi tiết log hoạt động */}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    soundEffects.playClick();
+                                    setActiveActionMenuLearnerId(null);
+                                    setViewingLogsLearner(learner);
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-800 flex items-center gap-2.5 transition cursor-pointer"
+                                >
+                                  <History className="w-4 h-4 text-indigo-600 shrink-0" />
+                                  <span>Chi tiết log</span>
+                                </button>
+
+                                {/* Xuất log */}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    soundEffects.playClick();
+                                    setActiveActionMenuLearnerId(null);
+                                    handleExportLearnerLog(learner);
+                                  }}
+                                  className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 flex items-center gap-2.5 transition cursor-pointer"
+                                >
+                                  <Download className="w-4 h-4 text-emerald-600 shrink-0" />
+                                  <span>Xuất log (.txt)</span>
+                                </button>
+
                                 {/* Reset TK */}
                                 <button
                                   type="button"
@@ -2792,7 +2929,83 @@ EasyEng`;
                     );
                   })}
                 </div>
-              )}
+
+                {/* Phân trang tài khoản: Tối đa 5 tài khoản 1 trang */}
+                {totalLearnerPages > 1 && (
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-200">
+                    <div className="text-xs text-slate-500 font-medium order-2 sm:order-1">
+                      Hiển thị <span className="font-bold text-slate-800 font-mono">{(safeLearnerPage - 1) * LEARNERS_PER_PAGE + 1}</span> - <span className="font-bold text-slate-800 font-mono">{Math.min(safeLearnerPage * LEARNERS_PER_PAGE, filteredLearners.length)}</span> trên <span className="font-bold text-slate-800 font-mono">{filteredLearners.length}</span> tài khoản (Trang {safeLearnerPage}/{totalLearnerPages})
+                    </div>
+
+                    <div className="flex items-center gap-1.5 order-1 sm:order-2">
+                      <button
+                        type="button"
+                        disabled={safeLearnerPage <= 1}
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setLearnerPage(p => Math.max(1, p - 1));
+                        }}
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                      >
+                        <ChevronLeft className="w-3.5 h-3.5" />
+                        <span>Trước</span>
+                      </button>
+
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: totalLearnerPages }, (_, i) => i + 1).map((pageNum) => {
+                          if (
+                            totalLearnerPages > 7 &&
+                            pageNum !== 1 &&
+                            pageNum !== totalLearnerPages &&
+                            Math.abs(pageNum - safeLearnerPage) > 1
+                          ) {
+                            if (pageNum === 2 && safeLearnerPage > 3) {
+                              return <span key={pageNum} className="px-1 text-slate-400 text-xs font-bold">...</span>;
+                            }
+                            if (pageNum === totalLearnerPages - 1 && safeLearnerPage < totalLearnerPages - 2) {
+                              return <span key={pageNum} className="px-1 text-slate-400 text-xs font-bold">...</span>;
+                            }
+                            return null;
+                          }
+
+                          const isCurrent = pageNum === safeLearnerPage;
+                          return (
+                            <button
+                              key={pageNum}
+                              type="button"
+                              onClick={() => {
+                                soundEffects.playClick();
+                                setLearnerPage(pageNum);
+                              }}
+                              className={`min-w-7 h-7 px-2 rounded-xl text-xs font-bold font-mono flex items-center justify-center transition cursor-pointer ${
+                                isCurrent
+                                  ? 'bg-amber-500 text-white shadow-xs'
+                                  : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                              }`}
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <button
+                        type="button"
+                        disabled={safeLearnerPage >= totalLearnerPages}
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setLearnerPage(p => Math.min(totalLearnerPages, p + 1));
+                        }}
+                        className="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                      >
+                        <span>Sau</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
 
               {/* Backdrop để đóng menu Hành động khi click ra ngoài */}
               {activeActionMenuLearnerId && (
@@ -4919,19 +5132,56 @@ EasyEng`;
                   </div>
                 </div>
 
-                {/* Bảng chi tiết 3: Nhật ký hoạt động (Activity Logs Timeline) */}
+                {/* Bảng chi tiết 3: Nhật ký hoạt động (5 hoạt động gần nhất) */}
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                      <History className="w-3.5 h-3.5 text-indigo-600" /> Nhật ký hoạt động
-                    </h5>
-                    <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-2 py-0.5 rounded-full">
-                      {activityLogsList.length} ghi nhận
-                    </span>
+                  <div className="flex items-center justify-between mb-2 gap-2 flex-wrap">
+                    <div className="flex items-center gap-1.5">
+                      <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                        <History className="w-3.5 h-3.5 text-indigo-600" /> Nhật ký hoạt động
+                      </h5>
+                      <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-2 py-0.5 rounded-full">
+                        {activityLogsList.length > 5 ? `5 gần nhất / ${activityLogsList.length}` : `${activityLogsList.length} ghi nhận`}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5">
+                      {/* Nút Chi tiết mở màn hình chi tiết log hoạt động */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          soundEffects.playClick();
+                          setViewingLogsLearner(targetDetail);
+                        }}
+                        className="px-2.5 py-1 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                        title="Xem toàn bộ nhật ký hoạt động của tài khoản này"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-indigo-600" />
+                        <span>Chi tiết</span>
+                      </button>
+
+                      {/* Nút Xuất log ra file .txt */}
+                      <button
+                        type="button"
+                        onClick={() => handleExportLearnerLog(targetDetail)}
+                        className="px-2.5 py-1 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1 transition cursor-pointer shadow-2xs"
+                        title="Xuất file log hoạt động (.txt)"
+                      >
+                        <Download className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Xuất log</span>
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 space-y-1.5 max-h-52 overflow-y-auto">
-                    {[...activityLogsList].reverse().map((logItem, idx) => {
+                  {exportNotice && (
+                    <div className="mb-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+                      <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>{exportNotice}</span>
+                    </div>
+                  )}
+
+                  <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3 space-y-1.5">
+                    {/* Chỉ hiển thị 5 hoạt động gần nhất */}
+                    {[...activityLogsList].reverse().slice(0, 5).map((logItem, idx) => {
                       const typeConfig: Record<string, { label: string; badgeCol: string; dotCol: string }> = {
                         home: { label: 'Trang chủ', badgeCol: 'bg-slate-100 text-slate-700 border-slate-200', dotCol: 'bg-slate-400' },
                         game: { label: 'Minigame', badgeCol: 'bg-amber-100 text-amber-800 border-amber-200', dotCol: 'bg-amber-500' },
@@ -4971,6 +5221,21 @@ EasyEng`;
                         </div>
                       );
                     })}
+
+                    {activityLogsList.length > 5 && (
+                      <div className="pt-2 text-center border-t border-slate-200/60">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playClick();
+                            setViewingLogsLearner(targetDetail);
+                          }}
+                          className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer inline-flex items-center gap-1"
+                        >
+                          Xem tất cả {activityLogsList.length} hoạt động (nút Chi tiết) &rarr;
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -5033,6 +5298,203 @@ EasyEng`;
                   type="button"
                   onClick={() => setViewingDetailLearner(null)}
                   className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer"
+                >
+                  Đóng
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* ========================================================= */}
+      {/* MODAL MÀN HÌNH CHI TIẾT NHẬT KÝ HOẠT ĐỘNG CỦA TÀI KHOẢN */}
+      {/* ========================================================= */}
+      {viewingLogsLearner && (() => {
+        const targetLearner = learners.find(l => l.learnerId === viewingLogsLearner.learnerId) || viewingLogsLearner;
+        const rawLogs: UserActivityLogItem[] = Array.isArray(targetLearner.activityLogs) && targetLearner.activityLogs.length > 0
+          ? targetLearner.activityLogs
+          : [
+              {
+                id: 'init_act',
+                activity: targetLearner.lastActiveActivity || 'Chưa có hoạt động',
+                timestamp: targetLearner.lastActiveDate || new Date().toISOString(),
+                type: 'system'
+              }
+            ];
+
+        const allReversedLogs = [...rawLogs].reverse();
+
+        const filteredLogs = allReversedLogs.filter(log => {
+          if (!logSearchQuery.trim()) return true;
+          const q = logSearchQuery.toLowerCase();
+          const activityMatch = (log.activity || '').toLowerCase().includes(q);
+          const typeMatch = (log.type || '').toLowerCase().includes(q);
+          const timeMatch = formatActivityTime(log.timestamp).toLowerCase().includes(q);
+          return activityMatch || typeMatch || timeMatch;
+        });
+
+        const typeConfig: Record<string, { label: string; badgeCol: string; dotCol: string }> = {
+          home: { label: 'Trang chủ', badgeCol: 'bg-slate-100 text-slate-700 border-slate-200', dotCol: 'bg-slate-400' },
+          game: { label: 'Minigame', badgeCol: 'bg-amber-100 text-amber-800 border-amber-200', dotCol: 'bg-amber-500' },
+          exercise: { label: 'Bài tập', badgeCol: 'bg-sky-100 text-sky-800 border-sky-200', dotCol: 'bg-sky-500' },
+          profile: { label: 'Tài khoản', badgeCol: 'bg-purple-100 text-purple-800 border-purple-200', dotCol: 'bg-purple-500' },
+          badges: { label: 'Thành tích', badgeCol: 'bg-pink-100 text-pink-800 border-pink-200', dotCol: 'bg-pink-500' },
+          login: { label: 'Đăng nhập', badgeCol: 'bg-emerald-100 text-emerald-800 border-emerald-200', dotCol: 'bg-emerald-500' },
+          system: { label: 'Hệ thống', badgeCol: 'bg-slate-100 text-slate-700 border-slate-200', dotCol: 'bg-slate-500' },
+        };
+
+        return (
+          <div
+            className="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-[60] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+            onClick={() => {
+              setViewingLogsLearner(null);
+              setLogSearchQuery('');
+            }}
+          >
+            <div
+              className="relative w-full max-w-2xl bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto flex flex-col max-h-[88vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 px-5 py-4 text-white flex items-center justify-between shrink-0">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center shrink-0">
+                    <History className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-base leading-tight">
+                      Chi tiết nhật ký hoạt động
+                    </h3>
+                    <p className="text-xs text-indigo-100 font-medium">
+                      Tài khoản: <span className="font-bold text-white font-mono">{targetLearner.username || targetLearner.name}</span> • Lớp {targetLearner.grade}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewingLogsLearner(null);
+                    setLogSearchQuery('');
+                  }}
+                  className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition active:scale-95 cursor-pointer"
+                  title="Đóng"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Sub-header / Toolbar */}
+              <div className="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
+                <div className="relative flex-1">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={logSearchQuery}
+                    onChange={(e) => setLogSearchQuery(e.target.value)}
+                    placeholder="Tìm theo nội dung hoạt động, thời gian..."
+                    className="w-full pl-8 pr-7 py-1.5 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 transition shadow-2xs"
+                  />
+                  {logSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setLogSearchQuery('')}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs p-1 cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center justify-between sm:justify-end gap-2 shrink-0">
+                  <span className="text-xs font-bold text-slate-600 bg-white border border-slate-200 px-2.5 py-1.5 rounded-xl shadow-2xs font-mono">
+                    {filteredLogs.length}/{allReversedLogs.length} hoạt động
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => handleExportLearnerLog(targetLearner)}
+                    className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 cursor-pointer"
+                    title="Xuất nhật ký hoạt động ra file txt"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Xuất log (.txt)</span>
+                  </button>
+                </div>
+              </div>
+
+              {exportNotice && (
+                <div className="mx-4 mt-3 p-2.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>{exportNotice}</span>
+                </div>
+              )}
+
+              {/* Logs Content List */}
+              <div className="p-4 sm:p-5 flex-1 overflow-y-auto space-y-2">
+                {filteredLogs.length === 0 ? (
+                  <div className="p-8 text-center text-slate-400 text-xs space-y-2">
+                    <History className="w-8 h-8 mx-auto text-slate-300" />
+                    <p className="font-semibold text-slate-600">Không tìm thấy hoạt động nào phù hợp</p>
+                    <p>Hãy thử thay đổi từ khóa tìm kiếm</p>
+                  </div>
+                ) : (
+                  filteredLogs.map((logItem, idx) => {
+                    const cfg = typeConfig[logItem.type || 'home'] || typeConfig.home;
+                    const isLatest = idx === 0 && !logSearchQuery;
+
+                    return (
+                      <div
+                        key={logItem.id || idx}
+                        className={`p-3 rounded-2xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-2 ${
+                          isLatest
+                            ? 'bg-indigo-50/50 border-indigo-200 shadow-2xs'
+                            : 'bg-white border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="flex items-start gap-2.5 min-w-0">
+                          <span className="text-[11px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md shrink-0 mt-0.5">
+                            #{allReversedLogs.length - idx}
+                          </span>
+                          <span className={`w-2 h-2 rounded-full shrink-0 mt-1.5 ${cfg.dotCol} ${isLatest ? 'ring-2 ring-indigo-300' : ''}`} />
+                          <div className="min-w-0">
+                            <p className="font-bold text-xs text-slate-900 leading-snug">
+                              {logItem.activity}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto pl-7 sm:pl-0">
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${cfg.badgeCol}`}>
+                            {cfg.label}
+                          </span>
+                          <span className="text-[11px] text-slate-500 font-mono">
+                            {formatActivityTime(logItem.timestamp)}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => handleExportLearnerLog(targetLearner)}
+                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Xuất file log (.txt)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewingLogsLearner(null);
+                    setLogSearchQuery('');
+                  }}
+                  className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs shadow-xs transition active:scale-95 cursor-pointer"
                 >
                   Đóng
                 </button>
