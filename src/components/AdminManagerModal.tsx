@@ -1826,14 +1826,9 @@ EasyEng`;
         {/* Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-white">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/20">
-              <Settings className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="font-display font-bold text-xl text-slate-900">
-                Cài đặt hệ thống
-              </h2>
-            </div>
+            <h2 className="font-display font-bold text-xl text-slate-900">
+              Cài đặt hệ thống
+            </h2>
           </div>
 
           <button
@@ -1860,14 +1855,13 @@ EasyEng`;
               soundEffects.playClick();
               setActiveTab('learners');
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-2 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-4 sm:px-5 font-display font-bold text-sm border-b-2 transition flex items-center justify-center cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'learners'
                 ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <Users className="w-4 h-4 shrink-0" />
-            <span>Tài khoản ({learners.length})</span>
+            <span>Tài khoản</span>
           </button>
 
           {/* 2. Nhóm Lớp học (Lớp học + Json) */}
@@ -1878,13 +1872,12 @@ EasyEng`;
                 setActiveTab('classes');
               }
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-4 sm:px-5 font-display font-bold text-sm border-b-2 transition flex items-center justify-center cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'classes' || activeTab === 'curriculum'
                 ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <GraduationCap className="w-4 h-4 shrink-0" />
             <span>Lớp học</span>
           </button>
 
@@ -1896,13 +1889,12 @@ EasyEng`;
                 setActiveTab('avatars');
               }
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-4 sm:px-5 font-display font-bold text-sm border-b-2 transition flex items-center justify-center cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'avatars' || activeTab === 'branding'
                 ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <ImageIcon className="w-4 h-4 shrink-0" />
             <span>Hình ảnh</span>
           </button>
 
@@ -1914,13 +1906,12 @@ EasyEng`;
                 setActiveTab('resets');
               }
             }}
-            className={`px-3.5 sm:px-4.5 font-display font-bold text-sm border-b-2 transition flex items-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
+            className={`px-4 sm:px-5 font-display font-bold text-sm border-b-2 transition flex items-center justify-center gap-1.5 cursor-pointer shrink-0 whitespace-nowrap -mb-px ${
               activeTab === 'resets' || activeTab === 'verifications'
                 ? 'border-amber-500 text-amber-700 bg-amber-50/30'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            <ShieldAlert className="w-4 h-4 text-rose-500 shrink-0" />
             <span>Hỗ trợ</span>
             {(resetRequests.length + verificationRequests.length) > 0 && (
               <span className="text-[11px] bg-rose-500 text-white font-bold px-1.5 py-0.5 rounded-full leading-none">
@@ -1942,14 +1933,13 @@ EasyEng`;
                 soundEffects.playClick();
                 setActiveTab('classes');
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center transition cursor-pointer ${
                 activeTab === 'classes'
                   ? 'bg-amber-500 text-white shadow-xs'
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>Lớp học ({classes.length})</span>
+              <span>Lớp học</span>
             </button>
             <button
               type="button"
@@ -1957,13 +1947,12 @@ EasyEng`;
                 soundEffects.playClick();
                 setActiveTab('curriculum');
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center transition cursor-pointer ${
                 activeTab === 'curriculum'
                   ? 'bg-amber-500 text-white shadow-xs'
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <Code2 className="w-3.5 h-3.5" />
               <span>Json</span>
             </button>
           </div>
@@ -1980,14 +1969,13 @@ EasyEng`;
                 soundEffects.playClick();
                 setActiveTab('avatars');
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center transition cursor-pointer ${
                 activeTab === 'avatars'
                   ? 'bg-amber-500 text-white shadow-xs'
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <ImageIcon className="w-3.5 h-3.5" />
-              <span>Quản lý hình đại diện ({allAvailableAvatars.length})</span>
+              <span>Quản lý hình đại diện</span>
             </button>
             <button
               type="button"
@@ -1995,13 +1983,12 @@ EasyEng`;
                 soundEffects.playClick();
                 setActiveTab('branding');
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center transition cursor-pointer ${
                 activeTab === 'branding'
                   ? 'bg-amber-500 text-white shadow-xs'
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
               <span>Quản lý Logo</span>
             </button>
           </div>
@@ -2024,7 +2011,6 @@ EasyEng`;
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <KeyRound className="w-3.5 h-3.5 text-amber-500" />
               <span>Cấp mật khẩu</span>
               {resetRequests.length > 0 && (
                 <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full leading-none">
@@ -2044,7 +2030,6 @@ EasyEng`;
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <ShieldAlert className="w-3.5 h-3.5 text-rose-500" />
               <span>Xác minh tài khoản</span>
               {verificationRequests.length > 0 && (
                 <span className="text-[10px] bg-rose-500 text-white font-bold px-1.5 py-0.2 rounded-full leading-none">
@@ -2855,8 +2840,8 @@ EasyEng`;
               {isAddingClass && (
                 <form onSubmit={handleCreateClass} className="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-4 sm:p-5 space-y-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-display font-bold text-sm text-indigo-900 flex items-center gap-2">
-                      <GraduationCap className="w-4 h-4 text-indigo-600" /> Tạo lớp học mới
+                    <h4 className="font-display font-bold text-sm text-indigo-900">
+                      Tạo lớp học mới
                     </h4>
                     <button
                       type="button"
@@ -3031,13 +3016,12 @@ EasyEng`;
                     soundEffects.playClick();
                     setJsonSubTab('curriculum');
                   }}
-                  className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition flex items-center cursor-pointer ${
                     jsonSubTab === 'curriculum'
                       ? 'bg-amber-500 text-white shadow-xs'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
-                  <BookOpen className="w-4 h-4" />
                   <span>Dữ liệu Sách giáo khoa</span>
                 </button>
 
@@ -3047,13 +3031,12 @@ EasyEng`;
                     soundEffects.playClick();
                     setJsonSubTab('exercises');
                   }}
-                  className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl font-display font-bold text-xs sm:text-sm transition flex items-center cursor-pointer ${
                     jsonSubTab === 'exercises'
                       ? 'bg-purple-600 text-white shadow-xs'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
-                  <FileText className="w-4 h-4" />
                   <span>Dữ liệu Sách bài tập</span>
                 </button>
               </div>
@@ -3402,8 +3385,7 @@ EasyEng`;
           {activeTab === 'avatars' && (
             <div className="space-y-6 max-w-4xl mx-auto">
               {/* Header Box */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start gap-3 shadow-2xs">
-                <ImageIcon className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start shadow-2xs">
                 <div className="space-y-1">
                   <p className="font-bold text-sm text-amber-950">Quản lý Thư viện Hình đại diện hệ thống</p>
                   <p className="text-xs text-amber-800">
@@ -3415,8 +3397,8 @@ EasyEng`;
               <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
                   <div>
-                    <h3 className="font-display font-bold text-base text-slate-800 flex items-center gap-2">
-                      <Upload className="w-4 h-4 text-amber-500" /> Tải lên hình đại diện mới
+                    <h3 className="font-display font-bold text-base text-slate-800">
+                      Tải lên hình đại diện mới
                     </h3>
                     <p className="text-xs text-slate-500 mt-1">
                       Kích thước tối đa <strong>1024 x 1024 px</strong>, dung lượng không quá <strong>3 MB/ảnh</strong>.
@@ -3520,8 +3502,7 @@ EasyEng`;
           {activeTab === 'branding' && (
             <div className="space-y-6 max-w-2xl mx-auto">
               {/* Header Box */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start gap-3 shadow-2xs">
-                <Sparkles className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start shadow-2xs">
                 <div className="space-y-1">
                   <p className="font-bold text-sm text-amber-950">Tùy chỉnh Logo & Kích thước hiển thị (Đồng bộ CSDL)</p>
                 </div>
@@ -3558,18 +3539,13 @@ EasyEng`;
               {/* ========================================================= */}
               <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-5">
                 <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-100">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center shrink-0">
-                      <ImageIcon className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base text-slate-800">
-                        1. Chọn hình ảnh Logo
-                      </h3>
-                      <p className="text-xs text-slate-500">
-                        Tải ảnh mới từ thiết bị hoặc dán link ảnh trực tuyến
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-display font-bold text-base text-slate-800">
+                      1. Chọn hình ảnh Logo
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Tải ảnh mới từ thiết bị hoặc dán link ảnh trực tuyến
+                    </p>
                   </div>
 
                   {stagedLogo !== (customLogo ?? null) && (
@@ -3706,18 +3682,13 @@ EasyEng`;
               {/* ========================================================= */}
               <div className="bg-white rounded-3xl p-5 sm:p-6 border border-amber-200 shadow-xs space-y-6">
                 <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
-                      <SlidersHorizontal className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h3 className="font-display font-bold text-base text-slate-800">
-                        2. Chỉnh kích thước hiển thị Logo
-                      </h3>
-                      <p className="text-xs text-slate-500">
-                        Kéo thanh trượt để tinh chỉnh và xem trước trực tiếp theo thời gian thực
-                      </p>
-                    </div>
+                  <div>
+                    <h3 className="font-display font-bold text-base text-slate-800">
+                      2. Chỉnh kích thước hiển thị Logo
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Kéo thanh trượt để tinh chỉnh và xem trước trực tiếp theo thời gian thực
+                    </p>
                   </div>
                 </div>
 
@@ -3969,19 +3940,14 @@ EasyEng`;
               <div className="space-y-5 max-w-4xl mx-auto">
                 {/* Header & Controls Box */}
                 <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center shrink-0">
-                      <KeyRound className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-display font-bold text-base text-slate-900">
-                          Yêu cầu cấp lại mật khẩu
-                        </h3>
-                        <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
-                          {resetRequests.length} yêu cầu
-                        </span>
-                      </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-display font-bold text-base text-slate-900">
+                        Yêu cầu cấp lại mật khẩu
+                      </h3>
+                      <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
+                        {resetRequests.length} yêu cầu
+                      </span>
                     </div>
                   </div>
 
@@ -4134,19 +4100,14 @@ EasyEng`;
               <div className="space-y-5 max-w-4xl mx-auto">
                 {/* Header & Controls Box */}
                 <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-3">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center shrink-0">
-                      <ShieldAlert className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-display font-bold text-base text-slate-900">
-                          Yêu cầu xác minh tài khoản
-                        </h3>
-                        <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
-                          {verificationRequests.length} yêu cầu
-                        </span>
-                      </div>
+                  <div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="font-display font-bold text-base text-slate-900">
+                        Yêu cầu xác minh tài khoản
+                      </h3>
+                      <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full border border-slate-200">
+                        {verificationRequests.length} yêu cầu
+                      </span>
                     </div>
                   </div>
 
