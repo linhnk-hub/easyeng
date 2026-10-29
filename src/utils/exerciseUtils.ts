@@ -17,38 +17,23 @@ const COMMON_DISTRACTORS = [
 ];
 
 /**
-/**
  * Checks whether an exercise question requires looking at an image/picture
- * Only returns true if it is an unanswerable picture question with no text prompt or options.
+ * Filters out exercises/questions that reference printed book pictures, drawings, picture numbers,
+ * or require viewing an image to answer.
  */
 export function isImageQuestion(q: any, ex?: any, sec?: any): boolean {
-  // If the question has explicit text prompt and answers/options, it's playable as a quiz!
-  const hasPrompt = Boolean(q?.question_text || q?.question || q?.prompt_text || q?.prompt || q?.sentence);
-  const hasOptionsOrAnswer = Boolean(
-    (Array.isArray(q?.options) && q?.options.length > 0) ||
-    q?.correct_answer !== undefined ||
-    q?.correctAnswer !== undefined ||
-    q?.answer !== undefined ||
-    (ex && Array.isArray(ex.word_bank) && ex.word_bank.length > 0)
-  );
-
-  // If it has text prompt and options/answers, do NOT consider it an unplayable image question
-  if (hasPrompt && hasOptionsOrAnswer) {
-    return false;
-  }
-
-  // Only consider it an unplayable image question if it has no prompt text
   if (q?.image_url || q?.image || q?.imageUrl || q?.image_description || q?.character_image || q?.imageDescription) {
-    return !hasPrompt;
+    return true;
   }
   if (ex && (ex.image_url || ex.image || ex.imageUrl || ex.pictures)) {
-    return !hasPrompt;
+    return true;
   }
 
   const combinedText = [
     q?.question,
     q?.question_text,
     q?.prompt_text,
+    q?.prompt,
     q?.sentence,
     q?.explanation,
     q?.explanation_vi,
@@ -56,11 +41,31 @@ export function isImageQuestion(q: any, ex?: any, sec?: any): boolean {
     ex?.instruction_en,
     ex?.instruction,
     sec?.section_title,
-    q?.category
+    sec?.section_name,
+    q?.category,
+    ...(Array.isArray(q?.options) ? q.options.map(String) : [])
   ].filter(Boolean).join(' ');
 
-  if (!hasPrompt && /(nhìn|xem)\s+(hình|tranh|ảnh)/i.test(combinedText)) return true;
-  if (!hasPrompt && /look\s+at\s+the\s+picture/i.test(combinedText)) return true;
+  if (/(bức\s*tranh|hình\s*ảnh|vào\s*tranh|với\s*tranh|trong\s*tranh|xem\s*(hình|tranh|ảnh)|nhìn\s*(hình|tranh|ảnh))/i.test(combinedText)) {
+    return true;
+  }
+  if (/(mô\s*tả\s*hình\s*ảnh|chi\s*tiết\s*số\s*\d+|đối\s*tượng\s*số\s*\d+|đồ\s*vật.*số\s*\d+|món\s*ăn.*số\s*\d+|bộ\s*phận.*số\s*\d+)/i.test(combinedText)) {
+    return true;
+  }
+  if (/(bức\s*tranh\s*bạn\s*nhỏ|hình\s*hai\s*bạn|đánh\s*số\s*vào\s*tranh|xác\s*định\s*xem\s*hình|kiểm\s*tra\s*xem\s*hình)/i.test(combinedText)) {
+    return true;
+  }
+  if (/look\s+at\s+the\s+picture/i.test(combinedText)) {
+    return true;
+  }
+  if (/^Look\s+and\s+(match|circle|tick|cross)/i.test(ex?.instruction || '') || /^Look\s+and\s+(match|circle|tick|cross)/i.test(ex?.instruction_en || '')) {
+    return true;
+  }
+
+  const hasPrompt = Boolean(q?.question_text || q?.question || q?.prompt_text || q?.prompt || q?.sentence);
+  if (!hasPrompt) {
+    return true;
+  }
 
   return false;
 }
@@ -205,19 +210,15 @@ export function parseWorkbookCluster(
         if (Array.isArray(ex.questions)) {
           ex.questions.forEach((q: any, qIdx: number) => {
             totalRawCount++;
-            const hasExplicitText = Boolean(q.question_text || q.question || q.prompt_text || q.prompt || q.sentence);
-            const hasAnswers = Boolean((Array.isArray(q.options) && q.options.length > 0) || q.correct_answer !== undefined || q.correctAnswer !== undefined || q.answer !== undefined);
 
-            // Only skip audio/image if it does not have playable text and options
-            if (!hasExplicitText || !hasAnswers) {
-              if (isAudioConversationQuestion(q, ex, sec)) {
-                skippedAudioCount++;
-                return;
-              }
-              if (isImageQuestion(q, ex, sec)) {
-                skippedImageCount++;
-                return;
-              }
+            // Strictly filter out audio-dependent and image-dependent questions
+            if (isAudioConversationQuestion(q, ex, sec)) {
+              skippedAudioCount++;
+              return;
+            }
+            if (isImageQuestion(q, ex, sec)) {
+              skippedImageCount++;
+              return;
             }
 
             const qId = `${ex.exercise_id || 'ex'}_q${q.question_id || (qIdx + 1)}`;
