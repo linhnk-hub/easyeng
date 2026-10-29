@@ -3261,15 +3261,6 @@ EasyEng`;
                           Hiện tại danh sách bài tập của lớp này đang trống. Bạn có thể bấm nút <strong>"Thêm học phần (+)"</strong> để thêm cụm bài tập mới.
                         </p>
                       </div>
-                      <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                        <button
-                          type="button"
-                          onClick={handleAddCluster}
-                          className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
-                        >
-                          <Plus className="w-4 h-4" /> Thêm học phần mới
-                        </button>
-                      </div>
                     </div>
                   ) : (
                     <div className="space-y-3">
