@@ -3202,29 +3202,6 @@ EasyEng`;
                   {/* Thanh điều khiển số lượng học phần & Nút + Thêm học phần */}
                   <div className="bg-slate-50 p-3 sm:p-4 rounded-2xl border border-slate-200 flex flex-wrap items-center justify-between gap-3">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-xs font-bold text-slate-700">
-                        Số lượng học phần cần add JSON:
-                      </span>
-                      <div className="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200">
-                        {[0, 2, 4, 6, 8].map(count => (
-                          <button
-                            key={count}
-                            type="button"
-                            onClick={() => handleSetClusterCount(count)}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-bold transition cursor-pointer ${
-                              getCurrentGradeClusters().length === count
-                                ? 'bg-purple-600 text-white shadow-2xs'
-                                : 'text-slate-600 hover:bg-slate-100'
-                            }`}
-                          >
-                            {count === 0 ? '0 (Trống)' : `${count} học phần`} {count === 4 && <span className="text-[10px] opacity-80">(Mặc định)</span>}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2">
-
                       {/* Nút Xóa tất cả học phần */}
                       {getCurrentGradeClusters().length > 0 && (
                         <button
