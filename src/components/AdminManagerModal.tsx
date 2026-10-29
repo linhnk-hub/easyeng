@@ -61,10 +61,10 @@ import {
   UserActivityLogItem,
   UserActiveSession
 } from '../types';
-import { AVATARS } from '../data/unitsData';
+import { AVATARS, BADGES } from '../data/unitsData';
 import { soundEffects } from '../services/soundEffects';
 import { renderAvatarContent, CustomAvatarItem } from '../utils/avatarUtils';
-import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, normalizeGradeUnits } from '../utils/gradeUtils';
+import { getGradeLevelName, getDefaultGradeEmoji, getDefaultGradeDescription, ALL_12_GRADES, normalizeGradeUnits, GRADE_12_METADATA } from '../utils/gradeUtils';
 import { clearAppCache } from '../utils/cacheUtils';
 import { parseExerciseJson, createDefaultClusters, createEmptyCluster, BUILT_IN_WORKBOOK_TEMPLATES } from '../utils/exerciseUtils';
 import { EasyEngLogo } from './EasyEngLogo';
@@ -386,6 +386,49 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     }
   };
 
+  // Tra cứu chính xác tên, biểu tượng và mô tả của huy hiệu
+  const getBadgeDisplayInfo = (badgeId: string): { icon: string; title: string; description: string } => {
+    if (!badgeId) return { icon: '🏅', title: 'Huy hiệu', description: '' };
+
+    // 1. Tìm trong danh sách BADGES chính thức của hệ thống (unitsData.ts)
+    const officialBadge = BADGES.find(
+      b => b.id.toLowerCase() === String(badgeId).toLowerCase() ||
+           b.title.toLowerCase() === String(badgeId).toLowerCase()
+    );
+    if (officialBadge) {
+      return {
+        icon: officialBadge.icon,
+        title: officialBadge.title,
+        description: officialBadge.description || officialBadge.reqSummary || ''
+      };
+    }
+
+    // 2. Tìm trong danh mục huy hiệu khối lớp GRADE_12_METADATA
+    const gradeMatch = Object.values(GRADE_12_METADATA).find(
+      g => `grade_${g.grade}`.toLowerCase() === String(badgeId).toLowerCase() ||
+           `lop_${g.grade}`.toLowerCase() === String(badgeId).toLowerCase() ||
+           g.badgeTitle.toLowerCase() === String(badgeId).toLowerCase()
+    );
+    if (gradeMatch) {
+      return {
+        icon: gradeMatch.emoji,
+        title: gradeMatch.badgeTitle,
+        description: `Huy hiệu vinh danh ${gradeMatch.description}`
+      };
+    }
+
+    // 3. Fallback: chuyển đổi id sang dạng tiêu đề dễ đọc nếu là chuỗi id tùy biến
+    const cleanTitle = String(badgeId)
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+
+    return {
+      icon: '🏅',
+      title: cleanTitle,
+      description: ''
+    };
+  };
+
   // Modal xem chi tiết toàn bộ log hoạt động & Xuất log
   const [viewingLogsLearner, setViewingLogsLearner] = useState<UserProfile | null>(null);
   const [logSearchQuery, setLogSearchQuery] = useState('');
@@ -440,6 +483,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
       `Lớp:                 Lớp ${learner.grade}`,
       `Số điện thoại:       ${learner.phone || 'Chưa cập nhật'}`,
       `Email:               ${learner.email || 'Chưa cập nhật'}`,
+      `Huy hiệu đã đạt:     ${Array.isArray(learner.unlockedBadges) && learner.unlockedBadges.length > 0 ? learner.unlockedBadges.map(bId => getBadgeDisplayInfo(bId).title).join(', ') : 'Chưa có'}`,
       `Thời gian xuất log:  ${hours}:${minutes}:${seconds} ngày ${dd}/${mm}/${yyyy}`,
       `Tổng số hoạt động:   ${reversedLogs.length} ghi nhận`,
       '================================================================================',
@@ -2079,7 +2123,7 @@ EasyEng`;
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <span>Quản lý hình đại diện</span>
+              <span>Hình đại diện</span>
             </button>
             <button
               type="button"
@@ -2093,7 +2137,7 @@ EasyEng`;
                   : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
               }`}
             >
-              <span>Quản lý Logo</span>
+              <span>Logo EasyEng</span>
             </button>
           </div>
         )}
@@ -3591,13 +3635,6 @@ EasyEng`;
           {/* ========================================================= */}
           {activeTab === 'avatars' && (
             <div className="space-y-6 max-w-4xl mx-auto">
-              {/* Header Box */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start shadow-2xs">
-                <div className="space-y-1">
-                  <p className="font-bold text-sm text-amber-950">Quản lý Thư viện Hình đại diện hệ thống</p>
-
-                </div>
-              </div>
 
               <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-5 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
@@ -3706,12 +3743,7 @@ EasyEng`;
           {/* ========================================================= */}
           {activeTab === 'branding' && (
             <div className="space-y-6 max-w-2xl mx-auto">
-              {/* Header Box */}
-              <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start shadow-2xs">
-                <div className="space-y-1">
-                  <p className="font-bold text-sm text-amber-950">Tùy chỉnh Logo & Kích thước hiển thị (Đồng bộ CSDL)</p>
-                </div>
-              </div>
+
 
               {/* Status Notice if changes are unsaved */}
               {hasUnsavedBrandingChanges && (
@@ -3911,9 +3943,7 @@ EasyEng`;
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-500">
-                    Logo xuất hiện ở đầu trang chào mừng khi mở ứng dụng để các bạn học sinh chọn tài khoản.
-                  </p>
+
 
                   <div className="space-y-1.5 pt-1">
                     <input
@@ -3965,7 +3995,7 @@ EasyEng`;
                   {/* Live Simulation of Welcome Banner */}
                   <div className="mt-3 pt-3 border-t border-slate-200/60">
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Xem trước trực tiếp trên Màn hình chào mừng:
+                      Xem trước:
                     </span>
                     <div className="p-4 bg-gradient-to-b from-amber-50/70 via-orange-50/30 to-amber-100/40 rounded-2xl border border-amber-200/90 text-center flex flex-col items-center justify-center overflow-hidden shadow-2xs">
                       <div className="flex items-center justify-center">
@@ -3984,7 +4014,7 @@ EasyEng`;
                     <div className="flex items-center gap-2">
                       <SlidersHorizontal className="w-4 h-4 text-orange-600 shrink-0" />
                       <label className="font-display font-bold text-xs sm:text-sm text-slate-800">
-                        Kích thước trên Thanh Header (Thanh điều hướng)
+                        Kích thước trên Thanh Header
                       </label>
                     </div>
                     <span className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg bg-orange-100 text-orange-900 border border-orange-200">
@@ -3992,9 +4022,7 @@ EasyEng`;
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-500">
-                    Logo nằm ở góc trái thanh điều hướng trên cùng, hiển thị xuyên suốt quá trình học và làm bài.
-                  </p>
+
 
                   <div className="space-y-1.5 pt-1">
                     <input
@@ -4046,7 +4074,7 @@ EasyEng`;
                   {/* Live Simulation of Header */}
                   <div className="mt-3 pt-3 border-t border-slate-200/60">
                     <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                      Xem trước trực tiếp trên Thanh Header:
+                      Xem trước:
                     </span>
                     <div className="p-3 bg-white border border-amber-200 rounded-2xl flex items-center justify-between shadow-2xs overflow-hidden">
                       <div className="flex items-center gap-2.5">
@@ -4087,7 +4115,7 @@ EasyEng`;
                     ) : (
                       <>
                         <CloudUpload className="w-4 h-4" />
-                        <span>Lưu thay đổi Logo & Kích thước lên CSDL {hasUnsavedBrandingChanges ? '(Nhấn để lưu 🚀)' : '✓'}</span>
+                        <span>Lưu thay đổi</span>
                       </>
                     )}
                   </button>
@@ -4113,13 +4141,9 @@ EasyEng`;
                     title="Đặt lại kích thước chuẩn: Header 200px, Màn hình chào mừng 300px"
                   >
                     <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
-                    <span>Kích thước chuẩn (200px / 300px)</span>
+                    <span>Mặc định (200px / 300px)</span>
                   </button>
                 </div>
-
-                <p className="text-[11px] text-slate-400 text-center font-medium">
-                  ☁️ Dữ liệu được lưu trữ trực tiếp trên Cloud Firestore và đồng bộ tự động đến tất cả các máy tính, điện thoại khác khi truy cập.
-                </p>
               </div>
 
             </div>
@@ -5242,20 +5266,44 @@ EasyEng`;
                 </div>
 
                 {/* Huy hiệu đã đạt */}
-                {targetDetail.unlockedBadges && targetDetail.unlockedBadges.length > 0 && (
-                  <div>
-                    <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                      <Award className="w-3.5 h-3.5 text-amber-500" /> Huy hiệu đã đạt ({targetDetail.unlockedBadges.length})
-                    </h5>
-                    <div className="flex flex-wrap gap-2 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl">
-                      {targetDetail.unlockedBadges.map((badgeId) => (
-                        <span key={badgeId} className="px-2.5 py-1 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 shadow-2xs">
-                          🏅 {badgeId}
-                        </span>
-                      ))}
+                <div>
+                  <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Award className="w-3.5 h-3.5 text-amber-500" /> Huy hiệu đã đạt ({targetDetail.unlockedBadges?.length || 0})
+                  </h5>
+                  {targetDetail.unlockedBadges && targetDetail.unlockedBadges.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 bg-slate-50 border border-slate-200/80 rounded-2xl">
+                      {targetDetail.unlockedBadges.map((badgeId) => {
+                        const badgeInfo = getBadgeDisplayInfo(badgeId);
+
+                        return (
+                          <div
+                            key={badgeId}
+                            className="p-2.5 bg-white border border-amber-200/80 hover:border-amber-300 rounded-xl shadow-2xs flex items-center gap-2.5 transition"
+                            title={badgeInfo.description ? `${badgeInfo.title}: ${badgeInfo.description}` : badgeInfo.title}
+                          >
+                            <span className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-lg shrink-0">
+                              {badgeInfo.icon}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-bold text-slate-900 truncate">
+                                {badgeInfo.title}
+                              </p>
+                              {badgeInfo.description && (
+                                <p className="text-[10px] text-slate-500 truncate">
+                                  {badgeInfo.description}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  </div>
-                )}
+                  ) : (
+                    <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-2xl text-xs text-slate-500 italic">
+                      Tài khoản này chưa mở khóa huy hiệu nào.
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Footer buttons */}
