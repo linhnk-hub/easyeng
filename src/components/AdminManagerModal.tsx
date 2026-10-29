@@ -119,6 +119,7 @@ interface AdminManagerModalProps {
   onSaveBranding?: (logo: string | null, headerSize: number, welcomeSize: number) => Promise<boolean> | void;
   gradeExercisesMap?: Record<number, ExerciseCluster[]>;
   onSaveExercises?: (grade: number, clusters: ExerciseCluster[]) => Promise<boolean> | void;
+  onRefreshAllData?: () => Promise<void> | void;
 }
 
 // Multi-layer Cryptographic Hashing for Admin Password Verification:
@@ -205,10 +206,17 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   onSaveLogoSizes,
   onSaveBranding,
   gradeExercisesMap = {},
-  onSaveExercises
+  onSaveExercises,
+  onRefreshAllData
 }) => {
   // Auth state
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    try {
+      return sessionStorage.getItem('easyeng_admin_session_auth') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState(false);
@@ -320,6 +328,60 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     } finally {
       setTimeout(() => {
         setIsRefreshingLearners(false);
+      }, 500);
+    }
+  };
+
+  // Làm mới toàn bộ dữ liệu hệ thống kiêm dọn dẹp cache (không làm mất phiên admin)
+  const [isGlobalRefreshing, setIsGlobalRefreshing] = useState(false);
+  const [globalRefreshNotice, setGlobalRefreshNotice] = useState<string | null>(null);
+
+  const handleRefreshAndClearCache = async () => {
+    soundEffects.playClick();
+    setIsGlobalRefreshing(true);
+    setGlobalRefreshNotice(null);
+
+    try {
+      // 1. Dọn dẹp CacheStorage của trình duyệt (giữ nguyên phiên admin trong sessionStorage)
+      if (typeof window !== 'undefined' && 'caches' in window) {
+        try {
+          const cacheKeys = await window.caches.keys();
+          await Promise.all(cacheKeys.map(k => window.caches.delete(k)));
+        } catch (e) {
+          console.warn('Lỗi xóa CacheStorage:', e);
+        }
+      }
+
+      // 2. Tải lại toàn bộ dữ liệu ứng dụng (Tài khoản, Lớp học, Json bài tập, Hình đại diện, Logo)
+      if (onRefreshAllData) {
+        await onRefreshAllData();
+      } else if (onRefreshLearners) {
+        await onRefreshLearners();
+      } else {
+        await fetchLearnersFromCloud();
+      }
+
+      // 3. Tải lại các yêu cầu Hỗ trợ (Cấp mật khẩu & Xác minh tài khoản)
+      const [freshResets, freshVerifs] = await Promise.all([
+        fetchPasswordResetRequestsFromCloud().catch(() => []),
+        fetchAccountVerificationRequestsFromCloud().catch(() => [])
+      ]);
+      setResetRequests(freshResets);
+      setVerificationRequests(freshVerifs);
+
+      soundEffects.playSuccess();
+      setGlobalRefreshNotice('Đã cập nhật toàn bộ thay đổi mới nhất và xóa bộ nhớ đệm thành công!');
+      setTimeout(() => {
+        setGlobalRefreshNotice(null);
+      }, 3500);
+    } catch (err) {
+      console.warn('Lỗi làm mới toàn bộ hệ thống:', err);
+      soundEffects.playError();
+      setGlobalRefreshNotice('Có lỗi xảy ra khi làm mới dữ liệu. Vui lòng thử lại!');
+      setTimeout(() => setGlobalRefreshNotice(null), 3500);
+    } finally {
+      setTimeout(() => {
+        setIsGlobalRefreshing(false);
       }, 500);
     }
   };
@@ -1234,6 +1296,9 @@ EasyEng`;
 
     if (isValid) {
       soundEffects.playSuccess();
+      try {
+        sessionStorage.setItem('easyeng_admin_session_auth', 'true');
+      } catch {}
       setIsAuthenticated(true);
     } else {
       soundEffects.playError();
@@ -1977,10 +2042,25 @@ EasyEng`;
         
         {/* Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-white">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <h2 className="font-display font-bold text-xl text-slate-900">
               Cài đặt hệ thống
             </h2>
+
+            {/* Nút làm mới kiêm dọn dẹp cache không cần F5 */}
+            <button
+              type="button"
+              onClick={handleRefreshAndClearCache}
+              disabled={isGlobalRefreshing}
+              className={`p-2 rounded-xl border transition active:scale-95 cursor-pointer shadow-2xs flex items-center justify-center shrink-0 ${
+                isGlobalRefreshing
+                  ? 'bg-amber-50 text-amber-600 border-amber-300'
+                  : 'bg-white hover:bg-amber-50 text-slate-600 hover:text-amber-800 border-slate-200'
+              }`}
+              title="Làm mới dữ liệu & xóa bộ nhớ đệm (cập nhật toàn bộ thay đổi mà không cần tải lại trang F5)"
+            >
+              <RotateCcw className={`w-4 h-4 ${isGlobalRefreshing ? 'animate-spin text-amber-600' : ''}`} />
+            </button>
           </div>
 
           <button
@@ -1998,6 +2078,23 @@ EasyEng`;
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Thông báo kết quả làm mới dữ liệu & xóa cache */}
+        {globalRefreshNotice && (
+          <div className="bg-emerald-50 border-b border-emerald-200 px-6 py-2.5 flex items-center justify-between text-xs font-semibold text-emerald-900 animate-in fade-in">
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>{globalRefreshNotice}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setGlobalRefreshNotice(null)}
+              className="text-emerald-700 hover:text-emerald-900 cursor-pointer text-xs p-1"
+            >
+              ✕
+            </button>
+          </div>
+        )}
 
         {/* Tab Navigation - 4 Nhóm chính */}
         <div className="flex px-4 sm:px-6 border-b border-slate-200 bg-white gap-1 sm:gap-2 overflow-x-auto overflow-y-hidden shrink-0 h-14 sm:h-16 items-stretch scrollbar-none">

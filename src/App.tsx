@@ -1440,6 +1440,62 @@ export default function App() {
     }
   };
 
+  const handleRefreshAllData = async () => {
+    try {
+      // 1. Làm mới danh sách người học
+      await handleRefreshLearners();
+
+      // 2. Làm mới danh sách lớp học từ Cloud Firestore
+      const cloudClasses = await fetchClassesFromCloud();
+      if (cloudClasses && cloudClasses.length > 0) {
+        setClasses(cloudClasses);
+        localStorage.setItem(STORAGE_KEY_CLASSES, JSON.stringify(cloudClasses));
+      }
+
+      // 3. Làm mới danh sách hình đại diện từ Cloud Firestore
+      const cloudAvatars = await fetchCustomAvatarsFromCloud();
+      if (cloudAvatars && cloudAvatars.length > 0) {
+        setCustomAvatars(cloudAvatars);
+        localStorage.setItem(STORAGE_KEY_CUSTOM_AVATARS, JSON.stringify(cloudAvatars));
+      }
+
+      // 4. Làm mới giáo trình (Units) từ Cloud Firestore
+      const cloudCurriculum = await fetchCurriculumFromCloud();
+      if (cloudCurriculum) {
+        const normalizedMap: Record<number, UnitData[]> = {};
+        Object.entries(cloudCurriculum).forEach(([gradeStr, units]) => {
+          const g = Number(gradeStr);
+          if (Array.isArray(units)) {
+            normalizedMap[g] = normalizeGradeUnits(units);
+          }
+        });
+        setGradeUnitsMap(prev => ({
+          ...prev,
+          ...normalizedMap
+        }));
+      }
+
+      // 5. Làm mới kho bài tập từ Cloud Firestore
+      const cloudExercises = await fetchExercisesFromCloud();
+      if (cloudExercises) {
+        setGradeExercisesMap(prev => ({
+          ...prev,
+          ...cloudExercises
+        }));
+      }
+
+      // 6. Làm mới Logo & kích thước từ Cloud Firestore
+      const cloudBranding = await fetchBrandingFromCloud();
+      if (cloudBranding) {
+        if (cloudBranding.customLogo !== undefined) setCustomLogo(cloudBranding.customLogo);
+        if (cloudBranding.headerLogoSize) setHeaderLogoSize(cloudBranding.headerLogoSize);
+        if (cloudBranding.welcomeLogoSize) setWelcomeLogoSize(cloudBranding.welcomeLogoSize);
+      }
+    } catch (err) {
+      console.warn('Làm mới toàn bộ dữ liệu hệ thống notice:', err);
+    }
+  };
+
   const handleAddCustomAvatar = (newAvatar: CustomAvatarItem) => {
     setCustomAvatars(prev => [...prev, newAvatar]);
     syncCustomAvatarToCloud(newAvatar).catch(err => {
@@ -1659,6 +1715,8 @@ export default function App() {
             onUpdateLearner={handleUpdateLearner}
             onAddLearner={handleAddLearner}
             onDeleteLearner={handleDeleteLearner}
+            onRefreshLearners={handleRefreshLearners}
+            onRefreshAllData={handleRefreshAllData}
             onAddCustomAvatar={handleAddCustomAvatar}
             onDeleteCustomAvatar={handleDeleteCustomAvatar}
             onAddClass={handleAddClass}
@@ -1860,6 +1918,7 @@ export default function App() {
           onAddLearner={handleAddLearner}
           onDeleteLearner={handleDeleteLearner}
           onRefreshLearners={handleRefreshLearners}
+          onRefreshAllData={handleRefreshAllData}
           onAddCustomAvatar={handleAddCustomAvatar}
           onDeleteCustomAvatar={handleDeleteCustomAvatar}
           onAddClass={handleAddClass}
