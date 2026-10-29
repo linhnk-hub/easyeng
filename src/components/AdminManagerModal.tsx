@@ -2032,9 +2032,7 @@ EasyEng`;
         {/* Thanh Menu con cho các Nhóm (Sub-bars) */}
         {(activeTab === 'classes' || activeTab === 'curriculum') && (
           <div className="bg-slate-100/90 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1 shrink-0">
-              Mục:
-            </span>
+
             <button
               type="button"
               onClick={() => {
@@ -2068,9 +2066,7 @@ EasyEng`;
 
         {(activeTab === 'avatars' || activeTab === 'branding') && (
           <div className="bg-slate-100/90 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1 shrink-0">
-              Mục:
-            </span>
+
             <button
               type="button"
               onClick={() => {
@@ -2104,9 +2100,7 @@ EasyEng`;
 
         {(activeTab === 'resets' || activeTab === 'verifications') && (
           <div className="bg-slate-100/90 border-b border-slate-200 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto shrink-0">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1 shrink-0">
-              Mục:
-            </span>
+
             <button
               type="button"
               onClick={() => {
@@ -3601,9 +3595,7 @@ EasyEng`;
               <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 text-amber-900 text-xs sm:text-sm flex items-start shadow-2xs">
                 <div className="space-y-1">
                   <p className="font-bold text-sm text-amber-950">Quản lý Thư viện Hình đại diện hệ thống</p>
-                  <p className="text-xs text-amber-800">
-                    Upload hình đại diện cho học sinh hoặc xóa các hình tự tải lên khỏi thư viện dùng chung.
-                  </p>
+
                 </div>
               </div>
 
