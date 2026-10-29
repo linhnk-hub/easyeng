@@ -5059,23 +5059,11 @@ EasyEng`;
                     <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
                   </h5>
                   <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
-                    {/* Tình trạng kết nối hiện tại */}
-                    <div className="flex items-center justify-between py-1 border-b border-slate-200/50 gap-2">
-                      <div>
-                        <span className="text-slate-700 font-semibold block">Tình trạng phiên</span>
-                        <span className="text-[11px] text-slate-400">Trạng thái đăng nhập thời gian thực</span>
-                      </div>
-                      <span className={`inline-flex items-center gap-1.5 font-bold px-2.5 py-1 rounded-lg border text-xs ${onlineInfo.statusBadgeClass} shadow-2xs`}>
-                        {onlineInfo.isOnline ? <Wifi className="w-3.5 h-3.5 text-emerald-600" /> : <WifiOff className="w-3.5 h-3.5 text-slate-400" />}
-                        {onlineInfo.statusBadgeText}
-                      </span>
-                    </div>
 
                     {/* Đăng nhập gần nhất */}
                     <div className="flex items-start justify-between py-1 border-b border-slate-200/50 gap-2">
                       <div>
                         <span className="text-slate-700 font-semibold block">Đăng nhập gần nhất</span>
-                        <span className="text-[11px] text-slate-400">Thời điểm đăng nhập vào hệ thống</span>
                       </div>
                       <span className="font-semibold text-slate-800 flex items-center gap-1 shrink-0 bg-white px-2.5 py-1 rounded-lg border border-slate-200/60 shadow-2xs">
                         <Clock className="w-3.5 h-3.5 text-blue-500" />
@@ -5091,9 +5079,7 @@ EasyEng`;
                             <Activity className={`w-3.5 h-3.5 ${onlineInfo.activityIconColor}`} />
                             {onlineInfo.isOnline ? 'Hoạt động hiện tại' : 'Hoạt động ghi nhận gần nhất'}
                           </span>
-                          <span className="text-[11px] text-slate-400">
-                            {onlineInfo.isOnline ? 'Nội dung đang thực hiện trong phiên này' : 'Nội dung hoạt động trước khi ngắt kết nối'}
-                          </span>
+
                         </div>
                         <span className="font-semibold text-slate-700 flex items-center gap-1 shrink-0 bg-white px-2 py-0.5 rounded-lg border border-slate-200/60 text-[11px] shadow-2xs">
                           <Calendar className={`w-3 h-3 ${onlineInfo.activityIconColor}`} />
@@ -5477,7 +5463,7 @@ EasyEng`;
               </div>
 
               {/* Footer */}
-              <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2 shrink-0">
+              <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2 shrink-0">
 
                 <button
                   type="button"
