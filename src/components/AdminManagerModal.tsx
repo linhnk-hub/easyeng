@@ -456,7 +456,7 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
 
     lines.push('');
     lines.push('--------------------------------------------------------------------------------');
-    lines.push('EasyEng - Hệ thống học tiếng Anh tương tác tiểu học');
+    lines.push('EasyEng - Tiếng Anh dễ mà!');
     lines.push('================================================================================');
 
     const fileContent = lines.join('\r\n');
@@ -2781,7 +2781,7 @@ EasyEng`;
                             title="Xem chi tiết bảng thông tin thành viên"
                           >
                             <Eye className="w-3.5 h-3.5 text-amber-600" />
-                            <span>Chi tiết</span>
+                            
                           </button>
 
                           {/* Nút Hành động */}
@@ -2801,7 +2801,7 @@ EasyEng`;
                               title="Các thao tác quản lý tài khoản"
                             >
                               <SlidersHorizontal className="w-3.5 h-3.5" />
-                              <span>Hành động</span>
+                          
                               <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`} />
                             </button>
 
@@ -5131,9 +5131,7 @@ EasyEng`;
                       <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                         <History className="w-3.5 h-3.5 text-indigo-600" /> Nhật ký hoạt động
                       </h5>
-                      <span className="text-[10px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-200/80 px-2 py-0.5 rounded-full">
-                        {activityLogsList.length > 5 ? `5 gần nhất / ${activityLogsList.length}` : `${activityLogsList.length} ghi nhận`}
-                      </span>
+
                     </div>
 
                     <div className="flex items-center gap-1.5">
@@ -5214,20 +5212,7 @@ EasyEng`;
                       );
                     })}
 
-                    {activityLogsList.length > 5 && (
-                      <div className="pt-2 text-center border-t border-slate-200/60">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            soundEffects.playClick();
-                            setViewingLogsLearner(targetDetail);
-                          }}
-                          className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer inline-flex items-center gap-1"
-                        >
-                          Xem tất cả {activityLogsList.length} hoạt động (nút Chi tiết) &rarr;
-                        </button>
-                      </div>
-                    )}
+
                   </div>
                 </div>
 
@@ -5472,14 +5457,7 @@ EasyEng`;
 
               {/* Footer */}
               <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => handleExportLearnerLog(targetLearner)}
-                  className="px-3.5 py-2 rounded-xl bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-300 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  <span>Xuất file log (.txt)</span>
-                </button>
+
                 <button
                   type="button"
                   onClick={() => {
