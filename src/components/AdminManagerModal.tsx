@@ -2916,6 +2916,15 @@ EasyEng`;
                               }`}>
                                 Lớp {learner.grade}
                               </span>
+                              {/* Tình trạng Online/Offline trên máy tính (sm trở lên) - nằm cùng hàng với tên đăng nhập */}
+                              <span className={`hidden sm:inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md border ${onlineInfo.statusBadgeClass}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${onlineInfo.dotClass} ${onlineInfo.isOnline ? 'animate-pulse' : ''}`} />
+                                {onlineInfo.statusBadgeText}
+                              </span>
+                            </div>
+
+                            {/* Dòng tình trạng Online/Offline trên điện thoại (<sm) - xuống hàng nằm dưới tên đăng nhập */}
+                            <div className="flex sm:hidden items-center gap-1.5 pt-0.5">
                               <span className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md border ${onlineInfo.statusBadgeClass}`}>
                                 <span className={`w-1.5 h-1.5 rounded-full ${onlineInfo.dotClass} ${onlineInfo.isOnline ? 'animate-pulse' : ''}`} />
                                 {onlineInfo.statusBadgeText}
