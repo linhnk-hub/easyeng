@@ -133,11 +133,7 @@ export async function autoClearCacheOnReload(): Promise<void> {
         const cacheNames = await window.caches.keys();
         await Promise.all(cacheNames.map(name => window.caches.delete(name)));
       }
-      const adminAuth = window.sessionStorage.getItem('easyeng_admin_session_auth');
       window.sessionStorage.clear();
-      if (adminAuth) {
-        window.sessionStorage.setItem('easyeng_admin_session_auth', adminAuth);
-      }
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
@@ -164,11 +160,7 @@ export function initAutoClearCacheListeners(): void {
         if ('caches' in window) {
           window.caches.keys().then(names => names.forEach(n => window.caches.delete(n)));
         }
-        const adminAuth = window.sessionStorage.getItem('easyeng_admin_session_auth');
         window.sessionStorage.clear();
-        if (adminAuth) {
-          window.sessionStorage.setItem('easyeng_admin_session_auth', adminAuth);
-        }
       } catch {}
     }
   });

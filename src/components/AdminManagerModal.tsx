@@ -209,14 +209,16 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
   onSaveExercises,
   onRefreshAllData
 }) => {
-  // Auth state
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+  // Auth state - Luôn yêu cầu đăng nhập mật khẩu mỗi khi mở Cài đặt hệ thống
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Xóa bỏ bất kỳ phiên admin cũ nào còn sót lại trong sessionStorage để luôn yêu cầu mật khẩu
+  useEffect(() => {
     try {
-      return sessionStorage.getItem('easyeng_admin_session_auth') === 'true';
-    } catch {
-      return false;
-    }
-  });
+      sessionStorage.removeItem('easyeng_admin_session_auth');
+    } catch {}
+  }, []);
+
   const [passwordInput, setPasswordInput] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState(false);
@@ -1316,9 +1318,6 @@ EasyEng`;
 
     if (isValid) {
       soundEffects.playSuccess();
-      try {
-        sessionStorage.setItem('easyeng_admin_session_auth', 'true');
-      } catch {}
       setIsAuthenticated(true);
     } else {
       soundEffects.playError();
@@ -5063,15 +5062,15 @@ EasyEng`;
 
         return (
           <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 pt-4 pb-12 sm:pb-6 overflow-y-auto"
             onClick={() => setViewingDetailLearner(null)}
           >
             <div
-              className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto"
+              className="relative w-full max-w-lg bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto mb-10 sm:mb-auto flex flex-col max-h-[calc(100dvh-5.5rem)] sm:max-h-[88vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header modal */}
-              <div className="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 px-5 py-4 text-white flex items-center justify-between">
+              <div className="bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 px-5 py-4 text-white flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center">
                     <User className="w-4 h-4 text-white" />
@@ -5093,7 +5092,7 @@ EasyEng`;
               </div>
 
               {/* Profile banner & Avatar */}
-              <div className="p-5 sm:p-6 space-y-4 max-h-[75vh] overflow-y-auto">
+              <div className="p-5 sm:p-6 space-y-4 flex-1 overflow-y-auto">
                 <div className="flex items-center gap-4 pb-4 border-b border-slate-100">
                   <div className="w-16 h-16 rounded-2xl bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-3xl shrink-0 overflow-hidden shadow-sm">
                     {renderAvatarContent(targetDetail.avatar)}
@@ -5411,7 +5410,7 @@ EasyEng`;
               </div>
 
               {/* Footer buttons */}
-              <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+              <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2 shrink-0">
                 <button
                   type="button"
                   onClick={() => {
@@ -5475,14 +5474,14 @@ EasyEng`;
 
         return (
           <div
-            className="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-[60] flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+            className="fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-[60] flex items-center justify-center p-3 sm:p-4 pt-4 pb-12 sm:pb-6 overflow-y-auto"
             onClick={() => {
               setViewingLogsLearner(null);
               setLogSearchQuery('');
             }}
           >
             <div
-              className="relative w-full max-w-2xl bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto flex flex-col max-h-[88vh]"
+              className="relative w-full max-w-2xl bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 my-auto mb-10 sm:mb-auto flex flex-col max-h-[calc(100dvh-5.5rem)] sm:max-h-[88vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
