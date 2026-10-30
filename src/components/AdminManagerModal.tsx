@@ -2836,7 +2836,7 @@ EasyEng`;
                               onClick={() => handleSaveEditLearner(learner)}
                               className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-display font-bold text-xs shadow-xs cursor-pointer flex items-center gap-1.5 transition active:scale-95"
                             >
-                              <Save className="w-3.5 h-3.5" /> Lưu cập nhật
+                              <Save className="w-3.5 h-3.5" /> Lưu
                             </button>
                           </div>
                         </div>
@@ -2991,7 +2991,7 @@ EasyEng`;
                                   className="w-full px-3 py-2 text-left text-xs font-semibold text-slate-700 hover:bg-sky-50 hover:text-sky-800 flex items-center gap-2.5 transition cursor-pointer"
                                 >
                                   <Edit2 className="w-4 h-4 text-sky-600 shrink-0" />
-                                  <span>Sửa thông tin</span>
+                                  <span>Sửa hồ sơ</span>
                                 </button>
 
                             
