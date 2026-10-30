@@ -5153,7 +5153,7 @@ EasyEng`;
                 {/* Bảng chi tiết 2: Thời gian đăng nhập & Phiên hoạt động */}
                 <div>
                   <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập &amp; Hoạt động
+                    <Clock className="w-3.5 h-3.5 text-blue-600" /> Tình trạng đăng nhập
                   </h5>
                   <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-2.5 text-xs">
 
@@ -5299,7 +5299,7 @@ EasyEng`;
                 {/* Bảng chi tiết 4: Thành tích học tập */}
                 <div>
                   <h5 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 text-amber-500" /> Thành tích &amp; Tiến trình học
+                    <Star className="w-3.5 h-3.5 text-amber-500" /> Thành tích học tập
                   </h5>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                     <div className="bg-amber-50 border border-amber-200 rounded-xl p-2.5">
