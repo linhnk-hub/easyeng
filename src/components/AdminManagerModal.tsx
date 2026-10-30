@@ -305,6 +305,26 @@ export const AdminManagerModal: React.FC<AdminManagerModalProps> = ({
     return filteredLearners.slice(start, start + LEARNERS_PER_PAGE);
   }, [filteredLearners, safeLearnerPage]);
 
+  // Trạng thái ẩn/hiện thông tin lớp trên giao diện điện thoại (mặc định ẩn để danh sách tài khoản gọn gàng)
+  const [showGradeOnMobile, setShowGradeOnMobile] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('easyeng_show_grade_mobile') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const toggleShowGradeOnMobile = () => {
+    soundEffects.playClick();
+    setShowGradeOnMobile((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('easyeng_show_grade_mobile', String(next));
+      } catch {}
+      return next;
+    });
+  };
+
   // Refresh learners state & handler
   const [isRefreshingLearners, setIsRefreshingLearners] = useState(false);
   const [refreshLearnersSuccess, setRefreshLearnersSuccess] = useState<string | null>(null);
@@ -2326,13 +2346,30 @@ EasyEng`;
                 )}
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="font-display font-bold text-lg text-slate-800">
-                      Danh sách tài khoản
-                    </h3>
-                    <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2.5 py-0.5 rounded-full border border-slate-200">
-                      {learnerSearchTerm.trim() ? `${filteredLearners.length}/${learners.length}` : learners.length} tài khoản
-                    </span>
+                  <div className="flex items-center justify-between sm:justify-start gap-2 flex-wrap w-full sm:w-auto">
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-display font-bold text-lg text-slate-800">
+                        Danh sách tài khoản
+                      </h3>
+                      <span className="text-xs bg-slate-100 text-slate-700 font-bold px-2.5 py-0.5 rounded-full border border-slate-200">
+                        {learnerSearchTerm.trim() ? `${filteredLearners.length}/${learners.length}` : learners.length} tài khoản
+                      </span>
+                    </div>
+
+                    {/* Nút Ẩn/Hiện thông tin lớp trên giao diện điện thoại */}
+                    <button
+                      type="button"
+                      onClick={toggleShowGradeOnMobile}
+                      className={`sm:hidden px-2.5 py-1 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-2xs ${
+                        showGradeOnMobile
+                          ? 'bg-amber-100 text-amber-900 border-amber-300'
+                          : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+                      }`}
+                      title={showGradeOnMobile ? 'Nhấn để ẩn thông tin lớp trên điện thoại' : 'Nhấn để hiện thông tin lớp trên điện thoại'}
+                    >
+                      {showGradeOnMobile ? <EyeOff className="w-3.5 h-3.5 text-amber-700" /> : <Eye className="w-3.5 h-3.5 text-slate-500" />}
+                      <span>{showGradeOnMobile ? 'Ẩn lớp' : 'Hiện lớp'}</span>
+                    </button>
                   </div>
 
                   <div className="flex items-center gap-2 self-end sm:self-auto w-full sm:w-auto">
@@ -2874,7 +2911,9 @@ EasyEng`;
                                   ({learner.name})
                                 </span>
                               )}
-                              <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-md">
+                              <span className={`text-[11px] font-semibold text-slate-600 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-md ${
+                                showGradeOnMobile ? 'inline-flex' : 'hidden sm:inline-flex'
+                              }`}>
                                 Lớp {learner.grade}
                               </span>
                               <span className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md border ${onlineInfo.statusBadgeClass}`}>
