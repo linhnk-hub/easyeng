@@ -2946,7 +2946,7 @@ EasyEng`;
                               <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`} />
                             </button>
 
-                            {/* Menu bung ra khi bấm vào Hành động: Ngắt phiên, Sửa thông tin, Reset TK, Xóa TK */}
+                            {/* Menu bung ra khi bấm vào Hành động: Ngắt phiên, Sửa hồ sơ, Reset TK, Xóa TK */}
                             {isMenuOpen && (
                               <div
                                 onClick={(e) => e.stopPropagation()}
@@ -2980,7 +2980,7 @@ EasyEng`;
                                   <span>Ngắt phiên</span>
                                 </button>
 
-                                {/* Sửa thông tin */}
+                                {/* Sửa hồ sơ */}
                                 <button
                                   type="button"
                                   onClick={() => {
@@ -5373,7 +5373,7 @@ EasyEng`;
                   }}
                   className="px-3.5 py-2 rounded-xl bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 text-xs font-bold flex items-center gap-1.5 shadow-2xs transition active:scale-95 cursor-pointer"
                 >
-                  <Edit2 className="w-3.5 h-3.5 text-sky-600" /> Sửa thông tin
+                  <Edit2 className="w-3.5 h-3.5 text-sky-600" /> Sửa hồ sơ
                 </button>
                 <button
                   type="button"
